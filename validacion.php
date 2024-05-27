@@ -1,33 +1,59 @@
 <?php
+// Inicia una nueva sesión o reanuda la existente
+session_start();
 
+// Incluye el archivo de conexión a la base de datos
 include('conexion_db.php');
 
-$USUARIO=$_POST['usuario'];
-$PASSWORD=$_POST['password'];
+// Verifica si se han enviado los datos del formulario ('usuario' y 'password')
+if (isset($_POST['usuario']) && isset($_POST['password'])) {
 
-$consulta = "SELECT*FROM usuarios where usuario = '$USUARIO' and password = '$PASSWORD'";
-$resultado = mysqli_query($conexion,$consulta);
+    // Escapa caracteres especiales en una cadena para usarla en una consulta SQL, evitando inyecciones SQL
+    $USUARIO = mysqli_real_escape_string($conexion, $_POST['usuario']);
+    $PASSWORD = mysqli_real_escape_string($conexion, $_POST['password']);
 
-$filas=mysqli_fetch_array($resultado);	
+    // Prepara una consulta SQL para seleccionar el usuario y contraseña proporcionados
+    $consulta = $conexion->prepare("SELECT * FROM usuarios WHERE usuario = ? AND password = ?");
+    // Asocia las variables a los parámetros de la consulta preparada
+    $consulta->bind_param('ss', $USUARIO, $PASSWORD);
+    // Ejecuta la consulta
+    $consulta->execute();
+    // Obtiene el resultado de la consulta
+    $resultado = $consulta->get_result();
 
-if($filas['id_rol'] == 1){ //administrador
-    header("location:inicio_admin.html");
-}else if($filas['id_rol'] == 2){
-    header("location:inicio_doctor.html");
-}else if($filas['id_rol'] == 3){
-    header("location:inicio_paciente.html");
-}else{
-   include("index.html"); 
-   ?>
-   <h1>ERROR DE AUTENTIFICACIÓN</h1>
-   <?php
+    // Verifica si se encontró al menos una fila que coincida con la consulta
+    if ($resultado->num_rows > 0) {
+        // Obtiene la fila como un array asociativo
+        $filas = $resultado->fetch_assoc();
+
+        // Almacena información del usuario en la sesión
+        $_SESSION['usuario'] = $USUARIO;
+        $_SESSION['id_rol'] = $filas['id_rol'];
+
+        // Redirige al usuario a la página correspondiente según su rol
+        if ($filas['id_rol'] == 1) { // administrador
+            header("Location: inicio_admin.html");
+        } elseif ($filas['id_rol'] == 2) { // doctor
+            header("Location: inicio_doctor.html");
+        } elseif ($filas['id_rol'] == 3) { // paciente
+            header("Location: inicio_paciente.html");
+        } else {
+            // Si el rol no es reconocido, redirige a la página de inicio y muestra un error            
+            $_SESSION['error'] = "Error de autenticación";
+            header("Location: index.html");
+        }
+    } else {
+        // Si no se encontró ningún usuario que coincida, redirige a la página de inicio y muestra un error
+        header("Location: index.html");
+        $_SESSION['error'] = "Usuario o contraseña incorrectos";
+    }
+
+    // Cierra la consulta
+    $consulta->close();
+    // Cierra la conexión a la base de datos
+    mysqli_close($conexion);
+} else {
+    // Si no se han enviado datos del formulario, redirige a la página de inicio y muestra un error
+    header("Location: index.html");
+    $_SESSION['error'] = "Por favor, ingrese sus credenciales";
 }
-mysqli_free_result($resultado);
-mysqli_close($conexion);
-
-
-
-
-
-
-
