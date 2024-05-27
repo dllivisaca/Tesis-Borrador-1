@@ -133,7 +133,7 @@
                 <td>
                     <br>
                     <label for="" class="sub-text" style="font-weight: 280;">¿No tienes cuenta&#63; </label>
-                    <a href="signup.php" class="hover-link1 non-style-link">Crear cuenta</a>
+                    <a href="registro.php" class="hover-link1 non-style-link">Crear cuenta</a>
                     <br><br><br>
                 </td>
             </tr>
