@@ -72,7 +72,7 @@
                     $_SESSION['user']=$email;
                     $_SESSION['usertype']='a';
                     
-                    header('location: inicio_admin.html');
+                    header('location: admin/doctores2.php');
 
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
