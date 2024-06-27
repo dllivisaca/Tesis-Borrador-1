@@ -34,8 +34,6 @@
         header("location: ../login2.php");
     }
     
-    
-
     //import database
     include("../conexion_db.php");
 
