@@ -430,7 +430,6 @@
                             <tr>
                                 <td colspan="2">
                                     <a href="doctores.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-                                
                                     
                                 </td>
                 
