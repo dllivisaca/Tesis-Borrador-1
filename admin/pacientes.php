@@ -188,28 +188,19 @@
                                 <th class="table-headin">
                                     
                                 
-                                    CI
+                                    Teléfono
                                     
                                 </th>
                                 <th class="table-headin">
                                 
                             
-                                Teléfono
+                                Usuario
                                 
                                 </th>
                                 <th class="table-headin">
-                                    Usuario
+                                    Acciones
                                 </th>
-                                <th class="table-headin">
-                                    
-                                    Fecha de Nacimiento
-                                    
-                                </th>
-                                <th class="table-headin">
-                                    
-                                    Events
-                                    
-                                </tr>
+                               
                         </thead>
                         <tbody>
                         
@@ -241,33 +232,34 @@
                                     $pacid=$row["pacid"];
                                     $nombre=$row["pacnombre"];
                                     $usuario=$row["pacusuario"];
-                                    $ci=$row["pacci"];
-                                    $fecnac=$row["pacfecnac"];
+                                    /* $ci=$row["pacci"];
+                                    $fecnac=$row["pacfecnac"]; */
                                     $telf=$row["pactelf"];
                                     
                                     echo '<tr>
                                         <td> &nbsp;'.
                                         substr($nombre,0,35)
                                         .'</td>
-                                        <td>
-                                        '.substr($ci,0,12).'
-                                        </td>
+                                        
                                         <td>
                                             '.substr($telf,0,10).'
                                         </td>
                                         <td>
                                         '.substr($usuario,0,20).'
                                          </td>
-                                        <td>
-                                        '.substr($fecnac,0,10).'
-                                        </td>
-                                        <td >
-                                        <div style="display:flex;justify-content: center;">
                                         
-                                        <a href="?action=view&id='.$pacid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                       
+                                        <td>
+                                        <div style="display:flex;justify-content: center;">
+                                        <a href="?action=edit&id='.$pacid.'&error=0" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Edit</font></button></a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="?action= &id='.$pacid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
+                                       &nbsp;&nbsp;&nbsp;
+                                       <a href="?action=drop&id='.$pacid.'&name='.$nombre.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Remove</font></button></a>
                                         </div>
                                         </td>
+
+
+
                                     </tr>';
                                     
                                 }
@@ -404,17 +396,7 @@
                             </td>
                             </tr>
                             
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="espec" class="form-label">Fecha de Nacimiento: </label>
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                            '.$fecnac.'<br><br>
-                            </td>
-                            </tr>
+                            
 
                             <tr>
                                 <td class="label-td" colspan="2">
