@@ -71,12 +71,12 @@
                         <a href="doctores.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Doctores</p></a></div>
                     </td>
                 </tr>
-                <!-- <tr class="menu-row" >
+                <tr class="menu-row" >
                     <td class="menu-btn menu-icon-schedule">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule</p></div></a>
+                        <a href="horarios.php" class="non-style-link-menu"><div><p class="menu-text">Horarios disponibles</p></div></a>
                     </td>
                 </tr>
-                <tr class="menu-row">
+                <!-- <tr class="menu-row">
                     <td class="menu-btn menu-icon-appoinment">
                         <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">Appointment</p></a></div>
                     </td>
