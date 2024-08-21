@@ -70,19 +70,22 @@
                         <a href="doctores.php" class="non-style-link-menu "><div><p class="menu-text">Doctores</p></a></div>
                     </td>
                 </tr>
-                <!-- <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-schedule">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule</p></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment">
-                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">Appointment</p></a></div>
-                    </td>
-                </tr> -->
+                
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-patient  menu-active menu-icon-patient-active">
                         <a href="pacientes.php" class="non-style-link-menu  non-style-link-menu-active"><div><p class="menu-text">Pacientes</p></a></div>
+                    </td>
+                </tr>
+
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-appoinment menu-active menu-icon-appoinment-active">
+                        <a href="citas.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Citas agendadas</p></a></div>
+                    </td>
+                </tr>
+
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-schedule ">
+                        <a href="horarios.php" class="non-style-link-menu"><div><p class="menu-text">Horarios disponibles</p></div></a>
                     </td>
                 </tr>
 
