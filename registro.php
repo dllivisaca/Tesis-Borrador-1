@@ -47,8 +47,8 @@ if($_POST){
         <table border="0">
             <tr>
                 <td colspan="2">
-                    <p class="header-text">Let's Get Started</p>
-                    <p class="sub-text">Add Your Personal Details to Continue</p>
+                    <p class="header-text">Empecemos</p>
+                    <p class="sub-text">Agrega tu información para crear tu perfil</p>
                 </td>
             </tr>
             <tr>
@@ -67,7 +67,7 @@ if($_POST){
             </tr>
             <tr>
                 <td class="label-td" colspan="2">
-                    <label for="direccion" class="form-label">Direccion: </label>
+                    <label for="direccion" class="form-label">Dirección: </label>
                 </td>
             </tr>
             <tr>

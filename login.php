@@ -133,8 +133,8 @@
             <tr>
                 <td>
                     <br>
-                    <label for="" class="sub-text" style="font-weight: 280;">¿No tienes cuenta&#63; </label>
-                    <a href="registro.php" class="hover-link1 non-style-link">Crear cuenta</a>
+                    <label for="" class="sub-text" style="font-weight: 280;">¿Deseas agendar tu cita pero no tienes cuenta&#63; </label>
+                    <a href="registro.php" class="hover-link1 non-style-link">Crear cuenta ahora</a>
                     <br><br><br>
                 </td>
             </tr>
