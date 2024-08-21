@@ -589,18 +589,15 @@
     ';
         }
     }elseif($action=='edit'){
-        $sqlmain= "select * from doctor where docid='$id'";
+        $sqlmain= "select * from paciente where pacid='$id'";
         $result= $database->query($sqlmain);
         $row=$result->fetch_assoc();
-        $name=$row["docnombre"];
-        $usuario=$row["docusuario"];
-        $espe=$row["especialidades"];
-        
-        $especial_res= $database->query("select espnombre from especialidades where id='$espe'");
-        $especial_array= $especial_res->fetch_assoc();
-        $especial_name=$especial_array["espnombre"];
-        $ci=$row['docci'];
-        $telf=$row['doctelf'];
+        $name=$row["pacnombre"];
+        $usuario=$row["pacusuario"];
+        $direccion=$row["pacdireccion"];
+        $ci=$row['pacci'];
+        $fecnac=$row['pacfecnac'];  
+        $telf=$row['pactelf'];
 
         $error_1=$_GET["error"];
             $errorlist= array(
@@ -629,13 +626,13 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Edita los Detalles del Doctor.</p>
-                                    Doctor ID : '.$id.' (Generado automáticamente)<br><br>
+                                        <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Edita los Detalles del Paciente.</p>
+                                    Paciente ID : '.$id.' (Generado automáticamente)<br><br>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="label-td" colspan="2">
-                                        <form action="editar_doctor.php" method="POST" class="agregar_paciente-form">
+                                        <form action="editar_paciente.php" method="POST" class="agregar_paciente-form">
                                         <label for="Usuario" class="form-label">Usuario: </label>
                                         <input type="hidden" value="'.$id.'" name="id00">
                                         <input type="hidden" name="oldusuario" value="'.$usuario.'" >
@@ -643,7 +640,7 @@
                                 </tr>
                                 <tr>
                                     <td class="label-td" colspan="2">
-                                    <input type="text" name="usuario" class="input-text" placeholder="Email Address" value="'.$usuario.'" required><br>
+                                    <input type="text" name="usuario" class="input-text" placeholder="Nombre de usuario" value="'.$usuario.'" required><br>
                                     </td>
                                 </tr>
                                 <tr>
@@ -654,7 +651,7 @@
                                 </tr>
                                 <tr>
                                     <td class="label-td" colspan="2">
-                                        <input type="text" name="name" class="input-text" placeholder="Doctor Name" value="'.$name.'" required><br>
+                                        <input type="text" name="name" class="input-text" placeholder="Nombre del paciente" value="'.$name.'" required><br>
                                     </td>
                                     
                                 </tr>
@@ -679,32 +676,29 @@
                                         <input type="tel" name="Telf" class="input-text" placeholder="Telephone Number" value="'.$telf.'" required><br>
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <td class="label-td" colspan="2">
-                                        <label for="espec" class="form-label">Escoge la(s) especialidad(es): (Actual: '.$especial_name.')</label>
-                                        
+                                        <label for="direccion" class="form-label">Dirección: </label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="label-td" colspan="2">
-                                        <select name="espec" id="" class="box">';
-                                            
-            
-                                            $list11 = $database->query("select  * from  especialidades;");
-            
-                                            for ($y=0;$y<$list11->num_rows;$y++){
-                                                $row00=$list11->fetch_assoc();
-                                                $sn=$row00["espnombre"];
-                                                $id00=$row00["id"];
-                                                echo "<option value=".$id00.">$sn</option><br/>";
-                                            };
-            
-            
-            
-                                            
-                            echo     '       </select><br><br>
+                                        <input type="text" name="direccion" class="input-text" placeholder="Dirección del paciente" value="'.$direccion.'" required><br>
                                     </td>
                                 </tr>
+                                
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="fecnac" class="form-label">Fecha de nacimiento: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <input type="date" name="fecnac" class="input-text" placeholder="Fecha de nacimiento del paciente" value="'.$fecnac.'" required><br>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td class="label-td" colspan="2">
                                         <label for="password" class="form-label">Contraseña: </label>
