@@ -44,7 +44,7 @@
                     $_SESSION['usuario']=$usuario;
                     $_SESSION['usuario_rol']='pac';
                     
-                    header('location: inicio_paciente.html');
+                    header('location: paciente/citas.php');
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Error: Usuario o contraseña incorrectos</label>';
                 }
