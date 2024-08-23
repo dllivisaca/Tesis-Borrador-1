@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../css/main.css">  
     <link rel="stylesheet" href="../css/admin.css">
         
-    <title>Appointments</title>
+    <title>Citas</title>
     <style>
         .popup{
             animation: transitionIn-Y-bottom 0.5s;
@@ -119,7 +119,7 @@
                         $today = date('Y-m-d');
                         echo $today;
 
-                        $list110 = $database->query("select  * from  appointment;");
+                        $list110 = $database->query("select  * from  citas;");
 
                         ?>
                         </p>
@@ -531,7 +531,7 @@
                         </div>
                         <div style="display: flex;justify-content: center;">
                         <a href="borrar_cita.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
-                        <a href="appointment.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
+                        <a href="citas.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
 
                         </div>
                     </center>
