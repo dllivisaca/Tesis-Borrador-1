@@ -504,7 +504,7 @@
             
            
             
-            $sqlmain12= "select * from citas inner join paciente on paciente.pid=citas.pid inner join horarios on horarios.horarioid=citas.horarioid where horarios.horarioid=$id;";
+            $sqlmain12= "select * from citas inner join paciente on paciente.pacid=citas.pacid inner join horarios on horarios.horarioid=citas.horarioid where horarios.horarioid=$id;";
             $result12= $database->query($sqlmain12);
             echo '
             <div id="popup1" class="overlay">
@@ -628,13 +628,13 @@
                                          for ( $x=0; $x<$result->num_rows;$x++){
                                              $row=$result->fetch_assoc();
                                              $citanum=$row["citanum"];
-                                             $pid=$row["pid"];
+                                             $pacid=$row["pacid"];
                                              $pnombre=$row["pnombre"];
                                              $ptel=$row["ptel"];
                                              
                                              echo '<tr style="text-align:center;">
                                                 <td>
-                                                '.substr($pid,0,15).'
+                                                '.substr($pacid,0,15).'
                                                 </td>
                                                  <td style="font-weight:600;padding:25px">'.
                                                  
