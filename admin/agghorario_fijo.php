@@ -25,6 +25,17 @@
 
     session_start();
 
+    // Mostrar mensajes de éxito o error si existen
+    if (isset($_SESSION['success_message'])) {
+        echo '<p style="color: green;">' . $_SESSION['success_message'] . '</p>';
+        unset($_SESSION['success_message']); // Eliminar el mensaje para evitar que se muestre nuevamente
+    }
+
+    if (isset($_SESSION['error_message'])) {
+        echo '<p style="color: red;">' . $_SESSION['error_message'] . '</p>';
+        unset($_SESSION['error_message']); // Eliminar el mensaje para evitar que se muestre nuevamente
+    }
+
     if(isset($_SESSION["usuario"])){
         if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
             header("location: ../login.php");
@@ -38,7 +49,38 @@
     //import database
     include("../conexion_db.php");
 
-    
+    // Procesar los datos del formulario
+            if (isset($_POST['shedulesubmit'])) {
+                // Recoger los datos del formulario
+                $doctor_id = $_GET['id']; 
+                $days_selected = $_POST['day_schedule']; // Array de días seleccionados
+                $horainicioman = $_POST['horainicioman']; // Hora de inicio de mañana
+                $horafinman = $_POST['horafinman']; // Hora de fin de mañana
+                $horainiciotar = $_POST['horainiciotar']; // Hora de inicio de tarde
+                $horafintar = $_POST['horafintar']; // Hora de fin de tarde
+
+                // Recorrer los días seleccionados y guardar en la base de datos
+                foreach ($days_selected as $day) {
+                    $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
+                            VALUES ('$doctor_id', '$day', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
+
+
+
+                    // Ejecutar la consulta
+                    if ($database->query($sql)) {
+                        //echo "Horario para el día $day agregado correctamente.<br>";
+                        $_SESSION['success_message'] = "Horario para el día $day agregado correctamente.";
+                    } else {
+                        //echo "Error al agregar el horario para el día $day: " . $database->error . "<br>";
+                        $_SESSION['error_message'] = "Error al agregar el horario para el día $day: " . $database->error;
+                    }
+                }
+
+                // Redirigir a la misma página para evitar el reenvío del formulario
+                header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $doctor_id);
+                exit; // Asegurarse de que el script se detenga después de la redirección
+            }
+            
 
     ?>
     <div class="container">
@@ -268,29 +310,6 @@
                 ';
             }
 
-            // Procesar los datos del formulario
-            if (isset($_POST['shedulesubmit'])) {
-                // Recoger los datos del formulario
-                $doctor_id = $_GET['id']; 
-                $days_selected = $_POST['day_schedule']; // Array de días seleccionados
-                $horainicioman = $_POST['horainicioman']; // Hora de inicio de mañana
-                $horafinman = $_POST['horafinman']; // Hora de fin de mañana
-                $horainiciotar = $_POST['horainiciotar']; // Hora de inicio de tarde
-                $horafintar = $_POST['horafintar']; // Hora de fin de tarde
-
-                // Recorrer los días seleccionados y guardar en la base de datos
-                foreach ($days_selected as $day) {
-                    $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
-                            VALUES ('$doctor_id', '$day', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
-
-                    // Ejecutar la consulta
-                    if ($database->query($sql)) {
-                        echo "Horario para el día $day agregado correctamente.<br>";
-                    } else {
-                        echo "Error al agregar el horario para el día $day: " . $database->error . "<br>";
-                    }
-                }
-            }
             ?>
 </body>
 </html>
