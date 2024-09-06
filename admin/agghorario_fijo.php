@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,39 +40,6 @@
 
     
 
-    // Verificar si el 'id' del doctor y 'especialidad' están presentes
-if (isset($_GET['id']) && isset($_GET['especialidad'])) {
-    $doc_id = $_GET['id'];
-    $especialidad_id = $_GET['especialidad'];
-
-    // Depuración: Verifica que los parámetros estén llegando correctamente
-    echo "Doctor ID: " . htmlspecialchars($doc_id) . "<br>";
-    echo "Especialidad ID: " . htmlspecialchars($especialidad_id) . "<br>";
-
-    // Consultar la especialidad del doctor desde la tabla doctor
-    $doctor_query = $database->query("SELECT especialidades FROM doctor WHERE docid='$doc_id'");
-
-    if ($doctor_query->num_rows > 0) {
-        $doctor_row = $doctor_query->fetch_assoc();
-        $especialidad_id = $doctor_row['especialidades'];
-
-        // Consultar el nombre de la especialidad en la tabla especialidades
-        $especialidad_query = $database->query("SELECT espnombre FROM especialidades WHERE id='$especialidad_id'");
-        if ($especialidad_query->num_rows > 0) {
-            $especialidad_row = $especialidad_query->fetch_assoc();
-            $especialidad = $especialidad_row['espnombre']; // Nombre de la especialidad
-        } else {
-            $especialidad = "Especialidad no encontrada";
-        }
-    } else {
-        echo "No se encontró el doctor con ID: " . htmlspecialchars($doc_id);
-        exit;
-    }
-} else {
-    echo "No se han proporcionado los datos del doctor o la especialidad.";
-    exit;
-}
-    
     ?>
     <div class="container">
         <div class="menu">
@@ -162,33 +129,78 @@ if (isset($_GET['id']) && isset($_GET['especialidad'])) {
 
 
                 </tr>
-               
-
-              
-
-                <tr>
-                    <td colspan="4">
-                        <div style="display: flex; margin-top: 40px;">
-                            <div class="heading-main12" style="margin-left: 45px; font-size: 20px; color: rgb(49, 49, 49); margin-top: 5px;">
-                                Especialidad: <?php echo htmlspecialchars($especial_name); ?>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-
                 
-            
-                        
-            </table>
-        </div>
+                    
+                    
     </div>
+    
+    </div>
+
     <?php
     
     if($_GET){
         $id=$_GET["id"];
-        $action=$_GET["action"];
-        if($action=='agregar_horario2'){
+        
+            $sqlmain= "select * from doctor where docid='$id'";
+            $result= $database->query($sqlmain);
+            $row=$result->fetch_assoc();
+            $docnombre=$row["docnombre"];
+            
+            $espe=$row["especialidades"];
+            
+            $especial_res= $database->query("select espnombre from especialidades where id='$espe'");
+            $especial_array= $especial_res->fetch_assoc();
+            $especial_name=$especial_array["espnombre"];
+            
 
+
+            echo '
+            <div id="popup1" class="overlay">
+                    <div class="popup">
+                    <center>
+                        <h2></h2>
+                        
+                        
+                        <div style="display: flex;justify-content: center;">
+                        <table width="60%" class="sub-table scrolldown add-doc-form-container" border="0">
+                            
+                            <tr>
+
+                                <td class="label-td" colspan="2">
+                                    <label for="espec" class="form-label">Especialidad: </label>
+                                </td>
+                                <td class="label-td" colspan="2">
+                                    '.$especial_name.'<br><br>
+                                </td>
+                                <td class="label-td" colspan="2">
+                                    <label for="name" class="form-label">Doctor: </label>
+                                </td>
+                                <td class="label-td" colspan="2">
+                                    '.$docnombre.'<br><br>
+                                </td>
+
+                            </tr>
+
+                        </table>
+                        </div>
+                    </center>
+                    <br><br>
+            </div>
+            </div>
+            ';
+        }
+    
+            ?>
+            <div style="display: flex;justify-content: center;">
+                <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                    <tr>
+                        <td>
+                            <p style="font-size: 25px; font-weight: 500;">Horario fijo</p><br><br>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <?php
             echo     '       </select><br><br>
                                 </td>
                             </tr>
@@ -298,13 +310,7 @@ if (isset($_GET['id']) && isset($_GET['especialidad'])) {
                     <br><br>
             </div>
             </div>
-            ';         
-        
-    }
-}
-        
-    ?>
-    </div>
-
+            ';  
+        ?>
 </body>
 </html>
