@@ -201,116 +201,96 @@
                 </table>
             </div>
             <?php
-            echo     '       </select><br><br>
-                                </td>
-                            </tr>
-                            
-                            
-                            
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="fecha" class="form-label">Horario semanal: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    
-                                   <div class="form-group">
-                                            <div class="icheck-primary">
-                                                <input type="checkbox" id="checkboxLunes" name="day_schedule[]" value="Lunes">
-                                                <label for="checkboxLunes">Lunes</label>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                            <div class="icheck-primary">
-                                                <input type="checkbox" id="checkboxMartes" name="day_schedule[]" value="Martes">
-                                                <label for="checkboxMartes">Martes</label>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                            <div class="icheck-primary">
-                                                <input type="checkbox" id="checkboxMiercoles" name="day_schedule[]" value="Miercoles">
-                                                <label for="checkboxMiercoles">Miercoles</label>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                            <div class="icheck-primary">
-                                                <input type="checkbox" id="checkboxJueves" name="day_schedule[]" value="Jueves">
-                                                <label for="checkboxJueves">Jueves</label>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                            <div class="icheck-primary">
-                                                <input type="checkbox" id="checkboxViernes" name="day_schedule[]" value="Viernes">
-                                                <label for="checkboxViernes">Viernes</label>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                            <div class="icheck-primary">
-                                                <input type="checkbox" id="checkboxSabado" name="day_schedule[]" value="Sabado">
-                                                <label for="checkboxSabado">Sabado</label>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                            <div class="icheck-primary">
-                                                <input type="checkbox" id="checkboxDomingo" name="day_schedule[]" value="Domingo">
-                                                <label for="checkboxDomingo">Domingo</label>
-                                            </div>
-                                    </div>                                        
-                                        
-                                </td>
 
-                                                               
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="hora" class="form-label">Horario de mañana: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <!-- Primer campo de selección de hora -->
-                                    <input type="time" name="horainicioman" class="input-text" placeholder="Hora de inicio" required>
-                                    <span class="col-auto"> - </span>
-                                    <!-- Segundo campo de selección de hora, separado por un espacio -->
-                                    <input type="time" name="horafinman" class="input-text" placeholder="Hora de fin" required>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="hora" class="form-label">Horario de tarde: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <!-- Primer campo de selección de hora -->
-                                    <input type="time" name="horainiciotar" class="input-text" placeholder="Hora de inicio" required>
-                                    <span class="col-auto"> - </span>
-                                    <!-- Segundo campo de selección de hora, separado por un espacio -->
-                                    <input type="time" name="horafintar" class="input-text" placeholder="Hora de fin" required>
-                                </td>
-                            </tr>
-                           
-                            <tr>
-                                <td colspan="2">
-                                    <input type="reset" value="Reset" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                
-                                    <input type="submit" value="Place this Session" class="login-btn btn-primary btn" name="shedulesubmit">
-                                </td>
+            if ($_GET) {
+                $id = $_GET["id"];
                 
-                            </tr>
-                           
-                            </form>
-                            </tr>
-                        </table>
-                        </div>
+                // Consultar al doctor usando el ID del doctor
+                $sqlmain = "SELECT * FROM doctor WHERE docid='$id'";
+                $result = $database->query($sqlmain);
+                $row = $result->fetch_assoc();
+                $docnombre = $row["docnombre"];
+                
+                $espe = $row["especialidades"];
+                $especial_res = $database->query("SELECT espnombre FROM especialidades WHERE id='$espe'");
+                $especial_array = $especial_res->fetch_assoc();
+                $especial_name = $especial_array["espnombre"];
+                
+                // Mostrar el formulario con los días y horas
+                echo '
+                <div id="popup1" class="overlay">
+                    <div class="popup">
+                    <center>
+                        <h2></h2>
+                        
+                        
+                        <div style="display: flex;justify-content: center;">
+                            <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                                <tr>
+                                    <td><p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Agregar nuevo horario.</p><br></td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <form action="" method="POST" class="add-new-form">
+                                            <!-- Horario semanal -->
+                                            <label for="fecha" class="form-label">Horario semanal: </label><br>
+                                            <input type="checkbox" id="checkboxLunes" name="day_schedule[]" value="Lunes"> <label for="checkboxLunes">Lunes</label><br>
+                                            <input type="checkbox" id="checkboxMartes" name="day_schedule[]" value="Martes"> <label for="checkboxMartes">Martes</label><br>
+                                            <input type="checkbox" id="checkboxMiercoles" name="day_schedule[]" value="Miercoles"> <label for="checkboxMiercoles">Miércoles</label><br>
+                                            <input type="checkbox" id="checkboxJueves" name="day_schedule[]" value="Jueves"> <label for="checkboxJueves">Jueves</label><br>
+                                            <input type="checkbox" id="checkboxViernes" name="day_schedule[]" value="Viernes"> <label for="checkboxViernes">Viernes</label><br>
+                                            <input type="checkbox" id="checkboxSabado" name="day_schedule[]" value="Sabado"> <label for="checkboxSabado">Sábado</label><br>
+                                            <input type="checkbox" id="checkboxDomingo" name="day_schedule[]" value="Domingo"> <label for="checkboxDomingo">Domingo</label><br><br>
+
+                                            <!-- Horario de mañana -->
+                                            <label for="horainicioman" class="form-label">Horario de mañana: </label>
+                                            <input type="time" name="horainicioman" class="input-text" placeholder="Hora de inicio" >
+                                            <span class="col-auto"> - </span>
+                                            <input type="time" name="horafinman" class="input-text" placeholder="Hora de fin" ><br><br>
+
+                                            <!-- Horario de tarde -->
+                                            <label for="horainiciotar" class="form-label">Horario de tarde: </label>
+                                            <input type="time" name="horainiciotar" class="input-text" placeholder="Hora de inicio" >
+                                            <span class="col-auto"> - </span>
+                                            <input type="time" name="horafintar" class="input-text" placeholder="Hora de fin" ><br><br>
+
+                                            <!-- Botón para agregar el horario -->
+                                            <input type="submit" value="Agregar horario" class="login-btn btn-primary btn" name="shedulesubmit">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </center>
                     <br><br>
-            </div>
-            </div>
-            ';  
-        ?>
+                </div>
+                </div>
+                ';
+            }
+
+            // Procesar los datos del formulario
+            if (isset($_POST['shedulesubmit'])) {
+                // Recoger los datos del formulario
+                $doctor_id = $_GET['id']; 
+                $days_selected = $_POST['day_schedule']; // Array de días seleccionados
+                $horainicioman = $_POST['horainicioman']; // Hora de inicio de mañana
+                $horafinman = $_POST['horafinman']; // Hora de fin de mañana
+                $horainiciotar = $_POST['horainiciotar']; // Hora de inicio de tarde
+                $horafintar = $_POST['horafintar']; // Hora de fin de tarde
+
+                // Recorrer los días seleccionados y guardar en la base de datos
+                foreach ($days_selected as $day) {
+                    $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
+                            VALUES ('$doctor_id', '$day', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
+
+                    // Ejecutar la consulta
+                    if ($database->query($sql)) {
+                        echo "Horario para el día $day agregado correctamente.<br>";
+                    } else {
+                        echo "Error al agregar el horario para el día $day: " . $database->error . "<br>";
+                    }
+                }
+            }
+            ?>
 </body>
 </html>
