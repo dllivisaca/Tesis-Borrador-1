@@ -86,13 +86,13 @@
         <table border="0" style="margin: 0;padding: 0;width: 60%;">
             <tr>
                 <td>
-                    <p class="header-text">Bienvenido de vuelta!</p>
+                    <p class="header-text">!Nos alegra verte de nuevo!</p>
                 </td>
             </tr>
         <div class="form-body">
             <tr>
                 <td>
-                    <p class="sub-text">Inicia sesión para continuar</p>
+                    <p class="sub-text">Ingresa tus credenciales para continuar</p>
                 </td>
             </tr>
             <tr>
@@ -133,8 +133,8 @@
             <tr>
                 <td>
                     <br>
-                    <label for="" class="sub-text" style="font-weight: 280;">¿Deseas agendar tu cita pero no tienes cuenta&#63; </label>
-                    <a href="registro.php" class="hover-link1 non-style-link">Crear cuenta ahora</a>
+                    <label for="" class="sub-text" style="font-weight: 280;">¿Eres un paciente y no tienes cuenta?</label>
+                    <a href="registro.php" class="hover-link1 non-style-link">Regístrate</a>
                     <br><br><br>
                 </td>
             </tr>

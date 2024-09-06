@@ -63,6 +63,11 @@
                 </tr>
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-dashbord" >
+                        <a href="dashboard.php" class="non-style-link-menu"><div><p class="menu-text">Dashboard</p></a></div></a>
+                    </td>
+                </tr> 
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-dashbord" >
                         <a href="calendario.php" class="non-style-link-menu"><div><p class="menu-text">Calendario</p></a></div></a>
                     </td>
                 </tr> 
@@ -87,6 +92,12 @@
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-schedule ">
                         <a href="horarios.php" class="non-style-link-menu"><div><p class="menu-text">Horarios disponibles</p></div></a>
+                    </td>
+                </tr>
+
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-schedule ">
+                        <a href="horarios2.php" class="non-style-link-menu"><div><p class="menu-text">Horarios disponibles 2</p></div></a>
                     </td>
                 </tr>
 
