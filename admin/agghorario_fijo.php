@@ -35,6 +35,8 @@
         echo '<p style="color: red;">' . $_SESSION['error_message'] . '</p>';
         unset($_SESSION['error_message']); // Eliminar el mensaje para evitar que se muestre nuevamente
     }
+    // Mostrar mensajes de éxito o error si existen
+
 
     if(isset($_SESSION["usuario"])){
         if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
@@ -233,16 +235,17 @@
         }
     
             ?>
-            <div style="display: flex;justify-content: center;">
-                <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                    <tr>
-                        <td>
-                            <p style="font-size: 25px; font-weight: 500;">Horario fijo</p><br><br>
-                        </td>
-                    </tr>
-                </table>
+            <div class="tab-container">
+                <!-- Pestañas -->
+                <button class="tablinks" onclick="openTab(event, 'HorarioFijo')">Horario Fijo</button>
+                <button class="tablinks" onclick="openTab(event, 'HorarioPersonalizado')">Horario Personalizado</button>
             </div>
-            <?php
+            
+            <!-- Contenido de Horario Fijo -->
+            <div id="HorarioFijo" class="tabcontent">
+                <h3>Horario Fijo</h3>
+                
+                <?php
 
             if ($_GET) {
                 $id = $_GET["id"];
@@ -263,19 +266,13 @@
                 <div id="popup1" class="overlay">
                     <div class="popup">
                     <center>
-                        <h2></h2>
-                        
                         
                         <div style="display: flex;justify-content: center;">
                             <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                                <tr>
-                                    <td><p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Agregar nuevo horario.</p><br></td>
-                                </tr>
+                                
                                 <tr>
                                     <td class="label-td" colspan="2">
                                         <form action="" method="POST" class="add-new-form">
-                                            <!-- Horario semanal -->
-                                            <label for="fecha" class="form-label">Horario semanal: </label><br>
                                             <input type="checkbox" id="checkboxLunes" name="day_schedule[]" value="Lunes"> <label for="checkboxLunes">Lunes</label><br>
                                             <input type="checkbox" id="checkboxMartes" name="day_schedule[]" value="Martes"> <label for="checkboxMartes">Martes</label><br>
                                             <input type="checkbox" id="checkboxMiercoles" name="day_schedule[]" value="Miercoles"> <label for="checkboxMiercoles">Miércoles</label><br>
@@ -309,7 +306,77 @@
                 </div>
                 ';
             }
+            // Procesar los datos del formulario de horario personalizado
+            if (isset($_POST['submitPersonalizado'])) {
+                $doctor_id = $_GET['id'];  // ID del doctor obtenido de la URL
+                $dias = $_POST['dias'] ?? [];  // Array de días seleccionados
+
+                if (!empty($dias)) {
+                    foreach ($dias as $dia) {
+                        // Recoger horarios de mañana y tarde de cada día
+                        $horainicioman = $_POST['horainicioman_' . $dia] ?? null;
+                        $horafinman = $_POST['horafinman_' . $dia] ?? null;
+                        $horainiciotar = $_POST['horainiciotar_' . $dia] ?? null;
+                        $horafintar = $_POST['horafintar_' . $dia] ?? null;
+
+                        // Insertar el horario solo si al menos un horario está definido (mañana o tarde)
+                        if ($horainicioman || $horainiciotar) {
+                            $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
+                                    VALUES ('$doctor_id', '$dia', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
+
+                            // Ejecutar la consulta
+                            if ($database->query($sql)) {
+                                $_SESSION['success_message'] = "Horario personalizado agregado correctamente para el día $dia.";
+                            } else {
+                                $_SESSION['error_message'] = "Error al agregar el horario personalizado para el día $dia: " . $database->error;
+                            }
+                        } else {
+                            $_SESSION['error_message'] = "Debe ingresar al menos un horario para el día $dia.";
+                        }
+                    }
+
+                    // Redirigir para evitar el reenvío del formulario
+                    header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $doctor_id);
+                    exit();
+                } else {
+                    $_SESSION['error_message'] = "Por favor seleccione al menos un día.";
+                }
+            }
 
             ?>
+            
+            <div id="HorarioPersonalizado" class="tabcontent">
+                <h3>Horario Personalizado</h3>
+                
+                <!-- Formulario de Horario Personalizado -->
+                <form action="" method="POST">
+                    <table border="0" width="100%">
+                        <tr>
+                            <th>Día</th>
+                            <th>Horario de Mañana</th>
+                            <th>Horario de Tarde</th>
+                        </tr>
+                        <?php
+                        $dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+                        foreach ($dias_semana as $dia) {
+                            echo '<tr>';
+                            echo '<td><input type="checkbox" name="dias[]" value="'.$dia.'"> '.$dia.'</td>';
+                            echo '<td>Inicio: <input type="time" name="horainicioman_'.$dia.'"> Fin: <input type="time" name="horafinman_'.$dia.'"></td>';
+                            echo '<td>Inicio: <input type="time" name="horainiciotar_'.$dia.'"> Fin: <input type="time" name="horafintar_'.$dia.'"></td>';
+                            echo '</tr>';
+                        }
+                        ?>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="Agregar horario" name="submitPersonalizado">
+                </form>
+            </div>
+
+            </div>
+
+
+            
 </body>
 </html>
