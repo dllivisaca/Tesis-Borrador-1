@@ -52,39 +52,59 @@
     include("../conexion_db.php");
 
     // Procesar los datos del formulario
-            if (isset($_POST['shedulesubmit'])) {
+            if (isset($_POST['shedulesubmit'])|| isset($_POST['submitPersonalizado'])) {
                 // Recoger los datos del formulario
                 $doctor_id = $_GET['id']; 
-                $days_selected = $_POST['day_schedule']; // Array de días seleccionados
-                $horainicioman = $_POST['horainicioman']; // Hora de inicio de mañana
-                $horafinman = $_POST['horafinman']; // Hora de fin de mañana
-                $horainiciotar = $_POST['horainiciotar']; // Hora de inicio de tarde
-                $horafintar = $_POST['horafintar']; // Hora de fin de tarde
 
-                // Recorrer los días seleccionados y guardar en la base de datos
-                foreach ($days_selected as $day) {
-                    $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
-                            VALUES ('$doctor_id', '$day', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
+                // Lógica para el horario fijo
+                if (isset($_POST['shedulesubmit'])) {
+                    $days_selected = $_POST['day_schedule'] ?? [];
+                    $horainicioman = $_POST['horainicioman'];
+                    $horafinman = $_POST['horafinman'];
+                    $horainiciotar = $_POST['horainiciotar'];
+                    $horafintar = $_POST['horafintar'];
 
-
-
-                    // Ejecutar la consulta
-                    if ($database->query($sql)) {
-                        //echo "Horario para el día $day agregado correctamente.<br>";
-                        $_SESSION['success_message'] = "Horario para el día $day agregado correctamente.";
-                    } else {
-                        //echo "Error al agregar el horario para el día $day: " . $database->error . "<br>";
-                        $_SESSION['error_message'] = "Error al agregar el horario para el día $day: " . $database->error;
+                    foreach ($days_selected as $day) {
+                        $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
+                                VALUES ('$doctor_id', '$day', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
+            
+                        if ($database->query($sql)) {
+                            $_SESSION['success_message'] = "Horario para el día $day agregado correctamente.";
+                        } else {
+                            $_SESSION['error_message'] = "Error al agregar el horario para el día $day: " . $database->error;
+                        }
                     }
                 }
 
-                // Redirigir a la misma página para evitar el reenvío del formulario
-                header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $doctor_id);
-                exit; // Asegurarse de que el script se detenga después de la redirección
-            }
-            
+                // Lógica para el horario personalizado
+                if (isset($_POST['submitPersonalizado'])) {
+                    $dias = $_POST['dias'] ?? [];
 
-    ?>
+                    if (!empty($dias)) {
+                        foreach ($dias as $dia) {
+                            $horainicioman = $_POST['horainicioman_' . $dia] ?? null;
+                            $horafinman = $_POST['horafinman_' . $dia] ?? null;
+                            $horainiciotar = $_POST['horainiciotar_' . $dia] ?? null;
+                            $horafintar = $_POST['horafintar_' . $dia] ?? null;
+
+                            $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
+                                    VALUES ('$doctor_id', '$dia', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
+
+                            if ($database->query($sql)) {
+                                $_SESSION['success_message'] = "Horario personalizado para el día $dia agregado correctamente.";
+                            } else {
+                                $_SESSION['error_message'] = "Error al agregar el horario personalizado para el día $dia: " . $database->error;
+                            }
+                        }
+                    }
+                }
+
+                 // Redirigir después del procesamiento
+                header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $doctor_id);
+                exit;
+            }
+            ?>
+
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
