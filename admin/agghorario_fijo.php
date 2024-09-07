@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/animations.css">  
     <link rel="stylesheet" href="../css/main.css">  
     <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/styles.css">
         
     <title>Horarios</title>
     <style>
@@ -15,6 +16,45 @@
         }
         .sub-table{
             animation: transitionIn-Y-bottom 0.5s;
+        }
+        /* Estilos para las pestañas */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Botones de las pestañas */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+        /* Cambiar el color del botón de la pestaña al pasar el mouse */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Color de la pestaña activa */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Estilo de contenido de pestañas */
+        .tabcontent {
+            display: none;
+            padding: 16px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+         /* Mostrar la primera pestaña por defecto */
+         .tabcontent.active {
+            display: block;
         }
 </style>
 </head>
@@ -104,6 +144,7 @@
                 exit;
             }
             ?>
+            
 
     <div class="container">
         <div class="menu">
@@ -251,15 +292,19 @@
                     <br><br>
             </div>
             </div>
+
+            
             ';
         }
     
             ?>
-            <div class="tab-container">
-                <!-- Pestañas -->
-                <button class="tablinks" onclick="openTab(event, 'HorarioFijo')">Horario Fijo</button>
-                <button class="tablinks" onclick="openTab(event, 'HorarioPersonalizado')">Horario Personalizado</button>
+
+            <!-- Contenedor de las pestañas -->
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'HorarioFijo')" id="defaultOpen">Horario Fijo</button>
+                <button class="tablinks" onclick="openTab(event, 'HorarioPersonalizado')" >Horario Personalizado</button>
             </div>
+          
             
             <!-- Contenido de Horario Fijo -->
             <div id="HorarioFijo" class="tabcontent">
@@ -395,6 +440,40 @@
             </div>
 
             </div>
+            <script>
+                // Función para abrir pestañas
+                function openTab(evt, tabName) {
+                    var i, tabcontent, tablinks;
+                    
+                    // Ocultar todas las pestañas
+                    tabcontent = document.getElementsByClassName("tabcontent");
+                    for (i = 0; i < tabcontent.length; i++) {
+                        tabcontent[i].style.display = "none";
+                    }
+
+                    // Remover clase "active" de todos los botones
+                    tablinks = document.getElementsByClassName("tablinks");
+                    for (i = 0; i < tablinks.length; i++) {
+                        tablinks[i].className = tablinks[i].className.replace(" active", "");
+                    }
+
+                    // Mostrar el contenido de la pestaña seleccionada
+                    document.getElementById(tabName).style.display = "block";
+                    //document.getElementById("HorarioPersonalizado").style.display = "block"; // Forzar la visibilidad del contenido
+
+                    // Añadir la clase "active" al botón de la pestaña seleccionada
+                    evt.currentTarget.className += " active";
+
+                    console.log("Pestaña mostrada:", tabName);  // Verifica si esta línea se ejecuta correctamente
+
+                }
+
+                // Ejecutar esta función solo cuando todo el DOM esté cargado
+                document.addEventListener("DOMContentLoaded", function() {
+                    // Abrir la pestaña por defecto (Horario Fijo) al cargar la página
+                    document.getElementById("defaultOpen").click();
+                });
+            </script>
 
 
             
