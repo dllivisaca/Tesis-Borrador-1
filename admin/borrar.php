@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="../css/animations.css">   -->
-    <!-- <link rel="stylesheet" href="../css/main.css">    -->   
-    <!-- <link rel="stylesheet" href="../css/admin.css">
-    <link rel="stylesheet" href="../css/styles.css"> -->
+    <!-- <link rel="stylesheet" href="../css/animations.css">  
+    <link rel="stylesheet" href="../css/main.css">  
+    <link rel="stylesheet" href="../css/admin.css"> -->
+    <link rel="stylesheet" href="../css/styles.css">
         
     <title>Horarios</title>
     <style>
@@ -17,67 +16,22 @@
         .sub-table{
             animation: transitionIn-Y-bottom 0.5s;
         }
-        /* Estilos para las pestañas */
-        .tab {
-            overflow: hidden;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
-        }
-
-        /* Botones de las pestañas */
-        .tab button {
-            background-color: inherit;
-            float: left;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 14px 16px;
-            transition: 0.3s;
-        }
-
-        /* Cambiar el color del botón de la pestaña al pasar el mouse */
-        .tab button:hover {
-            background-color: #ddd;
-        }
-
-        /* Color de la pestaña activa */
-        .tab button.active {
-            background-color: #ccc;
-        }
-
-        /* Estilo de contenido de pestañas */
-        .tabcontent {
-            /* display: none; */
-            padding: 16px;
-            border: 1px solid #ccc;
-            border-top: none;
-        }
-         /* Mostrar la primera pestaña por defecto */
-         .tabcontent.active {
-            display: block;
-        }
 </style>
 </head>
 <body>
     <?php
-
     //learn from w3schools.com
-
     session_start();
-
     // Mostrar mensajes de éxito o error si existen
     if (isset($_SESSION['success_message'])) {
         echo '<p style="color: green;">' . $_SESSION['success_message'] . '</p>';
         unset($_SESSION['success_message']); // Eliminar el mensaje para evitar que se muestre nuevamente
     }
-
     if (isset($_SESSION['error_message'])) {
         echo '<p style="color: red;">' . $_SESSION['error_message'] . '</p>';
         unset($_SESSION['error_message']); // Eliminar el mensaje para evitar que se muestre nuevamente
     }
     // Mostrar mensajes de éxito o error si existen
-
-
     if(isset($_SESSION["usuario"])){
         if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
             header("location: ../login.php");
@@ -87,15 +41,36 @@
         header("location: ../login.php");
         exit;
     }
-
     //import database
     include("../conexion_db.php");
 
     // Procesar los datos del formulario
+            // if (isset($_POST['shedulesubmit'])) {
             if (isset($_POST['shedulesubmit'])|| isset($_POST['submitPersonalizado'])) {
                 // Recoger los datos del formulario
                 $doctor_id = $_GET['id']; 
+                $days_selected = $_POST['day_schedule']; // Array de días seleccionados
+                $horainicioman = $_POST['horainicioman']; // Hora de inicio de mañana
+                $horafinman = $_POST['horafinman']; // Hora de fin de mañana
+                $horainiciotar = $_POST['horainiciotar']; // Hora de inicio de tarde
+                $horafintar = $_POST['horafintar']; // Hora de fin de tarde
 
+                // Recorrer los días seleccionados y guardar en la base de datos
+                foreach ($days_selected as $day) {
+                    $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
+                            VALUES ('$doctor_id', '$day', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
+
+
+
+                    // Ejecutar la consulta
+                    if ($database->query($sql)) {
+                        //echo "Horario para el día $day agregado correctamente.<br>";
+                        $_SESSION['success_message'] = "Horario para el día $day agregado correctamente.";
+                    } else {
+                        //echo "Error al agregar el horario para el día $day: " . $database->error . "<br>";
+                        $_SESSION['error_message'] = "Error al agregar el horario para el día $day: " . $database->error;
+                    }
+                }
                 // Lógica para el horario fijo
                 if (isset($_POST['shedulesubmit'])) {
                     $days_selected = $_POST['day_schedule'] ?? [];
@@ -107,7 +82,7 @@
                     foreach ($days_selected as $day) {
                         $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
                                 VALUES ('$doctor_id', '$day', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
-            
+
                         if ($database->query($sql)) {
                             $_SESSION['success_message'] = "Horario para el día $day agregado correctamente.";
                         } else {
@@ -116,6 +91,7 @@
                     }
                 }
 
+                // Redirigir a la misma página para evitar el reenvío del formulario
                 // Lógica para el horario personalizado
                 if (isset($_POST['submitPersonalizado'])) {
                     $dias = $_POST['dias'] ?? [];
@@ -141,11 +117,13 @@
 
                  // Redirigir después del procesamiento
                 header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $doctor_id);
+                exit; // Asegurarse de que el script se detenga después de la redirección
                 exit;
             }
-            ?>
-            
 
+            ?>
+
+    ?>
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
@@ -186,23 +164,20 @@
                         <a href="pacientes.php" class="non-style-link-menu"><div><p class="menu-text">Pacientes</p></a></div>
                     </td>
                 </tr>
-
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-appoinment menu-active menu-icon-appoinment-active">
                         <a href="citas.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Citas agendadas</p></a></div>
                     </td>
                 </tr>
-
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-schedule ">
                         <a href="horarios.php" class="non-style-link-menu"><div><p class="menu-text">Horarios disponibles</p></div></a>
                     </td>
                 </tr>
-
             </table>
         </div>
         <div class="dash-body">
-            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
+            <!-- <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
                 <tr >
                     <td width="13%" >
                     <a href="horarios.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
@@ -217,32 +192,28 @@
                         </p>
                         <p class="heading-sub12" style="padding: 0;margin: 0;">
                             <?php 
-
                         date_default_timezone_set('Asia/Kolkata');
-
                         $today = date('Y-m-d');
                         echo $today;
-
                         $list110 = $database->query("select  * from  horarios;");
-
                         ?>
                         </p>
                     </td>
                     <td width="10%">
                         <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
                     </td>
-
-
-                </tr>
-                
-                    
-                    
+                </tr> -->
+        <div class="tab_box">
+            <button class="tab_btn">Horario fijo</button>
+            <button class="tab_btn">Horario personalizado</button>
+            <div class="line"></div>
+        </div>
+                        
     </div>
     
     </div>
-
     <?php
-    
+   /*  
     if($_GET){
         $id=$_GET["id"];
         
@@ -257,8 +228,6 @@
             $especial_array= $especial_res->fetch_assoc();
             $especial_name=$especial_array["espnombre"];
             
-
-
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -270,7 +239,6 @@
                         <table width="60%" class="sub-table scrolldown add-doc-form-container" border="0">
                             
                             <tr>
-
                                 <td class="label-td" colspan="2">
                                     <label for="espec" class="form-label">Especialidad: </label>
                                 </td>
@@ -283,36 +251,30 @@
                                 <td class="label-td" colspan="2">
                                     '.$docnombre.'<br><br>
                                 </td>
-
                             </tr>
-
                         </table>
                         </div>
                     </center>
                     <br><br>
             </div>
             </div>
-
-            
             ';
         }
-    
+     */
             ?>
-
-            <!-- Contenedor de las pestañas -->
-            <div class="tab">
-                <button class="tablinks" onclick="openTab(event, 'HorarioFijo')" id="defaultOpen">Horario Fijo</button>
-                <button class="tablinks" onclick="openTab(event, 'HorarioPersonalizado')" >Horario Personalizado</button>
-            </div>
-          
-            
-            <!-- Contenido de Horario Fijo -->
-            <div id="HorarioFijo" class="tabcontent">
-                <h3>Horario Fijo</h3>
+            <!-- <div class="tab-container">
                 
-                <?php
+                <button class="tablinks" onclick="openTab(event, 'HorarioFijo')">Horario Fijo</button>
+                <button class="tablinks" onclick="openTab(event, 'HorarioPersonalizado')">Horario Personalizado</button>
+            </div> -->
+            
 
-            if ($_GET) {
+            <!-- Contenido de Horario Fijo -->
+             <div class="content_box">
+                <div class="content">
+                    <h3>Horario Fijo</h3>
+                    <?php
+            /* if ($_GET) {
                 $id = $_GET["id"];
                 
                 // Consultar al doctor usando el ID del doctor
@@ -324,7 +286,7 @@
                 $espe = $row["especialidades"];
                 $especial_res = $database->query("SELECT espnombre FROM especialidades WHERE id='$espe'");
                 $especial_array = $especial_res->fetch_assoc();
-                $especial_name = $especial_array["espnombre"];
+                $especial_name = $especial_array["espnombre"]; */
                 
                 // Mostrar el formulario con los días y horas
                 echo '
@@ -345,19 +307,16 @@
                                             <input type="checkbox" id="checkboxViernes" name="day_schedule[]" value="Viernes"> <label for="checkboxViernes">Viernes</label><br>
                                             <input type="checkbox" id="checkboxSabado" name="day_schedule[]" value="Sabado"> <label for="checkboxSabado">Sábado</label><br>
                                             <input type="checkbox" id="checkboxDomingo" name="day_schedule[]" value="Domingo"> <label for="checkboxDomingo">Domingo</label><br><br>
-
                                             <!-- Horario de mañana -->
                                             <label for="horainicioman" class="form-label">Horario de mañana: </label>
                                             <input type="time" name="horainicioman" class="input-text" placeholder="Hora de inicio" >
                                             <span class="col-auto"> - </span>
                                             <input type="time" name="horafinman" class="input-text" placeholder="Hora de fin" ><br><br>
-
                                             <!-- Horario de tarde -->
                                             <label for="horainiciotar" class="form-label">Horario de tarde: </label>
                                             <input type="time" name="horainiciotar" class="input-text" placeholder="Hora de inicio" >
                                             <span class="col-auto"> - </span>
                                             <input type="time" name="horafintar" class="input-text" placeholder="Hora de fin" ><br><br>
-
                                             <!-- Botón para agregar el horario -->
                                             <input type="submit" value="Agregar horario" class="login-btn btn-primary btn" name="shedulesubmit">
                                         </form>
@@ -370,12 +329,11 @@
                 </div>
                 </div>
                 ';
-            }
+            
             // Procesar los datos del formulario de horario personalizado
             if (isset($_POST['submitPersonalizado'])) {
                 $doctor_id = $_GET['id'];  // ID del doctor obtenido de la URL
                 $dias = $_POST['dias'] ?? [];  // Array de días seleccionados
-
                 if (!empty($dias)) {
                     foreach ($dias as $dia) {
                         // Recoger horarios de mañana y tarde de cada día
@@ -383,12 +341,10 @@
                         $horafinman = $_POST['horafinman_' . $dia] ?? null;
                         $horainiciotar = $_POST['horainiciotar_' . $dia] ?? null;
                         $horafintar = $_POST['horafintar_' . $dia] ?? null;
-
                         // Insertar el horario solo si al menos un horario está definido (mañana o tarde)
                         if ($horainicioman || $horainiciotar) {
                             $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
                                     VALUES ('$doctor_id', '$dia', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
-
                             // Ejecutar la consulta
                             if ($database->query($sql)) {
                                 $_SESSION['success_message'] = "Horario personalizado agregado correctamente para el día $dia.";
@@ -399,7 +355,6 @@
                             $_SESSION['error_message'] = "Debe ingresar al menos un horario para el día $dia.";
                         }
                     }
-
                     // Redirigir para evitar el reenvío del formulario
                     header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $doctor_id);
                     exit();
@@ -407,11 +362,18 @@
                     $_SESSION['error_message'] = "Por favor seleccione al menos un día.";
                 }
             }
-
             ?>
+
+                </div>
+             
+            <!-- <div id="HorarioFijo" class="tabcontent"> -->
+                <div class="content">
+                    <h3>Horario Personalizado</h3>
+                
+                
             
-            <div id="HorarioPersonalizado" class="tabcontent">
-                <h3>Horario Personalizado</h3>
+           <!--  <div id="HorarioPersonalizado" class="tabcontent">
+                <h3>Horario Personalizado</h3> -->
                 
                 <!-- Formulario de Horario Personalizado -->
                 <form action="" method="POST">
@@ -438,39 +400,46 @@
                     <input type="submit" value="Agregar horario" name="submitPersonalizado">
                 </form>
             </div>
-
             </div>
-            <script>
-                
-                // Función para abrir pestañas
-                function openTab(evt, tabName) {
-                    var i, tabcontent, tablinks;
+           
+    <!-- <script>
+        const tabs= document.querySelectorAll('.tab_btn');
+        const all_content=document.querySelectorAll('.content');
 
-                    // Ocultar todas las pestañas
-                    tabcontent = document.getElementsByClassName("tabcontent");
-                    for (i = 0; i < tabcontent.length; i++) {
-                        tabcontent[i].style.display = "none";  // Ocultar todas las pestañas
-                    }
+        tabs.forEach((tab, index)=>{
+            tab.addEventListener('click', ()=>{
+                tabs.forEach(tab=>{tab.classList.remove('active')});
+                tab.classList.add('active');
 
-                    // Remover la clase "active" de todos los botones
-                    tablinks = document.getElementsByClassName("tablinks");
-                    for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(" active", "");  // Remover "active"
-                    }
+                var line=document.querySelector('.line');
+                line.style.width = e.target.offsetWidth + "px";
+                line.style.left = e.target.offsetLeft + "px";
 
-                    // Mostrar la pestaña seleccionada
-                    document.getElementById(tabName).style.display = "block";  // Mostrar la pestaña
-                    evt.currentTarget.className += " active";  // Agregar la clase "active" al botón actual
-                }
-
-                // Ejecutar esta función cuando el DOM esté completamente cargado
-                document.addEventListener("DOMContentLoaded", function() {
-                    // Abrir la pestaña predeterminada (Horario Fijo) al cargar la página
-                    document.getElementById("defaultOpen").click();
-                });
-            </script>
-
-
+                all_content.forEach(content=>{content.classList.remove('active')});
+                all_content[index].classList.add('active');
             
+            })
+        })
+    </script> -->
+    <script>
+        const tabs = document.querySelectorAll('.tab_btn');
+        const all_content = document.querySelectorAll('.content');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', (e) => { // Añadir (e) como parámetro
+                tabs.forEach(tab => { tab.classList.remove('active') });
+                tab.classList.add('active');
+
+                var line = document.querySelector('.line');
+                line.style.width = e.target.offsetWidth + "px"; // Usar e.target
+                line.style.left = e.target.offsetLeft + "px";  // Usar e.target
+
+                all_content.forEach(content => { content.classList.remove('active') });
+                all_content[index].classList.add('active');
+            })
+        });
+    </script>
+
+
 </body>
 </html>

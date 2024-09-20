@@ -101,6 +101,12 @@
                     </td>
                 </tr>
 
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-schedule ">
+                        <a href="borrar.php" class="non-style-link-menu"><div><p class="menu-text">Borrar</p></div></a>
+                    </td>
+                </tr>
+
             </table>
         </div>
         <div class="dash-body">
