@@ -238,7 +238,7 @@
             <button class="tab_btn">Horario fijo</button>
             <button class="tab_btn">Horario personalizado</button>
             <div class="line"></div>
-        </div> -->
+        </div>  -->
                     
                     
     </div>
@@ -302,6 +302,7 @@
         }
     
             ?>
+            
 
             <!-- Contenedor de las pestañas -->
             <!-- <div class="tab">
@@ -313,7 +314,7 @@
                 <button class="tab_btn">Horario fijo</button>
                 <button class="tab_btn">Horario personalizado</button>
                 <div class="line"></div>
-            </div>
+            </div> 
           
             
             <!-- Contenido de Horario Fijo -->

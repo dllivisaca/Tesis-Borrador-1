@@ -3,45 +3,64 @@
     padding: 0;
     box-sizing: border-box;
 }
-body{
-    background-color: #deeeff;
+body {
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    height: 100vh; /* Altura completa de la ventana */
+    flex-direction: column; /* Colocar elementos en columnas */
 }
+
 .container {
-    width: 2000px;
-    background-color: white;
-    padding: 30px;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, .1);
-    border-radius: 20px;
+    width: 80%; /* Aumentar el ancho del contenedor */
+    background-color: #fff;
+    padding: 20px;
+    /* box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; */
+    margin-bottom: 20px; /* Espacio inferior para el tab_box */
+    position: relative; /* Asegura que el tab_box esté fuera */
+    display: flex; /* Alinear contenido dentro del contenedor */
+    flex-direction: column; /* Organiza el contenido en columna */
+    align-items: center; /* Centrar el contenido dentro del contenedor */
 }
-.tab_box{
-    width: 100%;
+
+.tab_box {
+    width: 80%; /* Asegura que tab_box ocupe el mismo ancho que el contenedor */
+    margin: 10px auto; /* Centrar y dar margen superior e inferior */
     display: flex;
-    justify-content: space-around;
+    justify-content: center; /* Centrar los botones de las pestañas */
     align-items: center;
-    border-bottom: 2px solid rgba(229,229,229);
-    position: relative;
+    background-color: #fff;
+    padding: 10px 0; /* Padding interno */    
 }
+
 .tab_box .tab_btn{
     font-size: 18px;
     font-weight: 600;
     color: violet;
     background: none;
     border: none;
-    padding: 18px;
+    padding: 10px 20px; /* Reduce el padding para menor altura */
     cursor: pointer;
 }
 
 .tab_box .tab_btn.active{
     color: blue;
+    border-bottom: 3px solid blue; /* Añade subrayado a la pestaña activa */
 }
 
-.content_box{
+.content_box {
+    width: 80%; /* Asegura que el content_box esté alineado con el container */
     padding: 20px;
+    background-color: #fff; /* Color de fondo para diferenciar */
+    margin-top: 20px; /* Espacio superior para separación */
+    display: flex;
+    flex-direction: column; /* Colocar elementos dentro del content_box en columna */
+    align-items: center; /* Centrar el contenido dentro del content_box */
 }
+
 
 .content_box .content{
     display: none;
@@ -60,13 +79,56 @@ body{
     margin-bottom: 10px;
 }
 
-.line{
-    position: absolute;
-    top: 62px;
-    left: 220px;
-    width: 90px;
-    height: 5px;
-    background-color: red;
-    border-radius: 10px;
-    transition: all .3s ease-in-out;
+/* Ajustes para alinear la información de la especialidad y el doctor */
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.sub-table {
+    width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
+    border-collapse: collapse; /* Elimina el espacio entre celdas */
+    margin-bottom: 20px; /* Espacio inferior para separación */
+}
+
+.label-td {
+    font-weight: bold; /* Resalta las etiquetas */
+    text-align: right; /* Alinea las etiquetas a la derecha */
+    padding-right: 15px; /* Espacio entre la etiqueta y el contenido */
+    vertical-align: middle; /* Centra verticalmente el contenido */
+}
+
+.info-td {
+    text-align: left; /* Alinea la información a la izquierda */
+    padding-left: 15px; /* Espacio entre la información y la etiqueta */
+    vertical-align: middle; /* Centra verticalmente el contenido */
+}
+
+.schedule-form {
+    margin-top: 20px; /* Espacio superior del formulario */
+    display: flex;
+    flex-direction: column; /* Organiza los elementos en columna */
+    align-items: center; /* Centra los elementos */
+}
+
+.schedule-days {
+    display: flex; /* Establece el contenedor como flex */
+    flex-direction: column; /* Organiza los elementos en columna */
+    align-items: flex-start; /* Alinea los elementos al inicio (izquierda) */
+    margin-bottom: 20px; /* Espacio inferior para separación de los tiempos */
+}
+
+.day-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; /* Espacio inferior entre los días */
+}
+
+.day-item label {
+    margin-left: 5px; /* Espacio entre el checkbox y el texto */
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.day-item input[type="checkbox"] {
+    margin-right: 5px; /* Espacio entre el checkbox y el texto */
 }
