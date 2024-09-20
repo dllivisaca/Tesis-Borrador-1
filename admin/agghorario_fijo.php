@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="../css/animations.css">   -->
-    <!-- <link rel="stylesheet" href="../css/main.css">    -->   
-    <!-- <link rel="stylesheet" href="../css/admin.css">
-    <link rel="stylesheet" href="../css/styles.css"> -->
+    <!-- <link rel="stylesheet" href="../css/animations.css">   
+    <link rel="stylesheet" href="../css/main.css">      
+    <link rel="stylesheet" href="../css/admin.css"> -->
+    <link rel="stylesheet" href="../css/styles.css"> 
         
     <title>Horarios</title>
     <style>
@@ -234,7 +234,11 @@
 
 
                 </tr>
-                
+        <!-- <div class="tab_box">
+            <button class="tab_btn">Horario fijo</button>
+            <button class="tab_btn">Horario personalizado</button>
+            <div class="line"></div>
+        </div> -->
                     
                     
     </div>
@@ -300,17 +304,25 @@
             ?>
 
             <!-- Contenedor de las pestañas -->
-            <div class="tab">
+            <!-- <div class="tab">
                 <button class="tablinks" onclick="openTab(event, 'HorarioFijo')" id="defaultOpen">Horario Fijo</button>
                 <button class="tablinks" onclick="openTab(event, 'HorarioPersonalizado')" >Horario Personalizado</button>
+            </div> -->
+
+            <div class="tab_box">
+                <button class="tab_btn">Horario fijo</button>
+                <button class="tab_btn">Horario personalizado</button>
+                <div class="line"></div>
             </div>
           
             
             <!-- Contenido de Horario Fijo -->
-            <div id="HorarioFijo" class="tabcontent">
-                <h3>Horario Fijo</h3>
+            <div class="content_box">
+                <div class="content">
+                    <h3>Horario Fijo</h3>
+                    <?php
                 
-                <?php
+                
 
             if ($_GET) {
                 $id = $_GET["id"];
@@ -370,7 +382,7 @@
                 </div>
                 </div>
                 ';
-            }
+            
             // Procesar los datos del formulario de horario personalizado
             if (isset($_POST['submitPersonalizado'])) {
                 $doctor_id = $_GET['id'];  // ID del doctor obtenido de la URL
@@ -407,11 +419,14 @@
                     $_SESSION['error_message'] = "Por favor seleccione al menos un día.";
                 }
             }
+        }
 
-            ?>
+        ?>
+                </div>
+
+                <div class="content">
+                    <h3>Horario Personalizado</h3>
             
-            <div id="HorarioPersonalizado" class="tabcontent">
-                <h3>Horario Personalizado</h3>
                 
                 <!-- Formulario de Horario Personalizado -->
                 <form action="" method="POST">
@@ -438,9 +453,8 @@
                     <input type="submit" value="Agregar horario" name="submitPersonalizado">
                 </form>
             </div>
-
             </div>
-            <script>
+            <!-- <script>
                 
                 // Función para abrir pestañas
                 function openTab(evt, tabName) {
@@ -468,7 +482,27 @@
                     // Abrir la pestaña predeterminada (Horario Fijo) al cargar la página
                     document.getElementById("defaultOpen").click();
                 });
+            </script> -->
+
+            <script>
+                const tabs = document.querySelectorAll('.tab_btn');
+                const all_content = document.querySelectorAll('.content');
+
+                tabs.forEach((tab, index) => {
+                    tab.addEventListener('click', (e) => { // Añadir (e) como parámetro
+                        tabs.forEach(tab => { tab.classList.remove('active') });
+                        tab.classList.add('active');
+
+                        var line = document.querySelector('.line');
+                        line.style.width = e.target.offsetWidth + "px"; // Usar e.target
+                        line.style.left = e.target.offsetLeft + "px";  // Usar e.target
+
+                        all_content.forEach(content => { content.classList.remove('active') });
+                        all_content[index].classList.add('active');
+                    })
+                });
             </script>
+
 
 
             
