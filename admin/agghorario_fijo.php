@@ -75,7 +75,6 @@
         echo '<p style="color: red;">' . $_SESSION['error_message'] . '</p>';
         unset($_SESSION['error_message']); // Eliminar el mensaje para evitar que se muestre nuevamente
     }
-    // Mostrar mensajes de éxito o error si existen
 
 
     if(isset($_SESSION["usuario"])){
@@ -350,7 +349,7 @@
                                 
                                 <tr>
                                     <td class="label-td" colspan="2">
-                                        <form action="" method="POST" class="add-new-form">
+                                        <form id="horarioFijoForm" action="" method="POST" class="add-new-form">
                                             <input type="checkbox" id="checkboxLunes" name="day_schedule[]" value="Lunes"> <label for="checkboxLunes">Lunes</label><br>
                                             <input type="checkbox" id="checkboxMartes" name="day_schedule[]" value="Martes"> <label for="checkboxMartes">Martes</label><br>
                                             <input type="checkbox" id="checkboxMiercoles" name="day_schedule[]" value="Miercoles"> <label for="checkboxMiercoles">Miércoles</label><br>
@@ -430,7 +429,7 @@
             
                 
                 <!-- Formulario de Horario Personalizado -->
-                <form action="" method="POST">
+                <form id="horarioPersonalizadoForm" action="" method="POST">
                     <table border="0" width="100%">
                         <tr>
                             <th>Día</th>
@@ -486,21 +485,135 @@
             </script> -->
 
             <script>
-                const tabs = document.querySelectorAll('.tab_btn');
-                const all_content = document.querySelectorAll('.content');
+               // Función para validar horarios fijos
+                function validarHorarios(formulario) {
+                    // Obtener los valores de los inputs
+                    const horaInicioManana = formulario.querySelector('input[name="horainicioman"]').value;
+                    const horaFinManana = formulario.querySelector('input[name="horafinman"]').value;
+                    const horaInicioTarde = formulario.querySelector('input[name="horainiciotar"]').value;
+                    const horaFinTarde = formulario.querySelector('input[name="horafintar"]').value;
 
-                tabs.forEach((tab, index) => {
-                    tab.addEventListener('click', (e) => { // Añadir (e) como parámetro
-                        tabs.forEach(tab => { tab.classList.remove('active') });
-                        tab.classList.add('active');
+                    // Mostrar valores en consola para depuración
+                    console.log("Hora de inicio de mañana:", horaInicioManana);
+                    console.log("Hora de fin de mañana:", horaFinManana);
+                    console.log("Hora de inicio de tarde:", horaInicioTarde);
+                    console.log("Hora de fin de tarde:", horaFinTarde);
 
-                        var line = document.querySelector('.line');
-                        line.style.width = e.target.offsetWidth + "px"; // Usar e.target
-                        line.style.left = e.target.offsetLeft + "px";  // Usar e.target
+                    // Validación de la mañana
+                    if (horaInicioManana && horaFinManana) {
+                        if (horaInicioManana >= horaFinManana) {
+                            alert("El horario de inicio de la mañana debe ser anterior al horario de fin de la mañana.");
+                            return false; 
+                        }
+                    }
 
-                        all_content.forEach(content => { content.classList.remove('active') });
-                        all_content[index].classList.add('active');
-                    })
+                    // Validación de la tarde
+                    if (horaInicioTarde && horaFinTarde) {
+                        if (horaInicioTarde >= horaFinTarde) {
+                            alert("El horario de inicio de la tarde debe ser anterior al horario de fin de la tarde.");
+                            return false; 
+                        }
+                    }
+
+                    // Validar que al menos un horario esté ingresado
+                    if ((!horaInicioManana || !horaFinManana) && (!horaInicioTarde || !horaFinTarde)) {
+                        alert("Por favor, ingresa al menos un horario válido.");
+                        return false; 
+                    }
+
+                    // Si todo está bien, retornamos true
+                    console.log("Validación completada correctamente.");
+                    return true; 
+                }
+
+                // Función para validar horarios personalizados
+                function validarHorariosPersonalizados(formulario) {
+                    const diasSeleccionados = formulario.querySelectorAll('input[name="dias[]"]:checked');
+                    let valid = true;
+
+                    diasSeleccionados.forEach((diaCheckbox) => {
+                        const dia = diaCheckbox.value;
+                        const horaInicioManana = formulario.querySelector(`input[name="horainicioman_${dia}"]`).value;
+                        const horaFinManana = formulario.querySelector(`input[name="horafinman_${dia}"]`).value;
+                        const horaInicioTarde = formulario.querySelector(`input[name="horainiciotar_${dia}"]`).value;
+                        const horaFinTarde = formulario.querySelector(`input[name="horafintar_${dia}"]`).value;
+
+                        if (horaInicioManana && horaFinManana && horaInicioManana >= horaFinManana) {
+                            alert(`El horario de inicio de la mañana debe ser anterior al horario de fin de la mañana para el día ${dia}.`);
+                            valid = false; 
+                        }
+
+                        if (horaInicioTarde && horaFinTarde && horaInicioTarde >= horaFinTarde) {
+                            alert(`El horario de inicio de la tarde debe ser anterior al horario de fin de la tarde para el día ${dia}.`);
+                            valid = false; 
+                        }
+
+                        if ((!horaInicioManana || !horaFinManana) && (!horaInicioTarde || !horaFinTarde)) {
+                            alert(`Por favor, ingresa al menos un horario válido para el día ${dia}.`);
+                            valid = false; 
+                        }
+                    });
+
+                    return valid;
+                }
+
+                // Validación de formularios
+                document.addEventListener("DOMContentLoaded", function() {
+                    const horarioFijoForm = document.getElementById('horarioFijoForm');
+                    const horarioPersonalizadoForm = document.getElementById('horarioPersonalizadoForm');
+
+                    // Validación de Horario Fijo
+                    if (horarioFijoForm) {
+                        console.log("Formulario de horario fijo encontrado.");
+
+                        horarioFijoForm.addEventListener('submit', function(event) {
+                            console.log("Evento submit activado para horario fijo.");
+                            if (!validarHorarios(horarioFijoForm)) {
+                                console.log("Validación de horario fijo fallida.");
+                                event.preventDefault(); 
+                            } else {
+                                console.log("Validación de horario fijo exitosa, formulario enviado.");
+                            }
+                        });
+                    } else {
+                        console.error("Formulario de horario fijo no encontrado.");
+                    }
+
+                    // Validación de Horario Personalizado
+                    if (horarioPersonalizadoForm) {
+                        console.log("Formulario de horario personalizado encontrado.");
+
+                        horarioPersonalizadoForm.addEventListener('submit', function(event) {
+                            console.log("Evento submit activado para horario personalizado.");
+                            if (!validarHorariosPersonalizados(horarioPersonalizadoForm)) {
+                                console.log("Validación de horario personalizado fallida.");
+                                event.preventDefault(); 
+                            } else {
+                                console.log("Validación de horario personalizado exitosa, formulario enviado.");
+                            }
+                        });
+                    } else {
+                        console.error("Formulario de horario personalizado no encontrado.");
+                    }
+
+                    // Código para pestañas
+                    const tabs = document.querySelectorAll('.tab_btn');
+                    const all_content = document.querySelectorAll('.content');
+
+                    tabs.forEach((tab, index) => {
+                        tab.addEventListener('click', (e) => { 
+                            tabs.forEach(tab => { tab.classList.remove('active') });
+                            tab.classList.add('active');
+                            var line = document.querySelector('.line');
+                            line.style.width = e.target.offsetWidth + "px"; 
+                            line.style.left = e.target.offsetLeft + "px"; 
+                            all_content.forEach(content => { content.classList.remove('active') });
+                            all_content[index].classList.add('active');
+                        })
+                    });
+
+                    // Mostrar pestaña por defecto
+                    tabs[0].click(); 
                 });
             </script>
 

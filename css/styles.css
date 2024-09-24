@@ -3,6 +3,20 @@
     padding: 0;
     box-sizing: border-box;
 }
+.alert {
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+    color: #ffffff;
+}
+
+.alert-success {
+    background-color: #4CAF50; /* Verde para éxito */
+}
+
+.alert-danger {
+    background-color: #f44336; /* Rojo para error */
+}
 body {
     margin: 0;
     padding: 0;
