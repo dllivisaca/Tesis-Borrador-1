@@ -350,28 +350,29 @@
                                 <tr>
                                     <td class="label-td" colspan="2">
                                         <form id="horarioFijoForm" action="" method="POST" class="add-new-form">
-                                            <input type="checkbox" id="checkboxLunes" name="day_schedule[]" value="Lunes"> <label for="checkboxLunes">Lunes</label><br>
-                                            <input type="checkbox" id="checkboxMartes" name="day_schedule[]" value="Martes"> <label for="checkboxMartes">Martes</label><br>
-                                            <input type="checkbox" id="checkboxMiercoles" name="day_schedule[]" value="Miercoles"> <label for="checkboxMiercoles">Miércoles</label><br>
-                                            <input type="checkbox" id="checkboxJueves" name="day_schedule[]" value="Jueves"> <label for="checkboxJueves">Jueves</label><br>
-                                            <input type="checkbox" id="checkboxViernes" name="day_schedule[]" value="Viernes"> <label for="checkboxViernes">Viernes</label><br>
-                                            <input type="checkbox" id="checkboxSabado" name="day_schedule[]" value="Sabado"> <label for="checkboxSabado">Sábado</label><br>
-                                            <input type="checkbox" id="checkboxDomingo" name="day_schedule[]" value="Domingo"> <label for="checkboxDomingo">Domingo</label><br><br>
+                                            <!-- Días de la semana con checkboxes -->
+                                        <input type="checkbox" id="checkboxLunes" name="day_schedule[]" value="Lunes"> <label for="checkboxLunes">Lunes</label><br>
+                                        <input type="checkbox" id="checkboxMartes" name="day_schedule[]" value="Martes"> <label for="checkboxMartes">Martes</label><br>
+                                        <input type="checkbox" id="checkboxMiercoles" name="day_schedule[]" value="Miercoles"> <label for="checkboxMiercoles">Miércoles</label><br>
+                                        <input type="checkbox" id="checkboxJueves" name="day_schedule[]" value="Jueves"> <label for="checkboxJueves">Jueves</label><br>
+                                        <input type="checkbox" id="checkboxViernes" name="day_schedule[]" value="Viernes"> <label for="checkboxViernes">Viernes</label><br>
+                                        <input type="checkbox" id="checkboxSabado" name="day_schedule[]" value="Sabado"> <label for="checkboxSabado">Sábado</label><br>
+                                        <input type="checkbox" id="checkboxDomingo" name="day_schedule[]" value="Domingo"> <label for="checkboxDomingo">Domingo</label><br><br>
 
-                                            <!-- Horario de mañana -->
-                                            <label for="horainicioman" class="form-label">Horario de mañana: </label>
-                                            <input type="time" name="horainicioman" class="input-text" placeholder="Hora de inicio" >
-                                            <span class="col-auto"> - </span>
-                                            <input type="time" name="horafinman" class="input-text" placeholder="Hora de fin" ><br><br>
+                                        <!-- Horario de mañana -->
+                                        <label for="horainicioman" class="form-label">Horario de mañana: </label>
+                                        <select name="horainicioman" class="input-text"></select>
+                                        <span class="col-auto"> - </span>
+                                        <select name="horafinman" class="input-text"></select><br><br>
 
-                                            <!-- Horario de tarde -->
-                                            <label for="horainiciotar" class="form-label">Horario de tarde: </label>
-                                            <input type="time" name="horainiciotar" class="input-text" placeholder="Hora de inicio" >
-                                            <span class="col-auto"> - </span>
-                                            <input type="time" name="horafintar" class="input-text" placeholder="Hora de fin" ><br><br>
+                                        <!-- Horario de tarde -->
+                                        <label for="horainiciotar" class="form-label">Horario de tarde: </label>
+                                        <select name="horainiciotar" class="input-text"></select>
+                                        <span class="col-auto"> - </span>
+                                        <select name="horafintar" class="input-text"></select><br><br>
 
-                                            <!-- Botón para agregar el horario -->
-                                            <input type="submit" value="Agregar horario" class="login-btn btn-primary btn" name="shedulesubmit">
+                                        <!-- Botón para agregar el horario -->
+                                        <input type="submit" value="Agregar horario" class="login-btn btn-primary btn" name="shedulesubmit">
                                         </form>
                                     </td>
                                 </tr>
@@ -437,15 +438,106 @@
                             <th>Horario de Tarde</th>
                         </tr>
                         <?php
-                        $dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+                        /* $dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
                         foreach ($dias_semana as $dia) {
                             echo '<tr>';
                             echo '<td><input type="checkbox" name="dias[]" value="'.$dia.'"> '.$dia.'</td>';
                             echo '<td>Inicio: <input type="time" name="horainicioman_'.$dia.'"> Fin: <input type="time" name="horafinman_'.$dia.'"></td>';
                             echo '<td>Inicio: <input type="time" name="horainiciotar_'.$dia.'"> Fin: <input type="time" name="horafintar_'.$dia.'"></td>';
                             echo '</tr>';
-                        }
+                        } */
                         ?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="dias[]" value="Lunes"> Lunes
+                            </td>
+                            <td>
+                                Inicio: <select name="horainicioman_Lunes"></select> 
+                                Fin: <select name="horafinman_Lunes"></select>
+                            </td>
+                            <td>
+                                Inicio: <select name="horainiciotar_Lunes"></select> 
+                                Fin: <select name="horafintar_Lunes"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="dias[]" value="Martes"> Martes
+                            </td>
+                            <td>
+                                Inicio: <select name="horainicioman_Martes"></select> 
+                                Fin: <select name="horafinman_Martes"></select>
+                            </td>
+                            <td>
+                                Inicio: <select name="horainiciotar_Martes"></select> 
+                                Fin: <select name="horafintar_Martes"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            <input type="checkbox" name="dias[]" value="Miércoles"> Miércoles
+                        </td>
+                        <td>
+                            Inicio: <select name="horainicioman_Miércoles"></select> 
+                            Fin: <select name="horafinman_Miércoles"></select>
+                        </td>
+                        <td>
+                            Inicio: <select name="horainiciotar_Miércoles"></select> 
+                            Fin: <select name="horafintar_Miércoles"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="dias[]" value="Jueves"> Jueves
+                        </td>
+                        <td>
+                            Inicio: <select name="horainicioman_Jueves"></select> 
+                            Fin: <select name="horafinman_Jueves"></select>
+                        </td>
+                        <td>
+                            Inicio: <select name="horainiciotar_Jueves"></select> 
+                            Fin: <select name="horafintar_Jueves"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="dias[]" value="Viernes"> Viernes
+                        </td>
+                        <td>
+                            Inicio: <select name="horainicioman_Viernes"></select> 
+                            Fin: <select name="horafinman_Viernes"></select>
+                        </td>
+                        <td>
+                            Inicio: <select name="horainiciotar_Viernes"></select> 
+                            Fin: <select name="horafintar_Viernes"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="dias[]" value="Sábado"> Sábado
+                        </td>
+                        <td>
+                            Inicio: <select name="horainicioman_Sábado"></select> 
+                            Fin: <select name="horafinman_Sábado"></select>
+                        </td>
+                        <td>
+                            Inicio: <select name="horainiciotar_Sábado"></select> 
+                            Fin: <select name="horafintar_Sábado"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="dias[]" value="Domingo"> Domingo
+                        </td>
+                        <td>
+                            Inicio: <select name="horainicioman_Domingo"></select> 
+                            Fin: <select name="horafinman_Domingo"></select>
+                        </td>
+                        <td>
+                            Inicio: <select name="horainiciotar_Domingo"></select> 
+                            Fin: <select name="horafintar_Domingo"></select>
+                        </td>
+                    </tr>
                         <tr>
                             <td colspan="2">&nbsp;</td>
                         </tr>
@@ -485,6 +577,73 @@
             </script> -->
 
             <script>
+                // Función para generar opciones de horarios en intervalos de 30 minutos
+                function generarOpcionesHorario(selectElement, horaInicio, horaFin) {
+                    const minutosIntervalo = 30;
+                    const horaInicioArr = horaInicio.split(':');
+                    const horaFinArr = horaFin.split(':');
+
+                    const horaInicial = parseInt(horaInicioArr[0]);
+                    const minutoInicial = parseInt(horaInicioArr[1]);
+                    const horaFinal = parseInt(horaFinArr[0]);
+                    const minutoFinal = parseInt(horaFinArr[1]);
+
+                    selectElement.innerHTML = ''; // Limpiar opciones previas
+
+                    for (let hora = horaInicial; hora < horaFinal || (hora === horaFinal && minutoInicial < minutoFinal); hora++) {
+                        for (let minuto = 0; minuto < 60; minuto += minutosIntervalo) {
+                            const horaFormateada = (hora < 10 ? '0' : '') + hora + ':' + (minuto < 10 ? '0' : '') + minuto;
+                            const siguienteHora = (hora + (minuto + minutosIntervalo) / 60) | 0;
+                            const siguienteMinuto = (minuto + minutosIntervalo) % 60;
+                            const siguienteHoraFormateada = (siguienteHora < 10 ? '0' : '') + siguienteHora + ':' + (siguienteMinuto < 10 ? '0' : '') + siguienteMinuto;
+                            if (siguienteHoraFormateada <= horaFin) {
+                                const opcionTexto = `${horaFormateada} - ${siguienteHoraFormateada}`;
+                                const opcionValor = horaFormateada;
+                                const opcion = new Option(opcionTexto, opcionValor);
+                                selectElement.add(opcion);
+                            }
+                        }
+                    }
+                }
+
+                // Generar opciones de horario para formulario de horario fijo
+                if (horarioFijoForm) {
+                    const selectInicioManana = horarioFijoForm.querySelector('select[name="horainicioman"]');
+                    const selectFinManana = horarioFijoForm.querySelector('select[name="horafinman"]');
+                    const selectInicioTarde = horarioFijoForm.querySelector('select[name="horainiciotar"]');
+                    const selectFinTarde = horarioFijoForm.querySelector('select[name="horafintar"]');
+
+                    // Generar opciones de 07:00 a 12:00 para la mañana
+                    generarOpcionesHorario(selectInicioManana, '07:00', '12:00');
+                    generarOpcionesHorario(selectFinManana, '07:30', '12:30');
+
+                    // Generar opciones de 13:00 a 18:00 para la tarde
+                    generarOpcionesHorario(selectInicioTarde, '13:00', '18:00');
+                    generarOpcionesHorario(selectFinTarde, '13:30', '18:30');
+        }
+
+                // Generar opciones de horario para formulario de horario personalizado
+                if (horarioPersonalizadoForm) {
+                    const diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+
+                    diasSemana.forEach(dia => {
+                        const selectInicioManana = horarioPersonalizadoForm.querySelector(`select[name="horainicioman_${dia}"]`);
+                        const selectFinManana = horarioPersonalizadoForm.querySelector(`select[name="horafinman_${dia}"]`);
+                        const selectInicioTarde = horarioPersonalizadoForm.querySelector(`select[name="horainiciotar_${dia}"]`);
+                        const selectFinTarde = horarioPersonalizadoForm.querySelector(`select[name="horafintar_${dia}"]`);
+
+                        if (selectInicioManana && selectFinManana) {
+                            generarOpcionesHorario(selectInicioManana, '07:00', '12:00');
+                            generarOpcionesHorario(selectFinManana, '07:30', '12:30');
+                        }
+
+                        if (selectInicioTarde && selectFinTarde) {
+                            generarOpcionesHorario(selectInicioTarde, '13:00', '18:00');
+                            generarOpcionesHorario(selectFinTarde, '13:30', '18:30');
+                        }
+                    });
+                }
+
                // Función para validar horarios fijos
                 function validarHorarios(formulario) {
                     // Obtener los valores de los inputs
@@ -616,9 +775,6 @@
                     tabs[0].click(); 
                 });
             </script>
-
-
-
             
 </body>
 </html>
