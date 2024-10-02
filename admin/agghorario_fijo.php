@@ -590,6 +590,11 @@
 
                     selectElement.innerHTML = ''; // Limpiar opciones previas
 
+                    // Agregar opción por defecto vacía y deshabilitada
+                    const opcionDefault = new Option('Seleccione', '', true, true);
+                    opcionDefault.disabled = true;
+                    selectElement.add(opcionDefault);
+
                     for (let hora = horaInicial; hora < horaFinal || (hora === horaFinal && minutoInicial < minutoFinal); hora++) {
                         for (let minuto = 0; minuto < 60; minuto += minutosIntervalo) {
                             const horaFormateada = (hora < 10 ? '0' : '') + hora + ':' + (minuto < 10 ? '0' : '') + minuto;
@@ -646,11 +651,43 @@
 
                // Función para validar horarios fijos
                 function validarHorarios(formulario) {
+                    // Verificar si al menos un día está seleccionado
+                    const diasSeleccionados = formulario.querySelectorAll('input[name="day_schedule[]"]:checked');
+                    if (diasSeleccionados.length === 0) {
+                        alert("Por favor, selecciona al menos un día.");
+                        return false;
+                    }
+
                     // Obtener los valores de los inputs
-                    const horaInicioManana = formulario.querySelector('input[name="horainicioman"]').value;
-                    const horaFinManana = formulario.querySelector('input[name="horafinman"]').value;
-                    const horaInicioTarde = formulario.querySelector('input[name="horainiciotar"]').value;
-                    const horaFinTarde = formulario.querySelector('input[name="horafintar"]').value;
+                    const horaInicioManana = formulario.querySelector('select[name="horainicioman"]').value;
+                    const horaFinManana = formulario.querySelector('select[name="horafinman"]').value;
+                    const horaInicioTarde = formulario.querySelector('select[name="horainiciotar"]').value;
+                    const horaFinTarde = formulario.querySelector('select[name="horafintar"]').value;
+
+                    console.log("Hora de inicio mañana:", horaInicioManana);
+                    console.log("Hora de fin mañana:", horaFinManana);
+                    console.log("Hora de inicio tarde:", horaInicioTarde);
+                    console.log("Hora de fin tarde:", horaFinTarde);
+
+                    // Validación para la mañana: si se selecciona una hora de inicio, también debe haber una hora de fin, y viceversa.
+                    if (horaInicioManana && !horaFinManana) {
+                        alert("Por favor, selecciona una hora de fin para la mañana.");
+                        return false;
+                    }
+                    if (!horaInicioManana && horaFinManana) {
+                        alert("Por favor, selecciona una hora de inicio para la mañana.");
+                        return false;
+                    }
+
+                     // Validación para la tarde: si se selecciona una hora de inicio, también debe haber una hora de fin, y viceversa.
+                    if (horaInicioTarde && !horaFinTarde) {
+                        alert("Por favor, selecciona una hora de fin para la tarde.");
+                        return false;
+                    }
+                    if (!horaInicioTarde && horaFinTarde) {
+                        alert("Por favor, selecciona una hora de inicio para la tarde.");
+                        return false;
+                    }
 
                     // Mostrar valores en consola para depuración
                     console.log("Hora de inicio de mañana:", horaInicioManana);
@@ -658,26 +695,24 @@
                     console.log("Hora de inicio de tarde:", horaInicioTarde);
                     console.log("Hora de fin de tarde:", horaFinTarde);
 
-                    // Validación de la mañana
-                    if (horaInicioManana && horaFinManana) {
-                        if (horaInicioManana >= horaFinManana) {
-                            alert("El horario de inicio de la mañana debe ser anterior al horario de fin de la mañana.");
-                            return false; 
-                        }
+                    
+
+                    // Validación de la mañana: la hora de inicio debe ser anterior a la hora de fin
+                    if (horaInicioManana && horaFinManana && horaInicioManana >= horaFinManana) {
+                        alert("El horario de inicio de la mañana debe ser anterior al horario de fin de la mañana.");
+                        return false;
                     }
 
-                    // Validación de la tarde
-                    if (horaInicioTarde && horaFinTarde) {
-                        if (horaInicioTarde >= horaFinTarde) {
-                            alert("El horario de inicio de la tarde debe ser anterior al horario de fin de la tarde.");
-                            return false; 
-                        }
+                    // Validación de la tarde: la hora de inicio debe ser anterior a la hora de fin
+                    if (horaInicioTarde && horaFinTarde && horaInicioTarde >= horaFinTarde) {
+                        alert("El horario de inicio de la tarde debe ser anterior al horario de fin de la tarde.");
+                        return false;
                     }
 
-                    // Validar que al menos un horario esté ingresado
-                    if ((!horaInicioManana || !horaFinManana) && (!horaInicioTarde || !horaFinTarde)) {
-                        alert("Por favor, ingresa al menos un horario válido.");
-                        return false; 
+                    // Validar que al menos un horario esté ingresado (mañana o tarde)
+                    if ((!horaInicioManana && !horaFinManana) && (!horaInicioTarde && !horaFinTarde)) {
+                        alert("Por favor, ingresa al menos un horario válido para la mañana o la tarde.");
+                        return false;
                     }
 
                     // Si todo está bien, retornamos true
@@ -690,26 +725,48 @@
                     const diasSeleccionados = formulario.querySelectorAll('input[name="dias[]"]:checked');
                     let valid = true;
 
+                    // Asegurarse de que al menos un día esté seleccionado
+                    if (diasSeleccionados.length === 0) {
+                        alert("Por favor, selecciona al menos un día.");
+                        return false;
+                    }
+
                     diasSeleccionados.forEach((diaCheckbox) => {
                         const dia = diaCheckbox.value;
-                        const horaInicioManana = formulario.querySelector(`input[name="horainicioman_${dia}"]`).value;
-                        const horaFinManana = formulario.querySelector(`input[name="horafinman_${dia}"]`).value;
-                        const horaInicioTarde = formulario.querySelector(`input[name="horainiciotar_${dia}"]`).value;
-                        const horaFinTarde = formulario.querySelector(`input[name="horafintar_${dia}"]`).value;
+                        const horaInicioManana = formulario.querySelector(`select[name="horainicioman_${dia}"]`).value;
+                        const horaFinManana = formulario.querySelector(`select[name="horafinman_${dia}"]`).value;
+                        const horaInicioTarde = formulario.querySelector(`select[name="horainiciotar_${dia}"]`).value;
+                        const horaFinTarde = formulario.querySelector(`select[name="horafintar_${dia}"]`).value;
 
+                        // Validación de la mañana: si se ingresa una hora de inicio, también se debe ingresar la hora de fin y viceversa
+                        if ((horaInicioManana && !horaFinManana) || (!horaInicioManana && horaFinManana)) {
+                            alert(`Por favor, ingresa tanto la hora de inicio como la hora de fin de la mañana para el día ${dia}.`);
+                            valid = false;
+                        }
+
+                        // Validación de la tarde: si se ingresa una hora de inicio, también se debe ingresar la hora de fin y viceversa
+                        if ((horaInicioTarde && !horaFinTarde) || (!horaInicioTarde && horaFinTarde)) {
+                            alert(`Por favor, ingresa tanto la hora de inicio como la hora de fin de la tarde para el día ${dia}.`);
+                            valid = false;
+                        }
+
+
+                        // Validación de que la hora de inicio de la mañana sea anterior a la de fin
                         if (horaInicioManana && horaFinManana && horaInicioManana >= horaFinManana) {
                             alert(`El horario de inicio de la mañana debe ser anterior al horario de fin de la mañana para el día ${dia}.`);
-                            valid = false; 
+                            valid = false;
                         }
 
+                        // Validación de que la hora de inicio de la tarde sea anterior a la de fin
                         if (horaInicioTarde && horaFinTarde && horaInicioTarde >= horaFinTarde) {
                             alert(`El horario de inicio de la tarde debe ser anterior al horario de fin de la tarde para el día ${dia}.`);
-                            valid = false; 
+                            valid = false;
                         }
 
-                        if ((!horaInicioManana || !horaFinManana) && (!horaInicioTarde || !horaFinTarde)) {
-                            alert(`Por favor, ingresa al menos un horario válido para el día ${dia}.`);
-                            valid = false; 
+                        // Validar que al menos un horario (mañana o tarde) esté ingresado para cada día seleccionado
+                        if (!horaInicioManana && !horaFinManana && !horaInicioTarde && !horaFinTarde) {
+                            alert(`Por favor, ingresa al menos un horario válido (mañana o tarde) para el día ${dia}.`);
+                            valid = false;
                         }
                     });
 
