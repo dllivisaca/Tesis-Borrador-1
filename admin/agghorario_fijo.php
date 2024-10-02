@@ -65,7 +65,7 @@
 
     session_start();
 
-    // Mostrar mensajes de éxito o error si existen
+    /* // Mostrar mensajes de éxito o error si existen
     if (isset($_SESSION['success_message'])) {
         echo '<p style="color: green;">' . $_SESSION['success_message'] . '</p>';
         unset($_SESSION['success_message']); // Eliminar el mensaje para evitar que se muestre nuevamente
@@ -75,6 +75,19 @@
         echo '<p style="color: red;">' . $_SESSION['error_message'] . '</p>';
         unset($_SESSION['error_message']); // Eliminar el mensaje para evitar que se muestre nuevamente
     }
+ */
+        /* // Mostrar el pop-up si se ha agregado el horario correctamente
+        if (isset($_SESSION['success_message'])) {
+            echo "
+            <script>
+                alert('" . $_SESSION['success_message'] . "');
+                setTimeout(function(){
+                    window.location.href = 'horarios2.php';
+                }, 2000); // Redirige después de 2 segundos
+            </script>
+            ";
+            unset($_SESSION['success_message']); // Eliminar el mensaje después de mostrarlo
+        }
 
 
     if(isset($_SESSION["usuario"])){
@@ -88,6 +101,38 @@
     }
 
     //import database
+    include("../conexion_db.php"); */
+
+    // Mostrar el pop-up si se ha agregado el horario correctamente
+    if (isset($_SESSION['success_message'])) {
+        echo "
+        <script>
+            alert('" . $_SESSION['success_message'] . "');
+            setTimeout(function(){
+                window.location.href = 'horarios2.php';
+            }, 2000); // Redirige después de 2 segundos
+        </script>
+        ";
+        unset($_SESSION['success_message']); // Eliminar el mensaje después de mostrarlo
+    }
+
+    // Mostrar error si algo salió mal
+    if (isset($_SESSION['error_message'])) {
+        echo "<p style='color: red;'>" . $_SESSION['error_message'] . "</p>";
+        unset($_SESSION['error_message']);
+    }
+
+    if (isset($_SESSION["usuario"])) {
+        if (($_SESSION["usuario"]) == "" || $_SESSION['usuario_rol'] != 'adm') {
+            header("location: ../login.php");
+            exit;
+        }
+    } else {
+        header("location: ../login.php");
+        exit;
+    }
+
+    // Importar la conexión a la base de datos
     include("../conexion_db.php");
 
     // Procesar los datos del formulario
@@ -108,9 +153,9 @@
                                 VALUES ('$doctor_id', '$day', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
             
                         if ($database->query($sql)) {
-                            $_SESSION['success_message'] = "Horario para el día $day agregado correctamente.";
+                            $_SESSION['success_message'] = "Horario agregado correctamente.";
                         } else {
-                            $_SESSION['error_message'] = "Error al agregar el horario para el día $day: " . $database->error;
+                            $_SESSION['error_message'] = "Error al agregar el horario" . $database->error;
                         }
                     }
                 }
@@ -130,9 +175,9 @@
                                     VALUES ('$doctor_id', '$dia', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
 
                             if ($database->query($sql)) {
-                                $_SESSION['success_message'] = "Horario personalizado para el día $dia agregado correctamente.";
+                                $_SESSION['success_message'] = "Horario agregado correctamente.";
                             } else {
-                                $_SESSION['error_message'] = "Error al agregar el horario personalizado para el día $dia: " . $database->error;
+                                $_SESSION['error_message'] = "Error al agregar el horario" . $database->error;
                             }
                         }
                     }
