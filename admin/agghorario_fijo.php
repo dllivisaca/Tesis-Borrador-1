@@ -595,18 +595,15 @@
                     opcionDefault.disabled = true;
                     selectElement.add(opcionDefault);
 
-                    for (let hora = horaInicial; hora < horaFinal || (hora === horaFinal && minutoInicial < minutoFinal); hora++) {
+                    for (let hora = horaInicial; hora <= horaFinal; hora++) {
                         for (let minuto = 0; minuto < 60; minuto += minutosIntervalo) {
-                            const horaFormateada = (hora < 10 ? '0' : '') + hora + ':' + (minuto < 10 ? '0' : '') + minuto;
-                            const siguienteHora = (hora + (minuto + minutosIntervalo) / 60) | 0;
-                            const siguienteMinuto = (minuto + minutosIntervalo) % 60;
-                            const siguienteHoraFormateada = (siguienteHora < 10 ? '0' : '') + siguienteHora + ':' + (siguienteMinuto < 10 ? '0' : '') + siguienteMinuto;
-                            if (siguienteHoraFormateada <= horaFin) {
-                                const opcionTexto = `${horaFormateada} - ${siguienteHoraFormateada}`;
-                                const opcionValor = horaFormateada;
-                                const opcion = new Option(opcionTexto, opcionValor);
-                                selectElement.add(opcion);
-                            }
+                            if (hora === horaFinal && minuto >= minutoFinal) break;
+
+                            const horaFormateada = (hora < 10 ? '0' : '') + hora + 'h' + (minuto < 10 ? '0' : '') + minuto;
+                            const opcionTexto = `${horaFormateada}`;
+                            const opcionValor = `${hora < 10 ? '0' : ''}${hora}:${minuto < 10 ? '0' : ''}${minuto}:00`;
+                            const opcion = new Option(opcionTexto, opcionValor);
+                            selectElement.add(opcion);
                         }
                     }
                 }
