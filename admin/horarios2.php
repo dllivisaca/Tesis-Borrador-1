@@ -285,94 +285,88 @@
                                     </center></td></tr>';
                                 } else {
                                     // Agrupar los resultados por doctor
-                                    $horariosPorDoctor = [];
+                                    $doctores = [];
                                     while ($row = $result->fetch_assoc()) {
                                         $docid = $row['docid'];
                                         $docnombre = $row['docnombre'];
                                         $espe = $row['especialidades'];
-                                        $dia_semana = !empty($row['dia_semana']) ? $row['dia_semana'] : '';  // Evitar mostrar "N/A"
-                                        $horainicioman = $row['horainicioman'] ?? '00:00:00';
-                                        $horafinman = $row['horafinman'] ?? '00:00:00';
-                                        $horainiciotar = $row['horainiciotar'] ?? '00:00:00';
-                                        $horafintar = $row['horafintar'] ?? '00:00:00';
                                 
-                                        // Obtener el nombre de la especialidad
+                                        // Obtener la especialidad del doctor
                                         $especial_res = $database->query("SELECT espnombre FROM especialidades WHERE id='$espe'");
                                         $especial_array = $especial_res->fetch_assoc();
                                         $especial_name = $especial_array['espnombre'] ?? 'N/A';
                                 
-                                        // Agrupar horarios por doctor
-                                        if (!isset($horariosPorDoctor[$docid])) {
-                                            $horariosPorDoctor[$docid] = [
+                                        // Inicializar el array si el doctor no está ya registrado
+                                        if (!isset($doctores[$docid])) {
+                                            $doctores[$docid] = [
                                                 'docnombre' => $docnombre,
                                                 'especialidad' => $especial_name,
                                                 'horarios' => []
                                             ];
                                         }
                                 
-                                        // Formatear los horarios
-                                        $horario_disponible = '';
-                                        if ($horainicioman != '00:00:00' && $horafinman != '00:00:00') {
-                                            $horario_disponible .= 'Mañana: ' . substr($horainicioman, 0, 5) . ' - ' . substr($horafinman, 0, 5) . '<br>';
-                                        }
-                                        if ($horainiciotar != '00:00:00' && $horafintar != '00:00:00') {
-                                            $horario_disponible .= 'Tarde: ' . substr($horainiciotar, 0, 5) . ' - ' . substr($horafintar, 0, 5);
-                                        }
-                                        if ($horario_disponible === '') {
-                                            $horario_disponible = 'No se encontraron horarios disponibles';
-                                        }
+                                        // Verificar si hay horarios disponibles
+                                        if (!empty($row['horainicioman']) || !empty($row['horainiciotar'])) {
+                                            $horarios_mostrar = '';
+                                            if (!empty($row['horainicioman']) && $row['horainicioman'] != "00:00" && $row['horafinman'] != "00:00") {
+                                                $horarios_mostrar .= substr($row['horainicioman'], 0, 5) . ' - ' . substr($row['horafinman'], 0, 5) . '<br>';
+                                            }
+                                            if (!empty($row['horainiciotar']) && $row['horainiciotar'] != "00:00" && $row['horafintar'] != "00:00") {
+                                                $horarios_mostrar .= substr($row['horainiciotar'], 0, 5) . ' - ' . substr($row['horafintar'], 0, 5);
+                                            }
                                 
-                                        $horariosPorDoctor[$docid]['horarios'][] = [
-                                            'dia_semana' => $dia_semana,
-                                            'horario' => $horario_disponible
-                                        ];
+                                            if (!empty($horarios_mostrar)) {
+                                                $doctores[$docid]['horarios'][] = [
+                                                    'dia_semana' => $row['dia_semana'] ?? 'N/A',
+                                                    'horario' => $horarios_mostrar
+                                                ];
+                                            }
+                                        }
                                     }
                                 
-                                    // Mostrar los horarios agrupados por doctor en dos columnas
-                                    foreach ($horariosPorDoctor as $doctor) {
+                                    // Mostrar los resultados por cada doctor
+                                    foreach ($doctores as $doctor) {
                                         echo '<tr>';
                                         echo '<td>' . $doctor['docnombre'] . '</td>';
                                         echo '<td>' . $doctor['especialidad'] . '</td>';
                                         echo '<td style="text-align:center;">';
                                 
-                                        // Dividir los horarios en dos columnas
-                                        $mitad = ceil(count($doctor['horarios']) / 2);
-                                        $column1 = array_slice($doctor['horarios'], 0, $mitad);
-                                        $column2 = array_slice($doctor['horarios'], $mitad);
+                                        if (empty($doctor['horarios'])) {
+                                            echo 'No se encontraron horarios disponibles';
+                                        } else {
+                                            // Mostrar los horarios en dos columnas
+                                            echo '<div style="display: flex; justify-content: space-around;">';
+                                            for ($i = 0; $i < count($doctor['horarios']); $i += 2) {
+                                                echo '<div style="width: 45%;">';
+                                                // Mostrar el día y los horarios de la primera columna
+                                                echo '<b>' . $doctor['horarios'][$i]['dia_semana'] . '</b><br>';
+                                                echo $doctor['horarios'][$i]['horario'] . '<br>';
                                 
-                                        echo '<div style="display: flex; justify-content: space-around;">';
-                                        echo '<div style="width: 45%;">';
-                                        foreach ($column1 as $horario) {
-                                            if (!empty($horario['dia_semana'])) {
-                                                echo $horario['dia_semana'] . ': ' . $horario['horario'] . '<br>';
-                                            } else {
-                                                echo $horario['horario'] . '<br>';
+                                                // Verificar si existe una segunda columna
+                                                if (isset($doctor['horarios'][$i + 1])) {
+                                                    echo '<b>' . $doctor['horarios'][$i + 1]['dia_semana'] . '</b><br>';
+                                                    echo $doctor['horarios'][$i + 1]['horario'] . '<br>';
+                                                }
+                                                echo '</div>';
                                             }
+                                            echo '</div>';
                                         }
-                                        echo '</div>';
-                                        echo '<div style="width: 45%;">';
-                                        foreach ($column2 as $horario) {
-                                            if (!empty($horario['dia_semana'])) {
-                                                echo $horario['dia_semana'] . ': ' . $horario['horario'] . '<br>';
-                                            } else {
-                                                echo $horario['horario'] . '<br>';
-                                            }
-                                        }
-                                        echo '</div>';
-                                        echo '</div>';
-                                
                                         echo '</td>';
-                                        echo '<td>
-                                            <a href="agghorario_fijo.php?id=' . $docid . '" class="non-style-link">
-                                                <button class="btn-primary-soft btn button-icon btn-view">Agregar horario</button>
-                                            </a>
-                                            <a href="?action=drop&id=' . $docid . '" class="non-style-link">
-                                                <button class="btn-primary-soft btn button-icon btn-delete">Editar</button>
-                                            </a>
-                                            <a href="agendar.php?id=' . $docid . '" class="non-style-link">
-                                                <button class="login-btn btn-primary-soft btn">Eliminar</button>
-                                            </a>
-                                        </td>';
+                                
+                                        echo '<td>';
+                                        if (empty($doctor['horarios'])) {
+                                            echo '<a href="agghorario_fijo.php?id=' . $docid . '" class="non-style-link">
+                                                    <button class="btn-primary-soft btn button-icon btn-view">Agregar horario</button>
+                                                  </a>';
+                                        } else {
+                                            echo '<a href="edit_horario.php?id=' . $docid . '" class="non-style-link">
+                                                    <button class="btn-primary-soft btn button-icon btn-view">Editar</button>
+                                                  </a>
+                                                  <a href="delete_horario.php?id=' . $docid . '" class="non-style-link">
+                                                    <button class="btn-primary-soft btn button-icon btn-delete">Eliminar</button>
+                                                  </a>';
+                                        }
+                                        echo '</td>';
                                         echo '</tr>';
                                     
                                 }
