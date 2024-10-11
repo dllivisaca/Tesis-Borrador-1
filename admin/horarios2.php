@@ -328,13 +328,14 @@
                                         ];
                                     }
                                 
-                                    // Mostrar los resultados por cada doctor
-                                    foreach ($doctores as $doctor) {
+                                    
+                            // Mostrar los resultados por cada doctor
+                                    foreach ($doctores as $docid => $doctor) {
                                         echo '<tr>';
                                         echo '<td>' . $doctor['docnombre'] . '</td>';
                                         echo '<td>' . $doctor['especialidad'] . '</td>';
                                         echo '<td style="text-align:center;">';
-                                
+
                                         if (empty($doctor['horarios'])) {
                                             echo 'No se encontraron horarios disponibles';
                                         } else {
@@ -345,7 +346,7 @@
                                                 // Mostrar el día y los horarios de la primera columna
                                                 echo '<b>' . $doctor['horarios'][$i]['dia_semana'] . '</b><br>';
                                                 echo $doctor['horarios'][$i]['horario'] . '<br>';
-                                
+
                                                 // Verificar si existe una segunda columna
                                                 if (isset($doctor['horarios'][$i + 1])) {
                                                     echo '<b>' . $doctor['horarios'][$i + 1]['dia_semana'] . '</b><br>';
@@ -356,25 +357,19 @@
                                             echo '</div>';
                                         }
                                         echo '</td>';
-                                
+
+                                        // Aquí es donde nos aseguramos de que el ID del doctor sea único para cada enlace de edición o eliminación
                                         echo '<td>';
-                                        if (empty($doctor['horarios'])) {
-                                            echo '<a href="agghorario_fijo.php?id=' . $docid . '" class="non-style-link">
-                                                    <button class="btn-primary-soft btn button-icon btn-view">Agregar horario</button>
-                                                  </a>';
-                                        } else {
-                                            echo '<a href="edit_horario.php?id=' . $docid . '" class="non-style-link">
-                                                    <button class="btn-primary-soft btn button-icon btn-view">Editar</button>
-                                                  </a>
-                                                  <a href="delete_horario.php?id=' . $docid . '" class="non-style-link">
-                                                    <button class="btn-primary-soft btn button-icon btn-delete">Eliminar</button>
-                                                  </a>';
-                                        }
+                                        echo '<a href="editar_horario.php?id=' . $docid . '" class="non-style-link">
+                                                <button class="btn-primary-soft btn button-icon btn-view">Editar</button>
+                                            </a>';
+                                        echo '<a href="delete_horario.php?id=' . $docid . '" class="non-style-link">
+                                                <button class="btn-primary-soft btn button-icon btn-delete">Eliminar</button>
+                                            </a>';
                                         echo '</td>';
                                         echo '</tr>';
                                     }
                                 }
-                                 
                             ?>
  
                             </tbody>
