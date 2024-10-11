@@ -213,12 +213,10 @@
                         disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar 
                         FROM doctor 
                         LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid";
-        
-                        
 
                         // Aplica el filtro por doctor si se selecciona uno
                         if (!empty($sqlpt2)) {
-                            $sqlmain .= " WHERE $sqlpt2";
+                        $sqlmain .= " WHERE $sqlpt2";
                         }
 
                     } else {
@@ -305,23 +303,29 @@
                                             ];
                                         }
                                 
-                                        // Verificar si hay horarios disponibles
-                                        if (!empty($row['horainicioman']) || !empty($row['horainiciotar'])) {
-                                            $horarios_mostrar = '';
-                                            if (!empty($row['horainicioman']) && $row['horainicioman'] != "00:00" && $row['horafinman'] != "00:00") {
-                                                $horarios_mostrar .= substr($row['horainicioman'], 0, 5) . ' - ' . substr($row['horafinman'], 0, 5) . '<br>';
-                                            }
-                                            if (!empty($row['horainiciotar']) && $row['horainiciotar'] != "00:00" && $row['horafintar'] != "00:00") {
-                                                $horarios_mostrar .= substr($row['horainiciotar'], 0, 5) . ' - ' . substr($row['horafintar'], 0, 5);
-                                            }
-                                
-                                            if (!empty($horarios_mostrar)) {
-                                                $doctores[$docid]['horarios'][] = [
-                                                    'dia_semana' => $row['dia_semana'] ?? 'N/A',
-                                                    'horario' => $horarios_mostrar
-                                                ];
-                                            }
+                                        // Variable para mostrar horarios válidos
+                                        $horarios_mostrar = '';
+
+                                        // Verificar que ambos valores (hora de inicio y fin) no sean "00:00:00" para el turno de la mañana
+                                        if (!empty($row['horainicioman']) && !empty($row['horafinman']) && $row['horainicioman'] !== "00:00:00" && $row['horafinman'] !== "00:00:00") {
+                                            $horarios_mostrar .= substr($row['horainicioman'], 0, 5) . ' - ' . substr($row['horafinman'], 0, 5) . '<br>';
                                         }
+
+                                        // Verificar que ambos valores (hora de inicio y fin) no sean "00:00:00" para el turno de la tarde
+                                        if (!empty($row['horainiciotar']) && !empty($row['horafintar']) && $row['horainiciotar'] !== "00:00:00" && $row['horafintar'] !== "00:00:00") {
+                                            $horarios_mostrar .= substr($row['horainiciotar'], 0, 5) . ' - ' . substr($row['horafintar'], 0, 5);
+                                        }
+
+                                        // Si no hay horarios válidos, saltar a la siguiente iteración
+                                        if (empty($horarios_mostrar)) {
+                                            continue;
+                                        }
+
+                                        // Añadir los horarios válidos al array de doctores
+                                        $doctores[$docid]['horarios'][] = [
+                                            'dia_semana' => $row['dia_semana'] ?? 'N/A',
+                                            'horario' => $horarios_mostrar
+                                        ];
                                     }
                                 
                                     // Mostrar los resultados por cada doctor
@@ -368,9 +372,8 @@
                                         }
                                         echo '</td>';
                                         echo '</tr>';
-                                    
+                                    }
                                 }
-                            }
                                  
                             ?>
  
