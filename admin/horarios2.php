@@ -358,8 +358,28 @@
                                         }
                                         echo '</td>';
 
-                                        // Aquí es donde nos aseguramos de que el ID del doctor sea único para cada enlace de edición o eliminación
+                                        // Mostrar el botón de "Agregar horario" si no tiene horarios
                                         echo '<td>';
+                                        if (empty($doctor['horarios'])) {
+                                            echo '<a href="agghorario_fijo.php?id=' . $docid . '" class="non-style-link">
+                                                    <button class="btn-primary-soft btn button-icon btn-add">Agregar horario</button>
+                                                </a>';
+                                        } else {
+                                            // Mostrar los botones "Editar" y "Eliminar" si tiene horarios
+                                            echo '<a href="editar_horario.php?id=' . $docid . '" class="non-style-link">
+                                                    <button class="btn-primary-soft btn button-icon btn-view">Editar</button>
+                                                </a>';
+                                            echo '<a href="delete_horario.php?id=' . $docid . '" class="non-style-link">
+                                                    <button class="btn-primary-soft btn button-icon btn-delete">Eliminar</button>
+                                                </a>';
+                                        }
+                                        echo '</td>';
+                                        echo '</tr>';
+                                    
+
+
+                                        // Aquí es donde nos aseguramos de que el ID del doctor sea único para cada enlace de edición o eliminación
+                                        /* echo '<td>';
                                         echo '<a href="editar_horario.php?id=' . $docid . '" class="non-style-link">
                                                 <button class="btn-primary-soft btn button-icon btn-view">Editar</button>
                                             </a>';
@@ -367,7 +387,7 @@
                                                 <button class="btn-primary-soft btn button-icon btn-delete">Eliminar</button>
                                             </a>';
                                         echo '</td>';
-                                        echo '</tr>';
+                                        echo '</tr>'; */
                                     }
                                 }
                             ?>
