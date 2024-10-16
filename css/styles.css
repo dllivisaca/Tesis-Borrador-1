@@ -1,8 +1,9 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 .alert {
     padding: 15px;
     margin: 15px 0;
@@ -17,132 +18,127 @@
 .alert-danger {
     background-color: #f44336; /* Rojo para error */
 }
+
 body {
     margin: 0;
     padding: 0;
-    display: flex;
+    font-family: Arial, sans-serif;
+    /* Elimina las propiedades flex que podrían limitar el ancho */
+    /* display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 100vh; /* Altura completa de la ventana */
-    flex-direction: column; /* Colocar elementos en columnas */
+    height: 100vh;
+    flex-direction: column; */
 }
 
 .container {
-    width: 80%; /* Aumentar el ancho del contenedor */
+    width: 100%; /* Cambiado de 80% a 100% */
+    max-width: 1200px; /* Opcional: establece un ancho máximo */
     background-color: #fff;
     padding: 20px;
-    /* box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 10px; */
-    margin-bottom: 20px; /* Espacio inferior para el tab_box */
-    position: relative; /* Asegura que el tab_box esté fuera */
-    display: flex; /* Alinear contenido dentro del contenedor */
-    flex-direction: column; /* Organiza el contenido en columna */
-    align-items: center; /* Centrar el contenido dentro del contenedor */
+    margin: 0 auto; /* Centra el contenedor */
+    /* Elimina align-items para evitar centrado horizontal */
+    /* align-items: center; */
 }
 
 .tab_box {
-    width: 80%; /* Asegura que tab_box ocupe el mismo ancho que el contenedor */
-    margin: 10px auto; /* Centrar y dar margen superior e inferior */
+    width: 100%; /* Asegura que tab_box ocupe todo el ancho */
+    max-width: 1200px; /* Opcional */
+    margin: 10px auto;
     display: flex;
     justify-content: center; /* Centrar los botones de las pestañas */
     align-items: center;
     background-color: #fff;
-    padding: 10px 0; /* Padding interno */    
+    padding: 10px 0;
 }
 
-.tab_box .tab_btn{
+.tab_box .tab_btn {
     font-size: 18px;
     font-weight: 600;
     color: violet;
     background: none;
     border: none;
-    padding: 10px 20px; /* Reduce el padding para menor altura */
+    padding: 10px 20px;
     cursor: pointer;
 }
 
-.tab_box .tab_btn.active{
+.tab_box .tab_btn.active {
     color: blue;
-    border-bottom: 3px solid blue; /* Añade subrayado a la pestaña activa */
+    border-bottom: 3px solid blue;
 }
 
 .content_box {
-    width: 80%; /* Asegura que el content_box esté alineado con el container */
+    width: 100%; /* Asegura que el content_box ocupe todo el ancho */
+    max-width: 1200px; /* Opcional */
     padding: 20px;
-    background-color: #fff; /* Color de fondo para diferenciar */
-    margin-top: 20px; /* Espacio superior para separación */
-    display: flex;
-    flex-direction: column; /* Colocar elementos dentro del content_box en columna */
-    align-items: center; /* Centrar el contenido dentro del content_box */
+    background-color: #fff;
+    margin-top: 20px;
+    /* Elimina align-items para evitar centrado horizontal */
+    /* align-items: center; */
 }
 
-
-.content_box .content{
+.content_box .content {
     display: none;
     animation: moving .5s ease;
 }
+
 @keyframes moving {
-    from{transform: translateX(50px);opacity: 0;}
-    to{transform: translateX(0px);opacity: 1;}
+    from { transform: translateX(50px); opacity: 0; }
+    to { transform: translateX(0px); opacity: 1; }
 }
 
-.content_box .content.active{
+.content_box .content.active {
     display: block;
 }
 
-.content_box .content h3{
+.content_box .content h3 {
     margin-bottom: 10px;
-}
-
-/* Ajustes para alinear la información de la especialidad y el doctor */
-/* Estilos generales */
-body {
-    font-family: Arial, sans-serif;
 }
 
 .sub-table {
     width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
-    border-collapse: collapse; /* Elimina el espacio entre celdas */
-    margin-bottom: 20px; /* Espacio inferior para separación */
+    border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
 .label-td {
-    font-weight: bold; /* Resalta las etiquetas */
-    text-align: right; /* Alinea las etiquetas a la derecha */
-    padding-right: 15px; /* Espacio entre la etiqueta y el contenido */
-    vertical-align: middle; /* Centra verticalmente el contenido */
+    font-weight: bold;
+    text-align: right;
+    padding-right: 15px;
+    vertical-align: middle;
 }
 
 .info-td {
-    text-align: left; /* Alinea la información a la izquierda */
-    padding-left: 15px; /* Espacio entre la información y la etiqueta */
-    vertical-align: middle; /* Centra verticalmente el contenido */
+    text-align: left;
+    padding-left: 15px;
+    vertical-align: middle;
 }
 
-.schedule-form {
-    margin-top: 20px; /* Espacio superior del formulario */
-    display: flex;
-    flex-direction: column; /* Organiza los elementos en columna */
-    align-items: center; /* Centra los elementos */
+.horario-table {
+    width: 100%; /* Asegura que la tabla ocupe todo el ancho del contenedor */
+    border-collapse: collapse;
 }
 
-.schedule-days {
-    display: flex; /* Establece el contenedor como flex */
-    flex-direction: column; /* Organiza los elementos en columna */
-    align-items: flex-start; /* Alinea los elementos al inicio (izquierda) */
-    margin-bottom: 20px; /* Espacio inferior para separación de los tiempos */
+.horario-table th, .horario-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
 }
 
-.day-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px; /* Espacio inferior entre los días */
+/* Ajusta el ancho de las columnas según tus necesidades */
+.horario-table th:nth-child(1), .horario-table td:nth-child(1) {
+    width: 35%; /* Incrementa el ancho de la columna de los días */
+}
+.horario-table th:nth-child(2), .horario-table td:nth-child(2),
+.horario-table th:nth-child(3), .horario-table td:nth-child(3) {
+    width: 32.5%; /* Ajusta el ancho de las columnas de horarios */
 }
 
-.day-item label {
-    margin-left: 5px; /* Espacio entre el checkbox y el texto */
-    text-align: left; /* Alinea el texto a la izquierda */
+.info-label {
+    font-weight: bold;
+    margin-top: 10px;
 }
 
-.day-item input[type="checkbox"] {
-    margin-right: 5px; /* Espacio entre el checkbox y el texto */
+.info-text {
+    margin-bottom: 15px;
 }

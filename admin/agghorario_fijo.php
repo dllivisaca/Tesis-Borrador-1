@@ -63,45 +63,7 @@
 
     //learn from w3schools.com
 
-    session_start();
-
-    /* // Mostrar mensajes de éxito o error si existen
-    if (isset($_SESSION['success_message'])) {
-        echo '<p style="color: green;">' . $_SESSION['success_message'] . '</p>';
-        unset($_SESSION['success_message']); // Eliminar el mensaje para evitar que se muestre nuevamente
-    }
-
-    if (isset($_SESSION['error_message'])) {
-        echo '<p style="color: red;">' . $_SESSION['error_message'] . '</p>';
-        unset($_SESSION['error_message']); // Eliminar el mensaje para evitar que se muestre nuevamente
-    }
- */
-        /* // Mostrar el pop-up si se ha agregado el horario correctamente
-        if (isset($_SESSION['success_message'])) {
-            echo "
-            <script>
-                alert('" . $_SESSION['success_message'] . "');
-                setTimeout(function(){
-                    window.location.href = 'horarios2.php';
-                }, 2000); // Redirige después de 2 segundos
-            </script>
-            ";
-            unset($_SESSION['success_message']); // Eliminar el mensaje después de mostrarlo
-        }
-
-
-    if(isset($_SESSION["usuario"])){
-        if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
-            header("location: ../login.php");
-            exit;
-        }
-    }else{
-        header("location: ../login.php");
-        exit;
-    }
-
-    //import database
-    include("../conexion_db.php"); */
+    session_start();    
 
     // Mostrar el pop-up si se ha agregado el horario correctamente
     if (isset($_SESSION['success_message'])) {
@@ -149,8 +111,9 @@
                     $horafintar = $_POST['horafintar'];
 
                     foreach ($days_selected as $day) {
-                        $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
-                                VALUES ('$doctor_id', '$day', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
+                        // Agregamos el campo tipo_horario con valor 'fijo'
+                        $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar,tipo_horario)
+                                VALUES ('$doctor_id', '$day', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar','fijo')";
             
                         if ($database->query($sql)) {
                             $_SESSION['success_message'] = "Horario agregado correctamente.";
@@ -171,8 +134,8 @@
                             $horainiciotar = $_POST['horainiciotar_' . $dia] ?? null;
                             $horafintar = $_POST['horafintar_' . $dia] ?? null;
 
-                            $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
-                                    VALUES ('$doctor_id', '$dia', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
+                            $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar,tipo_horario)
+                                    VALUES ('$doctor_id', '$dia', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar','personalizado')";
 
                             if ($database->query($sql)) {
                                 $_SESSION['success_message'] = "Horario agregado correctamente.";
