@@ -55,7 +55,211 @@ function compararHorarios($horarios_guardados, $nuevos_horarios) {
     return true; // No hay cambios
 }
 
-// Procesar la actualización de los horarios **ANTES DE CUALQUIER SALIDA**
+// Procesar la actualización de los horarios fijos
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitFijo'])) {
+    $docid = $_POST['docid'];
+    $dias = $_POST['dias'] ?? [];
+
+    $horainicioman = $_POST['horainicioman'] ?? null;
+    $horafinman = $_POST['horafinman'] ?? null;
+    $horainiciotar = $_POST['horainiciotar'] ?? null;
+    $horafintar = $_POST['horafintar'] ?? null;
+
+    // Validar que al menos un día fue seleccionado
+    if (empty($dias)) {
+        echo "<script>
+                alert('Por favor, selecciona al menos un día.');
+                window.location.href = 'horarios2.php';
+              </script>";
+        exit();
+    }
+
+    // Validar que si se selecciona una hora de inicio también se haya seleccionado una hora de fin (y viceversa)
+    if (($horainicioman && !$horafinman) || (!$horainicioman && $horafinman)) {
+        echo "<script>
+                alert('Por favor, selecciona tanto la hora de inicio como la hora de fin para la mañana.');
+                window.location.href = 'horarios2.php';
+              </script>";
+        exit();
+    }
+    if (($horainiciotar && !$horafintar) || (!$horainiciotar && $horafintar)) {
+        echo "<script>
+                alert('Por favor, selecciona tanto la hora de inicio como la hora de fin para la tarde.');
+                window.location.href = 'horarios2.php';
+              </script>";
+        exit();
+    }
+
+    // Normalizar los nuevos horarios (tratar NULL y vacío como cadenas vacías)
+    $nuevo_inicio_manana = !empty($horainicioman) ? trim($horainicioman) : '';
+    $nuevo_fin_manana = !empty($horafinman) ? trim($horafinman) : '';
+    $nuevo_inicio_tarde = !empty($horainiciotar) ? trim($horainiciotar) : '';
+    $nuevo_fin_tarde = !empty($horafintar) ? trim($horafintar) : '';
+
+    // Cargar los horarios guardados antes de la comparación
+    $sql_horarios_actuales = "SELECT * FROM disponibilidad_doctor WHERE docid = '$docid' AND tipo_horario = 'fijo'";
+    $result_horarios_actuales = $database->query($sql_horarios_actuales);
+
+    $horarios_guardados = [];
+    while ($horario = $result_horarios_actuales->fetch_assoc()) {
+        $dia_normalizado = normalizarNombreDia($horario['dia_semana']);
+        $horarios_guardados[$dia_normalizado] = [
+            'horainicioman' => isset($horario['horainicioman']) ? substr(trim($horario['horainicioman']), 0, 5) : '',
+            'horafinman' => isset($horario['horafinman']) ? substr(trim($horario['horafinman']), 0, 5) : '',
+            'horainiciotar' => isset($horario['horainiciotar']) ? substr(trim($horario['horainiciotar']), 0, 5) : '',
+            'horafintar' => isset($horario['horafintar']) ? substr(trim($horario['horafintar']), 0, 5) : '',
+        ];
+    }
+
+    // Construir los nuevos horarios para la comparación
+    $nuevos_horarios = [];
+    foreach ($dias as $dia) {
+        $dia_normalizado = normalizarNombreDia($dia);
+
+        $nuevos_horarios[$dia_normalizado] = [
+            'horainicioman' => $nuevo_inicio_manana,
+            'horafinman' => $nuevo_fin_manana,
+            'horainiciotar' => $nuevo_inicio_tarde,
+            'horafintar' => $nuevo_fin_tarde,
+        ];
+    }
+
+    // Comparar horarios para detectar cambios
+    if (compararHorarios($horarios_guardados, $nuevos_horarios)) {
+        // Si no hubo cambios, simplemente redirigir sin mostrar el mensaje de cambios guardados
+        echo "<script>
+                alert('No hubo cambios en los horarios.');
+                window.location.href = 'horarios2.php';
+            </script>";
+        exit();
+    }
+
+    // Inicializar la variable para marcar si hubo cambios
+    $cambios_realizados = false;
+
+    // Iterar sobre cada día seleccionado para actualizar o insertar
+    foreach ($dias as $dia) {
+        $dia_normalizado = normalizarNombreDia($dia);
+
+        // Verificar si ya existe un horario para el día
+        if (isset($horarios_guardados[$dia_normalizado])) {
+            $horario_existente = $horarios_guardados[$dia_normalizado];
+
+            // Comparar los horarios existentes con los nuevos horarios
+            $existe_cambio = (
+                $horario_existente['horainicioman'] !== $nuevo_inicio_manana ||
+                $horario_existente['horafinman'] !== $nuevo_fin_manana ||
+                $horario_existente['horainiciotar'] !== $nuevo_inicio_tarde ||
+                $horario_existente['horafintar'] !== $nuevo_fin_tarde
+            );
+
+            if ($existe_cambio) {
+                // Validar que la hora de fin sea mayor que la de inicio para mañana y tarde
+                if ($nuevo_inicio_manana >= $nuevo_fin_manana && $nuevo_inicio_manana !== '' && $nuevo_fin_manana !== '') {
+                    echo "<script>
+                            alert('La hora de inicio de la mañana debe ser anterior a la hora de fin');
+                            window.location.href = 'horarios2.php';
+                          </script>";
+                    exit();
+                }
+                if ($nuevo_inicio_tarde >= $nuevo_fin_tarde && $nuevo_inicio_tarde !== '' && $nuevo_fin_tarde !== '') {
+                    echo "<script>
+                            alert('La hora de inicio de la tarde debe ser anterior a la hora de fin');
+                            window.location.href = 'horarios2.php';
+                          </script>";
+                    exit();
+                }
+
+                // Realizar el UPDATE
+                $sql_update = "UPDATE disponibilidad_doctor 
+                            SET horainicioman = " . ($nuevo_inicio_manana !== '' ? "'" . $database->real_escape_string($nuevo_inicio_manana) . "'" : "NULL") . ",
+                                horafinman = " . ($nuevo_fin_manana !== '' ? "'" . $database->real_escape_string($nuevo_fin_manana) . "'" : "NULL") . ",
+                                horainiciotar = " . ($nuevo_inicio_tarde !== '' ? "'" . $database->real_escape_string($nuevo_inicio_tarde) . "'" : "NULL") . ",
+                                horafintar = " . ($nuevo_fin_tarde !== '' ? "'" . $database->real_escape_string($nuevo_fin_tarde) . "'" : "NULL") . "
+                            WHERE docid = '$docid' AND dia_semana = '$dia_normalizado' AND tipo_horario = 'fijo'";
+                if (!$database->query($sql_update)) {
+                    echo "<script>
+                            alert('Error al actualizar los horarios.');
+                            window.location.href = 'horarios2.php';
+                        </script>";
+                    exit();
+                }
+
+                $cambios_realizados = true;
+            }
+        } else {
+            // Si no existe, realizar el INSERT
+            // Validar que la hora de fin sea mayor que la de inicio para mañana y tarde
+            if ($nuevo_inicio_manana >= $nuevo_fin_manana && $nuevo_inicio_manana !== '' && $nuevo_fin_manana !== '') {
+                echo "<script>
+                        alert('La hora de inicio de la mañana debe ser anterior a la hora de fin');
+                        window.location.href = 'horarios2.php';
+                      </script>";
+                exit();
+            }
+            if ($nuevo_inicio_tarde >= $nuevo_fin_tarde && $nuevo_inicio_tarde !== '' && $nuevo_fin_tarde !== '') {
+                echo "<script>
+                        alert('La hora de inicio de la tarde debe ser anterior a la hora de fin');
+                        window.location.href = 'horarios2.php';
+                      </script>";
+                exit();
+            }
+
+            $sql_insert = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar, tipo_horario) 
+                        VALUES ('$docid', '$dia_normalizado', 
+                                " . ($nuevo_inicio_manana !== '' ? "'" . $database->real_escape_string($nuevo_inicio_manana) . "'" : "NULL") . ", 
+                                " . ($nuevo_fin_manana !== '' ? "'" . $database->real_escape_string($nuevo_fin_manana) . "'" : "NULL") . ", 
+                                " . ($nuevo_inicio_tarde !== '' ? "'" . $database->real_escape_string($nuevo_inicio_tarde) . "'" : "NULL") . ", 
+                                " . ($nuevo_fin_tarde !== '' ? "'" . $database->real_escape_string($nuevo_fin_tarde) . "'" : "NULL") . ", 
+                                'fijo')";
+
+            if (!$database->query($sql_insert)) {
+                echo "<script>
+                        alert('Error al insertar los nuevos horarios.');
+                        window.location.href = 'horarios2.php';
+                    </script>";
+                exit();
+            }
+
+            $cambios_realizados = true;
+        }
+    }
+
+    // Identificar y eliminar días que ya no están seleccionados
+    $dias_para_eliminar = array_diff(array_keys($horarios_guardados), array_map('normalizarNombreDia', $dias));
+
+    if (!empty($dias_para_eliminar)) {
+        foreach ($dias_para_eliminar as $dia_eliminar) {
+            $sql_delete = "DELETE FROM disponibilidad_doctor WHERE docid = '$docid' AND dia_semana = '$dia_eliminar' AND tipo_horario = 'fijo'";
+            if (!$database->query($sql_delete)) {
+                echo "<script>
+                        alert('Error al eliminar el horario para el día $dia_eliminar.');
+                        window.location.href = 'horarios2.php';
+                    </script>";
+                exit();
+            }
+            $cambios_realizados = true;
+        }
+    }
+
+    // Mostrar mensaje de confirmación y redirigir si hubo cambios
+    if ($cambios_realizados) {
+        echo "<script>
+                alert('Cambios guardados correctamente.');
+                window.location.href = 'horarios2.php';
+              </script>";
+    } else {
+        // Mostrar mensaje de que no hubo cambios
+        echo "<script>
+                alert('No hubo cambios en los horarios.');
+                window.location.href = 'horarios2.php';
+              </script>";
+    }
+    exit();
+}
+
+
+// Procesar la actualización de los horarios personalizados **ANTES DE CUALQUIER SALIDA**
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitPersonalizado'])) {
     $docid = $_POST['docid'];
     $dias = $_POST['dias'] ?? [];
@@ -488,6 +692,66 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                                     <tr>
                                         <td colspan="3" style="text-align: center;">
                                             <input type="submit" value="Guardar cambios" name="submitPersonalizado">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Contenido de Horario Fijo -->
+                <div class="content_box">
+                    <?php if ($tipo_horario === 'fijo') : ?>
+                        <div class="content active">
+                            <h3>Horario Fijo</h3>
+                            <form id="horarioFijoForm" action="" method="POST">
+                                <input type="hidden" name="docid" value="<?php echo $docid; ?>">
+                                <table class="horario-table" border="0">
+                                    <tr>
+                                        <th>Día</th>
+                                    </tr>
+                                    <tr>
+                                        <?php
+                                        // Días de la semana
+                                        $diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+                                        
+                                        foreach ($diasSemana as $dia) {
+                                            $dia_normalizado = normalizarNombreDia($dia);
+                                            $horario_guardado = isset($horarios_guardados[$dia_normalizado]);
+                                            echo '<td><input type="checkbox" name="dias[]" value="' . $dia . '" ' . ($horario_guardado ? 'checked' : '') . '> ' . $dia . '</td>';
+                                        }
+                                        ?>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7">
+                                            <h4>Horario de Mañana</h4>
+                                            Inicio: <select name="horainicioman">
+                                                <option value="">Seleccione</option>
+                                                <?php generarOpcionesHorario('07:00', '12:00', $horarios_guardados[array_key_first($horarios_guardados)]['inicio_manana'] ?? ''); ?>
+                                            </select>
+                                            Fin: <select name="horafinman">
+                                                <option value="">Seleccione</option>
+                                                <?php generarOpcionesHorario('07:30', '12:30', $horarios_guardados[array_key_first($horarios_guardados)]['fin_manana'] ?? ''); ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7">
+                                            <h4>Horario de Tarde</h4>
+                                            Inicio: <select name="horainiciotar">
+                                                <option value="">Seleccione</option>
+                                                <?php generarOpcionesHorario('13:00', '18:00', $horarios_guardados[array_key_first($horarios_guardados)]['inicio_tarde'] ?? ''); ?>
+                                            </select>
+                                            Fin: <select name="horafintar">
+                                                <option value="">Seleccione</option>
+                                                <?php generarOpcionesHorario('13:30', '18:30', $horarios_guardados[array_key_first($horarios_guardados)]['fin_tarde'] ?? ''); ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" style="text-align: center;">
+                                            <input type="submit" value="Guardar cambios" name="submitFijo">
                                         </td>
                                     </tr>
                                 </table>
