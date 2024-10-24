@@ -16,44 +16,39 @@
         .sub-table{
             animation: transitionIn-Y-bottom 0.5s;
         }
-</style>
+        .horario-col {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .horario-item {
+            width: 48%;
+        }
+    </style>
 </head>
 <body>
     <?php
 
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["usuario"])){
-        if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='pac'){
+        if(($_SESSION["usuario"]=="" or $_SESSION['usuario_rol']!='pac')){
             header("location: ../login.php");
         }else {
             $usuario=$_SESSION["usuario"];
         }
-
     }else{
         header("location: ../login.php");
     }
     
-
-    //import database
     include("../conexion_db.php");
     $userrow = $database->query("select * from paciente where pacusuario='$usuario'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pacid"];
     $username=$userfetch["pacnombre"];
-
-
-    //echo $userid;
-    //echo $username;
     
     date_default_timezone_set('Asia/Kolkata');
-
     $today = date('Y-m-d');
-
-
- //echo $userid;
  ?>
  <div class="container">
      <div class="menu">
@@ -83,12 +78,6 @@
                         <a href="citas.php" class="non-style-link-menu "><div><p class="menu-text">Inicio</p></a></div></a>
                     </td>
                 </tr>
-                <!-- <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor">
-                        <a href="doctors.php" class="non-style-link-menu"><div><p class="menu-text">All Doctors</p></a></div>
-                    </td>
-                </tr> -->
-                
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-session menu-active menu-icon-session-active">
                         <a href="horarios.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Horarios disponibles</p></div></a>
@@ -104,37 +93,12 @@
                         <a href="configuracion.php" class="non-style-link-menu"><div><p class="menu-text">Configuración</p></a></div>
                     </td>
                 </tr>
-                
             </table>
         </div>
         <?php
-
-                $sqlmain= "select * from horarios inner join doctor on horarios.docid=doctor.docid where horarios.horariofecha>='$today'  order by horarios.horariofecha asc";
-                $sqlpt1="";
-                $insertkey="";
-                $q='';
-                $searchtype="All";
-                        if($_POST){
-                        //print_r($_POST);
-                        
-                        if(!empty($_POST["search"])){
-                            
-                            $keyword=$_POST["search"];
-                            $sqlmain= "select * from horarios inner join doctor on horarios.docid=doctor.docid where horarios.horariofecha>='$today' and (doctor.docnombre='$keyword' or doctor.docnombre like '$keyword%' or doctor.docnombre like '%$keyword' or doctor.docnombre like '%$keyword%' or horarios.titulo='$keyword' or horarios.titulo like '$keyword%' or horarios.titulo like '%$keyword' or horarios.titulo like '%$keyword%' or horarios.horariofecha like '$keyword%' or horarios.horariofecha like '%$keyword' or horarios.horariofecha like '%$keyword%' or horarios.horariofecha='$keyword' )  order by horarios.horariofecha asc";
-                            //echo $sqlmain;
-                            $insertkey=$keyword;
-                            $searchtype="Search Result : ";
-                            $q='"';
-                        }
-
-                    }
-
-
-                $result= $database->query($sqlmain)
-
-
-                ?>
-                  
+                $sqlmain= "SELECT doctor.docid, doctor.docnombre, especialidades.espnombre, disponibilidad_doctor.dia_semana, disponibilidad_doctor.horainicioman, disponibilidad_doctor.horafinman, disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar FROM doctor LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid LEFT JOIN especialidades ON doctor.especialidades = especialidades.id ORDER BY doctor.docnombre, disponibilidad_doctor.dia_semana";
+                $result= $database->query($sqlmain);
+        ?>
         <div class="dash-body">
             <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
                 <tr >
@@ -142,191 +106,120 @@
                     <a href="horarios.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
                     </td>
                     <td >
-                            <form action="" method="post" class="header-search">
-
-                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Doctor name or Email or Date (YYYY-MM-DD)" list="doctors" value="<?php  echo $insertkey ?>">&nbsp;&nbsp;
-                                        
-                                        <?php
-                                            echo '<datalist id="doctors">';
-                                            $list11 = $database->query("select DISTINCT * from  doctor;");
-                                            $list12 = $database->query("select DISTINCT * from  horarios GROUP BY titulo;");
-                                            
-
-                                            
-
-
-                                            for ($y=0;$y<$list11->num_rows;$y++){
-                                                $row00=$list11->fetch_assoc();
-                                                $d=$row00["docnombre"];
-                                               
-                                                echo "<option value='$d'><br/>";
-                                               
-                                            };
-
-
-                                            for ($y=0;$y<$list12->num_rows;$y++){
-                                                $row00=$list12->fetch_assoc();
-                                                $d=$row00["titulo"];
-                                               
-                                                echo "<option value='$d'><br/>";
-                                                                                         };
-
-                                        echo ' </datalist>';
-            ?>
-                                        
-                                
-                                        <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                                        </form>
+                        <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Horarios Disponibles</p>
                     </td>
                     <td width="15%">
                         <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
                             Today's Date
                         </p>
                         <p class="heading-sub12" style="padding: 0;margin: 0;">
-                            <?php 
-
-                                
-                                echo $today;
-
-                                
-
-                        ?>
+                            <?php echo $today; ?>
                         </p>
                     </td>
                     <td width="10%">
                         <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
                     </td>
-
-
                 </tr>
-                
-                
                 <tr>
                     <td colspan="4" style="padding-top:10px;width: 100%;" >
-                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)"><?php echo $searchtype." Sessions"."(".$result->num_rows.")"; ?> </p>
-                        <p class="heading-main12" style="margin-left: 45px;font-size:22px;color:rgb(49, 49, 49)"><?php echo $q.$insertkey.$q ; ?> </p>
-                    </td>
-                    
-                </tr>
-                
-                
-                
-                <tr>
-                   <td colspan="4">
-                       <center>
+                        <center>
                         <div class="abc scroll">
-                        <table width="100%" class="sub-table scrolldown" border="0" style="padding: 50px;border:none">
-                            
-                        <tbody>
-                        
+                        <table width="90%" class="sub-table scrolldown" border="0" style="padding: 50px;border:none">
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Especialidad</th>
+                                    <th>Horarios Disponibles</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <?php
-
-                                
-                                
-
-                                if($result->num_rows==0){
+                                if($result->num_rows == 0){
                                     echo '<tr>
                                     <td colspan="4">
                                     <br><br><br><br>
                                     <center>
                                     <img src="../img/notfound.svg" width="25%">
-                                    
                                     <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="horarios.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Sessions &nbsp;</font></button>
-                                    </a>
+                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">No se encontraron horarios disponibles!</p>
                                     </center>
                                     <br><br><br><br>
                                     </td>
                                     </tr>';
-                                    
                                 }
                                 else{
-                                    //echo $result->num_rows;
-                                for ( $x=0; $x<($result->num_rows);$x++){
-                                    echo "<tr>";
-                                    for($q=0;$q<3;$q++){
-                                        $row=$result->fetch_assoc();
-                                        if (!isset($row)){
-                                            break;
-                                        };
-                                        $horarioid=$row["horarioid"];
-                                        $titulo=$row["titulo"];
-                                        $docnombre=$row["docnombre"];
-                                        $horariofecha=$row["horariofecha"];
-                                        $horariohora=$row["horariohora"];
+                                    $current_doctor = '';
+                                    $current_especialidad = '';
+                                    while($row = $result->fetch_assoc()){
+                                        $docid = $row['docid'];
+                                        $docnombre = $row['docnombre'];
+                                        $espnombre = $row['espnombre'];
+                                        $dia_semana = $row['dia_semana'];
+                                        $horainicioman = ($row['horainicioman'] != '00:00:00') ? substr($row['horainicioman'], 0, 5) : '';
+                                        $horafinman = ($row['horafinman'] != '00:00:00') ? substr($row['horafinman'], 0, 5) : '';
+                                        $horainiciotar = ($row['horainiciotar'] != '00:00:00') ? substr($row['horainiciotar'], 0, 5) : '';
+                                        $horafintar = ($row['horafintar'] != '00:00:00') ? substr($row['horafintar'], 0, 5) : '';
 
-                                        if($horarioid==""){
-                                            break;
+                                        if($current_doctor != $docnombre){
+                                            if($current_doctor != ''){
+                                                if ($horario_col_empty) {
+                                                    echo '<p>No se encontraron horarios disponibles</p>';
+                                                }
+                                                echo '</div></td>';
+                                                echo '<td>';
+                                                if (!$horario_col_empty) {
+                                                    echo '<a href="agendar.php?docid='.$docid.'"><button class="login-btn btn-primary-soft btn" style="padding-top:11px;padding-bottom:11px;width:100%">Agendar cita</button></a>';
+                                                }
+                                                echo '</td></tr>';
+                                            }
+                                            $current_doctor = $docnombre;
+                                            $current_especialidad = $espnombre;
+                                            $horario_col_empty = true;
+                                            echo '<tr>
+                                                    <td>'.$docnombre.'</td>
+                                                    <td>'.$espnombre.'</td>
+                                                    <td>
+                                                        <div class="horario-col">';
                                         }
 
-                                        echo '
-                                        <td style="width: 25%;">
-                                                <div  class="dashboard-items search-items"  >
-                                                
-                                                    <div style="width:100%">
-                                                            <div class="h1-search">
-                                                                '.substr($titulo,0,21).'
-                                                            </div><br>
-                                                            <div class="h3-search">
-                                                                '.substr($docnombre,0,30).'
-                                                            </div>
-                                                            <div class="h4-search">
-                                                                '.$horariofecha.'<br>Starts: <b>@'.substr($horariohora,0,5).'</b> (24h)
-                                                            </div>
-                                                            <br>
-                                                            <a href="agendar.php?id='.$horarioid.'" ><button  class="login-btn btn-primary-soft btn "  style="padding-top:11px;padding-bottom:11px;width:100%"><font class="tn-in-text">Book Now</font></button></a>
-                                                    </div>
-                                                            
-                                                </div>
-                                            </td>';
+                                        if ($horainicioman != '' && $horafinman != '') {
+                                            echo '<div class="horario-item">
+                                                    <b>'.$dia_semana.'</b><br>
+                                                    '.$horainicioman.' - '.$horafinman.'<br>
+                                                  </div>';
+                                            $horario_col_empty = false;
+                                        }
 
+                                        if ($horainiciotar != '' && $horafintar != '') {
+                                            echo '<div class="horario-item">
+                                                    <b>'.$dia_semana.'</b><br>
+                                                    '.$horainiciotar.' - '.$horafintar.'
+                                                  </div>';
+                                            $horario_col_empty = false;
+                                        }
                                     }
-                                    echo "</tr>";
-                                    
-                                    
-                                    // echo '<tr>
-                                    //     <td> &nbsp;'.
-                                    //     substr($title,0,30)
-                                    //     .'</td>
-                                        
-                                    //     <td style="text-align:center;">
-                                    //         '.substr($scheduledate,0,10).' '.substr($scheduletime,0,5).'
-                                    //     </td>
-                                    //     <td style="text-align:center;">
-                                    //         '.$nop.'
-                                    //     </td>
-
-                                    //     <td>
-                                    //     <div style="display:flex;justify-content: center;">
-                                        
-                                    //     <a href="?action=view&id='.$scheduleid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                    //    &nbsp;&nbsp;&nbsp;
-                                    //    <a href="?action=drop&id='.$scheduleid.'&name='.$title.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancel Session</font></button></a>
-                                    //     </div>
-                                    //     </td>
-                                    // </tr>';
-                                    
+                                    if($current_doctor != ''){
+                                        if ($horario_col_empty) {
+                                            echo '<p>No se encontraron horarios disponibles</p>';
+                                        }
+                                        echo '</div></td>';
+                                        echo '<td>';
+                                        if (!$horario_col_empty) {
+                                            echo '<a href="agendar.php?docid='.$docid.'"><button class="login-btn btn-primary-soft btn" style="padding-top:11px;padding-bottom:11px;width:100%">Agendar cita</button></a>';
+                                        }
+                                        echo '</td></tr>';
+                                    }
                                 }
-                            }
-                                 
                             ?>
- 
                             </tbody>
-
                         </table>
                         </div>
                         </center>
-                   </td> 
+                    </td> 
                 </tr>
-                       
-                        
-                        
             </table>
         </div>
     </div>
-
-    </div>
-
 </body>
 </html>
