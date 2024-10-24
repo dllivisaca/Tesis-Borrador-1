@@ -622,11 +622,11 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                 <!-- Pestañas -->
                 <div class="tab_box">
                     <?php if ($tipo_horario === 'fijo') : ?>
-                        <button type="button" class="tab_btn active">Horario Fijo</button>
+                        <button type="button" class="tab_btn active disabled" disabled>Horario Fijo</button>
                         <button type="button" class="tab_btn disabled" disabled>Horario Personalizado</button>
                     <?php elseif ($tipo_horario === 'personalizado') : ?>
                         <button type="button" class="tab_btn disabled" disabled>Horario Fijo</button>
-                        <button type="button" class="tab_btn active">Horario Personalizado</button>
+                        <button type="button" class="tab_btn active disabled" disabled>Horario Personalizado</button>
                     <?php else : ?>
                         <button type="button" class="tab_btn">Horario Fijo</button>
                         <button type="button" class="tab_btn">Horario Personalizado</button>
