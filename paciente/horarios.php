@@ -24,6 +24,37 @@
         .horario-item {
             width: 48%;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            border-radius: 10px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -169,7 +200,7 @@
                                                 echo '</div></td>';
                                                 echo '<td>';
                                                 if (!$horario_col_empty) {
-                                                    echo '<a href="agendar.php?docid='.$docid.'"><button class="login-btn btn-primary-soft btn" style="padding-top:11px;padding-bottom:11px;width:100%">Agendar cita</button></a>';
+                                                    echo '<button class="login-btn btn-primary-soft btn agendar-btn" style="padding-top:11px;padding-bottom:11px;width:100%" data-docid="'.$docid.'" data-docnombre="'.$current_doctor.'" data-espnombre="'.$current_especialidad.'">Agendar cita</button>';
                                                 }
                                                 echo '</td></tr>';
                                             }
@@ -206,7 +237,7 @@
                                         echo '</div></td>';
                                         echo '<td>';
                                         if (!$horario_col_empty) {
-                                            echo '<a href="agendar.php?docid='.$docid.'"><button class="login-btn btn-primary-soft btn" style="padding-top:11px;padding-bottom:11px;width:100%">Agendar cita</button></a>';
+                                            echo '<button class="login-btn btn-primary-soft btn agendar-btn" style="padding-top:11px;padding-bottom:11px;width:100%" data-docid="'.$docid.'" data-docnombre="'.$current_doctor.'" data-espnombre="'.$current_especialidad.'">Agendar cita</button>';
                                         }
                                         echo '</td></tr>';
                                     }
@@ -221,5 +252,78 @@
             </table>
         </div>
     </div>
+
+    <!-- Modal for scheduling an appointment -->
+    <div id="agendarModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Agendar cita</h2>
+            <p>Especialidad médica: <span id="modalEspnombre"></span></p>
+            <p>Nombre del doctor: <span id="modalDocnombre"></span></p>
+            <form id="agendarForm">
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" required><br><br>
+                <label for="horas">Horas disponibles:</label>
+                <select id="horas" name="horas" required>
+                    <option value="" disabled selected>Escoge una hora de la lista</option>
+                </select><br><br>
+                <button type="submit" class="login-btn btn-primary-soft btn">+ Agendar cita</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get modal element
+        var modal = document.getElementById("agendarModal");
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Add click event to all "Agendar cita" buttons
+        var agendarButtons = document.getElementsByClassName("agendar-btn");
+        for (var i = 0; i < agendarButtons.length; i++) {
+            agendarButtons[i].onclick = function() {
+                var docid = this.getAttribute("data-docid");
+                var docnombre = this.getAttribute("data-docnombre");
+                var espnombre = this.getAttribute("data-espnombre");
+
+                // Set modal data
+                document.getElementById("modalDocnombre").innerText = docnombre;
+                document.getElementById("modalEspnombre").innerText = espnombre;
+                document.getElementById("horas").innerHTML = '<option value="" disabled selected>Escoge una hora de la lista</option>';
+
+                // Show the modal
+                modal.style.display = "block";
+            }
+        }
+
+        // Fetch available hours when a date is selected
+        document.getElementById("fecha").addEventListener("change", function() {
+            var fecha = this.value;
+            var docnombre = document.getElementById("modalDocnombre").innerText;
+
+            if (fecha) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "fetch_horarios.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        document.getElementById("horas").innerHTML = xhr.responseText;
+                    }
+                };
+                xhr.send("fecha=" + fecha + "&docnombre=" + docnombre);
+            }
+        });
+    </script>
 </body>
 </html>
