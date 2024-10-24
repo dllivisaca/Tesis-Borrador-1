@@ -554,35 +554,7 @@
                 </form>
             </div>
             </div>
-            <!-- <script>
-                
-                // Función para abrir pestañas
-                function openTab(evt, tabName) {
-                    var i, tabcontent, tablinks;
-
-                    // Ocultar todas las pestañas
-                    tabcontent = document.getElementsByClassName("tabcontent");
-                    for (i = 0; i < tabcontent.length; i++) {
-                        tabcontent[i].style.display = "none";  // Ocultar todas las pestañas
-                    }
-
-                    // Remover la clase "active" de todos los botones
-                    tablinks = document.getElementsByClassName("tablinks");
-                    for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(" active", "");  // Remover "active"
-                    }
-
-                    // Mostrar la pestaña seleccionada
-                    document.getElementById(tabName).style.display = "block";  // Mostrar la pestaña
-                    evt.currentTarget.className += " active";  // Agregar la clase "active" al botón actual
-                }
-
-                // Ejecutar esta función cuando el DOM esté completamente cargado
-                document.addEventListener("DOMContentLoaded", function() {
-                    // Abrir la pestaña predeterminada (Horario Fijo) al cargar la página
-                    document.getElementById("defaultOpen").click();
-                });
-            </script> -->
+            
 
             <script>
                 // Función para generar opciones de horarios en intervalos de 30 minutos

@@ -25,6 +25,7 @@ function normalizarNombreDia($nombreDia) {
     return $nombreDia;
 }
 
+
 // Función para normalizar tiempos, tratando NULL y vacío como cadena vacía
 function normalizeTime($time) {
     return isset($time) ? trim($time) : '';
@@ -69,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitFijo'])) {
     if (empty($dias)) {
         echo "<script>
                 alert('Por favor, selecciona al menos un día.');
-                window.location.href = 'horarios2.php';
+                window.history.back();
               </script>";
         exit();
     }
@@ -705,7 +706,7 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                     <?php if ($tipo_horario === 'fijo') : ?>
                         <div class="content active">
                             <h3>Horario Fijo</h3>
-                            <form id="horarioFijoForm" action="" method="POST">
+                            <form id="horarioFijoForm" action="" method="POST"onsubmit="return validarHorarios(this);">
                                 <input type="hidden" name="docid" value="<?php echo $docid; ?>">
                                 <table class="horario-table" border="0">
                                     <tr>
@@ -749,12 +750,9 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                                             </select>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="7" style="text-align: center;">
-                                            <input type="submit" value="Guardar cambios" name="submitFijo">
-                                        </td>
-                                    </tr>
+                                    
                                 </table>
+                                <input type="submit" value="Guardar cambios" name="submitFijo">
                             </form>
                         </div>
                     <?php endif; ?>
@@ -788,6 +786,54 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                 }
             }
         }
+
+        // Función para validar horarios fijos
+        function validarHorarios(formulario) {
+            // Verificar si al menos un día está seleccionado
+            const diasSeleccionados = formulario.querySelectorAll('input[name="dias[]"]:checked');
+            if (diasSeleccionados.length === 0) {
+                alert("Por favor, selecciona al menos un día.");
+                return false;
+            }
+            // Obtener los valores de los inputs
+            const horaInicioManana = formulario.querySelector('select[name="horainicioman"]').value;
+                const horaFinManana = formulario.querySelector('select[name="horafinman"]').value;
+                const horaInicioTarde = formulario.querySelector('select[name="horainiciotar"]').value;
+                const horaFinTarde = formulario.querySelector('select[name="horafintar"]').value;
+
+                // Validación para la mañana: si se selecciona una hora de inicio, también debe haber una hora de fin, y viceversa.
+                if ((horaInicioManana && !horaFinManana) || (!horaInicioManana && horaFinManana)) {
+                    alert("Por favor, selecciona tanto la hora de inicio como la hora de fin para la mañana.");
+                    return false;
+                }
+
+                // Validación para la tarde: si se selecciona una hora de inicio, también debe haber una hora de fin, y viceversa.
+                if ((horaInicioTarde && !horaFinTarde) || (!horaInicioTarde && horaFinTarde)) {
+                    alert("Por favor, selecciona tanto la hora de inicio como la hora de fin para la tarde.");
+                    return false;
+                }
+
+                // Validación de que la hora de inicio de la mañana sea anterior a la de fin
+                if (horaInicioManana && horaFinManana && horaInicioManana >= horaFinManana) {
+                    alert("La hora de inicio de la mañana debe ser anterior a la hora de fin.");
+                    return false;
+                }
+
+                // Validación de que la hora de inicio de la tarde sea anterior a la de fin
+                if (horaInicioTarde && horaFinTarde && horaInicioTarde >= horaFinTarde) {
+                    alert("La hora de inicio de la tarde debe ser anterior a la hora de fin.");
+                    return false;
+                }
+
+                // Validar que al menos un horario esté ingresado (mañana o tarde)
+                if ((!horaInicioManana && !horaFinManana) && (!horaInicioTarde && !horaFinTarde)) {
+                    alert("Por favor, ingresa al menos un horario válido para la mañana o la tarde.");
+                    return false;
+                }
+
+                // Si todo está bien, retornamos true para permitir que el formulario se envíe
+                return true;
+            }
 
         // Función para validar horarios personalizados
         function validarHorariosPersonalizados(formulario) {
