@@ -1,27 +1,39 @@
 <?php
+session_start();
 
-    session_start();
-
-    if(isset($_SESSION["usuario"])){
-        if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
-            header("location: ../login.php");
-        }
-    }else{
+if(isset($_SESSION["usuario"])){
+    if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
         header("location: ../login.php");
+        exit();
     }
-    
-    
-    if($_GET){
-        //import database
-        include("../conexion_db.php");
-        $id=$_GET["id"];
-        //$result001= $database->query("select * from schedule where scheduleid=$id;");
-        //$email=($result001->fetch_assoc())["docemail"];
-        $sql= $database->query("delete from horarios where horarioid='$id';");
-        //$sql= $database->query("delete from doctor where docemail='$email';");
-        //print_r($email);
-        header("location: horarios.php");
+}else{
+    header("location: ../login.php");
+    exit();
+}
+
+include("../conexion_db.php");
+
+if(isset($_GET['id'])){
+    $docid = $_GET['id'];
+
+    // Eliminar todos los horarios del doctor
+    $sql_delete = "DELETE FROM disponibilidad_doctor WHERE docid = '$docid'";
+    if($database->query($sql_delete)){
+        // Redirigir con un mensaje de éxito
+        echo "<script>
+                alert('Todos los horarios del doctor han sido eliminados correctamente.');
+                window.location.href = 'horarios2.php';
+              </script>";
+    } else {
+        // Mostrar mensaje de error
+        echo "<script>
+                alert('Ocurrió un error al eliminar los horarios.');
+                window.location.href = 'horarios2.php';
+              </script>";
     }
-
-
+} else {
+    // Si no se proporciona el ID, redirigir
+    header("location: horarios2.php");
+    exit();
+}
 ?>

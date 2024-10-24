@@ -369,9 +369,11 @@
                                             echo '<a href="editar_horario.php?id=' . $docid . '" class="non-style-link">
                                                     <button class="btn-primary-soft btn button-icon btn-view">Editar</button>
                                                 </a>';
-                                            echo '<a href="delete_horario.php?id=' . $docid . '" class="non-style-link">
-                                                    <button class="btn-primary-soft btn button-icon btn-delete">Eliminar</button>
-                                                </a>';
+                                           
+
+                                            echo '<a href="borrar_horario.php?id=' . $docid . '" class="non-style-link" onclick="return confirm(\'¿Estás segura de eliminar todos los horarios guardados del doctor?\');">
+                                                <button class="btn-primary-soft btn button-icon btn-delete">Eliminar</button>
+                                            </a>';
                                         }
                                         echo '</td>';
                                         echo '</tr>';
@@ -509,27 +511,6 @@
             </div>
             </div>
             ';
-        }elseif($action=='drop'){
-            $nameget=$_GET["name"];
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <h2>Are you sure?</h2>
-                        <a class="close" href="horarios2.php">&times;</a>
-                        <div class="content">
-                            You want to delete this record<br>('.substr($nameget,0,40).').
-                            
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        <a href="borrar_horario.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
-                        <a href="horarios2.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
-
-                        </div>
-                    </center>
-            </div>
-            </div>
-            '; 
         }elseif($action=='view'){
             $sqlmain= "select horarios.horarioid,horarios.titulo,doctor.docnombre,horarios.horariofecha,horarios.horariohora from horarios inner join doctor on horarios.docid=doctor.docid  where  horarios.horarioid=$id";
             $result= $database->query($sqlmain);
