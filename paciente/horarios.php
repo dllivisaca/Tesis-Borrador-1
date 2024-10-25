@@ -127,7 +127,10 @@
             </table>
         </div>
         <?php
-                $sqlmain= "SELECT doctor.docid, doctor.docnombre, especialidades.espnombre, disponibilidad_doctor.dia_semana, disponibilidad_doctor.horainicioman, disponibilidad_doctor.horafinman, disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar FROM doctor LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid LEFT JOIN especialidades ON doctor.especialidades = especialidades.id ORDER BY doctor.docnombre, disponibilidad_doctor.dia_semana";
+                /* $sqlmain= "SELECT doctor.docid, doctor.docnombre, especialidades.espnombre, disponibilidad_doctor.dia_semana, disponibilidad_doctor.horainicioman, disponibilidad_doctor.horafinman, disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar FROM doctor LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid LEFT JOIN especialidades ON doctor.especialidades = especialidades.id ORDER BY doctor.docnombre, disponibilidad_doctor.dia_semana"; */
+                
+                $sqlmain= "SELECT doctor.docid, doctor.docnombre, especialidades.espnombre, especialidades.id as especialidad_id, disponibilidad_doctor.dia_semana, disponibilidad_doctor.horainicioman, disponibilidad_doctor.horafinman, disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar FROM doctor LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid LEFT JOIN especialidades ON doctor.especialidades = especialidades.id ORDER BY doctor.docnombre, disponibilidad_doctor.dia_semana";
+
                 $result= $database->query($sqlmain);
         ?>
         <div class="dash-body">
@@ -200,7 +203,8 @@
                                                 echo '</div></td>';
                                                 echo '<td>';
                                                 if (!$horario_col_empty) {
-                                                    echo '<button class="login-btn btn-primary-soft btn agendar-btn" style="padding-top:11px;padding-bottom:11px;width:100%" data-docid="'.$docid.'" data-docnombre="'.$current_doctor.'" data-espnombre="'.$current_especialidad.'">Agendar cita</button>';
+                                                    /* echo '<button class="login-btn btn-primary-soft btn agendar-btn" style="padding-top:11px;padding-bottom:11px;width:100%" data-docid="'.$docid.'" data-docnombre="'.$current_doctor.'" data-espnombre="'.$current_especialidad.'">Agendar cita</button>'; */
+                                                    echo '<button class="login-btn btn-primary-soft btn agendar-btn" style="padding-top:11px;padding-bottom:11px;width:100%" data-docid="'.$docid.'" data-docnombre="'.$current_doctor.'" data-espnombre="'.$current_especialidad.'" data-especialidad-id="'.$row['especialidad_id'].'">Agendar cita</button>';
                                                 }
                                                 echo '</td></tr>';
                                             }
@@ -261,13 +265,17 @@
             <p>Especialidad médica: <span id="modalEspnombre"></span></p>
             <p>Nombre del doctor: <span id="modalDocnombre"></span></p>
             <form id="agendarForm">
+                <input type="hidden" id="pacid" name="pacid" value="<?php echo $userid; ?>">
+                <input type="hidden" id="docid" name="docid">
+                <input type="hidden" id="especialidad_id" name="especialidad_id">
                 <label for="fecha">Fecha:</label>
                 <input type="date" id="fecha" name="fecha" required><br><br>
                 <label for="horas">Horas disponibles:</label>
-                <select id="horas" name="horas" required>
+                <select id="horas" name="hora_inicio" required>
                     <option value="" disabled selected>Escoge una hora de la lista</option>
                 </select><br><br>
                 <button type="submit" class="login-btn btn-primary-soft btn">+ Agendar cita</button>
+                
             </form>
         </div>
     </div>
@@ -296,10 +304,14 @@
                 var docid = this.getAttribute("data-docid");
                 var docnombre = this.getAttribute("data-docnombre");
                 var espnombre = this.getAttribute("data-espnombre");
+                var especialidad_id = this.getAttribute("data-especialidad-id");
 
                 // Set modal data
                 document.getElementById("modalDocnombre").innerText = docnombre;
                 document.getElementById("modalEspnombre").innerText = espnombre;
+                document.getElementById("docid").value = docid; // Asignar el valor al input oculto
+                document.getElementById("especialidad_id").value = especialidad_id; // Asignar el valor al input oculto
+
 
                 // Show the modal
                 modal.style.display = "block";
@@ -324,6 +336,24 @@
                 }
             });
         }
+        // Manejar el evento de agendar cita
+        document.getElementById("agendarForm").addEventListener("submit", function(e) {
+            e.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
+
+            var formData = new FormData(this);
+            formData.append("hora_fin", document.getElementById("horas").value);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "agendar_cita.php", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText);  // Mostrar mensaje de éxito o error
+                    modal.style.display = "none";  // Cerrar el modal
+                    location.reload(); // Recargar la página para actualizar el estado de los horarios
+                }
+            };
+            xhr.send(formData);
+        });
     </script>
 </body>
 </html>

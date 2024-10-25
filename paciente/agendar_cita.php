@@ -6,12 +6,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $docid = $_POST['docid'];
     $especialidad_id = $_POST['especialidad_id'];
     $fecha = $_POST['fecha'];
-    $hora_inicio = $_POST['hora_inicio'];
+    $horas = $_POST['hora_inicio']; // Este valor tiene el formato "14:00 - 14:30"
     $estado = 'pendiente';
 
-    // Extraer hora de inicio y calcular la hora de fin (+30 minutos)
-    $hora_inicio_obj = new DateTime($hora_inicio);
-    $hora_fin = $hora_inicio_obj->add(new DateInterval('PT30M'))->format('H:i');
+    // Separar la hora de inicio y la hora de fin
+    list($hora_inicio, $hora_fin) = explode(' - ', $horas);
 
     // SQL para insertar los datos de la nueva cita
     $sql = "INSERT INTO citas (pacid, docid, especialidad_id, fecha, hora_inicio, hora_fin, estado)
