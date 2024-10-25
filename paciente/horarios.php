@@ -300,30 +300,30 @@
                 // Set modal data
                 document.getElementById("modalDocnombre").innerText = docnombre;
                 document.getElementById("modalEspnombre").innerText = espnombre;
-                document.getElementById("horas").innerHTML = '<option value="" disabled selected>Escoge una hora de la lista</option>';
 
                 // Show the modal
                 modal.style.display = "block";
             }
+            // Obtener las horas disponibles al seleccionar la fecha
+            document.getElementById("fecha").addEventListener("change", function() {
+                var fecha = this.value;
+                var docnombre = document.getElementById("modalDocnombre").innerText;
+
+                // Verificar que se seleccionó una fecha y hay un doctor
+                if (fecha && docnombre) {
+                    // Crear una petición AJAX para obtener los horarios
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "fetch_horarios.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            document.getElementById("horas").innerHTML = xhr.responseText;
+                        }
+                    };
+                    xhr.send("fecha=" + fecha + "&docnombre=" + encodeURIComponent(docnombre));
+                }
+            });
         }
-
-        // Fetch available hours when a date is selected
-        document.getElementById("fecha").addEventListener("change", function() {
-            var fecha = this.value;
-            var docnombre = document.getElementById("modalDocnombre").innerText;
-
-            if (fecha) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "fetch_horarios.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        document.getElementById("horas").innerHTML = xhr.responseText;
-                    }
-                };
-                xhr.send("fecha=" + fecha + "&docnombre=" + docnombre);
-            }
-        });
     </script>
 </body>
 </html>
