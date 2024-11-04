@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/animations.css">  
     <link rel="stylesheet" href="../css/main.css">  
     <link rel="stylesheet" href="../css/admin.css">
-        
+    
     <title>Mis citas agendadas</title>
     <style>
         .container {
@@ -43,7 +43,7 @@
         table th {
             background: #f4f4f4;
         }
-        .btn-cancel {
+        .btn-cancel, .btn-edit {
             background-color: #007bff;
             color: white;
             border: none;
@@ -52,7 +52,7 @@
             cursor: pointer;
             text-align: center;
         }
-        .btn-cancel:hover {
+        .btn-cancel:hover, .btn-edit:hover {
             background-color: #0056b3;
         }
         .filter-container {
@@ -80,11 +80,43 @@
         .logout-btn:hover {
             background-color: #c9302c;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            border-radius: 10px;
+            position: relative;
+            animation: transitionIn-Y-bottom 0.5s;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <?php
-
     session_start();
 
     if (isset($_SESSION["usuario"])) {
@@ -181,12 +213,16 @@
                                 $fecha = $row["fecha"];
                                 $hora_inicio = $row["hora_inicio"];
                                 $hora_fin = $row["hora_fin"];
+                                $hora_completa = $hora_inicio . ' - ' . $hora_fin;
 
                                 echo '<tr>
                                         <td>' . $docnombre . '</td>
                                         <td>' . $espnombre . '</td>
-                                        <td>' . $fecha . ' ' . $hora_inicio . ' - ' . $hora_fin . '</td>
-                                        <td><a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a></td>
+                                        <td>' . $fecha . ' ' . $hora_completa . '</td>
+                                        <td>
+                                            <a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
+                                            <button class="btn-edit" onclick="openEditModal(' . $citaid . ', \'' . $fecha . '\', \'' . $hora_completa . '\')">Editar</button>
+                                        </td>
                                       </tr>';
                             }
                         }
@@ -196,32 +232,83 @@
             </div>
         </div>
     </div>
-    <?php
 
-    if ($_GET) {
-        $id = $_GET["id"];
-        $action = $_GET["action"];
-        if ($action == 'drop') {
-            echo '
-            <div id="popup1" class="overlay">
-                <div class="popup">
-                    <center>
-                        <h2>¿Estás seguro?</h2>
-                        <a class="close" href="citas.php">&times;</a>
-                        <div class="content">
-                            ¿Deseas cancelar esta cita?<br><br>
-                        </div>
-                        <div style="display: flex; justify-content: center;">
-                            <a href="borrar_cita.php?id=' . $id . '" class="non-style-link"><button class="btn-primary btn" style="display: flex; justify-content: center; align-items: center; margin: 10px; padding: 10px;">&nbsp;Sí&nbsp;</button></a>&nbsp;&nbsp;&nbsp;
-                            <a href="citas.php" class="non-style-link"><button class="btn-primary btn" style="display: flex; justify-content: center; align-items: center; margin: 10px; padding: 10px;">&nbsp;&nbsp;No&nbsp;&nbsp;</button></a>
-                        </div>
-                    </center>
+    <!-- Modal for editing appointment -->
+    <div id="editarModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Editar Cita</h2>
+            <form id="editarForm">
+                <input type="hidden" id="citaid" name="citaid">
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" required>
                 </div>
-            </div>
-            ';
-        }
-    }
+                <div class="form-group">
+                    <label for="hora">Hora seleccionada:</label>
+                    <select id="hora" name="hora" required>
+                        <option value="14:00 - 14:30">14:00 - 14:30</option>
+                        <option value="14:30 - 15:00">14:30 - 15:00</option>
+                        <option value="15:00 - 15:30">15:00 - 15:30</option>
+                        <option value="15:30 - 16:00">15:30 - 16:00</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
 
-    ?>
+    <script>
+        // Get modal element
+        var modal = document.getElementById("editarModal");
+        var span = document.getElementsByClassName("close")[0];
+        var editarForm = document.getElementById("editarForm");
+
+        // Open modal when clicking the "Editar" button
+        function openEditModal(citaid, fecha, hora) {
+            document.getElementById("citaid").value = citaid;
+            document.getElementById("fecha").value = fecha;
+            var horaSelect = document.getElementById("hora");
+            for (var i = 0; i < horaSelect.options.length; i++) {
+                if (horaSelect.options[i].value === hora) {
+                    horaSelect.selectedIndex = i;
+                    break;
+                }
+            }
+
+            modal.style.display = "block";
+            document.body.classList.add("modal-open");
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+            document.body.classList.remove("modal-open");
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                document.body.classList.remove("modal-open");
+            }
+        }
+
+        // Handle form submission for editing
+        editarForm.onsubmit = function(e) {
+            e.preventDefault();
+            var formData = new FormData(editarForm);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "editar_cita.php", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText);
+                    modal.style.display = "none";
+                    window.location.reload(); // Reload page to see updated information
+                }
+            };
+            xhr.send(formData);
+        }
+    </script>
 </body>
 </html>
