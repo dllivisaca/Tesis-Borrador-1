@@ -183,10 +183,14 @@
                                     </tr>';
                                 }
                                 else{
-                                    $current_doctor = '';
-                                    $current_especialidad = '';
+                                    $current_doctor = null;
+                                    $horario_col_empty = true;
+
+                                    //$current_especialidad = '';
                                     while($row = $result->fetch_assoc()){
+                                        
                                         $docid = $row['docid'];
+                                        $especialidad_id = $row['especialidad_id'];
                                         $docnombre = $row['docnombre'];
                                         $espnombre = $row['espnombre'];
                                         $dia_semana = $row['dia_semana'];
@@ -195,57 +199,87 @@
                                         $horainiciotar = ($row['horainiciotar'] != '00:00:00') ? substr($row['horainiciotar'], 0, 5) : '';
                                         $horafintar = ($row['horafintar'] != '00:00:00') ? substr($row['horafintar'], 0, 5) : '';
 
-                                        if($current_doctor != $docnombre){
-                                            if($current_doctor != ''){
+                                        // Imprimir los datos obtenidos para asegurarte de que son correctos
+                                        /* echo "<div>";
+                                        echo "<p>Doctor ID: $docid - Especialidad ID: $especialidad_id</p>";
+                                        echo "<p>$dia_semana: "; */
+
+                                        // Cada vez que cambiamos de doctor, cerramos la fila anterior
+                                        if ($current_doctor != $docid) {
+                                            // Si es diferente del actual doctor, cerramos el bloque de doctor anterior si no es la primera iteración
+                                            if ($current_doctor !== null) {
                                                 if ($horario_col_empty) {
                                                     echo '<p>No se encontraron horarios disponibles</p>';
                                                 }
                                                 echo '</div></td>';
                                                 echo '<td>';
                                                 if (!$horario_col_empty) {
-                                                    /* echo '<button class="login-btn btn-primary-soft btn agendar-btn" style="padding-top:11px;padding-bottom:11px;width:100%" data-docid="'.$docid.'" data-docnombre="'.$current_doctor.'" data-espnombre="'.$current_especialidad.'">Agendar cita</button>'; */
-                                                    echo '<button class="login-btn btn-primary-soft btn agendar-btn" style="padding-top:11px;padding-bottom:11px;width:100%" data-docid="'.$docid.'" data-docnombre="'.$current_doctor.'" data-espnombre="'.$current_especialidad.'" data-especialidad-id="'.$row['especialidad_id'].'">Agendar cita</button>';
+                                                    // Generar botón de agendamiento con los datos correctos
+                                                    echo '<button class="login-btn btn-primary-soft btn agendar-btn" 
+                                                                style="padding-top:11px;padding-bottom:11px;width:100%" 
+                                                                data-docid="' . $current_docid . '" 
+                                                                data-docnombre="' . $current_docnombre . '" 
+                                                                data-espnombre="' . $current_espnombre . '" 
+                                                                data-especialidad-id="' . $current_especialidad_id . '">Agendar cita</button>';
                                                 }
                                                 echo '</td></tr>';
                                             }
-                                            $current_doctor = $docnombre;
-                                            $current_especialidad = $espnombre;
+
+                                            // Actualizar el doctor actual y sus datos
+                                            $current_doctor = $docid;
+                                            $current_docid = $docid;
+                                            $current_docnombre = $docnombre;
+                                            $current_espnombre = $espnombre;
+                                            $current_especialidad_id = $especialidad_id;
+
                                             $horario_col_empty = true;
+
+                                            // Generar la fila HTML para el nuevo doctor
                                             echo '<tr>
-                                                    <td>'.$docnombre.'</td>
-                                                    <td>'.$espnombre.'</td>
+                                                    <td>' . $docnombre . '</td>
+                                                    <td>' . $espnombre . '</td>
                                                     <td>
                                                         <div class="horario-col">';
                                         }
 
+                                        // Mostrar horarios de la mañana y la tarde
                                         if ($horainicioman != '' && $horafinman != '') {
                                             echo '<div class="horario-item">
-                                                    <b>'.$dia_semana.'</b><br>
-                                                    '.$horainicioman.' - '.$horafinman.'<br>
-                                                  </div>';
+                                                    <b>' . $dia_semana . '</b><br>
+                                                    ' . $horainicioman . ' - ' . $horafinman . '<br>
+                                                </div>';
                                             $horario_col_empty = false;
                                         }
 
                                         if ($horainiciotar != '' && $horafintar != '') {
                                             echo '<div class="horario-item">
-                                                    <b>'.$dia_semana.'</b><br>
-                                                    '.$horainiciotar.' - '.$horafintar.'
-                                                  </div>';
+                                                    <b>' . $dia_semana . '</b><br>
+                                                    ' . $horainiciotar . ' - ' . $horafintar . '
+                                                </div>';
                                             $horario_col_empty = false;
                                         }
                                     }
-                                    if($current_doctor != ''){
+
+                                    // Cerrar el último doctor después de salir del ciclo
+                                    if ($current_doctor !== null) {
                                         if ($horario_col_empty) {
                                             echo '<p>No se encontraron horarios disponibles</p>';
                                         }
                                         echo '</div></td>';
                                         echo '<td>';
                                         if (!$horario_col_empty) {
-                                            echo '<button class="login-btn btn-primary-soft btn agendar-btn" style="padding-top:11px;padding-bottom:11px;width:100%" data-docid="'.$docid.'" data-docnombre="'.$current_doctor.'" data-espnombre="'.$current_especialidad.'">Agendar cita</button>';
+                                            // Generar botón de agendamiento con los datos correctos
+                                            echo '<button class="login-btn btn-primary-soft btn agendar-btn" 
+                                                        style="padding-top:11px;padding-bottom:11px;width:100%" 
+                                                        data-docid="' . $current_docid . '" 
+                                                        data-docnombre="' . $current_docnombre . '" 
+                                                        data-espnombre="' . $current_espnombre . '" 
+                                                        data-especialidad-id="' . $current_especialidad_id . '">Agendar cita</button>';
                                         }
                                         echo '</td></tr>';
                                     }
                                 }
+
                             ?>
                             </tbody>
                         </table>
@@ -306,12 +340,15 @@
                 var espnombre = this.getAttribute("data-espnombre");
                 var especialidad_id = this.getAttribute("data-especialidad-id");
 
-                // Set modal data
-                document.getElementById("modalDocnombre").innerText = docnombre;
-                document.getElementById("modalEspnombre").innerText = espnombre;
+                /* console.log("DocID seleccionado: ", docid);
+                console.log("EspecialidadID seleccionado: ", especialidad_id); */
+
+                // Asignar los valores al formulario del modal
+                
                 document.getElementById("docid").value = docid; // Asignar el valor al input oculto
                 document.getElementById("especialidad_id").value = especialidad_id; // Asignar el valor al input oculto
-
+                document.getElementById("modalDocnombre").innerText = docnombre;
+                document.getElementById("modalEspnombre").innerText = espnombre;
 
                 // Show the modal
                 modal.style.display = "block";
@@ -339,6 +376,9 @@
         // Manejar el evento de agendar cita
         document.getElementById("agendarForm").addEventListener("submit", function(e) {
             e.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
+
+            console.log("DocID enviado: ", document.getElementById("docid").value);
+            console.log("EspecialidadID enviado: ", document.getElementById("especialidad_id").value);
 
             var formData = new FormData(this);
             formData.append("hora_fin", document.getElementById("horas").value);

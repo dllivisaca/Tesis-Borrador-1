@@ -50,7 +50,11 @@
     //echo $username;
 
 
-    $sqlmain= "select citas.citaid,horarios.horarioid,horarios.titulo,doctor.docnombre,paciente.pacnombre,horarios.horariofecha,horarios.horariohora,citas.citanum,citas.citafecha from horarios inner join citas on horarios.horarioid=citas.horarioid inner join paciente on paciente.pacid=citas.pacid inner join doctor on horarios.docid=doctor.docid  where  paciente.pacid=$userid ";
+    $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado 
+            FROM citas 
+            INNER JOIN doctor ON citas.docid = doctor.docid 
+            WHERE citas.pacid = $userid";
+
 
     if($_POST){
         //print_r($_POST);
@@ -69,7 +73,7 @@
 
     }
 
-    $sqlmain.="order by citas.citafecha  asc";
+    $sqlmain.=" order by citas.fecha asc";
     $result= $database->query($sqlmain);
     ?>
     <div class="container">

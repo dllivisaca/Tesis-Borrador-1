@@ -9,6 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $horas = $_POST['hora_inicio']; // Este valor tiene el formato "14:00 - 14:30"
     $estado = 'pendiente';
 
+    // Mostrar valores recibidos para depurar
+    /* echo "Paciente ID: " . $pacid . "<br>";
+    echo "Doctor ID: " . $docid . "<br>";
+    echo "Especialidad ID: " . $especialidad_id . "<br>";
+    echo "Fecha: " . $fecha . "<br>";
+    echo "Horas: " . $horas . "<br>"; */
+
     // Separar la hora de inicio y la hora de fin
     list($hora_inicio, $hora_fin) = explode(' - ', $horas);
 
