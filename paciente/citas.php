@@ -68,6 +68,18 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
+        .logout-btn {
+            background-color: #d9534f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .logout-btn:hover {
+            background-color: #c9302c;
+        }
     </style>
 </head>
 <body>
@@ -116,7 +128,7 @@
     <div class="container">
         <div class="menu">
             <p class="profile-title"><?php echo $username; ?></p>
-            <button class="logout-btn btn-primary-soft btn">Cerrar sesión</button>
+            <a href="../logout.php"><button class="logout-btn">Cerrar sesión</button></a>
             <div class="menu-links">
                 <a href="horarios.php" class="menu-link">Horarios disponibles</a>
                 <a href="citas.php" class="menu-link menu-link-active">Citas agendadas</a>
