@@ -27,7 +27,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ss", $docid, $dia_nombre);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
+    // Obtener las horas ya ocupadas del doctor para la fecha seleccionada
+    $sql_citas = "SELECT hora_inicio FROM citas WHERE docid = ? AND fecha = ? AND (estado = 'pendiente' OR estado = 'confirmada')";
+    $stmt_citas = $database->prepare($sql_citas);
+    $stmt_citas->bind_param("is", $docid, $fecha);
+    $stmt_citas->execute();
+    $result_citas = $stmt_citas->get_result();
+
+    // Crear un array con las horas ya ocupadas
+    $horas_ocupadas = array();
+    while ($row_cita = $result_citas->fetch_assoc()) {
+        $horas_ocupadas[] = substr($row_cita['hora_inicio'], 0, 5);
+    }
+
     $options = "";
     while ($row = $result->fetch_assoc()) {
         // Generar intervalos de 30 minutos para la mañana
@@ -43,7 +56,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $interval_end = $end_time;
                 }
 
-                $options .= "<option value='" . $start_time->format('H:i') . " - " . $interval_end->format('H:i') . "'>" . $start_time->format('H:i') . " - " . $interval_end->format('H:i') . "</option>";
+                // Validar si la hora ya está ocupada
+                if (!in_array($start_time->format('H:i'), $horas_ocupadas)) {
+                    $options .= "<option value='" . $start_time->format('H:i') . " - " . $interval_end->format('H:i') . "'>" . $start_time->format('H:i') . " - " . $interval_end->format('H:i') . "</option>";
+                }
                 $start_time->modify('+30 minutes');
             }
         }
@@ -61,7 +77,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $interval_end = $end_time;
                 }
 
-                $options .= "<option value='" . $start_time->format('H:i') . " - " . $interval_end->format('H:i') . "'>" . $start_time->format('H:i') . " - " . $interval_end->format('H:i') . "</option>";
+                // Validar si la hora ya está ocupada
+                if (!in_array($start_time->format('H:i'), $horas_ocupadas)) {
+                    $options .= "<option value='" . $start_time->format('H:i') . " - " . $interval_end->format('H:i') . "'>" . $start_time->format('H:i') . " - " . $interval_end->format('H:i') . "</option>";
+                }
                 $start_time->modify('+30 minutes');
             }
         }
