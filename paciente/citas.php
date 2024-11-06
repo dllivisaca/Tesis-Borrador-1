@@ -268,7 +268,6 @@
             document.getElementById("citaid").value = citaid;
             document.getElementById("docid").value = docid;
             document.getElementById("fecha").value = fecha;
-            document.getElementById("hora").innerHTML = '<option value="' + hora_completa + '" selected>' + hora_completa + '</option>';
 
             // Fetch available times for the selected doctor and date
             fetchAvailableTimes(fecha, docid, hora_completa);
@@ -283,7 +282,14 @@
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById("hora").innerHTML = '<option value="' + hora_completa + '" selected>' + hora_completa + '</option>' + xhr.responseText;
+                    var response = xhr.responseText;
+                    var uniqueOptions = new Set(response.trim().split("\n"));
+                    uniqueOptions.delete('');
+                    if (hora_completa) {
+                        uniqueOptions.delete(hora_completa); // Remove duplicate if exists
+                        uniqueOptions.add('<option value="' + hora_completa + '" selected>' + hora_completa + '</option>');
+                    }
+                    document.getElementById("hora").innerHTML = Array.from(uniqueOptions).join("");
                 }
             };
             xhr.send("fecha=" + fecha + "&docid=" + docid);

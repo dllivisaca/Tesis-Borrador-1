@@ -10,22 +10,12 @@ if (isset($_POST['fecha']) && isset($_POST['docid'])) {
     $docid = (int)$docid;
 
     // Obtener el día de la semana (1 para lunes, 7 para domingo)
-    //$dia_semana = date('N', strtotime($fecha));
-    //$dia_semana = date('N', strtotime($fecha)); // N devuelve 1 (lunes) a 7 (domingo)
     $dia_semana = date('w', strtotime($fecha)); // 'w' devuelve 0 (domingo) a 6 (sábado)
 
     // Consulta para obtener los horarios disponibles en la fecha dada para el doctor
-    /* $sql = "SELECT horainicioman, horafinman, horainiciotar, horafintar 
+    $sql = "SELECT horainicioman, horafinman, horainiciotar, horafintar 
             FROM disponibilidad_doctor 
             WHERE docid = ? AND dia_semana = ?";
-    
-    $stmt = $database->prepare($sql);
-    $stmt->bind_param("ii", $docid, $dia_semana);
-    $stmt->execute(); */
-
-    $sql = "SELECT horainicioman, horafinman, horainiciotar, horafintar 
-        FROM disponibilidad_doctor 
-        WHERE docid = ? AND dia_semana = ?";
 
     $stmt = $database->prepare($sql);
     $stmt->bind_param("ii", $docid, $dia_semana);
@@ -35,7 +25,6 @@ if (isset($_POST['fecha']) && isset($_POST['docid'])) {
 
     if ($result->num_rows > 0) {
         $disponibilidad = $result->fetch_assoc();
-        print_r($disponibilidad); 
         $horarios = [];
 
         // Generar intervalos de 30 minutos para mañana y tarde
@@ -77,15 +66,18 @@ if (isset($_POST['fecha']) && isset($_POST['docid'])) {
         $stmt_ocupados->execute();
         $ocupadosResult = $stmt_ocupados->get_result();
         while ($ocupado = $ocupadosResult->fetch_assoc()) {
-            $ocupados[] = $ocupado['hora_inicio'];
+            $ocupados[] = substr($ocupado['hora_inicio'], 0, 5);
         }
 
         // Generar las opciones de horas disponibles para el select
+        $options = "";
         foreach ($horarios as $horario) {
             if (!in_array(substr($horario, 0, 5), $ocupados)) {
-                echo '<option value="' . $horario . '">' . $horario . '</option>';
+                $options .= "<option value='" . $horario . "'>" . $horario . "</option>\n";
             }
         }
+
+        echo $options;
     } else {
         echo '<option value="" disabled>No se encontraron horarios disponibles para este día.</option>';
     }
