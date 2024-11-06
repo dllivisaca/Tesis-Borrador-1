@@ -208,6 +208,7 @@
                         } else {
                             while ($row = $result->fetch_assoc()) {
                                 $citaid = $row["citaid"];
+                                $docid = $row["docid"];
                                 $docnombre = $row["docnombre"];
                                 $espnombre = $row["espnombre"];
                                 $fecha = $row["fecha"];
@@ -221,7 +222,7 @@
                                         <td>' . $fecha . ' ' . $hora_completa . '</td>
                                         <td>
                                             <a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
-                                            <button class="btn-edit" onclick="openEditModal(' . $citaid . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>
+                                            <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $docid . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>
                                         </td>
                                       </tr>';
                             }
@@ -240,6 +241,7 @@
             <h2>Editar Cita</h2>
             <form id="editarForm">
                 <input type="hidden" id="citaid" name="citaid">
+                <input type="hidden" id="docid" name="docid">
                 <div class="form-group">
                     <label for="fecha">Fecha:</label>
                     <input type="date" id="fecha" name="fecha" required>
@@ -262,28 +264,29 @@
         var editarForm = document.getElementById("editarForm");
 
         // Open modal when clicking the "Editar" button
-        function openEditModal(citaid, fecha, docnombre, hora_completa) {
+        function openEditModal(citaid, docid, fecha, docnombre, hora_completa) {
             document.getElementById("citaid").value = citaid;
+            document.getElementById("docid").value = docid;
             document.getElementById("fecha").value = fecha;
             document.getElementById("hora").innerHTML = '<option value="' + hora_completa + '" selected>' + hora_completa + '</option>';
 
             // Fetch available times for the selected doctor and date
-            fetchAvailableTimes(fecha, docnombre, hora_completa);
+            fetchAvailableTimes(fecha, docid, hora_completa);
             modal.style.display = "block";
             document.body.classList.add("modal-open");
         }
 
         // Fetch available times for the selected doctor and date
-        function fetchAvailableTimes(fecha, docnombre, hora_completa) {
+        function fetchAvailableTimes(fecha, docid, hora_completa) {
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "fetch_horarios.php", true);
+            xhr.open("POST", "fetch_horarios2.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     document.getElementById("hora").innerHTML = '<option value="' + hora_completa + '" selected>' + hora_completa + '</option>' + xhr.responseText;
                 }
             };
-            xhr.send("fecha=" + fecha + "&docnombre=" + encodeURIComponent(docnombre));
+            xhr.send("fecha=" + fecha + "&docid=" + docid);
         }
 
         // When the user clicks on <span> (x), close the modal
@@ -319,8 +322,8 @@
         // Update available hours when a new date is selected
         document.getElementById("fecha").addEventListener("change", function() {
             var fecha = this.value;
-            var docnombre = document.getElementById("modalDocnombre").innerText;
-            fetchAvailableTimes(fecha, docnombre, "");
+            var docid = document.getElementById("docid").value;
+            fetchAvailableTimes(fecha, docid, "");
         });
     </script>
 </body>
