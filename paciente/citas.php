@@ -211,8 +211,8 @@
                                 $docnombre = $row["docnombre"];
                                 $espnombre = $row["espnombre"];
                                 $fecha = $row["fecha"];
-                                $hora_inicio = $row["hora_inicio"];
-                                $hora_fin = $row["hora_fin"];
+                                $hora_inicio = substr($row["hora_inicio"], 0, 5);
+                                $hora_fin = substr($row["hora_fin"], 0, 5);
                                 $hora_completa = $hora_inicio . ' - ' . $hora_fin;
 
                                 echo '<tr>
