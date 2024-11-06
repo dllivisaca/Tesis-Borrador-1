@@ -289,7 +289,12 @@
                         uniqueOptions.delete(hora_completa); // Remove duplicate if exists
                         uniqueOptions.add('<option value="' + hora_completa + '" selected>' + hora_completa + '</option>');
                     }
-                    document.getElementById("hora").innerHTML = Array.from(uniqueOptions).join("");
+                    var sortedOptions = Array.from(uniqueOptions).sort((a, b) => {
+                        var timeA = a.match(/\d{2}:\d{2}/)[0];
+                        var timeB = b.match(/\d{2}:\d{2}/)[0];
+                        return timeA.localeCompare(timeB);
+                    });
+                    document.getElementById("hora").innerHTML = sortedOptions.join("");
                 }
             };
             xhr.send("fecha=" + fecha + "&docid=" + docid);
