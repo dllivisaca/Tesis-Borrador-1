@@ -252,7 +252,7 @@
                         <option value="" disabled selected>Escoge una hora de la lista</option>
                     </select>
                 </div>
-                <button type="submit" class="btn-primary">Guardar Cambios</button>
+                <button type="submit" class="btn-primary" id="guardarCambiosBtn">Guardar Cambios</button>
             </form>
         </div>
     </div>
@@ -269,6 +269,22 @@
             document.getElementById("docid").value = docid;
             document.getElementById("fecha").value = fecha;
 
+            // Set min and max dates for the date input
+            var fechaInput = document.getElementById("fecha");
+            var now = new Date();
+            now.setDate(now.getDate() + 1); // Incrementar al día siguiente completo
+            now.setHours(0, 0, 0, 0); // Establecer la hora a 00:00 para permitir todo el día siguiente
+            var minDate = now;
+            var maxDate = new Date(now.getTime() + 29 * 24 * 60 * 60 * 1000); // 30 días desde el mínimo permitido
+
+            // Format date to yyyy-mm-dd for min and max attributes
+            var minDateStr = minDate.toISOString().split('T')[0];
+            var maxDateStr = maxDate.toISOString().split('T')[0];
+
+            // Set min and max attributes
+            fechaInput.setAttribute("min", minDateStr);
+            fechaInput.setAttribute("max", maxDateStr);
+
             // Fetch available times for the selected doctor and date
             fetchAvailableTimes(fecha, docid, hora_completa);
             modal.style.display = "block";
@@ -280,21 +296,55 @@
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "fetch_horarios2.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var response = xhr.responseText;
-                    var uniqueOptions = new Set(response.trim().split("\n"));
+                    var options = response.trim().split("\n");
+                    var uniqueOptions = new Set(options);
                     uniqueOptions.delete('');
+
+                    // Si existe 'hora_completa', agregarla a las opciones
                     if (hora_completa) {
-                        uniqueOptions.delete(hora_completa); // Remove duplicate if exists
+                        uniqueOptions.delete(hora_completa); // Eliminar duplicado si existe
                         uniqueOptions.add('<option value="' + hora_completa + '" selected>' + hora_completa + '</option>');
                     }
+
                     var sortedOptions = Array.from(uniqueOptions).sort((a, b) => {
                         var timeA = a.match(/\d{2}:\d{2}/)[0];
                         var timeB = b.match(/\d{2}:\d{2}/)[0];
                         return timeA.localeCompare(timeB);
                     });
-                    document.getElementById("hora").innerHTML = sortedOptions.join("");
+
+                    // Obtener la fecha y hora actual
+                    var now = new Date();
+                    var time24HoursFromNow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+
+                    // Filtrar horarios que sean al menos 24 horas después del momento actual
+                    sortedOptions = sortedOptions.filter(option => {
+                        var timeMatch = option.match(/\d{2}:\d{2}/);
+                        if (timeMatch) {
+                            var time = timeMatch[0];
+                            var dateParts = fecha.split('-');
+                            var timeParts = time.split(':');
+                            var optionDateTime = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+                            return optionDateTime.getTime() >= time24HoursFromNow.getTime();
+                        }
+                        return false;
+                    });
+
+                    // Seleccionar el botón de "Guardar Cambios"
+                    var submitButton = document.getElementById("guardarCambiosBtn");
+
+                    if (sortedOptions.length === 0) {
+                        document.getElementById("hora").innerHTML = '<option value="" disabled selected>No hay horarios disponibles para la fecha seleccionada</option>';
+                        // Deshabilitar el botón
+                        submitButton.disabled = true;
+                    } else {
+                        document.getElementById("hora").innerHTML = sortedOptions.join("");
+                        // Habilitar el botón
+                        submitButton.disabled = false;
+                    }
                 }
             };
             xhr.send("fecha=" + fecha + "&docid=" + docid);
