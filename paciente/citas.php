@@ -136,12 +136,78 @@
     $userid = $userfetch["pacid"];
     $username = $userfetch["pacnombre"];
 
+    if (isset($_GET['action']) && $_GET['action'] == 'drop') {
+        if (isset($_GET['id'])) {
+            $citaid = intval($_GET['id']);
+    
+            // Verificar que la cita pertenece al usuario actual
+            $citaQuery = $database->prepare("SELECT * FROM citas WHERE citaid = ? AND pacid = ?");
+            $citaQuery->bind_param("ii", $citaid, $userid);
+            $citaQuery->execute();
+            $citaResult = $citaQuery->get_result();
+    
+            if ($citaResult->num_rows > 0) {
+                // Mostrar un modal de confirmación
+                echo '
+                <div id="cancelarModal" class="modal" style="display:block;">
+                    <div class="modal-content">
+                        <span class="close" onclick="document.getElementById(\'cancelarModal\').style.display=\'none\'">&times;</span>
+                        <h2>Confirmar cancelación</h2>
+                        <p>¿Estás seguro de que deseas cancelar esta cita?</p>
+                        <form method="post" action="">
+                            <input type="hidden" name="citaid" value="' . $citaid . '">
+                            <button type="submit" name="confirm_cancel" class="btn-cancel">Sí, cancelar cita</button>
+                            <button type="button" class="btn-edit" onclick="document.getElementById(\'cancelarModal\').style.display=\'none\'">No, volver</button>
+                        </form>
+                    </div>
+                </div>
+                ';
+            } else {
+                echo '<script>alert("Cita no encontrada o no tienes permiso para cancelarla."); window.location.href="citas.php";</script>';
+            }
+        }
+    }
+
+    // Procesar la cancelación confirmada
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_cancel'])) {
+        $citaid = intval($_POST['citaid']);
+
+        // Verificar nuevamente que la cita pertenece al usuario
+        $citaQuery = $database->prepare("SELECT * FROM citas WHERE citaid = ? AND pacid = ?");
+        $citaQuery->bind_param("ii", $citaid, $userid);
+        $citaQuery->execute();
+        $citaResult = $citaQuery->get_result();
+
+        if ($citaResult->num_rows > 0) {
+            // Eliminar la cita de la base de datos
+            $deleteQuery = $database->prepare("DELETE FROM citas WHERE citaid = ?");
+            $deleteQuery->bind_param("i", $citaid);
+            if ($deleteQuery->execute()) {
+                echo '<script>alert("Cita cancelada exitosamente."); window.location.href="citas.php";</script>';
+            } else {
+                echo '<script>alert("Error al cancelar la cita. Por favor, intenta de nuevo."); window.location.href="citas.php";</script>';
+            }
+        } else {
+            echo '<script>alert("Cita no encontrada o no tienes permiso para cancelarla."); window.location.href="citas.php";</script>';
+        }
+    }
+    
+    
+
     // Consulta principal para obtener las citas
-    $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, especialidades.espnombre
+    /* $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, especialidades.espnombre
                 FROM citas
                 INNER JOIN doctor ON citas.docid = doctor.docid
                 INNER JOIN especialidades ON doctor.especialidades = especialidades.id
-                WHERE citas.pacid = $userid";
+                WHERE citas.pacid = $userid"; */
+
+    $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, especialidades.espnombre
+    FROM citas
+    INNER JOIN doctor ON citas.docid = doctor.docid
+    INNER JOIN especialidades ON doctor.especialidades = especialidades.id
+    WHERE citas.pacid = $userid AND citas.estado != 'Cancelada'";
+
 
     if ($_POST) {
         if (!empty($_POST["sheduledate"])) {
