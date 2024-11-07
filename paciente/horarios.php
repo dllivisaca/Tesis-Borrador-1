@@ -308,7 +308,7 @@
                 <select id="horas" name="hora_inicio" required>
                     <option value="" disabled selected>Escoge una hora de la lista</option>
                 </select><br><br>
-                <button type="submit" class="login-btn btn-primary-soft btn">+ Agendar cita</button>
+                <button type="submit" class="login-btn btn-primary-soft btn" id="agendarBtn">+ Agendar cita</button>
                 
             </form>
         </div>
@@ -363,9 +363,20 @@
                 minDate = new Date(minDate.getTime() + (minDate.getTimezoneOffset() + cstOffset) * 60000);
                 maxDate = new Date(maxDate.getTime() + (maxDate.getTimezoneOffset() + cstOffset) * 60000); */
 
+                // Formatear la fecha a 'yyyy-mm-dd' en zona horaria local
+                function formatDate(date) {
+                    var year = date.getFullYear();
+                    var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                    var day = ('0' + date.getDate()).slice(-2);
+                    return year + '-' + month + '-' + day;
+                }
+
                 // Format date to yyyy-mm-dd for min and max attributes
-                var minDateStr = minDate.toISOString().split('T')[0];
-                var maxDateStr = maxDate.toISOString().split('T')[0];
+                /* var minDateStr = minDate.toISOString().split('T')[0];
+                var maxDateStr = maxDate.toISOString().split('T')[0]; */
+                var minDateStr = formatDate(minDate);
+                var maxDateStr = formatDate(maxDate);
+
 
                 // Set min and max attributes
                 fechaInput.setAttribute("min", minDateStr);
@@ -388,7 +399,43 @@
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4 && xhr.status == 200) {
-                        document.getElementById("horas").innerHTML = xhr.responseText;
+                        var response = xhr.responseText;
+
+                        // Crear un contenedor temporal para manipular el HTML recibido
+                        var tempContainer = document.createElement('div');
+                        tempContainer.innerHTML = '<select>' + response + '</select>';
+                        var options = tempContainer.querySelectorAll('option');
+
+                        var now = new Date();
+                        var time24HoursFromNow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+
+                        // Filtrar las opciones que son al menos 24 horas después
+                        var filteredOptions = Array.from(options).filter(function(option) {
+                            var time = option.value; // Suponiendo que el valor es la hora en formato 'HH:MM - HH:MM'
+
+                            // Obtener la hora de inicio
+                            var timeMatch = time.match(/^(\d{2}:\d{2})/);
+                            if (timeMatch) {
+                                var timeStart = timeMatch[1];
+                                var dateParts = fecha.split('-');
+                                var timeParts = timeStart.split(':');
+                                var optionDateTime = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1]);
+
+                                return optionDateTime.getTime() >= time24HoursFromNow.getTime();
+                            }
+                            return false;
+                        });
+
+                        // Verificar si hay horarios disponibles
+                        if (filteredOptions.length > 0) {
+                            var optionsHTML = filteredOptions.map(function(option) {
+                                return '<option value="' + option.value + '">' + option.text + '</option>';
+                            }).join('');
+                            document.getElementById("horas").innerHTML = optionsHTML;
+                        } else {
+                            document.getElementById("horas").innerHTML = '<option value="" disabled selected>No hay horarios disponibles para la fecha seleccionada</option>';
+                            document.getElementById("agendarBtn").disabled = true;
+                        }
                     }
                 };
                 xhr.send("fecha=" + fecha + "&docnombre=" + encodeURIComponent(docnombre));
