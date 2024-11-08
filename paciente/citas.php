@@ -272,6 +272,7 @@
                                     </td>
                                   </tr>';
                         } else {
+                            $currentDateTime = new DateTime();
                             while ($row = $result->fetch_assoc()) {
                                 $citaid = $row["citaid"];
                                 $docid = $row["docid"];
@@ -282,7 +283,29 @@
                                 $hora_fin = substr($row["hora_fin"], 0, 5);
                                 $hora_completa = $hora_inicio . ' - ' . $hora_fin;
 
-                                echo '<tr>
+                                // Crear un objeto DateTime con la fecha y hora de la cita
+                            $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
+                            // Calcular la diferencia en horas entre la fecha actual y la fecha de la cita
+                            $interval = $currentDateTime->diff($fechaCita);
+                            $hoursDifference = ($interval->days * 24) + $interval->h;
+
+                            // Generar la fila de la tabla
+                            echo '<tr>
+                                    <td>' . $docnombre . '</td>
+                                    <td>' . $espnombre . '</td>
+                                    <td>' . $fecha . ' ' . $hora_completa . '</td>
+                                    <td>';
+
+                            // Mostrar los botones de cancelar y editar solo si faltan más de 48 horas para la cita
+                            if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
+                                echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
+                                    <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $docid . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
+                            }
+
+                            echo '</td></tr>';
+
+
+                               /*  echo '<tr>
                                         <td>' . $docnombre . '</td>
                                         <td>' . $espnombre . '</td>
                                         <td>' . $fecha . ' ' . $hora_completa . '</td>
@@ -290,7 +313,7 @@
                                             <a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
                                             <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $docid . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>
                                         </td>
-                                      </tr>';
+                                      </tr>'; */
                             }
                         }
                         ?>

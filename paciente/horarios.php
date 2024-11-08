@@ -384,6 +384,8 @@
 
                 // Show the modal
                 modal.style.display = "block";
+                document.getElementById("agendarBtn").disabled = true; // Deshabilitar botón inicialmente
+
             }
         }
         // Obtener las horas disponibles al seleccionar la fecha
@@ -432,9 +434,11 @@
                                 return '<option value="' + option.value + '">' + option.text + '</option>';
                             }).join('');
                             document.getElementById("horas").innerHTML = optionsHTML;
+                            document.getElementById("agendarBtn").disabled = false; // Habilitar el botón si hay horarios disponibles
                         } else {
                             document.getElementById("horas").innerHTML = '<option value="" disabled selected>No hay horarios disponibles para la fecha seleccionada</option>';
-                            document.getElementById("agendarBtn").disabled = true;
+                            //document.getElementById("agendarBtn").disabled = true;
+                            document.getElementById("agendarBtn").disabled = true; // Deshabilitar el botón si no hay horarios disponibles
                         }
                     }
                 };
