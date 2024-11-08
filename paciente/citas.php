@@ -308,15 +308,7 @@
                             echo '</td></tr>';
 
 
-                               /*  echo '<tr>
-                                        <td>' . $docnombre . '</td>
-                                        <td>' . $espnombre . '</td>
-                                        <td>' . $fecha . ' ' . $hora_completa . '</td>
-                                        <td>
-                                            <a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
-                                            <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $docid . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>
-                                        </td>
-                                      </tr>'; */
+                             
                             }
                         }
                         ?>
