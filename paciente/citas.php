@@ -339,7 +339,7 @@
                 <button type="submit" class="btn-primary" id="guardarCambiosBtn">Guardar Cambios</button>
             </form>
         </div>
-    </div>
+</div>
 
     <script>
         // Get modal element
@@ -427,21 +427,48 @@
     }
 
 
-        // Handle form submission for editing
-        editarForm.onsubmit = function(e) {
-            e.preventDefault();
-            var formData = new FormData(editarForm);
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "editar_cita.php", true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert(xhr.responseText);
-                    modal.style.display = "none";
-                    window.location.reload(); // Reload page to see updated information
+        // Handle form submission for editing appointment
+    editarForm.onsubmit = function(e) {
+        e.preventDefault();
+
+        // Get form data
+        var citaid = document.getElementById("citaid").value;
+        var docid = document.getElementById("docid").value;
+        var fecha = document.getElementById("fecha").value;
+        var hora = document.getElementById("hora").value;
+
+        // AJAX request to update the appointment
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "editar_cita_procesar.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var response = xhr.responseText.trim();
+
+                    // Handle server response
+                    if (response === "success") {
+                        alert("Cita actualizada exitosamente.");
+                        modal.style.display = "none";
+                        window.location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert("Error al actualizar la cita: " + response);
+                    }
+                } else {
+                    alert("Error en la solicitud al servidor.");
                 }
-            };
-            xhr.send(formData);
+            }
         };
+
+        // Send data to the server
+        var data = "citaid=" + encodeURIComponent(citaid) + 
+                   "&docid=" + encodeURIComponent(docid) + 
+                   "&fecha=" + encodeURIComponent(fecha) + 
+                   "&hora=" + encodeURIComponent(hora);
+
+        xhr.send(data);
+    };
 
         // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
