@@ -260,6 +260,7 @@
                             <th>Nombre del doctor</th>
                             <th>Especialidad</th>
                             <th>Fecha y hora</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -282,6 +283,7 @@
                                 $hora_inicio = substr($row["hora_inicio"], 0, 5);
                                 $hora_fin = substr($row["hora_fin"], 0, 5);
                                 $hora_completa = $hora_inicio . ' - ' . $hora_fin;
+                                $estado = $row["estado"];
 
                                 // Crear un objeto DateTime con la fecha y hora de la cita
                             $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
@@ -294,6 +296,7 @@
                                     <td>' . $docnombre . '</td>
                                     <td>' . $espnombre . '</td>
                                     <td>' . $fecha . ' ' . $hora_completa . '</td>
+                                    <td>' . $estado . '</td> 
                                     <td>';
 
                             // Mostrar los botones de cancelar y editar solo si faltan más de 48 horas para la cita
