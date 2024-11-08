@@ -348,126 +348,187 @@
         var editarForm = document.getElementById("editarForm");
 
         // Open modal when clicking the "Editar" button
+        /* function openEditModal(citaid, docid, fecha, docnombre, hora_completa) {
+            document.getElementById("citaid").value = citaid;
+            document.getElementById("docid").value = docid;
+            document.getElementById("fecha").value = fecha;
+
+            // Set min and max dates for the date input
+            var fechaInput = document.getElementById("fecha");
+            var now = new Date();
+            now.setHours(now.getHours() + 24); // Incrementar 24 horas desde el momento actual
+
+            now.setDate(now.getDate() + 1);
+            //now.setHours(0, 0, 0, 0);
+            var minDate = now;
+            var maxDate = new Date(now.getTime() + 29 * 24 * 60 * 60 * 1000);
+
+            var minDateStr = minDate.toISOString().split('T')[0];
+            var maxDateStr = maxDate.toISOString().split('T')[0];
+
+            fechaInput.setAttribute("min", minDateStr);
+            fechaInput.setAttribute("max", maxDateStr);
+
+            // Fetch available times for the selected doctor and date
+            fetchAvailableTimes(fecha, docid, hora_completa);
+            modal.style.display = "block";
+            document.body.classList.add("modal-open");
+        } */
+
+        // Open modal when clicking the "Editar" button
         function openEditModal(citaid, docid, fecha, docnombre, hora_completa) {
-    document.getElementById("citaid").value = citaid;
-    document.getElementById("docid").value = docid;
-    document.getElementById("fecha").value = fecha;
+            document.getElementById("citaid").value = citaid;
+            document.getElementById("docid").value = docid;
 
-    // Set min and max dates for the date input
-    var fechaInput = document.getElementById("fecha");
-    var now = new Date();
-    now.setDate(now.getDate() + 1);
-    now.setHours(0, 0, 0, 0);
-    var minDate = now;
-    var maxDate = new Date(now.getTime() + 29 * 24 * 60 * 60 * 1000);
+            // Set min and max dates for the date input
+            var fechaInput = document.getElementById("fecha");
 
-    var minDateStr = minDate.toISOString().split('T')[0];
-    var maxDateStr = maxDate.toISOString().split('T')[0];
+            // Obtener la fecha actual
+            var now = new Date();
+            
 
-    fechaInput.setAttribute("min", minDateStr);
-    fechaInput.setAttribute("max", maxDateStr);
+            // Formatear la fecha mínima a 'yyyy-mm-dd'
+            var minDateStr = now.toISOString().split('T')[0];
 
-    // Fetch available times for the selected doctor and date
-    fetchAvailableTimes(fecha, docid, hora_completa);
-    modal.style.display = "block";
-    document.body.classList.add("modal-open");
-}
+            // Calcular la fecha máxima (30 días después de la fecha mínima)
+            var maxDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+            var maxDateStr = maxDate.toISOString().split('T')[0];
 
-    function fetchAvailableTimes(fecha, docid, hora_completa) {
-        console.log("Fetching available times for:", fecha, docid); // Debugging
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "fetch_horarios2.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            // Establecer los valores mínimos y máximos para la fecha del input
+            fechaInput.setAttribute("min", minDateStr);
+            fechaInput.setAttribute("max", maxDateStr);
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    console.log("Response from server:", xhr.responseText); // Debugging
-                    var response = xhr.responseText.trim();
-                    var options = response.split("\n").filter(option => option.trim() !== '');
-                    var timeOptions = options.map(option => option.trim());
+            // Establecer el valor actual en el input de fecha al valor proporcionado
+            fechaInput.value = fecha;
 
-                    // Include the current appointment time in the list if it's not already there
-                    if (hora_completa && !timeOptions.includes(hora_completa)) {
-                        timeOptions.push(hora_completa);
-                    }
+            // Mostrar el modal y cargar los horarios disponibles
+            modal.style.display = "block";
+            document.body.classList.add("modal-open");
 
-                    // Sort the times logically
-                    timeOptions.sort((a, b) => {
-                        var timeA = a.match(/\d{2}:\d{2}/)[0];
-                        var timeB = b.match(/\d{2}:\d{2}/)[0];
-                        return timeA.localeCompare(timeB);
-                    });
+            // Fetch available times for the selected doctor and date
+            fetchAvailableTimes(fecha, docid, hora_completa);
+        }
+            
+        function fetchAvailableTimes(fecha, docid, hora_completa) {
+            console.log("Fetching available times for:", fecha, docid); // Debugging
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "fetch_horarios2.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-                    // Generate the <option> elements for the dropdown
-                    var optionElements = timeOptions.map(time => {
-                        if (time === hora_completa) {
-                            return '<option value="' + time + '" selected>' + time + '</option>';
-                        } else {
-                            return '<option value="' + time + '">' + time + '</option>';
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        console.log("Response from server:", xhr.responseText); // Debugging
+                        var response = xhr.responseText.trim();
+                        var options = response.split("\n").filter(option => option.trim() !== '');
+                        var timeOptions = options.map(option => option.trim());
+
+                        // Obtener la fecha y hora actuales
+                        var now = new Date();
+
+                        // Filtrar las horas si la fecha seleccionada es hoy
+                        var selectedDate = new Date(fecha);
+                        if (
+                            selectedDate.getFullYear() === now.getFullYear() &&
+                            selectedDate.getMonth() === now.getMonth() &&
+                            selectedDate.getDate() === now.getDate()
+                        ) {
+                            // Si la fecha es hoy, filtrar horarios que ya pasaron
+                            timeOptions = timeOptions.filter(time => {
+                                var timeMatch = time.match(/^(\d{2}):(\d{2})/);
+                                if (timeMatch) {
+                                    var [_, hours, minutes] = timeMatch;
+                                    var timeDate = new Date(selectedDate);
+                                    timeDate.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+
+                                    return timeDate > now;
+                                }
+                                return false;
+                            });
                         }
-                    });
 
-                    var submitButton = document.getElementById("guardarCambiosBtn");
-                    var horaSelect = document.getElementById("hora");
 
-                    if (optionElements.length === 0) {
-                        horaSelect.innerHTML = '<option value="" disabled selected>No hay horarios disponibles para la fecha seleccionada</option>';
-                        submitButton.disabled = true;
+                        // Include the current appointment time in the list if it's not already there
+                        if (hora_completa && !timeOptions.includes(hora_completa)) {
+                            timeOptions.push(hora_completa);
+                        }
+
+                        // Sort the times logically
+                        timeOptions.sort((a, b) => {
+                            var timeA = a.match(/\d{2}:\d{2}/)[0];
+                            var timeB = b.match(/\d{2}:\d{2}/)[0];
+                            return timeA.localeCompare(timeB);
+                        });
+
+                        // Generate the <option> elements for the dropdown
+                        var optionElements = timeOptions.map(time => {
+                            if (time === hora_completa) {
+                                return '<option value="' + time + '" selected>' + time + '</option>';
+                            } else {
+                                return '<option value="' + time + '">' + time + '</option>';
+                            }
+                        });
+
+                        var submitButton = document.getElementById("guardarCambiosBtn");
+                        var horaSelect = document.getElementById("hora");
+
+                        if (optionElements.length === 0) {
+                            horaSelect.innerHTML = '<option value="" disabled selected>No hay horarios disponibles para la fecha seleccionada</option>';
+                            submitButton.disabled = true;
+                        } else {
+                            horaSelect.innerHTML = optionElements.join("");
+                            submitButton.disabled = false;
+                        }
                     } else {
-                        horaSelect.innerHTML = optionElements.join("");
-                        submitButton.disabled = false;
+                        console.error("Failed to fetch times. Status:", xhr.status); // Debugging
                     }
-                } else {
-                    console.error("Failed to fetch times. Status:", xhr.status); // Debugging
                 }
-            }
-        };
-        xhr.send("fecha=" + encodeURIComponent(fecha) + "&docid=" + encodeURIComponent(docid));
-    }
+            };
+            xhr.send("fecha=" + encodeURIComponent(fecha) + "&docid=" + encodeURIComponent(docid));
+        }
 
 
         // Handle form submission for editing appointment
-    editarForm.onsubmit = function(e) {
-        e.preventDefault();
+        editarForm.onsubmit = function(e) {
+            e.preventDefault();
 
-        // Get form data
-        var citaid = document.getElementById("citaid").value;
-        var docid = document.getElementById("docid").value;
-        var fecha = document.getElementById("fecha").value;
-        var hora = document.getElementById("hora").value;
+            // Get form data
+            var citaid = document.getElementById("citaid").value;
+            var docid = document.getElementById("docid").value;
+            var fecha = document.getElementById("fecha").value;
+            var hora = document.getElementById("hora").value;
 
-        // AJAX request to update the appointment
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "editar_cita_procesar.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            // AJAX request to update the appointment
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "editar_cita_procesar.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    var response = xhr.responseText.trim();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        var response = xhr.responseText.trim();
 
-                    // Handle server response
-                    if (response === "success") {
-                        alert("Cita actualizada exitosamente.");
-                        modal.style.display = "none";
-                        window.location.reload(); // Reload the page to reflect changes
+                        // Handle server response
+                        if (response === "success") {
+                            alert("Cita actualizada exitosamente.");
+                            modal.style.display = "none";
+                            window.location.reload(); // Reload the page to reflect changes
+                        } else {
+                            alert("Error al actualizar la cita: " + response);
+                        }
                     } else {
-                        alert("Error al actualizar la cita: " + response);
+                        alert("Error en la solicitud al servidor.");
                     }
-                } else {
-                    alert("Error en la solicitud al servidor.");
                 }
-            }
-        };
+            };
 
-        // Send data to the server
-        var data = "citaid=" + encodeURIComponent(citaid) + 
-                   "&docid=" + encodeURIComponent(docid) + 
-                   "&fecha=" + encodeURIComponent(fecha) + 
-                   "&hora=" + encodeURIComponent(hora);
+            // Send data to the server
+            var data = "citaid=" + encodeURIComponent(citaid) + 
+                    "&docid=" + encodeURIComponent(docid) + 
+                    "&fecha=" + encodeURIComponent(fecha) + 
+                    "&hora=" + encodeURIComponent(hora);
 
-        xhr.send(data);
+            xhr.send(data);
     };
 
         // When the user clicks on <span> (x), close the modal

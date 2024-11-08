@@ -353,6 +353,7 @@
                 // Set min and max dates for the date input
                 var fechaInput = document.getElementById("fecha");
                 var now = new Date();
+                
                 var minDate = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours from now
 
                 // Calculate max date (30 days from now)
