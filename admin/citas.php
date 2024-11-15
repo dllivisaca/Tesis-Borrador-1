@@ -7,644 +7,402 @@
     <link rel="stylesheet" href="../css/animations.css">  
     <link rel="stylesheet" href="../css/main.css">  
     <link rel="stylesheet" href="../css/admin.css">
-        
-    <title>Citas</title>
+    
+    <title>Citas Agendadas - Administrador</title>
     <style>
-        .popup{
+        /* Estilos reutilizados del paciente para mantener la consistencia */
+        .container {
+            display: flex;
+        }
+        .menu {
+            width: 20%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .dash-body {
+            width: 80%;
+            padding: 20px;
+        }
+        .table-container {
+            margin-top: 20px;
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        table th {
+            background: #f4f4f4;
+        }
+        .btn-cancel, .btn-edit {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn-cancel:hover, .btn-edit:hover {
+            background-color: #0056b3;
+        }
+        .btn-cancel {
+            background-color: #d9534f;
+        }
+        .btn-cancel:hover {
+            background-color: #c9302c;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            border-radius: 10px;
+            position: relative;
             animation: transitionIn-Y-bottom 0.5s;
         }
-        .sub-table{
-            animation: transitionIn-Y-bottom 0.5s;
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
         }
-</style>
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <?php
-
-    //learn from w3schools.com
-
     session_start();
 
-    if(isset($_SESSION["usuario"])){
-        if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
+    if (isset($_SESSION["usuario"])) {
+        if (empty($_SESSION["usuario"]) || $_SESSION['usuario_rol'] != 'adm') {
             header("location: ../login.php");
+            exit();
         }
-
-    }else{
+    } else {
         header("location: ../login.php");
+        exit();
     }
-    
-    
 
-    //import database
+    $usuario = $_SESSION["usuario"];
+
+    // Importar la base de datos
     include("../conexion_db.php");
+    $userrow = $database->query("SELECT * FROM administrador WHERE admusuario='$usuario'");
+    if (!$userrow || $userrow->num_rows == 0) {
+        header("location: ../login.php");
+        exit();
+    }
+    $userfetch = $userrow->fetch_assoc();
+    $username = htmlspecialchars($userfetch["admusuario"], ENT_QUOTES, 'UTF-8');
 
-    
+    // Consulta principal para obtener todas las citas
+    $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, especialidades.espnombre, paciente.pacnombre
+                FROM citas
+                INNER JOIN doctor ON citas.docid = doctor.docid
+                INNER JOIN especialidades ON doctor.especialidades = especialidades.id
+                INNER JOIN paciente ON citas.pacid = paciente.pacid
+                WHERE citas.estado != 'Cancelada'";
+
+    if ($_POST) {
+        if (!empty($_POST["sheduledate"])) {
+            $sheduledate = $_POST["sheduledate"];
+            $sqlmain .= " AND citas.fecha = '$sheduledate'";
+        }
+        if (!empty($_POST["doctor"])) {
+            $doctor = $_POST["doctor"];
+            $sqlmain .= " AND doctor.docid = $doctor";
+        }
+    }
+
+    $sqlmain .= " ORDER BY citas.fecha ASC";
+    $result = $database->query($sqlmain);
     ?>
     <div class="container">
         <div class="menu">
-            <table class="menu-container" border="0">
-                <tr>
-                    <td style="padding:10px" colspan="2">
-                        <table border="0" class="profile-container">
-                            <tr>
-                                <td width="30%" style="padding-left:20px" >
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
-                                </td>
-                                <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title">Administrator</p>
-                                    <!-- <p class="profile-subtitle">admin@edoc.com</p> -->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="../logout.php" ><input type="button" value="Cerrar sesión" class="logout-btn btn-primary-soft btn"></a>
-                                </td>
-                            </tr>
-                    </table>
-                    </td>
-                
-                </tr>
-                <!-- <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord" >
-                        <a href="index.php" class="non-style-link-menu"><div><p class="menu-text">Dashboard</p></a></div></a>
-                    </td>
-                </tr> -->
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor ">
-                        <a href="doctores.php" class="non-style-link-menu "><div><p class="menu-text">Doctores</p></a></div>
-                    </td>
-                </tr>
-                
-                
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="pacientes.php" class="non-style-link-menu"><div><p class="menu-text">Pacientes</p></a></div>
-                    </td>
-                </tr>
-
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment menu-active menu-icon-appoinment-active">
-                        <a href="citas.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Citas agendadas</p></a></div>
-                    </td>
-                </tr>
-
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-schedule ">
-                        <a href="horarios.php" class="non-style-link-menu"><div><p class="menu-text">Horarios disponibles</p></div></a>
-                    </td>
-                </tr>
-
-            </table>
+            <p class="profile-title">Administrador: <?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?></p>
+            <a href="../logout.php"><button class="logout-btn">Cerrar sesión</button></a>
+            <div class="menu-links">
+                <a href="horarios.php" class="menu-link">Horarios disponibles</a>
+                <a href="citas_admin.php" class="menu-link menu-link-active">Citas agendadas</a>
+                <a href="configuracion.php" class="menu-link">Configuración</a>
+            </div>
         </div>
         <div class="dash-body">
-            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
-                <tr >
-                    <td width="13%" >
-                    <a href="citas.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
-                    </td>
-                    <td>
-                        <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Gestor de citas agendadas</p>
-                                           
-                    </td>
-                    <td width="15%">
-                        <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
-                            Today's Date
-                        </p>
-                        <p class="heading-sub12" style="padding: 0;margin: 0;">
-                            <?php 
-
-                        date_default_timezone_set('Asia/Kolkata');
-
-                        $today = date('Y-m-d');
-                        echo $today;
-
-                        $list110 = $database->query("select  * from  citas;");
-
+            <h2>Citas Agendadas - Administrador</h2>
+            <div class="filter-container">
+                <form action="" method="post">
+                    <label for="sheduledate">Fecha:</label>
+                    <input type="date" name="sheduledate" id="sheduledate">
+                    <label for="doctor">Doctor:</label>
+                    <select name="doctor" id="doctor">
+                        <option value="">Escoge un doctor de la lista</option>
+                        <?php
+                        // Obtener lista de doctores para el filtro
+                        $doctoresResult = $database->query("SELECT docid, docnombre FROM doctor");
+                        while ($doctor = $doctoresResult->fetch_assoc()) {
+                            echo '<option value="' . htmlspecialchars($doctor['docid'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($doctor['docnombre'], ENT_QUOTES, 'UTF-8') . '</option>';
+                        }
                         ?>
-                        </p>
-                    </td>
-                    <td width="10%">
-                        <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
-                    </td>
-
-
-                </tr>
-               
-                <!-- <tr>
-                    <td colspan="4" >
-                        <div style="display: flex;margin-top: 40px;">
-                        <div class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Schedule a Session</div>
-                        <a href="?action=add-session&id=none&error=0" class="non-style-link"><button  class="login-btn btn-primary btn button-icon"  style="margin-left:25px;background-image: url('../img/icons/add.svg');">Add a Session</font></button>
-                        </a>
-                        </div>
-                    </td>
-                </tr> -->
-                <tr>
-                    <td colspan="4" style="padding-top:10px;width: 100%;" >
-                    
-                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Todas las citas(<?php echo $list110->num_rows; ?>)</p>
-                    </td>
-                    
-                </tr>
-                <tr>
-                    <td colspan="4" style="padding-top:0px;width: 100%;" >
-                        <center>
-                        <table class="filter-container" border="0" >
+                    </select>
+                    <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Filtrar</button>
+                </form>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
                         <tr>
-                           <td width="10%">
-
-                           </td> 
-                        <td width="5%" style="text-align: center;">
-                        Date:
-                        </td>
-                        <td width="30%">
-                        <form action="" method="post">
-                            
-                            <input type="date" name="horariofecha" id="fecha" class="input-text filter-container-items" style="margin: 0;width: 95%;">
-
-                        </td>
-                        <td width="5%" style="text-align: center;">
-                        Doctor:
-                        </td>
-                        <td width="30%">
-                        <select name="docid" id="" class="box filter-container-items" style="width:90% ;height: 37px;margin: 0;" >
-                            <option value="" disabled selected hidden>Escoge el nombre del doctor de la lista</option><br/>
-                                
-                            <?php 
-                             
-                                $list11 = $database->query("select  * from  doctor order by docnombre asc;");
-
-                                for ($y=0;$y<$list11->num_rows;$y++){
-                                    $row00=$list11->fetch_assoc();
-                                    $sn=$row00["docnombre"];
-                                    $id00=$row00["docid"];
-                                    echo "<option value=".$id00.">$sn</option><br/>";
-                                };
-
-
-                                ?>
-
-                        </select>
-                    </td>
-                    <td width="12%">
-                        <input type="submit"  name="filter" value=" Filter" class=" btn-primary-soft btn button-icon btn-filter"  style="padding: 15px; margin :0;width:100%">
-                        </form>
-                    </td>
-
-                    </tr>
-                            </table>
-
-                        </center>
-                    </td>
-                    
-                </tr>
-                
-                <?php
-                    if($_POST){
-                        //print_r($_POST);
-                        $sqlpt1="";
-                        if(!empty($_POST["horariofecha"])){
-                            $horariofecha=$_POST["horariofecha"];
-                            $sqlpt1=" horarios.horariofecha='$horariofecha' ";
-                        }
-
-
-                        $sqlpt2="";
-                        if(!empty($_POST["docid"])){
-                            $docid=$_POST["docid"];
-                            $sqlpt2=" doctor.docid=$docid ";
-                        }
-                        //echo $sqlpt2;
-                        //echo $sqlpt1;
-                        $sqlmain= "select citas.citaid,horarios.horarioid,horarios.ttulo,doctor.docnombre,paciente.pacnombre,horarios.horariofecha,horarios.horariohora,citas.citanum,citas.citafecha from horarios inner join citas on horarios.horarioid=citas.horarioid inner join paciente on paciente.pacid=citas.pacid inner join doctor on horarios.docid=doctor.docid";
-                        $sqllist=array($sqlpt1,$sqlpt2);
-                        $sqlkeywords=array(" where "," and ");
-                        $key2=0;
-                        foreach($sqllist as $key){
-
-                            if(!empty($key)){
-                                $sqlmain.=$sqlkeywords[$key2].$key;
-                                $key2++;
-                            };
-                        };
-                        //echo $sqlmain;
-
-                        
-                        
-                        //
-                    }else{
-                        $sqlmain= "select citas.citaid,horarios.horarioid,horarios.titulo,doctor.docnombre,paciente.pacnombre,horarios.horariofecha,horarios.horariohora,citas.citanum,citas.citafecha from horarios inner join citas on horarios.horarioid=citas.horarioid inner join paciente on paciente.pacid=citas.pacid inner join doctor on horarios.docid=doctor.docid  order by horarios.horariofecha desc";
-
-                    }
-
-
-
-                ?>
-                  
-                <tr>
-                   <td colspan="4">
-                       <center>
-                        <div class="abc scroll">
-                        <table width="93%" class="sub-table scrolldown" border="0">
-                        <thead>
-                        <tr>
-                                <th class="table-headin">
-                                    Nombre del paciente
-                                </th>
-                                <th class="table-headin">
-                                    
-                                    Número de cita
-                                    
-                                </th>
-                               
-                                
-                                <th class="table-headin">
-                                    Doctor
-                                </th>
-                                <th class="table-headin">
-                                    
-                                
-                                    Session Title
-                                    
-                                    </th>
-                                
-                                <th class="table-headin" style="font-size:10px">
-                                    
-                                    Session Date & Time
-                                    
-                                </th>
-                                
-                                <th class="table-headin">
-                                    
-                                    Appointment Date
-                                    
-                                </th>
-                                
-                                <th class="table-headin">
-                                    
-                                    Events
-                                    
-                                </tr>
-                        </thead>
-                        <tbody>
-                        
-                            <?php
-
-                                
-                                $result= $database->query($sqlmain);
-
-                                if($result->num_rows==0){
-                                    echo '<tr>
-                                    <td colspan="7">
-                                    <br><br><br><br>
-                                    <center>
-                                    <img src="../img/notfound.svg" width="25%">
-                                    
-                                    <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="citas.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Appointments &nbsp;</font></button>
-                                    </a>
-                                    </center>
-                                    <br><br><br><br>
+                            <th>Nombre del paciente</th>
+                            <th>Nombre del doctor</th>
+                            <th>Especialidad</th>
+                            <th>Fecha y hora</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($result->num_rows == 0) {
+                            echo '<tr>
+                                    <td colspan="6">
+                                        <center>No se encontraron citas agendadas.</center>
                                     </td>
-                                    </tr>';
-                                    
-                                }
-                                else{
-                                for ( $x=0; $x<$result->num_rows;$x++){
-                                    $row=$result->fetch_assoc();
-                                    $citaid=$row["citaid"];
-                                    $horarioid=$row["horarioid"];
-                                    $titulo=$row["titulo"];
-                                    $docnombre=$row["docnombre"];
-                                    $horariofecha=$row["horariofecha"];
-                                    $horariohora=$row["horariohora"];
-                                    $pacnombre=$row["pacnombre"];
-                                    $citanum=$row["citanum"];
-                                    $citafecha=$row["citafecha"];
-                                    echo '<tr >
-                                        <td style="font-weight:600;"> &nbsp;'.
-                                        
-                                        substr($pacnombre,0,25)
-                                        .'</td >
-                                        <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">
-                                        '.$citanum.'
-                                        
-                                        </td>
-                                        <td>
-                                        '.substr($docnombre,0,25).'
-                                        </td>
-                                        <td>
-                                        '.substr($titulo,0,15).'
-                                        </td>
-                                        <td style="text-align:center;font-size:12px;">
-                                            '.substr($horariofecha,0,10).' <br>'.substr($horariohora,0,5).'
-                                        </td>
-                                        
-                                        <td style="text-align:center;">
-                                            '.$citafecha.'
-                                        </td>
+                                  </tr>';
+                        } else {
+                            $currentDateTime = new DateTime();
+                            while ($row = $result->fetch_assoc()) {
+                                $citaid = htmlspecialchars($row["citaid"], ENT_QUOTES, 'UTF-8');
+                                $pacnombre = htmlspecialchars($row["pacnombre"], ENT_QUOTES, 'UTF-8');
+                                $docnombre = htmlspecialchars($row["docnombre"], ENT_QUOTES, 'UTF-8');
+                                $espnombre = htmlspecialchars($row["espnombre"], ENT_QUOTES, 'UTF-8');
+                                $fecha = htmlspecialchars($row["fecha"], ENT_QUOTES, 'UTF-8');
+                                $hora_inicio = substr($row["hora_inicio"], 0, 5);
+                                $hora_fin = substr($row["hora_fin"], 0, 5);
+                                $hora_completa = htmlspecialchars($hora_inicio . ' - ' . $hora_fin, ENT_QUOTES, 'UTF-8');
+                                $estado = htmlspecialchars($row["estado"], ENT_QUOTES, 'UTF-8');
 
-                                        <td>
-                                        <div style="display:flex;justify-content: center;">
-                                        
-                                        <!--<a href="?action=view&id='.$citaid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;-->
-                                       <a href="?action=drop&id='.$citaid.'&name='.$pacnombre.'&session='.$titulo.'&apponum='.$citanum.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancel</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;</div>
-                                        </td>
-                                    </tr>';
-                                    
+                                $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
+                                $interval = $currentDateTime->diff($fechaCita);
+                                $hoursDifference = ($interval->days * 24) + $interval->h;
+
+                                echo '<tr>
+                                        <td>' . $pacnombre . '</td>
+                                        <td>' . $docnombre . '</td>
+                                        <td>' . $espnombre . '</td>
+                                        <td>' . $fecha . ' ' . $hora_completa . '</td>
+                                        <td>' . $estado . '</td>
+                                        <td>';
+                                
+                                if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
+                                    echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
+                                          <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $row["docid"] . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
                                 }
+                                
+                                echo '</td></tr>';
                             }
-                                 
-                            ?>
- 
-                            </tbody>
-
-                        </table>
-                        </div>
-                        </center>
-                   </td> 
-                </tr>
-                       
-                        
-                        
-            </table>
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <?php
-    
-    if($_GET){
-        $id=$_GET["id"];
-        $action=$_GET["action"];
-        if($action=='agregar_horario'){
 
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                    
-                    
-                        <a class="close" href="schedule.php">&times;</a> 
-                        <div style="display: flex;justify-content: center;">
-                        <div class="abc">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        <tr>
-                                <td class="label-td" colspan="2">'.
-                                   ""
-                                
-                                .'</td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Add New Session.</p><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                <form action="agregar_horario.php" method="POST" class="add-new-form">
-                                    <label for="title" class="form-label">Session Title : </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="text" name="title" class="input-text" placeholder="Name of this Session" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="docid" class="form-label">Select Doctor: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <select name="docid" id="" class="box" >
-                                    <option value="" disabled selected hidden>Choose Doctor Name from the list</option><br/>';
-                                        
-        
-                                        $list11 = $database->query("select  * from  doctor;");
-        
-                                        for ($y=0;$y<$list11->num_rows;$y++){
-                                            $row00=$list11->fetch_assoc();
-                                            $sn=$row00["docnombre"];
-                                            $id00=$row00["docid"];
-                                            echo "<option value=".$id00.">$sn</option><br/>";
-                                        };
-        
-        
-        
-                                        
-                        echo     '       </select><br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="nop" class="form-label">Number of Patients/Appointment Numbers : </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="number" name="nop" class="input-text" min="0"  placeholder="The final appointment number for this session depends on this number" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="fecha" class="form-label">Session Date: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="date" name="fecha" class="input-text" min="'.date('Y-m-d').'" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="hora" class="form-label">Schedule Time: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="time" name="hora" class="input-text" placeholder="Time" required><br>
-                                </td>
-                            </tr>
-                           
-                            <tr>
-                                <td colspan="2">
-                                    <input type="reset" value="Reset" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                
-                                    <input type="submit" value="Place this Session" class="login-btn btn-primary btn" name="shedulesubmit">
-                                </td>
-                
-                            </tr>
-                           
-                            </form>
-                            </tr>
-                        </table>
-                        </div>
-                        </div>
-                    </center>
-                    <br><br>
-            </div>
-            </div>
-            ';
-        }elseif($action=='session-added'){
-            $titleget=$_GET["titulo"];
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                    <br><br>
-                        <h2>Session Placed.</h2>
-                        <a class="close" href="horarios.php">&times;</a>
-                        <div class="content">
-                        '.substr($titleget,0,40).' was scheduled.<br><br>
-                            
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        
-                        <a href="horarios.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
-                        <br><br><br><br>
-                        </div>
-                    </center>
-            </div>
-            </div>
-            ';
-        }elseif($action=='drop'){
-            $nameget=$_GET["name"];
-            $session=$_GET["session"];
-            $apponum=$_GET["citanum"];
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <h2>Are you sure?</h2>
-                        <a class="close" href="citas.php">&times;</a>
-                        <div class="content">
-                            You want to delete this record<br><br>
-                            Patient Name: &nbsp;<b>'.substr($nameget,0,40).'</b><br>
-                            Appointment number &nbsp; : <b>'.substr($citanum,0,40).'</b><br><br>
-                            
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        <a href="borrar_cita.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
-                        <a href="citas.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
-
-                        </div>
-                    </center>
-            </div>
-            </div>
-            '; 
-        }elseif($action=='view'){
-            $sqlmain= "select * from doctor where docid='$id'";
-            $result= $database->query($sqlmain);
-            $row=$result->fetch_assoc();
-            $name=$row["docname"];
-            $email=$row["docemail"];
-            $spe=$row["specialties"];
-            
-            $spcil_res= $database->query("select sname from specialties where id='$spe'");
-            $spcil_array= $spcil_res->fetch_assoc();
-            $spcil_name=$spcil_array["sname"];
-            $nic=$row['docnic'];
-            $tele=$row['doctel'];
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <h2></h2>
-                        <a class="close" href="doctors.php">&times;</a>
-                        <div class="content">
-                            eDoc Web App<br>
-                            
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View Details.</p><br><br>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Name: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    '.$name.'<br><br>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Email: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$email.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">NIC: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$nic.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Telephone: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$tele.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Specialties: </label>
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                            '.$spcil_name.'<br><br>
-                            </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="doctors.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-                                
-                                    
-                                </td>
-                
-                            </tr>
-                           
-
-                        </table>
-                        </div>
-                    </center>
-                    <br><br>
-            </div>
-            </div>
-            ';  
-    }
-}
-
-    ?>
+    <!-- Modal for editing appointment -->
+    <div id="editarModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Editar Cita</h2>
+            <form id="editarForm">
+                <input type="hidden" id="citaid" name="citaid">
+                <input type="hidden" id="docid" name="docid">
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+                <div class="form-group">
+                    <label for="hora">Horas disponibles:</label>
+                    <select id="hora" name="hora" required>
+                        <option value="" disabled selected>Escoge una hora de la lista</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" id="guardarCambiosBtn">Guardar Cambios</button>
+            </form>
+        </div>
     </div>
 
+    <script>
+        // Get modal element
+        var modal = document.getElementById("editarModal");
+        var editarForm = document.getElementById("editarForm");
+
+        // Open modal when clicking the "Editar" button
+        function openEditModal(citaid, docid, fecha, docnombre, hora_completa) {
+            document.getElementById("citaid").value = citaid;
+            document.getElementById("docid").value = docid;
+
+            var fechaInput = document.getElementById("fecha");
+            var now = new Date();
+            var minDateStr = now.toISOString().split('T')[0];
+            var maxDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+            var maxDateStr = maxDate.toISOString().split('T')[0];
+            fechaInput.setAttribute("min", minDateStr);
+            fechaInput.setAttribute("max", maxDateStr);
+            fechaInput.value = fecha;
+
+            modal.style.display = "block";
+            document.body.classList.add("modal-open");
+
+            fetchAvailableTimes(fecha, docid, hora_completa);
+        }
+
+        function fetchAvailableTimes(fecha, docid, hora_completa) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "fetch_horarios2.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        var response = xhr.responseText.trim();
+                        var options = response.split("\n").filter(option => option.trim() !== '');
+                        var timeOptions = options.map(option => option.trim());
+
+                        var now = new Date();
+                        var selectedDate = new Date(fecha);
+                        if (
+                            selectedDate.getFullYear() === now.getFullYear() &&
+                            selectedDate.getMonth() === now.getMonth() &&
+                            selectedDate.getDate() === now.getDate()
+                        ) {
+                            timeOptions = timeOptions.filter(time => {
+                                var timeMatch = time.match(/^\d{2}:\d{2}/);
+                                if (timeMatch) {
+                                    var [_, hours, minutes] = timeMatch;
+                                    var timeDate = new Date(selectedDate);
+                                    timeDate.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+                                    return timeDate > now;
+                                }
+                                return false;
+                            });
+                        }
+
+                        if (hora_completa && !timeOptions.includes(hora_completa)) {
+                            timeOptions.push(hora_completa);
+                        }
+
+                        timeOptions.sort((a, b) => {
+                            var timeA = a.match(/\d{2}:\d{2}/)[0];
+                            var timeB = b.match(/\d{2}:\d{2}/)[0];
+                            return timeA.localeCompare(timeB);
+                        });
+
+                        var optionElements = timeOptions.map(time => {
+                            if (time === hora_completa) {
+                                return '<option value="' + time + '" selected>' + time + '</option>';
+                            } else {
+                                return '<option value="' + time + '">' + time + '</option>';
+                            }
+                        });
+
+                        var submitButton = document.getElementById("guardarCambiosBtn");
+                        var horaSelect = document.getElementById("hora");
+
+                        if (optionElements.length === 0) {
+                            horaSelect.innerHTML = '<option value="" disabled selected>No hay horarios disponibles para la fecha seleccionada</option>';
+                            submitButton.disabled = true;
+                        } else {
+                            horaSelect.innerHTML = optionElements.join("");
+                            submitButton.disabled = false;
+                        }
+                    }
+                }
+            };
+            xhr.send("fecha=" + encodeURIComponent(fecha) + "&docid=" + encodeURIComponent(docid));
+        }
+
+        editarForm.onsubmit = function(e) {
+            e.preventDefault();
+
+            var citaid = document.getElementById("citaid").value;
+            var docid = document.getElementById("docid").value;
+            var fecha = document.getElementById("fecha").value;
+            var hora = document.getElementById("hora").value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "editar_cita_procesar.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        var response = xhr.responseText.trim();
+
+                        if (response === "success") {
+                            alert("Cita actualizada exitosamente.");
+                            closeModal();
+                            window.location.reload();
+                        } else {
+                            alert("Error al actualizar la cita: " + response);
+                        }
+                    } else {
+                        alert("Error en la solicitud al servidor.");
+                    }
+                }
+            };
+
+            var data = "citaid=" + encodeURIComponent(citaid) + 
+                    "&docid=" + encodeURIComponent(docid) + 
+                    "&fecha=" + encodeURIComponent(fecha) + 
+                    "&hora=" + encodeURIComponent(hora);
+
+            xhr.send(data);
+        };
+
+        function closeModal() {
+            modal.style.display = "none";
+            document.body.classList.remove("modal-open");
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        };
+
+        document.getElementById("fecha").addEventListener("change", function() {
+            var fecha = this.value;
+            var docid = document.getElementById("docid").value;
+            fetchAvailableTimes(fecha, docid, "");
+        });
+
+    </script>
 </body>
 </html>
