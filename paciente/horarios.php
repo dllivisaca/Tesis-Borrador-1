@@ -357,7 +357,7 @@
                 var minDate = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours from now
 
                 // Calculate max date (30 days from now)
-                var maxDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+                var maxDate = new Date(now.getTime() + 31 * 24 * 60 * 60 * 1000);
 
                  // Convert minDate and maxDate to CST timezone
                 /* var cstOffset = -6 * 60; // CST is UTC-6 in minutes
