@@ -220,7 +220,7 @@
                     <input type="date" name="sheduledate" id="sheduledate">
                     <label for="doctor">Doctor:</label>
                     <select name="doctor" id="doctor">
-                        <option value="">Escoge un doctor de la lista</option>
+                        <option value="" disabled selected>Escoge un doctor de la lista</option>
                         <?php
                         // Obtener lista de doctores para el filtro
                         $doctoresResult = $database->query("SELECT docid, docnombre FROM doctor");
@@ -230,6 +230,7 @@
                         ?>
                     </select>
                     <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Filtrar</button>
+                    <button type="button" class="btn-primary-soft btn button-icon btn-add" onclick="openAgregarCitaModal()">+ Agregar nueva cita</button>
                 </form>
             </div>
             <div class="table-container">
@@ -311,6 +312,64 @@
                     </select>
                 </div>
                 <button type="submit" class="btn-primary" id="guardarCambiosBtn">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    
+    <!-- Modal for adding a new appointment -->
+    <div id="agregarCitaModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAgregarCitaModal()">&times;</span>
+            <h2>Agregar nueva cita</h2>
+            <form id="agregarCitaForm">
+                <label for="nombre_paciente">Nombre y usuario del paciente:</label>
+                <select id="nombre_paciente" name="nombre_paciente" required>
+                    <option value="" disabled selected>Escoge un paciente de la lista</option>
+                    <?php
+                    // Obtener lista de pacientes, incluyendo el nombre del usuario
+                    $pacientesResult = $database->query("SELECT pacid, pacnombre, pacusuario FROM paciente");
+                    while ($paciente = $pacientesResult->fetch_assoc()) {
+                        $nombreCompleto = htmlspecialchars($paciente['pacnombre'], ENT_QUOTES, 'UTF-8');
+                        $nombreUsuario = htmlspecialchars($paciente['pacusuario'], ENT_QUOTES, 'UTF-8');
+                        echo '<option value="' . htmlspecialchars($paciente['pacid'], ENT_QUOTES, 'UTF-8') . '">' . $nombreCompleto . ' - ' . $nombreUsuario . '</option>';
+                    }
+                    ?>
+                </select><br><br>
+
+                <label for="especialidad_medica">Especialidad médica:</label>
+                <select id="especialidad_medica" name="especialidad_medica" required>
+                    <option value="" disabled selected>Escoge una especialidad de la lista</option>
+                    <?php
+                    // Obtener lista de especialidades
+                    $especialidadesResult = $database->query("SELECT id, espnombre FROM especialidades");
+                    while ($especialidad = $especialidadesResult->fetch_assoc()) {
+                        echo '<option value="' . htmlspecialchars($especialidad['id'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($especialidad['espnombre'], ENT_QUOTES, 'UTF-8') . '</option>';
+                    }
+                    ?>
+                </select><br><br>
+
+                <label for="nombre_doctor">Nombre del doctor:</label>
+                <select id="nombre_doctor" name="nombre_doctor" required>
+                    <option value="" disabled selected>Escoge un doctor de la lista</option>
+                    <?php
+                    // Obtener lista de doctores
+                    $doctoresResult = $database->query("SELECT docid, docnombre FROM doctor");
+                    while ($doctor = $doctoresResult->fetch_assoc()) {
+                        echo '<option value="' . htmlspecialchars($doctor['docid'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($doctor['docnombre'], ENT_QUOTES, 'UTF-8') . '</option>';
+                    }
+                    ?>
+                </select><br><br>
+
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" required><br><br>
+
+                <label for="hora_disponible">Horas disponibles:</label>
+                <select id="hora_disponible" name="hora_disponible" required>
+                    <option value="" disabled selected>Escoge una hora de la lista</option>
+                </select><br><br>
+
+                <button type="submit" class="btn-primary">+ Agregar cita</button>
             </form>
         </div>
     </div>
@@ -468,6 +527,100 @@
             var fecha = this.value;
             var docid = document.getElementById("docid").value;
             fetchAvailableTimes(fecha, docid, "");
+        });
+
+        // Funciones para abrir y cerrar el modal de agregar cita
+        function openAgregarCitaModal() {
+            document.getElementById("agregarCitaModal").style.display = "block";
+        }
+
+        function closeAgregarCitaModal() {
+            document.getElementById("agregarCitaModal").style.display = "none";
+        }
+
+        // Obtener las horas disponibles al seleccionar la fecha
+        document.getElementById("fecha").addEventListener("change", function () {
+            var fecha = this.value;
+            var doctorId = document.getElementById("nombre_doctor").value;
+
+            if (fecha && doctorId) {
+                // Crear una petición AJAX para obtener los horarios
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "fetch_horarios2.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        document.getElementById("hora_disponible").innerHTML = xhr.responseText;
+                    }
+                };
+                xhr.send("fecha=" + encodeURIComponent(fecha) + "&docid=" + encodeURIComponent(doctorId));
+            }
+        });
+
+        // Cerrar el modal cuando se hace clic fuera de él
+        window.onclick = function (event) {
+            var modal = document.getElementById("agregarCitaModal");
+            if (event.target == modal) {
+                closeAgregarCitaModal();
+            }
+        }
+
+        // Manejar el envío del formulario de agregar cita
+        document.getElementById("agregarCitaForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "agregar_cita.php", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText);
+                    closeAgregarCitaModal();
+                    location.reload();
+                }
+            };
+            xhr.send(formData);
+        });
+
+        document.getElementById("especialidad_medica").addEventListener("change", function () {
+            var especialidadId = this.value;
+
+            console.log("Especialidad seleccionada: " + especialidadId); // Para verificar el valor seleccionado
+
+            if (especialidadId) {
+                // Crear una petición AJAX para obtener los doctores de la especialidad seleccionada
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "fetch_doctores.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        // Actualizar el contenido del select de doctores
+                        document.getElementById("nombre_doctor").innerHTML = xhr.responseText;
+                    }
+                };
+                xhr.send("especialidad_id=" + encodeURIComponent(especialidadId));
+            } else {
+                // Si no hay especialidad seleccionada, limpiar el dropdown de doctores
+                document.getElementById("nombre_doctor").innerHTML = '<option value="" disabled selected>Escoge un doctor de la lista</option>';
+            }
+        });
+        
+        document.getElementById("agregarCitaForm").addEventListener("submit", function (e) {
+            var pacienteSelect = document.getElementById("nombre_paciente");
+            var doctorSelect = document.getElementById("nombre_doctor");
+            var especialidadSelect = document.getElementById("especialidad_medica");
+            var horaSelect = document.getElementById("hora_disponible");
+
+            if (
+                pacienteSelect.value === "" ||
+                doctorSelect.value === "" ||
+                especialidadSelect.value === "" ||
+                horaSelect.value === ""
+            ) {
+                alert("Por favor selecciona todas las opciones necesarias.");
+                e.preventDefault(); // Evitar el envío del formulario
+            }
         });
 
     </script>
