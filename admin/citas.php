@@ -123,6 +123,63 @@
     $userfetch = $userrow->fetch_assoc();
     $username = htmlspecialchars($userfetch["admusuario"], ENT_QUOTES, 'UTF-8');
 
+    // Manejar la cancelación de citas
+    if (isset($_GET['action']) && $_GET['action'] == 'drop') {
+        if (isset($_GET['id'])) {
+            $citaid = intval($_GET['id']);
+
+            // Verificar que la cita existe
+            $citaQuery = $database->prepare("SELECT * FROM citas WHERE citaid = ?");
+            $citaQuery->bind_param("i", $citaid);
+            $citaQuery->execute();
+            $citaResult = $citaQuery->get_result();
+
+            if ($citaResult->num_rows > 0) {
+                // Mostrar un modal de confirmación
+                echo '
+                <div id="cancelarModal" class="modal" style="display:block;">
+                    <div class="modal-content">
+                        <span class="close" onclick="document.getElementById(\'cancelarModal\').style.display=\'none\'">&times;</span>
+                        <h2>Confirmar cancelación</h2>
+                        <p>¿Estás seguro de que deseas cancelar esta cita?</p>
+                        <form method="post" action="">
+                            <input type="hidden" name="citaid" value="' . $citaid . '">
+                            <button type="submit" name="confirm_cancel" class="btn-cancel">Sí, cancelar cita</button>
+                            <button type="button" class="btn-edit" onclick="document.getElementById(\'cancelarModal\').style.display=\'none\'">No, volver</button>
+                        </form>
+                    </div>
+                </div>
+                ';
+            } else {
+                echo '<script>alert("Cita no encontrada."); window.location.href="cita.php";</script>';
+            }
+        }
+    }
+
+    // Procesar la cancelación confirmada
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_cancel'])) {
+        $citaid = intval($_POST['citaid']);
+
+        // Verificar nuevamente que la cita existe
+        $citaQuery = $database->prepare("SELECT * FROM citas WHERE citaid = ?");
+        $citaQuery->bind_param("i", $citaid);
+        $citaQuery->execute();
+        $citaResult = $citaQuery->get_result();
+
+        if ($citaResult->num_rows > 0) {
+            // Eliminar la cita de la base de datos
+            $deleteQuery = $database->prepare("DELETE FROM citas WHERE citaid = ?");
+            $deleteQuery->bind_param("i", $citaid);
+            if ($deleteQuery->execute()) {
+                echo '<script>alert("Cita cancelada exitosamente."); window.location.href="citas.php";</script>';
+            } else {
+                echo '<script>alert("Error al cancelar la cita. Por favor, intenta de nuevo."); window.location.href="citas_admin.php";</script>';
+            }
+        } else {
+            echo '<script>alert("Cita no encontrada."); window.location.href="citas.php";</script>';
+        }
+    }
+
     // Consulta principal para obtener todas las citas
     $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, especialidades.espnombre, paciente.pacnombre
                 FROM citas
@@ -151,7 +208,7 @@
             <a href="../logout.php"><button class="logout-btn">Cerrar sesión</button></a>
             <div class="menu-links">
                 <a href="horarios.php" class="menu-link">Horarios disponibles</a>
-                <a href="citas_admin.php" class="menu-link menu-link-active">Citas agendadas</a>
+                <a href="citas.php" class="menu-link menu-link-active">Citas agendadas</a>
                 <a href="configuracion.php" class="menu-link">Configuración</a>
             </div>
         </div>
@@ -222,7 +279,7 @@
                                 
                                 if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
                                     echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
-                                          <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $row["docid"] . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
+                                          <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
                                 }
                                 
                                 echo '</td></tr>';
@@ -262,6 +319,8 @@
         // Get modal element
         var modal = document.getElementById("editarModal");
         var editarForm = document.getElementById("editarForm");
+        var originalFecha = "";
+        var originalHora = "";
 
         // Open modal when clicking the "Editar" button
         function openEditModal(citaid, docid, fecha, docnombre, hora_completa) {
@@ -276,6 +335,9 @@
             fechaInput.setAttribute("min", minDateStr);
             fechaInput.setAttribute("max", maxDateStr);
             fechaInput.value = fecha;
+
+            originalFecha = fecha;
+            originalHora = hora_completa;
 
             modal.style.display = "block";
             document.body.classList.add("modal-open");
@@ -355,6 +417,11 @@
             var docid = document.getElementById("docid").value;
             var fecha = document.getElementById("fecha").value;
             var hora = document.getElementById("hora").value;
+
+            if (fecha === originalFecha && hora === originalHora) {
+                alert("No se realizaron cambios en la cita.");
+                return;
+            }
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "editar_cita_procesar.php", true);

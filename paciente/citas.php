@@ -193,21 +193,12 @@
         }
     }
     
-    
-
     // Consulta principal para obtener las citas
-    /* $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, especialidades.espnombre
-                FROM citas
-                INNER JOIN doctor ON citas.docid = doctor.docid
-                INNER JOIN especialidades ON doctor.especialidades = especialidades.id
-                WHERE citas.pacid = $userid"; */
-
     $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, especialidades.espnombre
     FROM citas
     INNER JOIN doctor ON citas.docid = doctor.docid
     INNER JOIN especialidades ON doctor.especialidades = especialidades.id
     WHERE citas.pacid = $userid AND citas.estado != 'Cancelada'";
-
 
     if ($_POST) {
         if (!empty($_POST["sheduledate"])) {
@@ -286,29 +277,26 @@
                                 $estado = $row["estado"];
 
                                 // Crear un objeto DateTime con la fecha y hora de la cita
-                            $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
-                            // Calcular la diferencia en horas entre la fecha actual y la fecha de la cita
-                            $interval = $currentDateTime->diff($fechaCita);
-                            $hoursDifference = ($interval->days * 24) + $interval->h;
+                                $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
+                                // Calcular la diferencia en horas entre la fecha actual y la fecha de la cita
+                                $interval = $currentDateTime->diff($fechaCita);
+                                $hoursDifference = ($interval->days * 24) + $interval->h;
 
-                            // Generar la fila de la tabla
-                            echo '<tr>
-                                    <td>' . $docnombre . '</td>
-                                    <td>' . $espnombre . '</td>
-                                    <td>' . $fecha . ' ' . $hora_completa . '</td>
-                                    <td>' . $estado . '</td> 
-                                    <td>';
+                                // Generar la fila de la tabla
+                                echo '<tr>
+                                        <td>' . $docnombre . '</td>
+                                        <td>' . $espnombre . '</td>
+                                        <td>' . $fecha . ' ' . $hora_completa . '</td>
+                                        <td>' . $estado . '</td> 
+                                        <td>';
 
-                            // Mostrar los botones de cancelar y editar solo si faltan más de 48 horas para la cita
-                            if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
-                                echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
-                                    <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $docid . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
-                            }
+                                // Mostrar los botones de cancelar y editar solo si faltan más de 48 horas para la cita
+                                if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
+                                    echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
+                                        <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $docid . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
+                                }
 
-                            echo '</td></tr>';
-
-
-                             
+                                echo '</td></tr>';
                             }
                         }
                         ?>
@@ -321,7 +309,7 @@
     <!-- Modal for editing appointment -->
     <div id="editarModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal()">&times;</span>
             <h2>Editar Cita</h2>
             <form id="editarForm">
                 <input type="hidden" id="citaid" name="citaid">
@@ -346,34 +334,8 @@
         var modal = document.getElementById("editarModal");
         var span = document.getElementsByClassName("close")[0];
         var editarForm = document.getElementById("editarForm");
-
-        // Open modal when clicking the "Editar" button
-        /* function openEditModal(citaid, docid, fecha, docnombre, hora_completa) {
-            document.getElementById("citaid").value = citaid;
-            document.getElementById("docid").value = docid;
-            document.getElementById("fecha").value = fecha;
-
-            // Set min and max dates for the date input
-            var fechaInput = document.getElementById("fecha");
-            var now = new Date();
-            now.setHours(now.getHours() + 24); // Incrementar 24 horas desde el momento actual
-
-            now.setDate(now.getDate() + 1);
-            //now.setHours(0, 0, 0, 0);
-            var minDate = now;
-            var maxDate = new Date(now.getTime() + 29 * 24 * 60 * 60 * 1000);
-
-            var minDateStr = minDate.toISOString().split('T')[0];
-            var maxDateStr = maxDate.toISOString().split('T')[0];
-
-            fechaInput.setAttribute("min", minDateStr);
-            fechaInput.setAttribute("max", maxDateStr);
-
-            // Fetch available times for the selected doctor and date
-            fetchAvailableTimes(fecha, docid, hora_completa);
-            modal.style.display = "block";
-            document.body.classList.add("modal-open");
-        } */
+        var originalFecha = "";
+        var originalHora = "";
 
         // Open modal when clicking the "Editar" button
         function openEditModal(citaid, docid, fecha, docnombre, hora_completa) {
@@ -382,35 +344,26 @@
 
             // Set min and max dates for the date input
             var fechaInput = document.getElementById("fecha");
-
-            // Obtener la fecha actual
             var now = new Date();
-            
-
-            // Formatear la fecha mínima a 'yyyy-mm-dd'
+            now.setDate(now.getDate() + 1);
             var minDateStr = now.toISOString().split('T')[0];
-
-            // Calcular la fecha máxima (30 días después de la fecha mínima)
             var maxDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
             var maxDateStr = maxDate.toISOString().split('T')[0];
-
-            // Establecer los valores mínimos y máximos para la fecha del input
             fechaInput.setAttribute("min", minDateStr);
             fechaInput.setAttribute("max", maxDateStr);
-
-            // Establecer el valor actual en el input de fecha al valor proporcionado
             fechaInput.value = fecha;
 
-            // Mostrar el modal y cargar los horarios disponibles
+            originalFecha = fecha;
+            originalHora = hora_completa;
+
             modal.style.display = "block";
             document.body.classList.add("modal-open");
 
             // Fetch available times for the selected doctor and date
             fetchAvailableTimes(fecha, docid, hora_completa);
         }
-            
+        
         function fetchAvailableTimes(fecha, docid, hora_completa) {
-            console.log("Fetching available times for:", fecha, docid); // Debugging
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "fetch_horarios2.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -418,7 +371,6 @@
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
-                        console.log("Response from server:", xhr.responseText); // Debugging
                         var response = xhr.responseText.trim();
                         var options = response.split("\n").filter(option => option.trim() !== '');
                         var timeOptions = options.map(option => option.trim());
@@ -435,7 +387,7 @@
                         ) {
                             // Si la fecha es hoy, filtrar horarios que ya pasaron
                             timeOptions = timeOptions.filter(time => {
-                                var timeMatch = time.match(/^(\d{2}):(\d{2})/);
+                                var timeMatch = time.match(/^\d{2}:\d{2}/);
                                 if (timeMatch) {
                                     var [_, hours, minutes] = timeMatch;
                                     var timeDate = new Date(selectedDate);
@@ -446,7 +398,6 @@
                                 return false;
                             });
                         }
-
 
                         // Include the current appointment time in the list if it's not already there
                         if (hora_completa && !timeOptions.includes(hora_completa)) {
@@ -487,7 +438,6 @@
             xhr.send("fecha=" + encodeURIComponent(fecha) + "&docid=" + encodeURIComponent(docid));
         }
 
-
         // Handle form submission for editing appointment
         editarForm.onsubmit = function(e) {
             e.preventDefault();
@@ -497,6 +447,11 @@
             var docid = document.getElementById("docid").value;
             var fecha = document.getElementById("fecha").value;
             var hora = document.getElementById("hora").value;
+
+            if (fecha === originalFecha && hora === originalHora) {
+                alert("No se realizaron cambios en la cita.");
+                return;
+            }
 
             // AJAX request to update the appointment
             var xhr = new XMLHttpRequest();
