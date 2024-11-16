@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -159,24 +160,27 @@
     // Procesar la cancelación confirmada
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_cancel'])) {
         $citaid = intval($_POST['citaid']);
-
+    
         // Verificar nuevamente que la cita existe
         $citaQuery = $database->prepare("SELECT * FROM citas WHERE citaid = ?");
         $citaQuery->bind_param("i", $citaid);
         $citaQuery->execute();
         $citaResult = $citaQuery->get_result();
-
+    
         if ($citaResult->num_rows > 0) {
             // Eliminar la cita de la base de datos
             $deleteQuery = $database->prepare("DELETE FROM citas WHERE citaid = ?");
             $deleteQuery->bind_param("i", $citaid);
             if ($deleteQuery->execute()) {
                 echo '<script>alert("Cita cancelada exitosamente."); window.location.href="citas.php";</script>';
+                exit();  // Asegúrate de terminar el script después de la redirección
             } else {
-                echo '<script>alert("Error al cancelar la cita. Por favor, intenta de nuevo."); window.location.href="citas_admin.php";</script>';
+                echo '<script>alert("Error al cancelar la cita. Por favor, intenta de nuevo."); window.location.href="citas.php";</script>';
+                exit();  // Asegúrate de terminar el script después de la redirección
             }
         } else {
             echo '<script>alert("Cita no encontrada."); window.location.href="citas.php";</script>';
+            exit();  // Asegúrate de terminar el script después de la redirección
         }
     }
 
