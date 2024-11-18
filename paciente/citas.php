@@ -347,7 +347,7 @@
             var now = new Date();
             now.setDate(now.getDate() + 1);
             var minDateStr = now.toISOString().split('T')[0];
-            var maxDate = new Date(now.getTime() + 29 * 24 * 60 * 60 * 1000);
+            var maxDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);       
             var maxDateStr = maxDate.toISOString().split('T')[0];
             fechaInput.setAttribute("min", minDateStr);
             fechaInput.setAttribute("max", maxDateStr);

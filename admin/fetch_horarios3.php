@@ -91,10 +91,11 @@ if (isset($_POST['fecha']) && isset($_POST['docid'])) {
     }
 
     if (empty($timesArray)) {
-        echo "No hay horarios disponibles para la fecha seleccionada";
+        echo '<option value="" disabled selected>No hay horarios disponibles para la fecha seleccionada</option>';
     } else {
-        // Output the times, one per line
-        echo implode("\n", $timesArray);
+        foreach ($timesArray as $time) {
+            echo '<option value="' . htmlspecialchars($time, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($time, ENT_QUOTES, 'UTF-8') . '</option>';
+        }
     }
 } else {
     echo "Error: No se recibieron los parámetros requeridos.";

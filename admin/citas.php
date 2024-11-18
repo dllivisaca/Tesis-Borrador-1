@@ -338,21 +338,26 @@
             <h2>Agregar nueva cita</h2>
             <form id="agregarCitaForm">
                 <label for="nombre_paciente">Nombre y usuario del paciente:</label>
-                <select id="nombre_paciente" name="nombre_paciente" required>
+                <select id="nombre_paciente" name="pacid" required>
                     <option value="" disabled selected>Escoge un paciente de la lista</option>
                     <?php
                     // Obtener lista de pacientes, incluyendo el nombre del usuario
                     $pacientesResult = $database->query("SELECT pacid, pacnombre, pacusuario FROM paciente");
                     while ($paciente = $pacientesResult->fetch_assoc()) {
-                        $nombreCompleto = htmlspecialchars($paciente['pacnombre'], ENT_QUOTES, 'UTF-8');
+                        /* $nombreCompleto = htmlspecialchars($paciente['pacnombre'], ENT_QUOTES, 'UTF-8');
                         $nombreUsuario = htmlspecialchars($paciente['pacusuario'], ENT_QUOTES, 'UTF-8');
                         echo '<option value="' . htmlspecialchars($paciente['pacid'], ENT_QUOTES, 'UTF-8') . '">' . $nombreCompleto . ' - ' . $nombreUsuario . '</option>';
+                    } */
+                        $pacid = htmlspecialchars($paciente['pacid'], ENT_QUOTES, 'UTF-8');
+                        $nombreCompleto = htmlspecialchars($paciente['pacnombre'], ENT_QUOTES, 'UTF-8');
+                        $nombreUsuario = htmlspecialchars($paciente['pacusuario'], ENT_QUOTES, 'UTF-8');
+                        echo '<option value="' . $pacid . '">' . $nombreCompleto . ' - ' . $nombreUsuario . '</option>';
                     }
                     ?>
                 </select><br><br>
 
                 <label for="especialidad_medica">Especialidad médica:</label>
-                <select id="especialidad_medica" name="especialidad_medica" required>
+                <select id="especialidad_medica" name="especialidad_id" required>
                     <option value="" disabled selected>Escoge una especialidad de la lista</option>
                     <?php
                     // Obtener lista de especialidades
@@ -364,7 +369,7 @@
                 </select><br><br>
 
                 <label for="nombre_doctor">Nombre del doctor:</label>
-                <select id="nombre_doctor" name="nombre_doctor" required>
+                <select id="nombre_doctor" name="docid" required>
                     <option value="" disabled selected>Escoge un doctor de la lista</option>
                     <?php
                     // Obtener lista de doctores
@@ -375,15 +380,15 @@
                     ?>
                 </select><br><br>
 
-                <label for="fecha">Fecha:</label>
-                <input type="date" id="fecha" name="fecha" required><br><br>
+                <label for="fecha_agregar">Fecha:</label>
+                <input type="date" id="fecha_agregar" name="fecha" required><br><br>
 
-                <label for="hora_disponible">Horas disponibles:</label>
-                <select id="hora_disponible" name="hora_disponible" required>
+                <label for="hora_disponible_agregar">Horas disponibles:</label>
+                <select id="hora_disponible_agregar" name="hora_disponible" required>
                     <option value="" disabled selected>Escoge una hora de la lista</option>
                 </select><br><br>
 
-                <button type="submit" class="btn-primary">+ Agregar cita</button>
+                <button type="submit" class="btn-primary" id="agregarCitaBtn">+ Agregar cita</button>
             </form>
         </div>
     </div>
@@ -403,7 +408,7 @@
             var fechaInput = document.getElementById("fecha");
             var now = new Date();
             var minDateStr = now.toISOString().split('T')[0];
-            var maxDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+            var maxDate = new Date(now.getTime() + 31 * 24 * 60 * 60 * 1000);
             var maxDateStr = maxDate.toISOString().split('T')[0];
             fechaInput.setAttribute("min", minDateStr);
             fechaInput.setAttribute("max", maxDateStr);
@@ -548,6 +553,23 @@
         // Funciones para abrir y cerrar el modal de agregar cita
         function openAgregarCitaModal() {
             document.getElementById("agregarCitaModal").style.display = "block";
+
+            // Establecer las restricciones de fecha
+            var fechaInput = document.getElementById("fecha_agregar");
+            var now = new Date();
+            var minDate = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 horas desde ahora
+            var maxDate = new Date(now.getTime() + 31 * 24 * 60 * 60 * 1000); // 30 días desde ahora
+
+            // Formatear las fechas a 'yyyy-mm-dd'
+            function formatDate(date) {
+                var year = date.getFullYear();
+                var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                var day = ('0' + date.getDate()).slice(-2);
+                return year + '-' + month + '-' + day;
+            }
+
+            fechaInput.setAttribute("min", formatDate(minDate));
+            fechaInput.setAttribute("max", formatDate(maxDate));
         }
 
         function closeAgregarCitaModal() {
@@ -555,21 +577,39 @@
         }
 
         // Obtener las horas disponibles al seleccionar la fecha
-        document.getElementById("fecha").addEventListener("change", function () {
+        document.getElementById("fecha_agregar").addEventListener("change", function () {
             var fecha = this.value;
             var doctorId = document.getElementById("nombre_doctor").value;
+
+            console.log("Fecha seleccionada:", fecha);
+            console.log("Doctor ID:", doctorId);
 
             if (fecha && doctorId) {
                 // Crear una petición AJAX para obtener los horarios
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "fetch_horarios2.php", true);
+                xhr.open("POST", "fetch_horarios3.php", true); // Actualizado a fetch_horarios3.php
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
-                        document.getElementById("hora_disponible").innerHTML = xhr.responseText;
+                        var response = xhr.responseText.trim();
+                        console.log("Respuesta del servidor:", response);
+
+                        var horaDisponibleSelect = document.getElementById("hora_disponible_agregar");
+                        horaDisponibleSelect.innerHTML = response;
+
+                        // Verificar si hay horarios disponibles
+                        if (horaDisponibleSelect.options.length > 0 && horaDisponibleSelect.options[0].value !== "") {
+                            document.getElementById("agregarCitaBtn").disabled = false; // Habilitar el botón si hay horarios disponibles
+                        } else {
+                            document.getElementById("agregarCitaBtn").disabled = true; // Deshabilitar el botón si no hay horarios disponibles
+                        }
                     }
                 };
+
                 xhr.send("fecha=" + encodeURIComponent(fecha) + "&docid=" + encodeURIComponent(doctorId));
+            } else {
+                console.log("Fecha o doctor no seleccionados");
             }
         });
 
@@ -582,7 +622,7 @@
         }
 
         // Manejar el envío del formulario de agregar cita
-        document.getElementById("agregarCitaForm").addEventListener("submit", function (e) {
+        /* document.getElementById("agregarCitaForm").addEventListener("submit", function (e) {
             e.preventDefault();
 
             var formData = new FormData(this);
@@ -597,7 +637,7 @@
                 }
             };
             xhr.send(formData);
-        });
+        }); */
 
         document.getElementById("especialidad_medica").addEventListener("change", function () {
             var especialidadId = this.value;
@@ -622,27 +662,51 @@
             }
         });
         
-        document.getElementById("agregarCitaForm").addEventListener("submit", function (e) {
-            var pacienteSelect = document.getElementById("nombre_paciente");
-            var doctorSelect = document.getElementById("nombre_doctor");
-            var especialidadSelect = document.getElementById("especialidad_medica");
-            var horaSelect = document.getElementById("hora_disponible");
+        document.getElementById("nombre_doctor").addEventListener("change", function () {
+            // Vaciar el select de horas disponibles
+            document.getElementById("hora_disponible_agregar").innerHTML = '<option value="" disabled selected>Escoge una hora de la lista</option>';
 
-            if (
-                pacienteSelect.value === "" ||
-                doctorSelect.value === "" ||
-                especialidadSelect.value === "" ||
-                horaSelect.value === ""
-            ) {
-                alert("Por favor selecciona todas las opciones necesarias.");
-                e.preventDefault(); // Evitar el envío del formulario
+            // Deshabilitar el botón de agregar cita
+            document.getElementById("agregarCitaBtn").disabled = true;
+
+            // Si ya hay una fecha seleccionada, intentar obtener los horarios disponibles
+            var fecha = document.getElementById("fecha_agregar").value;
+            console.log("Fecha seleccionada para envío: ", fecha);
+            if (fecha) {
+                // Disparar el evento 'change' del input de fecha para obtener los horarios
+                var event = new Event('change');
+                document.getElementById("fecha_agregar").dispatchEvent(event);
             }
         });
-        function closeCancelarModal() {
-            document.getElementById('cancelarModal').style.display = 'none';
-            var newURL = window.location.origin + window.location.pathname;
-            window.history.replaceState({}, document.title, newURL);
-        }
+
+        document.getElementById("agregarCitaForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            // Separar la hora de inicio y fin
+            var horaSeleccionada = document.getElementById("hora_disponible_agregar").value;
+            if (horaSeleccionada) {
+                var horas = horaSeleccionada.split(' - ');
+                formData.append("hora_inicio", horas[0]);
+                formData.append("hora_fin", horas[1]);
+            } else {
+                alert("Por favor selecciona una hora válida.");
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "agregar_cita.php", true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText);
+                    closeAgregarCitaModal();
+                    location.reload();
+                }
+            };
+            xhr.send(formData);
+        });
 
     </script>
 </body>
