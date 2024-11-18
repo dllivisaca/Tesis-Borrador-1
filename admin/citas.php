@@ -140,16 +140,29 @@
                 echo '
                 <div id="cancelarModal" class="modal" style="display:block;">
                     <div class="modal-content">
-                        <span class="close" onclick="document.getElementById(\'cancelarModal\').style.display=\'none\'">&times;</span>
+                        <span class="close" onclick="closeCancelarModal()">&times;</span>
                         <h2>Confirmar cancelación</h2>
                         <p>¿Estás seguro de que deseas cancelar esta cita?</p>
-                        <form method="post" action="">
+                        <form method="post" action="citas.php">
                             <input type="hidden" name="citaid" value="' . $citaid . '">
                             <button type="submit" name="confirm_cancel" class="btn-cancel">Sí, cancelar cita</button>
-                            <button type="button" class="btn-edit" onclick="document.getElementById(\'cancelarModal\').style.display=\'none\'">No, volver</button>
+                            <button type="button" class="btn-edit" onclick="closeCancelarModal()">No, volver</button>
                         </form>
                     </div>
                 </div>
+                <script>
+                    // Remover los parámetros GET de la URL
+                    if (window.location.search.includes(\'action=drop\')) {
+                        var newURL = window.location.origin + window.location.pathname;
+                        window.history.replaceState({}, document.title, newURL);
+                    }
+                    function closeCancelarModal() {
+                        document.getElementById(\'cancelarModal\').style.display = \'none\';
+                        var newURL = window.location.origin + window.location.pathname;
+                        window.history.replaceState({}, document.title, newURL);
+                    }
+                </script>
+                
                 ';
             } else {
                 echo '<script>alert("Cita no encontrada."); window.location.href="cita.php";</script>';
@@ -160,27 +173,24 @@
     // Procesar la cancelación confirmada
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_cancel'])) {
         $citaid = intval($_POST['citaid']);
-    
+
         // Verificar nuevamente que la cita existe
         $citaQuery = $database->prepare("SELECT * FROM citas WHERE citaid = ?");
         $citaQuery->bind_param("i", $citaid);
         $citaQuery->execute();
         $citaResult = $citaQuery->get_result();
-    
+
         if ($citaResult->num_rows > 0) {
             // Eliminar la cita de la base de datos
             $deleteQuery = $database->prepare("DELETE FROM citas WHERE citaid = ?");
             $deleteQuery->bind_param("i", $citaid);
             if ($deleteQuery->execute()) {
                 echo '<script>alert("Cita cancelada exitosamente."); window.location.href="citas.php";</script>';
-                exit();  // Asegúrate de terminar el script después de la redirección
             } else {
                 echo '<script>alert("Error al cancelar la cita. Por favor, intenta de nuevo."); window.location.href="citas.php";</script>';
-                exit();  // Asegúrate de terminar el script después de la redirección
             }
         } else {
             echo '<script>alert("Cita no encontrada."); window.location.href="citas.php";</script>';
-            exit();  // Asegúrate de terminar el script después de la redirección
         }
     }
 
@@ -498,7 +508,9 @@
                         if (response === "success") {
                             alert("Cita actualizada exitosamente.");
                             closeModal();
-                            window.location.reload();
+                            window.history.replaceState({}, document.title, window.location.pathname);
+                            window.location.reload(); 
+                            //window.location.reload();
                         } else {
                             alert("Error al actualizar la cita: " + response);
                         }
@@ -626,6 +638,11 @@
                 e.preventDefault(); // Evitar el envío del formulario
             }
         });
+        function closeCancelarModal() {
+            document.getElementById('cancelarModal').style.display = 'none';
+            var newURL = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, newURL);
+        }
 
     </script>
 </body>
