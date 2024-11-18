@@ -68,7 +68,7 @@
                     //Vista de doctor
                     $_SESSION['usuario']=$usuario;
                     $_SESSION['usuario_rol']='doc';
-                    header('location: inicio_doctor.html');
+                    header('location: doctor/citas.php');
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Error: Usuario o contraseña incorrectos</label>';
                 }
