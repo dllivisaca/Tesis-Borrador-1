@@ -10,8 +10,8 @@ include("../conexion_db.php");
 use Twilio\Rest\Client;
 
 // Tus credenciales de Twilio
-$sid = 'AC2886577c1ea8bbb40225f3a0153c2da5'; // Reemplaza con tu Account SID
-$token = 'e72981fa3d3a57184c0c419a47a2cd01'; // Reemplaza con tu Auth Token
+$sid = 'X'; // Reemplaza con tu Account SID
+$token = 'X'; // Reemplaza con tu Auth Token
 $client = new Client($sid, $token);
 
 // Obtener citas de las próximas 24 horas y 3 horas antes
