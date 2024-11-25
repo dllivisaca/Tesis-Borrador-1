@@ -100,6 +100,8 @@
 </head>
 <body>
     <?php
+    date_default_timezone_set('America/Guayaquil');
+
     session_start();
 
     if (isset($_SESSION["usuario"])) {
@@ -173,6 +175,22 @@
                     $updateQuery = $database->prepare("UPDATE citas SET recordatorio_reenviado = 1 WHERE citaid = ?");
                     $updateQuery->bind_param("i", $citaid);
                     if ($updateQuery->execute()) {
+                        //Escribir en el log
+                        
+                        $log_file = __DIR__ . "/recordatorios_log.txt";
+                        $fecha_actual = date('Y-m-d H:i:s');
+
+                        // Calcular la diferencia en horas
+                        $fecha_hora_actual = strtotime($fecha_actual);
+                        $fecha_hora_cita = strtotime("$fecha_cita $hora_inicio");
+                        $horas_diferencia = ($fecha_hora_cita - $fecha_hora_actual) / 3600;
+                        $horas_diferencia_formateada = number_format($horas_diferencia, 12);
+
+                        $log_message = "Reenvío de recordatorio: $fecha_actual \nCita ID: $citaid - Diferencia en horas: $horas_diferencia_formateada - Fecha y hora de la cita: $fecha_cita $hora_inicio\n";
+                        file_put_contents($log_file, $log_message, FILE_APPEND);
+                        // 
+                        
+
                         echo '<script>alert("Recordatorio reenviado exitosamente."); window.location.href="citas.php";</script>';
                     } else {
                         echo '<script>alert("Error al actualizar el estado del recordatorio."); window.location.href="citas.php";</script>';
