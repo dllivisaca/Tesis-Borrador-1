@@ -195,7 +195,7 @@
     }
 
     // Consulta principal para obtener todas las citas
-    $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, especialidades.espnombre, paciente.pacnombre
+    $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, citas.recordatorio_reenviado, especialidades.espnombre, paciente.pacnombre
                 FROM citas
                 INNER JOIN doctor ON citas.docid = doctor.docid
                 INNER JOIN especialidades ON doctor.especialidades = especialidades.id
@@ -279,10 +279,13 @@
                                 $hora_fin = substr($row["hora_fin"], 0, 5);
                                 $hora_completa = htmlspecialchars($hora_inicio . ' - ' . $hora_fin, ENT_QUOTES, 'UTF-8');
                                 $estado = htmlspecialchars($row["estado"], ENT_QUOTES, 'UTF-8');
+                                $recordatorioReenviado = $row['recordatorio_reenviado'];
 
                                 $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
                                 $interval = $currentDateTime->diff($fechaCita);
                                 $hoursDifference = ($interval->days * 24) + $interval->h;
+                                /* $minutesDifference = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i; */
+
 
                                 echo '<tr>
                                         <td>' . $pacnombre . '</td>
@@ -291,12 +294,24 @@
                                         <td>' . $fecha . ' ' . $hora_completa . '</td>
                                         <td>' . $estado . '</td>
                                         <td>';
-                                
+
+                                // Mostrar botón de cancelar o editar si la cita está pendiente y faltan más de 48 horas
+                                /* if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
+                                    echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
+                                          <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
+                                } */
+
+                                // Mostrar botón de cancelar o editar si la cita está pendiente y faltan más de 48 horas
                                 if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
                                     echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
                                           <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
                                 }
-                                
+
+                                // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
+                                if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
+                                    echo '<a href="?action=reenviar&id=' . $citaid . '"><button class="btn-edit">Reenviar Recordatorio</button></a>';
+                                }
+                                            
                                 echo '</td></tr>';
                             }
                         }
@@ -392,6 +407,8 @@
             </form>
         </div>
     </div>
+
+    
 
     <script>
         // Get modal element
