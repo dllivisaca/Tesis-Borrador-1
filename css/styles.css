@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.alert {
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+    color: #ffffff;
+}
+
+.alert-success {
+    background-color: #4CAF50; /* Verde para éxito */
+}
+
+.alert-danger {
+    background-color: #f44336; /* Rojo para error */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    /* Elimina las propiedades flex que podrían limitar el ancho */
+    /* display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    flex-direction: column; */
+}
+
+.container {
+    width: 100%; /* Cambiado de 80% a 100% */
+    max-width: 1200px; /* Opcional: establece un ancho máximo */
+    background-color: #fff;
+    padding: 20px;
+    margin: 0 auto; /* Centra el contenedor */
+    /* Elimina align-items para evitar centrado horizontal */
+    /* align-items: center; */
+}
+
+.tab_box {
+    width: 100%; /* Asegura que tab_box ocupe todo el ancho */
+    max-width: 1200px; /* Opcional */
+    margin: 10px auto;
+    display: flex;
+    justify-content: center; /* Centrar los botones de las pestañas */
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 0;
+}
+
+.tab_box .tab_btn {
+    font-size: 18px;
+    font-weight: 600;
+    color: violet;
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.tab_box .tab_btn.active {
+    color: blue;
+    border-bottom: 3px solid blue;
+}
+
+.content_box {
+    width: 100%; /* Asegura que el content_box ocupe todo el ancho */
+    max-width: 1200px; /* Opcional */
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 20px;
+    /* Elimina align-items para evitar centrado horizontal */
+    /* align-items: center; */
+}
+
+.content_box .content {
+    display: none;
+    animation: moving .5s ease;
+}
+
+@keyframes moving {
+    from { transform: translateX(50px); opacity: 0; }
+    to { transform: translateX(0px); opacity: 1; }
+}
+
+.content_box .content.active {
+    display: block;
+}
+
+.content_box .content h3 {
+    margin-bottom: 10px;
+}
+
+.sub-table {
+    width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.label-td {
+    font-weight: bold;
+    text-align: right;
+    padding-right: 15px;
+    vertical-align: middle;
+}
+
+.info-td {
+    text-align: left;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+
+.horario-table {
+    width: 100%; /* Asegura que la tabla ocupe todo el ancho del contenedor */
+    border-collapse: collapse;
+}
+
+.horario-table th, .horario-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+/* Ajusta el ancho de las columnas según tus necesidades */
+.horario-table th:nth-child(1), .horario-table td:nth-child(1) {
+    width: 35%; /* Incrementa el ancho de la columna de los días */
+}
+.horario-table th:nth-child(2), .horario-table td:nth-child(2),
+.horario-table th:nth-child(3), .horario-table td:nth-child(3) {
+    width: 32.5%; /* Ajusta el ancho de las columnas de horarios */
+}
+
+.info-label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.info-text {
+    margin-bottom: 15px;
+}
