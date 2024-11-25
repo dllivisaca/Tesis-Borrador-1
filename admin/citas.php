@@ -369,7 +369,12 @@
                                     echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
                                           <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
                                 }
-                                
+
+                                // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
+                                if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
+                                    echo '<a href="?action=reenviar&id=' . $citaid . '"><button class="btn-edit" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar Recordatorio</button></a>';
+                                }
+                                            
                                 echo '</td></tr>';
                             }
                         }

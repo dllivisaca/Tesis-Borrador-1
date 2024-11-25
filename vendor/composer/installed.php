@@ -3,11 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-<<<<<<< HEAD
-        'reference' => '63802878c6ea1483bbc432b50acb0e0dfcb1ca5f',
-=======
-        'reference' => 'e60fd8335965cba6eea6dc3d469828d10a5ebbb1',
->>>>>>> 63802878c6ea1483bbc432b50acb0e0dfcb1ca5f
+        'reference' => 'c15adbe367973e0389bdec40a34ddcf04fa22368',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -17,17 +13,12 @@
         '__root__' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-<<<<<<< HEAD
-            'reference' => '63802878c6ea1483bbc432b50acb0e0dfcb1ca5f',
-=======
-            'reference' => 'e60fd8335965cba6eea6dc3d469828d10a5ebbb1',
->>>>>>> 63802878c6ea1483bbc432b50acb0e0dfcb1ca5f
+            'reference' => 'c15adbe367973e0389bdec40a34ddcf04fa22368',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
         'graham-campbell/result-type' => array(
             'pretty_version' => 'v1.1.3',
             'version' => '1.1.3.0',
@@ -73,8 +64,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-=======
->>>>>>> 63802878c6ea1483bbc432b50acb0e0dfcb1ca5f
         'twilio/sdk' => array(
             'pretty_version' => '8.3.8',
             'version' => '8.3.8.0',
@@ -84,7 +73,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
         'vlucas/phpdotenv' => array(
             'pretty_version' => 'v5.6.1',
             'version' => '5.6.1.0',
@@ -94,7 +82,5 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-=======
->>>>>>> 63802878c6ea1483bbc432b50acb0e0dfcb1ca5f
     ),
 );
