@@ -124,6 +124,69 @@
     $userfetch = $userrow->fetch_assoc();
     $username = htmlspecialchars($userfetch["admusuario"], ENT_QUOTES, 'UTF-8');
 
+    require __DIR__ . '/../vendor/autoload.php'; // Ajusta la ruta si es necesario
+
+    use Twilio\Rest\Client;
+
+    // **LÓGICA PARA REENVIAR EL RECORDATORIO**
+    if (isset($_GET['action']) && $_GET['action'] == 'reenviar') {
+        if (isset($_GET['id'])) {
+            $citaid = intval($_GET['id']);
+
+            // Verificar que la cita existe
+            $citaQuery = $database->prepare("SELECT citas.*, paciente.pactelf, paciente.pacnombre 
+                                            FROM citas 
+                                            INNER JOIN paciente ON citas.pacid = paciente.pacid 
+                                            WHERE citas.citaid = ?");
+            $citaQuery->bind_param("i", $citaid);
+            $citaQuery->execute();
+            $citaResult = $citaQuery->get_result();
+
+            if ($citaResult->num_rows > 0) {
+                $cita = $citaResult->fetch_assoc();
+
+                // Tus credenciales de Twilio (reemplázalas con las correctas)
+                $sid = '';
+                $token = '';
+                $client = new Client($sid, $token);
+
+                // Información del paciente y cita
+                $telefono_paciente = $cita['pactelf'];
+                $nombre_paciente = $cita['pacnombre'];
+                $fecha_cita = $cita['fecha'];
+                $hora_inicio = $cita['hora_inicio'];
+
+                // Mensaje de recordatorio
+                $mensaje = "Hola $nombre_paciente, le recordamos que tiene una cita médica programada para el $fecha_cita a las $hora_inicio. Por favor, asegúrese de asistir puntualmente.";
+
+                try {
+                    // Enviar el mensaje de WhatsApp
+                    $message = $client->messages->create(
+                        "whatsapp:$telefono_paciente", // Número del destinatario con 'whatsapp:' como prefijo
+                        [
+                            'from' => 'whatsapp:+14155238886', // Número de la Sandbox de Twilio
+                            'body' => $mensaje
+                        ]
+                    );
+
+                    // Actualizar la base de datos para indicar que se reenviaron los recordatorios
+                    $updateQuery = $database->prepare("UPDATE citas SET recordatorio_reenviado = 1 WHERE citaid = ?");
+                    $updateQuery->bind_param("i", $citaid);
+                    if ($updateQuery->execute()) {
+                        echo '<script>alert("Recordatorio reenviado exitosamente."); window.location.href="citas.php";</script>';
+                    } else {
+                        echo '<script>alert("Error al actualizar el estado del recordatorio."); window.location.href="citas.php";</script>';
+                    }
+                } catch (Exception $e) {
+                    // Mostrar un mensaje de error en caso de fallo al enviar el mensaje de WhatsApp
+                    echo '<script>alert("Error al enviar el mensaje de WhatsApp: ' . $e->getMessage() . '"); window.location.href="citas.php";</script>';
+                }
+            } else {
+                echo '<script>alert("Cita no encontrada."); window.location.href="citas.php";</script>';
+            }
+        }
+    }
+
     // Manejar la cancelación de citas
     if (isset($_GET['action']) && $_GET['action'] == 'drop') {
         if (isset($_GET['id'])) {
@@ -195,7 +258,7 @@
     }
 
     // Consulta principal para obtener todas las citas
-    $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, especialidades.espnombre, paciente.pacnombre
+    $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, citas.recordatorio_reenviado, especialidades.espnombre, paciente.pacnombre
                 FROM citas
                 INNER JOIN doctor ON citas.docid = doctor.docid
                 INNER JOIN especialidades ON doctor.especialidades = especialidades.id
@@ -279,10 +342,13 @@
                                 $hora_fin = substr($row["hora_fin"], 0, 5);
                                 $hora_completa = htmlspecialchars($hora_inicio . ' - ' . $hora_fin, ENT_QUOTES, 'UTF-8');
                                 $estado = htmlspecialchars($row["estado"], ENT_QUOTES, 'UTF-8');
+                                $recordatorioReenviado = $row['recordatorio_reenviado'];
 
                                 $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
                                 $interval = $currentDateTime->diff($fechaCita);
                                 $hoursDifference = ($interval->days * 24) + $interval->h;
+                                /* $minutesDifference = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i; */
+
 
                                 echo '<tr>
                                         <td>' . $pacnombre . '</td>
@@ -291,12 +357,24 @@
                                         <td>' . $fecha . ' ' . $hora_completa . '</td>
                                         <td>' . $estado . '</td>
                                         <td>';
-                                
+
+                                // Mostrar botón de cancelar o editar si la cita está pendiente y faltan más de 48 horas
+                                /* if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
+                                    echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
+                                          <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
+                                } */
+
+                                // Mostrar botón de cancelar o editar si la cita está pendiente y faltan más de 48 horas
                                 if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
                                     echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
                                           <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
                                 }
-                                
+
+                                // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
+                                if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
+                                    echo '<a href="?action=reenviar&id=' . $citaid . '"><button class="btn-edit" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar Recordatorio</button></a>';
+                                }
+                                            
                                 echo '</td></tr>';
                             }
                         }
@@ -392,6 +470,8 @@
             </form>
         </div>
     </div>
+
+    
 
     <script>
         // Get modal element
