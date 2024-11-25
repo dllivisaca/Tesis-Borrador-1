@@ -46,3 +46,74 @@ Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:
 Ejecución automática: 2024-11-25 11:10:02
 Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
 Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución manual: 2024-11-25 11:45:41
+No hay citas próximas para enviar recordatorios.
+Ejecución manual: 2024-11-25 11:46:05
+No hay citas próximas para enviar recordatorios.
+Ejecución automática: 2024-11-25 11:50:01
+No hay citas próximas para enviar recordatorios.
+Ejecución automática: 2024-11-25 11:55:01
+No hay citas próximas para enviar recordatorios.
+Ejecución manual: 2024-11-25 11:57:46
+No hay citas próximas para enviar recordatorios.
+Ejecución automática: 2024-11-25 12:00:02
+No hay citas próximas para enviar recordatorios.
+Ejecución automática: 2024-11-25 12:05:02
+No hay citas próximas para enviar recordatorios.
+Ejecución automática: 2024-11-25 12:10:01
+No hay citas próximas para enviar recordatorios.
+Ejecución automática: 2024-11-25 12:15:01
+No hay citas próximas para enviar recordatorios.
+Ejecución automática: 2024-11-25 12:20:01
+Cita ID: 32 - Diferencia en horas: -430.33361111111 - Fecha y hora de la cita: 2024-11-07 14:00:00
+Cita ID: 34 - Diferencia en horas: -411.33361111111 - Fecha y hora de la cita: 2024-11-08 09:00:00
+Cita ID: 69 - Diferencia en horas: -97.833611111111 - Fecha y hora de la cita: 2024-11-21 10:30:00
+Cita ID: 71 - Diferencia en horas: 23.999722222222 - Fecha y hora de la cita: 2024-11-26 12:20:00
+Cita ID: 72 - Diferencia en horas: -73.333611111111 - Fecha y hora de la cita: 2024-11-22 11:00:00
+Cita ID: 73 - Diferencia en horas: -168.83361111111 - Fecha y hora de la cita: 2024-11-18 11:30:00
+Ejecución automática: 2024-11-25 12:48:28
+Cita ID: 32 - Diferencia en horas: -430.80777777778 - Fecha y hora de la cita: 2024-11-07 14:00:00
+Cita ID: 34 - Diferencia en horas: -411.80777777778 - Fecha y hora de la cita: 2024-11-08 09:00:00
+Cita ID: 69 - Diferencia en horas: -98.307777777778 - Fecha y hora de la cita: 2024-11-21 10:30:00
+Cita ID: 71 - Diferencia en horas: 23.525555555556 - Fecha y hora de la cita: 2024-11-26 12:20:00
+Cita ID: 72 - Diferencia en horas: -73.807777777778 - Fecha y hora de la cita: 2024-11-22 11:00:00
+Cita ID: 73 - Diferencia en horas: -169.30777777778 - Fecha y hora de la cita: 2024-11-18 11:30:00
+Ejecución automática: 2024-11-25 12:50:01
+Cita ID: 32 - Diferencia en horas: -430.83361111111 - Fecha y hora de la cita: 2024-11-07 14:00:00
+Cita ID: 34 - Diferencia en horas: -411.83361111111 - Fecha y hora de la cita: 2024-11-08 09:00:00
+Cita ID: 69 - Diferencia en horas: -98.333611111111 - Fecha y hora de la cita: 2024-11-21 10:30:00
+Cita ID: 71 - Diferencia en horas: 23.499722222222 - Fecha y hora de la cita: 2024-11-26 12:20:00
+Cita ID: 72 - Diferencia en horas: -73.833611111111 - Fecha y hora de la cita: 2024-11-22 11:00:00
+Cita ID: 73 - Diferencia en horas: -169.33361111111 - Fecha y hora de la cita: 2024-11-18 11:30:00
+Ejecución manual: 2024-11-25 12:50:21
+Cita ID: 32 - Diferencia en horas: -430.83916666667 - Fecha y hora de la cita: 2024-11-07 14:00:00
+Cita ID: 34 - Diferencia en horas: -411.83916666667 - Fecha y hora de la cita: 2024-11-08 09:00:00
+Cita ID: 69 - Diferencia en horas: -98.339166666667 - Fecha y hora de la cita: 2024-11-21 10:30:00
+Cita ID: 71 - Diferencia en horas: 24.160833333333 - Fecha y hora de la cita: 2024-11-26 13:00:00
+Recordatorio de 24 horas marcado como enviado para la cita ID: 71
+Cita ID: 72 - Diferencia en horas: -73.839166666667 - Fecha y hora de la cita: 2024-11-22 11:00:00
+Cita ID: 73 - Diferencia en horas: -169.33916666667 - Fecha y hora de la cita: 2024-11-18 11:30:00
+Ejecución manual: 2024-11-25 12:51:21
+No se encontraron citas pendientes.
+Ejecución automática: 2024-11-25 12:55:01
+No se encontraron citas pendientes.
+Ejecución manual: 2024-11-25 12:55:56
+No se encontraron citas pendientes.
+Ejecución automática: 2024-11-25 13:00:01
+No se encontraron citas pendientes.
+Ejecución manual: 2024-11-25 13:00:49
+Cita ID: 71 - Diferencia en horas: 24.003055555556 - Fecha y hora de la cita: 2024-11-26 13:01:00
+Recordatorio de 24 horas marcado como enviado para la cita ID: 71
+Ejecución automática: 2024-11-25 13:05:01
+No se encontraron citas pendientes.
+Ejecución manual: 2024-11-25 13:07:29
+Cita ID: 71 - Diferencia en horas: 23.991944444444 - Fecha y hora de la cita: 2024-11-26 13:07:00
+Recordatorio de 24 horas marcado como enviado para la cita ID: 71
+Ejecución automática: 2024-11-25 13:10:02
+Cita ID: 71 - Diferencia en horas: 23.999444444444 - Fecha y hora de la cita: 2024-11-26 13:10:00
+Recordatorio de 24 horas marcado como enviado para la cita ID: 71
+Ejecución manual: 2024-11-25 13:10:39
+Cita ID: 71 - Diferencia en horas: 2.9891666666667 - Fecha y hora de la cita: 2024-11-25 16:10:00
+Recordatorio de 3 horas marcado como enviado para la cita ID: 71
+Ejecución manual: 2024-11-25 13:10:55
+No se encontraron citas pendientes.
