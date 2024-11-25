@@ -1,0 +1,48 @@
+Ejecución automática: 2024-11-25 15:11:37
+Ejecución automática: 2024-11-25 15:14:02
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Error al enviar mensaje a: Daisy Llivisaca - +593990043768 - Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+Ejecución automática: 2024-11-25 15:18:16
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución automática: 2024-11-25 15:23:37
+No hay citas próximas para enviar recordatorios.
+Ejecución automática: 2024-11-25 09:24:06
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución automática: 2024-11-25 09:24:40
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución automática: 2024-11-25 09:26:43
+No hay citas próximas para enviar recordatorios.
+Ejecución manual: 2024-11-25 09:33:26
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución automática: 2024-11-25 09:54:20
+Ejecución automática: 2024-11-25 09:55:02
+Ejecución automática: 2024-11-25 10:00:04
+Ejecución automática: 2024-11-25 10:05:02
+Ejecución manual: 2024-11-25 10:05:49
+Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución automática: 2024-11-25 10:10:02
+Ejecución automática: 2024-11-25 10:15:02
+Ejecución manual: 2024-11-25 10:16:11
+Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución automática: 2024-11-25 10:20:02
+Ejecución automática: 2024-11-25 10:22:30
+Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución automática: 2024-11-25 10:25:01
+Ejecución automática: 2024-11-25 10:30:01
+Ejecución automática: 2024-11-25 10:50:02
+Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución automática: 2024-11-25 10:55:01
+No hay citas próximas para enviar recordatorios.
+Ejecución automática: 2024-11-25 11:00:01
+Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución automática: 2024-11-25 11:05:01
+Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Ejecución automática: 2024-11-25 11:10:02
+Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
+Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
