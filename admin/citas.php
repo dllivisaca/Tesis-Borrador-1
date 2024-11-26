@@ -275,6 +275,32 @@
         }
     }
 
+    // **LÓGICA PARA MARCAR LA CITA COMO FINALIZADA**
+    if (isset($_GET['action']) && $_GET['action'] == 'finalizar') {
+        if (isset($_GET['citaid'])) {
+            $citaid = intval($_GET['citaid']);
+
+            // Verificar que la cita existe
+            $citaQuery = $database->prepare("SELECT * FROM citas WHERE citaid = ?");
+            $citaQuery->bind_param("i", $citaid);
+            $citaQuery->execute();
+            $citaResult = $citaQuery->get_result();
+
+            if ($citaResult->num_rows > 0) {
+                // Actualizar el estado de la cita a 'finalizada'
+                $updateQuery = $database->prepare("UPDATE citas SET estado = 'finalizada' WHERE citaid = ?");
+                $updateQuery->bind_param("i", $citaid);
+                if ($updateQuery->execute()) {
+                    echo '<script>alert("Cita marcada como finalizada."); window.location.href="citas.php";</script>';
+                } else {
+                    echo '<script>alert("Error al actualizar el estado de la cita."); window.location.href="citas.php";</script>';
+                }
+            } else {
+                echo '<script>alert("Cita no encontrada o no pertenece a este doctor."); window.location.href="citas.php";</script>';
+            }
+        }
+    }
+
     // Consulta principal para obtener todas las citas
     $sqlmain = "SELECT citas.citaid, doctor.docid, doctor.docnombre, citas.fecha, citas.hora_inicio, citas.hora_fin, citas.estado, citas.recordatorio_reenviado, especialidades.espnombre, paciente.pacnombre
                 FROM citas
@@ -388,10 +414,19 @@
                                           <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
                                 }
 
-                                // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
-                                if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
-                                    echo '<button class="btn-edit" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar Recordatorio</button>';
+                                if ($estado == 'pendiente') {
+                                    echo '<button class="btn-action" onclick="marcarComoFinalizada(' . $citaid . ')">Marcar como finalizada</button>';
+                                    
+                                    // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
+                                    if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
+                                        echo '<button class="btn-action" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar recordatorio</button>';
+                                    }
                                 }
+
+                                // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
+                                /* if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
+                                    echo '<button class="btn-edit" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar Recordatorio</button>';
+                                } */
                                             
                                 echo '</td></tr>';
                             }
@@ -805,6 +840,13 @@
             };
             xhr.send(formData);
         });
+
+        function marcarComoFinalizada(citaid) {
+            if (confirm("¿Está seguro de que desea marcar esta cita como finalizada?")) {
+                window.location.href = "citas.php?action=finalizar&citaid=" + citaid;
+            }
+        }
+
         function reenviarRecordatorio(citaid) {
         if (confirm("¿Desea reenviar un recordatorio al paciente?")) {
             window.location.href = "citas.php?action=reenviar&id=" + citaid;
