@@ -56,7 +56,7 @@
                     $_SESSION['usuario']=$usuario;
                     $_SESSION['usuario_rol']='adm';
                     
-                    header('location: admin/doctores.php');
+                    header('location: admin/dashboard.php');
                     //header('location: inicio_admin.html');
                 }else{
                     $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Error: Usuario o contraseña incorrectos</label>';

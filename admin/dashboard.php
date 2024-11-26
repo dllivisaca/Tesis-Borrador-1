@@ -65,6 +65,23 @@ $diasConMayorActividad = [];
 while ($row = $diasConMayorActividadResult->fetch_assoc()) {
     $diasConMayorActividad[] = $row;
 }
+
+// Traducción de días al español
+$diasEnEspanol = [
+    'Monday' => 'Lunes',
+    'Tuesday' => 'Martes',
+    'Wednesday' => 'Miércoles',
+    'Thursday' => 'Jueves',
+    'Friday' => 'Viernes',
+    'Saturday' => 'Sábado',
+    'Sunday' => 'Domingo'
+];
+
+// Reemplazar días en inglés por días en español
+foreach ($diasConMayorActividad as &$dia) {
+    $dia['dia'] = $diasEnEspanol[$dia['dia']];
+}
+unset($dia); // Limpiar referencia
 ?>
 
 <!DOCTYPE html>
@@ -78,90 +95,131 @@ while ($row = $diasConMayorActividadResult->fetch_assoc()) {
     <link rel="stylesheet" href="../css/admin.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dashboard Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
-        .stat-box {
-            display: inline-block;
-            width: 22%;
-            margin: 1%;
-            padding: 15px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9; /* Fondo más claro */
+            color: #333; /* Texto más oscuro */
         }
 
-        .stat-box h3 {
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .stat-box canvas {
-            max-width: 100%;
-            height: 150px;
-        }
-
-        .filter-container {
-            margin-bottom: 20px;
+        .container {
             display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .filter-container label {
-            font-weight: bold;
-        }
-
-        .filter-container select {
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .stats-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .profile-title {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
+            flex-direction: row;
+            height: 100vh;
         }
 
         .menu {
-            width: 20%;
-            background-color: #f7f8fa;
+            width: 18%; /* Menú más estrecho */
+            background-color: #f4f4f4;
             padding: 20px;
-            height: 100vh;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
 
-        .menu-links a {
-            display: block;
-            padding: 10px;
-            margin-bottom: 10px;
-            color: #333;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+        .menu .profile-title {
+            font-size: 20px;
+            color: #007bff; /* Azul para el título */
+            text-align: center;
+            margin-bottom: 15px;
         }
 
-        .menu-links a:hover, .menu-link-active {
+        .menu a {
+            display: block;
+            color: #333;
+            text-decoration: none;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .menu a:hover,
+        .menu-link-active {
             background-color: #007bff;
             color: white;
         }
 
         .dash-body {
-            width: 75%;
+            flex-grow: 1;
             padding: 20px;
-            margin-left: 25%;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+        .dash-body h2 {
+            font-size: 22px;
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-container select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px; /* Más espacio entre los elementos */
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: #ffffff;
+            border: 1px solid #eaeaea;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 350px; /* Limitar el ancho de cada caja */
+            margin: 0 auto; /* Centrar las cajas */
+        }
+
+        .stat-box h3 {
+            font-size: 16px; /* Tamaño reducido */
+            font-weight: 600;
+            color: #555555;
+            margin-bottom: 10px;
+        }
+
+        .stat-box p {
+            font-size: 50px; /* Tamaño grande */
+            color: #007bff; /* Azul */
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .stat-box canvas {
+            max-width: 300px; /* Ajusta el ancho máximo del gráfico */
+            height: auto; /* Permite que el gráfico mantenga proporciones naturales */
+            aspect-ratio: 1; /* Define una relación de aspecto razonable */
+            margin: 0 auto; /* Centrar el gráfico */
+        }
+
+        .btn-logout {
+            width: 100%;
+            background-color: #ff4c4c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #d9534f;
         }
     </style>
 </head>
@@ -181,6 +239,7 @@ while ($row = $diasConMayorActividadResult->fetch_assoc()) {
         </div>
         <div class="dash-body">
             <h2>Analíticas</h2>
+
             <div class="filter-container">
                 <label for="year">Año:</label>
                 <select id="year" name="year">
@@ -195,10 +254,11 @@ while ($row = $diasConMayorActividadResult->fetch_assoc()) {
                     <option value="">Día</option>
                 </select>
             </div>
+
             <div class="stats-container">
                 <div class="stat-box">
                     <h3>Total de citas</h3>
-                    <p style="font-size: 36px; font-weight: bold; color: #333;"> <?php echo $totalCitas; ?> </p>
+                    <p><?php echo $totalCitas; ?></p>
                 </div>
                 <div class="stat-box">
                     <h3>Número de citas por especialidad</h3>
@@ -231,14 +291,39 @@ while ($row = $diasConMayorActividadResult->fetch_assoc()) {
                     data: <?php echo json_encode(array_column($citasPorEspecialidad, 'cantidad')); ?>,
                     backgroundColor: 'rgba(75, 192, 192, 0.5)',
                     borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
+                    borderWidth: 2, // Ancho del borde
+                    borderRadius: 10 // Bordes redondeados
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true, // Mantiene la relación de aspecto
+                aspectRatio: 2, // Relación ancho/alto personalizada
                 scales: {
+                    x: {
+                        grid: {
+                            display: false // Oculta líneas de cuadrícula en eje X
+                        },
+                        ticks: {
+                            maxRotation: 0, // Evita inclinación de las etiquetas
+                            minRotation: 0
+                        }
+                    },
                     y: {
-                        beginAtZero: true
+                        grid: {
+                            color: '#e0e0e0' // Color de las líneas de cuadrícula
+                        },
+                        beginAtZero: true // Comienza en 0
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14
+                            }
+                        }
                     }
                 }
             }
@@ -259,7 +344,14 @@ while ($row = $diasConMayorActividadResult->fetch_assoc()) {
                 }]
             },
             options: {
-                responsive: true
+                responsive: true,
+                maintainAspectRatio: true, // Mantener relación de aspecto
+                aspectRatio: 1.8, // Relación ancho/alto (para gráficos de pastel)
+                plugins: {
+                    legend: {
+                        position: 'top' // Ubicar la leyenda en la parte superior
+                    }
+                }
             }
         });
 
@@ -274,14 +366,21 @@ while ($row = $diasConMayorActividadResult->fetch_assoc()) {
                     data: <?php echo json_encode(array_column($horariosConMayorActividad, 'cantidad')); ?>,
                     backgroundColor: 'rgba(153, 102, 255, 0.5)',
                     borderColor: 'rgba(153, 102, 255, 1)',
-                    borderWidth: 1
+                    borderWidth: 1,
+                    borderRadius: 10 
                 }]
             },
             options: {
                 responsive: true,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1, // Incremento de 1 en el eje Y
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : ''; // Solo mostrar números enteros
+                            }
+                        }
                     }
                 }
             }
@@ -298,14 +397,21 @@ while ($row = $diasConMayorActividadResult->fetch_assoc()) {
                     data: <?php echo json_encode(array_column($diasConMayorActividad, 'cantidad')); ?>,
                     backgroundColor: 'rgba(255, 159, 64, 0.5)',
                     borderColor: 'rgba(255, 159, 64, 1)',
-                    borderWidth: 1
+                    borderWidth: 1,
+                    borderRadius: 10 
                 }]
             },
             options: {
                 responsive: true,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1, // Incremento de 1 en el eje Y
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : ''; // Solo mostrar números enteros
+                            }
+                        }
                     }
                 }
             }
