@@ -182,7 +182,7 @@ $commentsResult = $database->query($commentsQuery);
             <div class="overview">
                 <div class="summary">
                     <div>
-                        <h2><?php echo number_format($promedio, 1); ?>/5</h2>
+                        <h2><?php echo number_format($promedio, 2); ?>/5</h2>
                         <p>Puntuación promedio de satisfacción</p>
                     </div>
                     <div>
@@ -251,14 +251,20 @@ $commentsResult = $database->query($commentsQuery);
             }]
         },
         options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true // Iniciar el eje Y en 0
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1, // Incrementos de 1 en el eje Y
+                    callback: function(value) {
+                        return value; // Mostrar solo números enteros
+                    }
                 }
             }
         }
-    });
+    }
+});
 </script>
 
 </body>
