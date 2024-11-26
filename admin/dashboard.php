@@ -114,10 +114,16 @@ unset($dia); // Limpiar referencia
         }
 
         .menu {
-            width: 18%; /* Menú más estrecho */
-            background-color: #ffffff; /* Fondo blanco para el menú */
-            padding: 20px;
+            width: 15%; /* Aumentar ligeramente el ancho del menú */
+            background-color: #ffffff;
+            padding: 20px; /* Espaciado interno reducido */
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-title {
+            font-size: 14px; /* Reducir tamaño de la fuente */
+            color: #000;
+            font-weight: bold;
         }
 
         .menu .profile-title {
@@ -141,19 +147,15 @@ unset($dia); // Limpiar referencia
         }
 
         .menu-links {
-            display: flex;
-            flex-direction: column;
-            gap: 12px; /* Espaciado entre enlaces */
-            margin-top: 15px; /* Separación del botón "Cerrar sesión" */
+            gap: 8px; /* Reducir espacio entre enlaces */
+            margin-top: 10px; /* Reducir espacio superior */
         }
 
         .menu-link {
-            color: #555555; /* Color gris predeterminado */
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: normal; /* Peso normal para texto */
-            padding: 10px 15px;
-            position: relative;
+            font-size: 14px; /* Reducir tamaño de la fuente */
+            padding: 8px 10px; /* Reducir padding */
+            color: #555555;
+            border-radius: 6px;
             text-align: left;
             transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
         }
@@ -164,12 +166,12 @@ unset($dia); // Limpiar referencia
         }
 
         .menu-link-active {
-            color: #007bff; /* Azul para el texto */
-            font-weight: bold; /* Eliminar negrita */
-            border-right: none; /* Eliminamos el borde derecho */
-            background-color: transparent; /* Sin fondo */
+            font-size: 14px;
+            color: #007bff;
+            border-right: none;
+            padding: 8px 10px;
             position: relative;
-            padding-right: 15px; /* Ajuste para el texto */
+            font-weight: bold;
 
             /* Ajuste preciso de la barra azul */
             &::after {
@@ -184,35 +186,30 @@ unset($dia); // Limpiar referencia
         }
 
         .menu .profile-container {
-            display: flex; /* Flexbox para alinear horizontalmente */
-            align-items: center; /* Centrar verticalmente */
-            justify-content: center; /* Centrar horizontalmente */
-            gap: 10px; /* Espaciado entre el logo y el texto */
-            margin-bottom: 15px; /* Separación del botón "Cerrar sesión" */
-            margin-top: 60px; /* Espaciado superior agregado */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px; /* Reducir espacio entre logo y texto */
+            margin-bottom: 10px; /* Reducir margen inferior */
+            margin-top: 40px; /* Reducir margen superior */
         }
 
         .menu-logo {
-            width: 50px; /* Tamaño del logo */
-            height: 50px;
-            border-radius: 50%; /* Redondear el logo */
-            display: block; /* Asegura que no haya margen alrededor */
+            width: 40px; /* Reducir tamaño del logo */
+            height: 40px;
+            border-radius: 50%;
         }
 
         .btn-logout {
-            width: 100%;
-            background-color: #ff4c4c; /* Rojo */
+            width: 90%; /* Ajustar tamaño del botón al nuevo ancho */
+            background-color: #ff4c4c;
             color: white;
-            padding: 12px; /* Tamaño del botón */
-            font-size: 14px;
-            border: none; /* Sin bordes */
-            border-radius: 8px;
+            padding: 8px; /* Reducir tamaño del botón */
+            font-size: 12px; /* Reducir tamaño de la fuente */
+            border-radius: 6px;
             cursor: pointer;
-            margin-bottom: 20px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
-            transition: background-color 0.3s ease;
-            font-family: 'Poppins', Arial, sans-serif;
-            font-weight: bold;
+            margin-bottom: 15px; /* Reducir margen inferior */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .linea-separadora {
@@ -242,59 +239,71 @@ unset($dia); // Limpiar referencia
         .filter-container {
             display: flex;
             align-items: center; /* Alinea verticalmente los elementos */
-            gap: 15px; /* Espaciado entre los elementos */
-            margin-bottom: 20px;
+            gap: 10px; /* Espaciado entre los elementos */
+            margin-bottom: 10px;
         }
 
         .filter-container select {
-            padding: 10px;
-            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px; /* Reducir tamaño de la fuente */
+            border-radius: 6px;
             border: 1px solid #ddd;
         }
 
         .filter-container label {
-            font-size: 16px; /* Ajusta este valor según el tamaño deseado */
-            color: #00b8d9; /* Color celeste */
-            font-weight: bold; /* Negrita */
+            font-size: 12px; /* Reducir tamaño de la fuente */
+        color: #00b8d9;
+        font-weight: bold;
         }
 
         .stats-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px; /* Más espacio entre los elementos */
-            margin-top: 20px;
+            grid-template-columns: repeat(3, 1fr); /* Tres columnas por fila */
+            gap: 20px; /* Espacio entre los elementos */
+            padding: 10px; /* Espaciado interno */
         }
 
         .stat-box {
             background: #ffffff;
             border: 1px solid #eaeaea;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 15px; /* Espaciado interno más reducido */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 350px; /* Limitar el ancho de cada caja */
-            margin: 0 auto; /* Centrar las cajas */
+            width: 100%; /* Asegura que cada tarjeta ocupe su columna */
+            max-width: 250px; /* Limitar el ancho máximo */
+            margin: 0 auto; /* Centrar los gráficos */
         }
 
         .stat-box h3 {
-            font-size: 16px; /* Tamaño reducido */
-            font-weight: 600;
-            color: #007bff; /* Azul */
-            margin-bottom: 10px;
+            font-size: 14px; /* Reducir tamaño del título */
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 8px; /* Espaciado inferior del título */
         }
 
         .stat-box p {
-            font-size: 50px; /* Tamaño grande */
-            color: #000; /* Azul */
+            font-size: 40px; /* Reducir tamaño del número */
+            color: #000;
             font-weight: bold;
             margin: 0;
         }
 
         .stat-box canvas {
-            max-width: 300px; /* Ajusta el ancho máximo del gráfico */
-            height: auto; /* Permite que el gráfico mantenga proporciones naturales */
-            aspect-ratio: 1; /* Define una relación de aspecto razonable */
-            margin: 0 auto; /* Centrar el gráfico */
+            max-width: 100%; /* Asegura que los gráficos no excedan el ancho */
+            height: auto;
+        }
+
+        @media (max-width: 1024px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr); /* Cambiar a 2 columnas en pantallas medianas */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr; /* Cambiar a 1 columna en pantallas pequeñas */
+            }
         }
 
         .btn-logout {
