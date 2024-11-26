@@ -109,6 +109,26 @@
     require __DIR__ . '/../vendor/autoload.php'; // Ajusta la ruta si es necesario
     use Twilio\Rest\Client;
 
+    function normalizePhoneNumber($phoneNumber) {
+        // Eliminar espacios, guiones, paréntesis y signos '+'
+        $phoneNumber = preg_replace('/[\s\-()+]/', '', $phoneNumber);
+    
+        // Si el número comienza con '0', eliminarlo
+        if (substr($phoneNumber, 0, 1) === '0') {
+            $phoneNumber = substr($phoneNumber, 1);
+        }
+    
+        // Si el número no comienza con '593', agregarlo
+        if (substr($phoneNumber, 0, 3) !== '593') {
+            $phoneNumber = '593' . $phoneNumber;
+        }
+    
+        // Agregar el signo '+' al inicio
+        $phoneNumber = '+' . $phoneNumber;
+    
+        return $phoneNumber;
+    }
+
     // **LÓGICA PARA REENVIAR EL RECORDATORIO**
     if (isset($_GET['action']) && $_GET['action'] == 'reenviar') {
         if (isset($_GET['citaid'])) {
@@ -188,17 +208,60 @@
             $citaid = intval($_GET['citaid']);
 
             // Verificar que la cita existe y pertenece al doctor
-            $citaQuery = $database->prepare("SELECT * FROM citas WHERE citaid = ? AND docid = ?");
+            $citaQuery = $database->prepare("SELECT citas.*, paciente.pacnombre, paciente.pactelf 
+                                         FROM citas 
+                                         INNER JOIN paciente ON citas.pacid = paciente.pacid 
+                                         WHERE citaid = ? AND docid = ?");
             $citaQuery->bind_param("ii", $citaid, $docid);
             $citaQuery->execute();
             $citaResult = $citaQuery->get_result();
 
             if ($citaResult->num_rows > 0) {
+                $cita = $citaResult->fetch_assoc();
+
                 // Actualizar el estado de la cita a 'finalizada'
                 $updateQuery = $database->prepare("UPDATE citas SET estado = 'finalizada' WHERE citaid = ?");
                 $updateQuery->bind_param("i", $citaid);
                 if ($updateQuery->execute()) {
-                    echo '<script>alert("Cita marcada como finalizada."); window.location.href="citas.php";</script>';
+                    // Credenciales de Twilio
+                    $sid = ''; // Reemplaza con tu SID
+                    $token = ''; // Reemplaza con tu Token
+                    $client = new Client($sid, $token);
+
+                    // Datos del paciente
+                    $telefonoPaciente = $cita['pactelf'];
+                    $nombrePaciente = $cita['pacnombre'];
+
+                    // Normalizar el número de teléfono
+                    $telefonoPacienteE164 = normalizePhoneNumber($telefonoPaciente);
+
+                    // Enviar la encuesta
+                    try {
+                        $mensaje1 = "Hola $nombrePaciente, gracias por visitarnos. ¿Cómo calificaría el servicio recibido hoy?\n\n" .
+                                    "1: Muy insatisfecho\n" .
+                                    "2: Insatisfecho\n" .
+                                    "3: Neutral\n" .
+                                    "4: Satisfecho\n" .
+                                    "5: Muy satisfecho";
+
+                        $client->messages->create(
+                            "whatsapp:$telefonoPacienteE164",
+                            [
+                                'from' => 'whatsapp:+14155238886',
+                                'body' => $mensaje1
+                            ]
+                        );
+
+                        // Registrar en la tabla de encuestas
+                        $fechaEnvio = date('Y-m-d H:i:s');
+                        $insertQuery = $database->prepare("INSERT INTO respuestas_encuestas (numero_cliente, fecha_envio, estado) VALUES (?, ?, 'esperando_calificacion')");
+                        $insertQuery->bind_param("ss", $telefonoPacienteE164, $fechaEnvio);
+                        $insertQuery->execute();
+
+                        echo '<script>alert("Cita marcada como finalizada y encuesta enviada."); window.location.href="citas.php";</script>';
+                    } catch (Exception $e) {
+                        echo '<script>alert("Cita marcada como finalizada, pero ocurrió un error al enviar la encuesta: ' . $e->getMessage() . '"); window.location.href="citas.php";</script>';
+                    }
                 } else {
                     echo '<script>alert("Error al actualizar el estado de la cita."); window.location.href="citas.php";</script>';
                 }
