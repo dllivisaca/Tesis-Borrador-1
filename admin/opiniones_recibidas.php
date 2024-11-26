@@ -167,7 +167,7 @@ $commentsResult = $database->query($commentsQuery);
                     <li><a href="pacientes.php">Pacientes</a></li>
                     <li><a href="horarios.php">Horarios disponibles</a></li>
                     <li><a href="citas.php">Citas agendadas</a></li>
-                    <li class="active"><a href="opiniones.php">Opiniones recibidas</a></li>
+                    <li class="active"><a href="opiniones_recibidas.php">Opiniones recibidas</a></li>
                 </ul>
             </nav>
         </aside>
@@ -198,7 +198,7 @@ $commentsResult = $database->query($commentsQuery);
 
             <section class="comments">
                 <h2>Listado de comentarios</h2>
-                <form method="GET" action="opiniones.php" class="filter-form">
+                <form method="GET" action="opiniones_recibidas.php" class="filter-form">
                     <label for="date">Fecha:</label>
                     <input type="date" name="date" id="date" value="<?php echo htmlspecialchars($dateFilter ?? ''); ?>">
 
