@@ -102,7 +102,7 @@ unset($dia); // Limpiar referencia
             font-family: 'Poppins', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9; /* Fondo más claro */
+            background-color: #ffffff; /* Cambiar fondo a blanco */
             color: #333; /* Texto más oscuro */
         }
 
@@ -110,25 +110,29 @@ unset($dia); // Limpiar referencia
             display: flex;
             flex-direction: row;
             height: 100vh;
+            background-color: #ffffff; /* Fondo blanco para toda la estructura */
         }
 
         .menu {
             width: 18%; /* Menú más estrecho */
-            background-color: #f4f4f4;
+            background-color: #ffffff; /* Fondo blanco para el menú */
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .menu .profile-title {
-            font-size: 20px;
-            color: #007bff; /* Azul para el título */
-            text-align: center;
-            margin-bottom: 15px;
+            font-size: 17px;
+            color: #000; /* Azul */
+            font-weight: bold;
+            line-height: 1; /* Ajusta la altura de la línea para que no genere espacio extra */
+            margin: 0; /* Elimina cualquier margen */
+            padding: 0; /* Elimina cualquier relleno */
+            display: inline-block; /* Para evitar que se expanda innecesariamente */
+            vertical-align: middle; /* Asegura el alineamiento vertical */
         }
 
         .menu a {
             display: block;
-            color: #333;
             text-decoration: none;
             padding: 10px;
             margin: 10px 0;
@@ -136,10 +140,91 @@ unset($dia); // Limpiar referencia
             transition: all 0.3s ease;
         }
 
-        .menu a:hover,
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px; /* Espaciado entre enlaces */
+            margin-top: 15px; /* Separación del botón "Cerrar sesión" */
+        }
+
+        .menu-link {
+            color: #555555; /* Color gris predeterminado */
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: normal; /* Peso normal para texto */
+            padding: 10px 15px;
+            position: relative;
+            text-align: left;
+            transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+
+        .menu-link:hover {
+            background-color: #f4f4f4; /* Fondo gris claro al pasar el mouse */
+            color: #007bff; /* Azul */
+        }
+
         .menu-link-active {
-            background-color: #007bff;
+            color: #007bff; /* Azul para el texto */
+            font-weight: bold; /* Eliminar negrita */
+            border-right: none; /* Eliminamos el borde derecho */
+            background-color: transparent; /* Sin fondo */
+            position: relative;
+            padding-right: 15px; /* Ajuste para el texto */
+
+            /* Ajuste preciso de la barra azul */
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: -18px; /* Ajusta este valor según el ancho del menú y la separación */
+                width: 4px; /* Ancho de la barra */
+                height: 100%; /* Altura de toda la opción */
+                background-color: #007bff; /* Azul */
+            }
+        }
+
+        .menu .profile-container {
+            display: flex; /* Flexbox para alinear horizontalmente */
+            align-items: center; /* Centrar verticalmente */
+            justify-content: center; /* Centrar horizontalmente */
+            gap: 10px; /* Espaciado entre el logo y el texto */
+            margin-bottom: 15px; /* Separación del botón "Cerrar sesión" */
+            margin-top: 60px; /* Espaciado superior agregado */
+        }
+
+        .menu-logo {
+            width: 50px; /* Tamaño del logo */
+            height: 50px;
+            border-radius: 50%; /* Redondear el logo */
+            display: block; /* Asegura que no haya margen alrededor */
+        }
+
+        .btn-logout {
+            width: 100%;
+            background-color: #ff4c4c; /* Rojo */
             color: white;
+            padding: 12px; /* Tamaño del botón */
+            font-size: 14px;
+            border: none; /* Sin bordes */
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            transition: background-color 0.3s ease;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .linea-separadora {
+            width: 100%; /* Que ocupe todo el ancho del contenedor */
+            height: 1px; /* Grosor de la línea */
+            background-color: #e0e0e0; /* Color gris claro */
+            margin: 10px 0; /* Espaciado superior e inferior */
+            border: none; /* Sin bordes adicionales */
+        }
+
+        .btn-logout:hover {
+            background-color: #e63939; /* Rojo más oscuro */
         }
 
         .dash-body {
@@ -148,16 +233,16 @@ unset($dia); // Limpiar referencia
         }
 
         .dash-body h2 {
-            font-size: 22px;
-            color: #007bff;
+            font-size: 17px;
+            color: #000;
             margin-bottom: 20px;
-            text-align: center;
+            text-align: left;
         }
 
         .filter-container {
             display: flex;
-            justify-content: center;
-            gap: 15px;
+            align-items: center; /* Alinea verticalmente los elementos */
+            gap: 15px; /* Espaciado entre los elementos */
             margin-bottom: 20px;
         }
 
@@ -165,6 +250,12 @@ unset($dia); // Limpiar referencia
             padding: 10px;
             border-radius: 8px;
             border: 1px solid #ddd;
+        }
+
+        .filter-container label {
+            font-size: 16px; /* Ajusta este valor según el tamaño deseado */
+            color: #00b8d9; /* Color celeste */
+            font-weight: bold; /* Negrita */
         }
 
         .stats-container {
@@ -188,13 +279,13 @@ unset($dia); // Limpiar referencia
         .stat-box h3 {
             font-size: 16px; /* Tamaño reducido */
             font-weight: 600;
-            color: #555555;
+            color: #007bff; /* Azul */
             margin-bottom: 10px;
         }
 
         .stat-box p {
             font-size: 50px; /* Tamaño grande */
-            color: #007bff; /* Azul */
+            color: #000; /* Azul */
             font-weight: bold;
             margin: 0;
         }
@@ -208,14 +299,18 @@ unset($dia); // Limpiar referencia
 
         .btn-logout {
             width: 100%;
-            background-color: #ff4c4c;
+            background-color: #ff6b6b; /* Rojo más claro */
             color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
+            padding: 12px; /* Tamaño del botón */
+            font-size: 14px;
+            border: none; /* Sin bordes */
+            border-radius: 8px;
             cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
             transition: background-color 0.3s ease;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-weight: bold;
         }
 
         .btn-logout:hover {
@@ -226,8 +321,13 @@ unset($dia); // Limpiar referencia
 <body>
     <div class="container">
         <div class="menu">
-            <p class="profile-title">Administrador</p>
-            <a href="../logout.php"><button class="logout-btn">Cerrar sesión</button></a>
+            <div class="profile-container">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                <p class="profile-title">Administrador</p>
+            </div>
+            
+            <a href="../logout.php"><button class="btn-logout">Cerrar sesión</button></a>
+            <div class="linea-separadora"></div>
             <div class="menu-links">
                 <a href="dashboard.php" class="menu-link menu-link-active">Dashboard</a>
                 <a href="doctores.php" class="menu-link">Doctores</a>
@@ -289,8 +389,8 @@ unset($dia); // Limpiar referencia
                 datasets: [{
                     label: 'Número de citas',
                     data: <?php echo json_encode(array_column($citasPorEspecialidad, 'cantidad')); ?>,
-                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(128, 128, 128, 0.5)', // Escala de gris
+                    borderColor: 'rgba(64, 64, 64, 1)', // Gris más oscuro
                     borderWidth: 2, // Ancho del borde
                     borderRadius: 10 // Bordes redondeados
                 }]
@@ -338,9 +438,9 @@ unset($dia); // Limpiar referencia
                 datasets: [{
                     label: 'Número de citas',
                     data: <?php echo json_encode(array_column($citasPorDoctor, 'cantidad')); ?>,
-                    backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'],
-                    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
-                    borderWidth: 1
+                    backgroundColor: ['rgba(192, 192, 192, 0.5)', 'rgba(160, 160, 160, 0.5)', 'rgba(128, 128, 128, 0.5)'], // Diferentes tonos de gris
+                    borderColor: ['rgba(96, 96, 96, 1)', 'rgba(64, 64, 64, 1)', 'rgba(32, 32, 32, 1)'], // Bordes en gris
+                    borderWidth: 2
                 }]
             },
             options: {
@@ -364,9 +464,9 @@ unset($dia); // Limpiar referencia
                 datasets: [{
                     label: 'Número de citas',
                     data: <?php echo json_encode(array_column($horariosConMayorActividad, 'cantidad')); ?>,
-                    backgroundColor: 'rgba(153, 102, 255, 0.5)',
-                    borderColor: 'rgba(153, 102, 255, 1)',
-                    borderWidth: 1,
+                    backgroundColor: 'rgba(160, 160, 160, 0.5)', // Escala de gris
+                    borderColor: 'rgba(96, 96, 96, 1)', // Gris oscuro
+                    borderWidth: 3,
                     borderRadius: 10 
                 }]
             },
@@ -395,9 +495,9 @@ unset($dia); // Limpiar referencia
                 datasets: [{
                     label: 'Número de citas',
                     data: <?php echo json_encode(array_column($diasConMayorActividad, 'cantidad')); ?>,
-                    backgroundColor: 'rgba(255, 159, 64, 0.5)',
-                    borderColor: 'rgba(255, 159, 64, 1)',
-                    borderWidth: 1,
+                    backgroundColor: 'rgba(192, 192, 192, 0.5)', // Escala de gris
+                    borderColor: 'rgba(128, 128, 128, 1)', // Gris oscuro
+                    borderWidth: 3,
                     borderRadius: 10 
                 }]
             },
