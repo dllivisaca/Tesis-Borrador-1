@@ -31,6 +31,16 @@ while ($row = $citasPorEspecialidadResult->fetch_assoc()) {
     $citasPorEspecialidad[] = $row;
 }
 
+// Abreviar nombres largos en las especialidades
+$longitudMaxima = 10; // Cambia este valor según lo necesario
+foreach ($citasPorEspecialidad as &$especialidad) {
+    $especialidad['nombre_completo'] = $especialidad['espnombre']; // Guardar nombre completo
+    if (strlen($especialidad['espnombre']) > $longitudMaxima) {
+        $especialidad['espnombre'] = substr($especialidad['espnombre'], 0, $longitudMaxima - 3) . '...'; // Abreviar
+    }
+}
+unset($especialidad); // Limpiar referencia
+
 // Número de citas por doctor
 $citasPorDoctorQuery = "SELECT doctor.docnombre, COUNT(*) AS cantidad
                         FROM citas
@@ -43,7 +53,7 @@ while ($row = $citasPorDoctorResult->fetch_assoc()) {
 }
 
 // Top 3 horarios con mayor actividad
-$horariosConMayorActividadQuery = "SELECT CONCAT(hora_inicio, ' - ', hora_fin) AS horario, COUNT(*) AS cantidad
+$horariosConMayorActividadQuery = "SELECT CONCAT(TIME_FORMAT(hora_inicio, '%H:%i'), ' - ', TIME_FORMAT(hora_fin, '%H:%i')) AS horario, COUNT(*) AS cantidad
                                    FROM citas
                                    GROUP BY hora_inicio, hora_fin
                                    ORDER BY cantidad DESC
@@ -389,6 +399,9 @@ unset($dia); // Limpiar referencia
         </div>
     </div>
     <script>
+         // Convertir los datos de PHP a JavaScript
+        const citasPorEspecialidad = <?php echo json_encode($citasPorEspecialidad); ?>;
+
         // Número de citas por especialidad
         const citasPorEspecialidadCtx = document.getElementById('citasPorEspecialidadChart').getContext('2d');
         new Chart(citasPorEspecialidadCtx, {
@@ -398,34 +411,46 @@ unset($dia); // Limpiar referencia
                 datasets: [{
                     label: 'Número de citas',
                     data: <?php echo json_encode(array_column($citasPorEspecialidad, 'cantidad')); ?>,
-                    backgroundColor: 'rgba(128, 128, 128, 0.5)', // Escala de gris
-                    borderColor: 'rgba(64, 64, 64, 1)', // Gris más oscuro
-                    borderWidth: 2, // Ancho del borde
-                    borderRadius: 10 // Bordes redondeados
+                    backgroundColor: 'rgba(128, 128, 128, 0.5)',
+                    borderColor: 'rgba(64, 64, 64, 1)',
+                    borderWidth: 2,
+                    borderRadius: 10
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true, // Mantiene la relación de aspecto
-                aspectRatio: 2, // Relación ancho/alto personalizada
+                maintainAspectRatio: true,
                 scales: {
                     x: {
-                        grid: {
-                            display: false // Oculta líneas de cuadrícula en eje X
-                        },
                         ticks: {
-                            maxRotation: 0, // Evita inclinación de las etiquetas
-                            minRotation: 0
+                            maxRotation: 0,
+                            minRotation: 0,
+                        },
+                        grid: {
+                            display: false
                         }
                     },
                     y: {
                         grid: {
-                            color: '#e0e0e0' // Color de las líneas de cuadrícula
+                            color: '#e0e0e0'
                         },
-                        beginAtZero: true // Comienza en 0
+                        beginAtZero: true
                     }
                 },
                 plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function (tooltipItems) {
+                                const index = tooltipItems[0].dataIndex;
+                                const nombreCompleto = citasPorEspecialidad[index]?.nombre_completo || 'Desconocido';
+                                return `${nombreCompleto}`; // Solo muestra el nombre completo como título
+                            },
+                            label: function (tooltipItem) {
+                                const cantidad = tooltipItem.raw; // Obtén el valor del dato
+                                return `Número de citas: ${cantidad}`; // Segunda línea con el número de citas
+                            }
+                        }
+                    },
                     legend: {
                         position: 'top',
                         labels: {
