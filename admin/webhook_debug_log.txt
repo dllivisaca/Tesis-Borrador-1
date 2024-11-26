@@ -25,3 +25,41 @@ Datos recibidos: Array
     [ApiVersion] => 2010-04-01
 )
 
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SMc08e87b400ffc43d4ee87a79bf5c495c
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SMc08e87b400ffc43d4ee87a79bf5c495c
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 6
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SMc08e87b400ffc43d4ee87a79bf5c495c
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SMc019c9a19198cfce8dac7199748097e9
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SMc019c9a19198cfce8dac7199748097e9
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 4
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SMc019c9a19198cfce8dac7199748097e9
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+

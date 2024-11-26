@@ -306,6 +306,11 @@
                     $nombrePaciente = $cita['pacnombre'];
 
                     try {
+                        // Insertar un registro en respuestas_encuestas al enviar la encuesta
+                        $insertEncuesta = $database->prepare("INSERT INTO respuestas_encuestas (numero_cliente, estado, fecha_envio) VALUES (?, 'esperando_calificacion', NOW())");
+                        $insertEncuesta->bind_param("s", $telefonoPaciente);
+                        $insertEncuesta->execute();
+
                         // Pregunta 1
                         $mensaje1 = "Hola $nombrePaciente, gracias por visitarnos. ¿Cómo calificaría el servicio recibido hoy?\n\n" .
                                     "1: Muy insatisfecho\n" .
