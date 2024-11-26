@@ -103,7 +103,7 @@
 
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-schedule ">
-                        <a href="borrar.php" class="non-style-link-menu"><div><p class="menu-text">Borrar</p></div></a>
+                        <a href="opiniones_recibidas.php" class="non-style-link-menu"><div><p class="menu-text">Opiniones recibidas</p></div></a>
                     </td>
                 </tr>
 
