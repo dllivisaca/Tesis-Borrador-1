@@ -130,6 +130,26 @@
 
     use Twilio\Rest\Client;
 
+    function normalizePhoneNumber($phoneNumber) {
+        // Eliminar espacios, guiones, paréntesis y signos '+'
+        $phoneNumber = preg_replace('/[\s\-()+]/', '', $phoneNumber);
+    
+        // Si el número comienza con '0', eliminarlo
+        if (substr($phoneNumber, 0, 1) === '0') {
+            $phoneNumber = substr($phoneNumber, 1);
+        }
+    
+        // Si el número no comienza con '593', agregarlo
+        if (substr($phoneNumber, 0, 3) !== '593') {
+            $phoneNumber = '593' . $phoneNumber;
+        }
+    
+        // Agregar el signo '+' al inicio
+        $phoneNumber = '+' . $phoneNumber;
+    
+        return $phoneNumber;
+    }
+
     // **LÓGICA PARA REENVIAR EL RECORDATORIO**
     if (isset($_GET['action']) && $_GET['action'] == 'reenviar') {
         if (isset($_GET['id'])) {
@@ -305,6 +325,10 @@
                     $telefonoPaciente = $cita['pactelf'];
                     $nombrePaciente = $cita['pacnombre'];
 
+                    // Normalizar el número de teléfono
+                    $telefonoPacienteE164 = normalizePhoneNumber($telefonoPaciente);
+
+                    // Enviar la encuesta al número formateado
                     try {
                         // Enviar solo el primer mensaje (calificación)
                         $mensaje1 = "Hola $nombrePaciente, gracias por visitarnos. ¿Cómo calificaría el servicio recibido hoy?\n\n" .
@@ -315,17 +339,17 @@
                         "5: Muy satisfecho";
 
                         $client->messages->create(
-                            "whatsapp:$telefonoPaciente",
+                            "whatsapp:$telefonoPacienteE164",
                             [
-                                'from' => 'whatsapp:+14155238886', // Número de Twilio Sandbox
+                                'from' => 'whatsapp:+14155238886',
                                 'body' => $mensaje1
                             ]
                         );
 
-                        // Registrar la encuesta en la base de datos
+                        // Registrar la encuesta en la base de datos con el número normalizado
                         $fechaEnvio = date('Y-m-d H:i:s');
                         $insertQuery = $database->prepare("INSERT INTO respuestas_encuestas (numero_cliente, fecha_envio, estado) VALUES (?, ?, 'esperando_calificacion')");
-                        $insertQuery->bind_param("ss", $telefonoPaciente, $fechaEnvio);
+                        $insertQuery->bind_param("ss", $telefonoPacienteE164, $fechaEnvio);
                         $insertQuery->execute();
 
                         echo '<script>alert("Cita marcada como finalizada y encuesta enviada."); window.location.href="citas.php";</script>';

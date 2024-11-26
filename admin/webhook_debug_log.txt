@@ -101,3 +101,307 @@ Datos recibidos: Array
     [ApiVersion] => 2010-04-01
 )
 
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SMc458b44f8f86a963f18ac65d58fe8bee
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SMc458b44f8f86a963f18ac65d58fe8bee
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 4
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SMc458b44f8f86a963f18ac65d58fe8bee
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SM711d2507987f34d13eaaad6c33a2c559
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SM711d2507987f34d13eaaad6c33a2c559
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 5
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SM711d2507987f34d13eaaad6c33a2c559
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SM40547a1e0c761522f0b5186bf42cb3f3
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SM40547a1e0c761522f0b5186bf42cb3f3
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 5
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SM40547a1e0c761522f0b5186bf42cb3f3
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SM150dc13b682f57929a3af4b88e47fce4
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SM150dc13b682f57929a3af4b88e47fce4
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 6
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SM150dc13b682f57929a3af4b88e47fce4
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SM7d888a3f207d30c344c204fa757dc89b
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SM7d888a3f207d30c344c204fa757dc89b
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 5
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SM7d888a3f207d30c344c204fa757dc89b
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SM9506b2b585ea9cf1d8e0e7330ffffd2f
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SM9506b2b585ea9cf1d8e0e7330ffffd2f
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 5
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SM9506b2b585ea9cf1d8e0e7330ffffd2f
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SM031f62a940adb4f2c8b8b246cee66612
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SM031f62a940adb4f2c8b8b246cee66612
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 5
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SM031f62a940adb4f2c8b8b246cee66612
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SM28ef17592c9d152c35b8d291c314e0ae
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SM28ef17592c9d152c35b8d291c314e0ae
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 8
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SM28ef17592c9d152c35b8d291c314e0ae
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+
+El archivo webhook_encuestas.php se está ejecutando.
+Datos inválidos recibidos.
+El archivo webhook_encuestas.php se está ejecutando.
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=14, Estado=esperando_calificacion
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: 2
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=14, Estado=esperando_calificacion
+El estado es 'esperando_calificacion'.
+La respuesta es una calificación válida: 2
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: 3
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=14, Estado=esperando_calificacion
+El estado es 'esperando_calificacion'.
+La respuesta es una calificación válida: 3
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: 5
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=14, Estado=esperando_calificacion
+El estado es 'esperando_calificacion'.
+La respuesta es una calificación válida: 5
+Intentando actualizar calificacion: ID=14, Calificacion=5, FechaRespuesta=2024-11-26 11:28:40
+Calificación actualizada exitosamente.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: abc
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=14, Estado=esperando_comentario
+El estado es 'esperando_comentario'.
+El comentario es demasiado corto.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: me gustó mucho
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=14, Estado=esperando_comentario
+El estado es 'esperando_comentario'.
+El comentario es válido.
+Intentando actualizar comentario: ID=14, Comentario=me gustó mucho
+Comentario actualizado exitosamente.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: 6
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=15, Estado=esperando_calificacion
+El estado es 'esperando_calificacion'.
+La respuesta no es una calificación válida.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: 4
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=15, Estado=esperando_calificacion
+El estado es 'esperando_calificacion'.
+La respuesta es una calificación válida: 4
+Intentando actualizar calificacion: ID=15, Calificacion=4, FechaRespuesta=2024-11-26 11:32:39
+Calificación actualizada exitosamente.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: bonito
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=15, Estado=esperando_comentario
+El estado es 'esperando_comentario'.
+El comentario es válido.
+Intentando actualizar comentario: ID=15, Comentario=bonito
+Comentario actualizado exitosamente.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: 0
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=16, Estado=esperando_calificacion
+El estado es 'esperando_calificacion'.
+La respuesta no es una calificación válida.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: 5
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=16, Estado=esperando_calificacion
+El estado es 'esperando_calificacion'.
+La respuesta es una calificación válida: 5
+Intentando actualizar calificacion: ID=16, Calificacion=5, FechaRespuesta=2024-11-26 11:34:42
+Calificación actualizada exitosamente.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: bien
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=16, Estado=esperando_comentario
+El estado es 'esperando_comentario'.
+El comentario es demasiado corto.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: chevere
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=16, Estado=esperando_comentario
+El estado es 'esperando_comentario'.
+El comentario es válido.
+Intentando actualizar comentario: ID=16, Comentario=chevere
+Comentario actualizado exitosamente.

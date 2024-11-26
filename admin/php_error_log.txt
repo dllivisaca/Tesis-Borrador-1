@@ -1,0 +1,5 @@
+[26-Nov-2024 11:24:32 America/Guayaquil] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'calificacion' in 'field list' in C:\xampp_nuevo\htdocs\Login\admin\webhook_encuestas.php:111
+Stack trace:
+#0 C:\xampp_nuevo\htdocs\Login\admin\webhook_encuestas.php(111): mysqli->prepare('UPDATE respuest...')
+#1 {main}
+  thrown in C:\xampp_nuevo\htdocs\Login\admin\webhook_encuestas.php on line 111
