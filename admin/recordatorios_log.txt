@@ -65,3 +65,5 @@ No se encontraron citas pendientes.
 Recordatorio reenviado manualmente para la cita ID: 71 - Fecha y hora: 2024-11-26 00:41:52
 Reenvío de recordatorio: 2024-11-25 18:45:33 
 Cita ID: 71 - Diferencia en horas: 23.324166666667 - Fecha y hora de la cita: 2024-11-26 18:05:00
+Reenvío de recordatorio: 2024-11-25 20:51:48 
+Cita ID: 71 - Diferencia en horas: 21.220000000000 - Fecha y hora de la cita: 2024-11-26 18:05:00

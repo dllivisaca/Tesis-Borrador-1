@@ -390,7 +390,7 @@
 
                                 // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
                                 if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
-                                    echo '<a href="?action=reenviar&id=' . $citaid . '"><button class="btn-edit" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar Recordatorio</button></a>';
+                                    echo '<button class="btn-edit" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar Recordatorio</button>';
                                 }
                                             
                                 echo '</td></tr>';
@@ -805,6 +805,11 @@
             };
             xhr.send(formData);
         });
+        function reenviarRecordatorio(citaid) {
+        if (confirm("¿Desea reenviar un recordatorio al paciente?")) {
+            window.location.href = "citas.php?action=reenviar&id=" + citaid;
+        }
+    }
 
     </script>
 </body>
