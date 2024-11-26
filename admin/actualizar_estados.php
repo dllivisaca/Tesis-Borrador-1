@@ -9,6 +9,10 @@ if (!$database) {
 }
 
 try {
+
+    // Determinar el origen de la ejecución
+    $origen = php_sapi_name() === 'cli' ? 'Ejecución automática' : 'Ejecución manual';
+
     // Obtener la fecha y hora actual
     $fecha_actual = new DateTime();
 
@@ -20,30 +24,30 @@ try {
 
     $result = $database->query($sql);
 
-    // Verificar si la consulta se ejecutó correctamente
-    if ($result) {
-        $rowsAffected = $database->affected_rows; // Número de filas afectadas
-        if ($rowsAffected > 0) {
-            echo "Estados actualizados correctamente. Registros afectados: $rowsAffected.";
-        } else {
-            echo "No se realizaron cambios. No hay citas pendientes que cumplan los criterios.";
-        }
+    // Verificar el número de registros afectados
+    $registros_afectados = $database->affected_rows;
+
+    if ($result && $registros_afectados > 0) {
+        $mensaje = "Estados actualizados correctamente. Registros afectados: $registros_afectados.";
+    } elseif ($result) {
+        $mensaje = "No se realizaron cambios. No hay citas pendientes que cumplan los criterios.";
     } else {
-        echo "Error al actualizar estados: " . $database->error;
+        $mensaje = "Error al actualizar estados: " . $database->error;
     }
+
+    echo $mensaje;
+
+    // Registrar en el log
+    $log_file = __DIR__ . "/actualizar_estados_log.txt";
+    $log_message = date('Y-m-d H:i:s') . " - [$origen] $mensaje\n";
+    file_put_contents($log_file, $log_message, FILE_APPEND);
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
-}
 
-// Registrar en el log
-$log_file = __DIR__ . "/actualizar_estados_log.txt";
-if (isset($rowsAffected) && $rowsAffected > 0) {
-    $log_message = date('Y-m-d H:i:s') . " - Estados actualizados correctamente. Registros afectados: $rowsAffected.\n";
-} elseif (isset($rowsAffected) && $rowsAffected == 0) {
-    $log_message = date('Y-m-d H:i:s') . " - No se realizaron cambios. No hay citas pendientes que cumplan los criterios.\n";
-} else {
-    $log_message = date('Y-m-d H:i:s') . " - Error al actualizar estados: " . $database->error . "\n";
+    // Registrar el error en el log
+    $log_file = __DIR__ . "/actualizar_estados_log.txt";
+    $log_message = date('Y-m-d H:i:s') . " - [$origen] Error: " . $e->getMessage() . "\n";
+    file_put_contents($log_file, $log_message, FILE_APPEND);
 }
-file_put_contents($log_file, $log_message, FILE_APPEND);
 
 ?>
