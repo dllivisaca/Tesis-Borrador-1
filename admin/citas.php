@@ -306,18 +306,13 @@
                     $nombrePaciente = $cita['pacnombre'];
 
                     try {
-                        // Insertar un registro en respuestas_encuestas al enviar la encuesta
-                        $insertEncuesta = $database->prepare("INSERT INTO respuestas_encuestas (numero_cliente, estado, fecha_envio) VALUES (?, 'esperando_calificacion', NOW())");
-                        $insertEncuesta->bind_param("s", $telefonoPaciente);
-                        $insertEncuesta->execute();
-
-                        // Pregunta 1
+                        // Enviar solo el primer mensaje (calificación)
                         $mensaje1 = "Hola $nombrePaciente, gracias por visitarnos. ¿Cómo calificaría el servicio recibido hoy?\n\n" .
-                                    "1: Muy insatisfecho\n" .
-                                    "2: Insatisfecho\n" .
-                                    "3: Neutral\n" .
-                                    "4: Satisfecho\n" .
-                                    "5: Muy satisfecho";
+                        "1: Muy insatisfecho\n" .
+                        "2: Insatisfecho\n" .
+                        "3: Neutral\n" .
+                        "4: Satisfecho\n" .
+                        "5: Muy satisfecho";
 
                         $client->messages->create(
                             "whatsapp:$telefonoPaciente",
@@ -327,21 +322,17 @@
                             ]
                         );
 
-                        // Pregunta 2
-                        $mensaje2 = "Por favor, comparta cualquier comentario o sugerencia para mejorar nuestro servicio. Responda este mensaje.";
-
-                        $client->messages->create(
-                            "whatsapp:$telefonoPaciente",
-                            [
-                                'from' => 'whatsapp:+14155238886',
-                                'body' => $mensaje2
-                            ]
-                        );
+                        // Registrar la encuesta en la base de datos
+                        $fechaEnvio = date('Y-m-d H:i:s');
+                        $insertQuery = $database->prepare("INSERT INTO respuestas_encuestas (numero_cliente, fecha_envio, estado) VALUES (?, ?, 'esperando_calificacion')");
+                        $insertQuery->bind_param("ss", $telefonoPaciente, $fechaEnvio);
+                        $insertQuery->execute();
 
                         echo '<script>alert("Cita marcada como finalizada y encuesta enviada."); window.location.href="citas.php";</script>';
                     } catch (Exception $e) {
                         echo '<script>alert("Cita marcada como finalizada, pero ocurrió un error al enviar la encuesta: ' . $e->getMessage() . '"); window.location.href="citas.php";</script>';
                     }
+
                 } else {
                     echo '<script>alert("Error al actualizar el estado de la cita."); window.location.href="citas.php";</script>';
                 }
