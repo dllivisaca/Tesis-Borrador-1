@@ -281,22 +281,67 @@
             $citaid = intval($_GET['citaid']);
 
             // Verificar que la cita existe
-            $citaQuery = $database->prepare("SELECT * FROM citas WHERE citaid = ?");
+            $citaQuery = $database->prepare("SELECT citas.*, paciente.pacnombre, paciente.pactelf FROM citas 
+                                         INNER JOIN paciente ON citas.pacid = paciente.pacid 
+                                         WHERE citaid = ?");
             $citaQuery->bind_param("i", $citaid);
             $citaQuery->execute();
             $citaResult = $citaQuery->get_result();
 
             if ($citaResult->num_rows > 0) {
+                $cita = $citaResult->fetch_assoc();
+
                 // Actualizar el estado de la cita a 'finalizada'
                 $updateQuery = $database->prepare("UPDATE citas SET estado = 'finalizada' WHERE citaid = ?");
                 $updateQuery->bind_param("i", $citaid);
+
                 if ($updateQuery->execute()) {
-                    echo '<script>alert("Cita marcada como finalizada."); window.location.href="citas.php";</script>';
+                    
+                    $sid = '';
+                    $token = '';
+                    $client = new Client($sid, $token);
+
+                    // Datos del paciente para enviar la encuesta
+                    $telefonoPaciente = $cita['pactelf'];
+                    $nombrePaciente = $cita['pacnombre'];
+
+                    try {
+                        // Pregunta 1
+                        $mensaje1 = "Hola $nombrePaciente, gracias por visitarnos. ¿Cómo calificaría el servicio recibido hoy?\n\n" .
+                                    "1: Muy insatisfecho\n" .
+                                    "2: Insatisfecho\n" .
+                                    "3: Neutral\n" .
+                                    "4: Satisfecho\n" .
+                                    "5: Muy satisfecho";
+
+                        $client->messages->create(
+                            "whatsapp:$telefonoPaciente",
+                            [
+                                'from' => 'whatsapp:+14155238886', // Número de Twilio Sandbox
+                                'body' => $mensaje1
+                            ]
+                        );
+
+                        // Pregunta 2
+                        $mensaje2 = "Por favor, comparta cualquier comentario o sugerencia para mejorar nuestro servicio. Responda este mensaje.";
+
+                        $client->messages->create(
+                            "whatsapp:$telefonoPaciente",
+                            [
+                                'from' => 'whatsapp:+14155238886',
+                                'body' => $mensaje2
+                            ]
+                        );
+
+                        echo '<script>alert("Cita marcada como finalizada y encuesta enviada."); window.location.href="citas.php";</script>';
+                    } catch (Exception $e) {
+                        echo '<script>alert("Cita marcada como finalizada, pero ocurrió un error al enviar la encuesta: ' . $e->getMessage() . '"); window.location.href="citas.php";</script>';
+                    }
                 } else {
                     echo '<script>alert("Error al actualizar el estado de la cita."); window.location.href="citas.php";</script>';
                 }
             } else {
-                echo '<script>alert("Cita no encontrada o no pertenece a este doctor."); window.location.href="citas.php";</script>';
+                echo '<script>alert("Cita no encontrada."); window.location.href="citas.php";</script>';
             }
         }
     }
