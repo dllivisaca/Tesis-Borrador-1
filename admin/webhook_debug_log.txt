@@ -1,0 +1,27 @@
+Datos recibidos: Array
+(
+)
+
+Error: Datos no válidos recibidos. POST: Array
+(
+)
+
+Datos recibidos: Array
+(
+    [SmsMessageSid] => SM7b42fb40cd5363cd01bb4a1afcc45c3d
+    [NumMedia] => 0
+    [ProfileName] => Daisy Llivisaca 🦋
+    [MessageType] => text
+    [SmsSid] => SM7b42fb40cd5363cd01bb4a1afcc45c3d
+    [WaId] => 593990043768
+    [SmsStatus] => received
+    [Body] => 1
+    [To] => whatsapp:+14155238886
+    [NumSegments] => 1
+    [ReferralNumMedia] => 0
+    [MessageSid] => SM7b42fb40cd5363cd01bb4a1afcc45c3d
+    [AccountSid] => AC2886577c1ea8bbb40225f3a0153c2da5
+    [From] => whatsapp:+593990043768
+    [ApiVersion] => 2010-04-01
+)
+
