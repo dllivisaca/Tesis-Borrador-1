@@ -12,6 +12,8 @@
 </head>
 <body>
     <?php
+    error_reporting(E_ERROR | E_PARSE);
+    
     session_start();
 
     if(isset($_SESSION["usuario"])){
@@ -92,9 +94,8 @@
                     <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: center;">
                         Todos los Doctores (<?php echo $num_results; ?>)
                     </p>
-                    <a href="?action=add&id=none&error=0" class="non-style-link">
+                    <a href="#" onclick="openModal()" class="non-style-link">
                         <button class="btn-add" style="align-self: center;">+ Agregar nuevo doctor</button>
-                        </a>
                     </a>
                 </div>
                 
@@ -679,6 +680,68 @@
 
 ?>
 </div>
+
+
+
+<script>
+  function openModal() {
+    document.getElementById("addDoctorModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("addDoctorModal").style.display = "none";
+  }
+</script>
+
+<div id="addDoctorModal" class="overlay">
+  <div class="popup">
+    <a href="#" class="close" onclick="closeModal()">×</a>
+    <h2>Agregar Nuevo Doctor</h2>
+    <form action="agregar_doctor.php" method="POST" class="doctor-form">
+      <div class="form-group">
+        <label for="name">Nombre del Doctor:</label>
+        <input type="text" name="name" id="name" placeholder="Nombre del doctor" required>
+      </div>
+      <div class="form-group">
+        <label for="usuario">Nombre de Usuario:</label>
+        <input type="text" name="usuario" id="usuario" placeholder="Nombre de usuario" required>
+      </div>
+      <div class="form-group">
+        <label for="ci">CI:</label>
+        <input type="text" name="ci" id="ci" placeholder="Número de CI" required>
+      </div>
+      <div class="form-group">
+        <label for="Telf">Teléfono:</label>
+        <input type="text" name="Telf" id="Telf" placeholder="Número de Teléfono" required>
+      </div>
+      <div class="form-group">
+        <label for="espec">Especialidad:</label>
+        <select name="espec" id="espec" required>
+          <option value="">Selecciona una especialidad</option>
+          <?php
+          $especialidades = $database->query("SELECT * FROM especialidades");
+          while ($row = $especialidades->fetch_assoc()) {
+            echo "<option value='{$row['id']}'>{$row['espnombre']}</option>";
+          }
+          ?>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input type="password" name="password" id="password" placeholder="Contraseña" required>
+      </div>
+      <div class="form-group">
+        <label for="cpassword">Confirmar Contraseña:</label>
+        <input type="password" name="cpassword" id="cpassword" placeholder="Confirmar Contraseña" required>
+      </div>
+      <div class="form-buttons">
+        <button type="submit">Guardar</button>
+        <button type="button" onclick="closeModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
 </body>
 </html>

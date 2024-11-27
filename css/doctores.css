@@ -137,3 +137,172 @@ div[style*="display: flex; justify-content: space-between;"] {
     text-align: center; /* Centrar el texto horizontalmente */
     vertical-align: middle; /* Centrar el texto verticalmente */
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* Por defecto está oculto */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  /* Estilo para el contenedor del popup */
+  .popup {
+    width: 95%; /* Ocupa el 95% del ancho de la pantalla */
+    max-width: 600px; /* No excede 600px */
+    background-color: white;
+    border-radius: 8px;
+    padding: 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0px auto; /* Márgenes adaptativos */
+  }
+
+  /* Botón para cerrar el popup */
+  .popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* Estilo para el formulario */
+  .popup form input,
+  .popup form select,
+  .popup form button {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    font-size: 14px;
+  }
+
+  .popup form button {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .popup form button:hover {
+    background: #0056b3;
+  }
+
+  /* Contenedor del popup */
+.popup {
+    width: 90%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: auto;
+  }
+  
+  .popup h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 22px;
+  }
+  
+  /* Estructura del formulario */
+  form.doctor-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px; /* Reduce el margen entre campos */
+  }
+  
+  .form-group label {
+    flex: 1; /* Ocupa el 30% del ancho */
+    min-width: 100px; /* Asegura que el label tenga un tamaño mínimo */
+    text-align: right;
+    padding-right: 10px;
+    font-size: 14px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    flex: 2; /* Ocupa el 70% del ancho */
+    width: 100%; /* Para pantallas pequeñas */
+    padding: 0px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Diseño responsive */
+  @media (max-width: 768px) {
+    .form-group {
+      flex-direction: column; /* Apila el label y el input */
+      align-items: stretch; /* Asegura que los elementos usen todo el ancho */
+      gap: 5px; /* Espaciado menor entre los elementos */
+    }
+  
+    .form-group label {
+      font-size: 12px; /* Reduce el tamaño de fuente */
+      margin-bottom: 0px;
+    }
+  
+    .form-group input,
+    .form-group select {
+      font-size: 14px; /* Reduce el tamaño de fuente */
+      padding: 0px; /* Reduce el padding */
+      width: 100%; /* Asegura que los inputs ocupen el 100% */
+    }
+  
+    .popup {
+        width: 95%; /* Ocupa casi todo el ancho disponible */
+        max-width: 500px; /* Máximo ancho en pantallas grandes */
+        background-color: white;
+        border-radius: 8px;
+        padding: 0px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin: 0;
+    }
+  
+    .form-buttons {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    button {
+      font-size: 14px; /* Ajusta el tamaño del texto en los botones */
+      padding: 8px; /* Reduce el padding */
+    }
+  }
+  
+  
