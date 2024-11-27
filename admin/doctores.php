@@ -17,7 +17,17 @@
     session_start();
 
     if (isset($_GET['success']) && $_GET['success'] == 1) {
-        echo '<script>window.onload = function() { document.getElementById("successModal").style.display = "flex"; }</script>';
+        echo '<script>
+            window.onload = function() {
+                document.getElementById("successModal").style.display = "flex";
+            };
+        </script>';
+        // Redirigir para eliminar el parámetro de la URL
+        echo '<script>
+            const url = new URL(window.location.href);
+            url.searchParams.delete("success");
+            window.history.replaceState({}, document.title, url.toString());
+        </script>';
     }
 
     if(isset($_SESSION["usuario"])){
@@ -702,7 +712,7 @@
 
 <div id="addDoctorModal" class="overlay">
   <div class="popup">
-    <a href="#" class="close" onclick="closeModal()">×</a>
+    
     <h2>Agregar Nuevo Doctor</h2>
     <form action="agregar_doctor.php" method="POST" class="doctor-form" onsubmit="return validateForm()">
       <div class="form-group">
@@ -779,9 +789,21 @@
       document.getElementById('passwordMessage').style.display = 'none';
   }
 
+  // Mostrar el modal si success=1 está en la URL
+  if (window.location.search.includes('success=1')) {
+    // Mostrar el modal de éxito
+    document.getElementById("successModal").style.display = "flex";
+
+    // Eliminar el parámetro "success" de la URL sin recargar la página
+    const url = new URL(window.location.href);
+    url.searchParams.delete('success');
+    window.history.replaceState({}, document.title, url.toString());
+  }
+
   function closeSuccessModal() {
     document.getElementById("successModal").style.display = "none";
-}
+  }
+
 
 </script>
 <div id="successModal" class="overlay" style="display: none;">
