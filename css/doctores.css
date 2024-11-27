@@ -14,21 +14,20 @@
     gap: 10px;
 }
 
-/* Botón "Atrás" */
-.btn-back {
-    padding: 8px 15px;
-    font-size: 12px;
-    background-color: #007bff;
+.btn-action {
+    background-color: #85B4FF; /* Azul claro */
     color: white;
     border: none;
     border-radius: 8px;
+    padding: 8px 12px;
     cursor: pointer;
+    font-size: 14px;
     transition: background-color 0.3s ease;
-    font-family: 'Poppins', Arial, sans-serif;
 }
 
-.btn-back:hover {
-    background-color: #0056b3;
+/* Hover para el botón */
+.btn-action:hover {
+    background-color: #0056b3; /* Azul más oscuro */
 }
 
 /* Estilo de la barra de búsqueda */
@@ -115,4 +114,26 @@ input[type="search"]:focus {
 
 input[type="submit"]:hover {
     background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+}
+
+/* Contenedor principal de los elementos */
+div[style*="display: flex; justify-content: space-between;"] {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinea los elementos al inicio (superior) */
+    gap: 10px; /* Espacio entre los elementos */
+    padding: 0; /* Asegúrate de eliminar rellenos adicionales */
+    margin: 0; /* Asegúrate de eliminar márgenes adicionales */
+}
+
+/* Centrando los encabezados de la tabla */
+.sub-table th {
+    text-align: center; /* Centrar el texto horizontalmente */
+    vertical-align: middle; /* Centrar el texto verticalmente */
+}
+
+/* Centrando el contenido de las celdas */
+.sub-table td {
+    text-align: center; /* Centrar el texto horizontalmente */
+    vertical-align: middle; /* Centrar el texto verticalmente */
 }
