@@ -1,10 +1,3 @@
-.container {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    background-color: #ffffff; /* Fondo blanco para toda la estructura */
-}
-
 .dash-body {
     flex-grow: 1;
     padding: 20px;

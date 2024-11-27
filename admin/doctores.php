@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/admin.css">
-        
     <title>Doctores</title>
     <style>
         .popup{
@@ -20,9 +19,6 @@
 </head>
 <body>
     <?php
-
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["usuario"])){
@@ -39,85 +35,39 @@
     ?>
     <div class="container">
         <div class="menu">
-            <table class="menu-container" border="0">
-                <tr>
-                    <td style="padding:10px" colspan="2">
-                        <table border="0" class="profile-container">
-                            <tr>
-                                <td width="30%" style="padding-left:20px" >
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
-                                </td>
-                                <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title">Administrador</p>
-                                    <!-- <p class="profile-subtitle">admin@edoc.com</p> -->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                <a href="../logout.php" ><input type="button" value="Cerrar sesión" class="logout-btn btn-primary-soft btn"></a>
-                                </td>
-                            </tr> 
-                    </table>
-                    </td>
-                
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord" >
-                        <a href="dashboard.php" class="non-style-link-menu"><div><p class="menu-text">Dashboard</p></a></div></a>
-                    </td>
-                </tr> 
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord" >
-                        <a href="calendario.php" class="non-style-link-menu"><div><p class="menu-text">Calendario</p></a></div></a>
-                    </td>
-                </tr> 
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor menu-active menu-icon-doctor-active">
-                        <a href="doctores.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Doctores</p></a></div>
-                    </td>
-                </tr>
-                
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="pacientes.php" class="non-style-link-menu"><div><p class="menu-text">Pacientes</p></a></div>
-                    </td>
-                </tr> 
-
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment menu-active menu-icon-appoinment-active">
-                        <a href="citas.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Citas agendadas</p></a></div>
-                    </td>
-                </tr>
-
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-schedule ">
-                        <a href="horarios.php" class="non-style-link-menu"><div><p class="menu-text">Horarios disponibles</p></div></a>
-                    </td>
-                </tr>
-
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-schedule ">
-                        <a href="horarios2.php" class="non-style-link-menu"><div><p class="menu-text">Horarios disponibles 2</p></div></a>
-                    </td>
-                </tr>
-
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-schedule ">
-                        <a href="opiniones_recibidas.php" class="non-style-link-menu"><div><p class="menu-text">Opiniones recibidas</p></div></a>
-                    </td>
-                </tr>
-
-            </table>
+            <div class="profile-container">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                <p class="profile-title">Administrador</p>
+            </div>
+            <a href="../logout.php"><button class="btn-logout">Cerrar sesión</button></a>
+            <div class="linea-separadora"></div>
+            <div class="menu-links">
+                <a href="dashboard.php" class="menu-link">Dashboard</a>
+                <a href="doctores.php" class="menu-link menu-link-active">Doctores</a>
+                <a href="pacientes.php" class="menu-link">Pacientes</a>
+                <a href="horarios2.php" class="menu-link">Horarios disponibles</a>
+                <a href="citas.php" class="menu-link">Citas agendadas</a>
+                <a href="opiniones_recibidas.php" class="menu-link">Opiniones recibidas</a>
+            </div>
         </div>
         <div class="dash-body">
-            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
-                <tr >
-                    <td width="13%">
-                        <a href="doctores.php" ><button class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
-                    </td> 
+            <div class="header-actions">
+            <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
+            <div class="header-left">
+                <a href="doctores.php">
+                    <button class="btn-back">← Atrás</button>
+                </a>
+                <form action="" method="post" class="search-bar">
+                    <input type="search" name="search" placeholder="Escribe el nombre del doctor" list="doctores">
+                    <input type="submit" value="Buscar">
+                </form>
+            </div>
+        </div>
+                <tr>
+                    
                     <td>
                         <form action="" method="post" class="header-search">
-                            <input type="search" name="search" class="input-text header-searchbar" placeholder="Busca con el nombre del doctor" list="doctores">&nbsp;&nbsp;
+                            
                             
                             <?php
                                 echo '<datalist id="doctores">';
@@ -132,9 +82,7 @@
                                 };
 
                             echo ' </datalist>';
-?>                     
-                            <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                        
+?>                                             
                         </form>
                         
                     </td>
@@ -157,20 +105,18 @@
                     </td> -->
                 </tr>
                
-                <tr >
-                    <td colspan="2" style="padding-top:30px;">
-                        <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">Add New Doctor</p>
-                    </td>
-                    <td colspan="2">
-                        <a href="?action=add&id=none&error=0" class="non-style-link"><button  class="login-btn btn-primary btn button-icon"  style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image: url('../img/icons/add.svg');">Add New</font></button>
-                            </a></td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="padding-top:10px;">
-                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Todos los Doctores (<?php echo $list11->num_rows; ?>)</p>
-                    </td>
-                    
-                </tr>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-right: 15px;">
+                    <p class="heading-main12" style="margin-left: 45px; font-size: 18px; color: rgb(49, 49, 49);">
+                        Todos los Doctores (<?php echo $list11->num_rows; ?>)
+                    </p>
+                    <a href="?action=add&id=none&error=0" class="non-style-link">
+                        
+                        <a href="?action=add&id=none&error=0" class="non-style-link">
+                            <button class="btn-add">+ Agregar nuevo doctor</button>
+                        </a>
+                    </a>
+                </div>
+                
                 <?php
                     if($_POST){
                         $keyword=$_POST["search"];
@@ -276,7 +222,7 @@
                        
                         
                         
-            </table>
+            </>
         </div>
     </div>
     <?php 
