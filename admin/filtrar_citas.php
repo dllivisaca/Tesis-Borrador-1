@@ -1,30 +1,27 @@
 <?php
-/* ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL); */
 include("../conexion_db.php");
 header("Content-Type: application/json");
 
 // Obtener los datos enviados desde JavaScript
 $data = json_decode(file_get_contents("php://input"), true);
 
-$year = $data['year'] ?? '';
-$month = $data['month'] ?? '';
-$day = $data['day'] ?? '';
+// Variables de filtro
+$year = $data['year'] ?? null;
+$month = $data['month'] ?? null;
+$day = $data['day'] ?? null;
 
-// Construir cláusula WHERE dinámica
-$whereClauses = [];
-if ($year) {
-    $whereClauses[] = "YEAR(fecha) = $year";
+// Construir condiciones dinámicas para el WHERE
+$conditions = ["estado = 'finalizada'"];
+if (!empty($year)) {
+    $conditions[] = "YEAR(fecha) = " . intval($year);
 }
-if ($month) {
-    $whereClauses[] = "MONTH(fecha) = $month";
+if (!empty($month)) {
+    $conditions[] = "MONTH(fecha) = " . intval($month);
 }
-if ($day) {
-    $whereClauses[] = "DAY(fecha) = $day";
+if (!empty($day)) {
+    $conditions[] = "DAY(fecha) = " . intval($day);
 }
-
-$where = count($whereClauses) > 0 ? "WHERE " . implode(" AND ", $whereClauses) : "";
+$where = implode(" AND ", $conditions);
 
 // Inicializar arrays vacíos
 $citasPorEspecialidad = ['labels' => [], 'data' => []];
@@ -33,19 +30,17 @@ $horariosConMayorActividad = ['labels' => [], 'data' => []];
 $diasConMayorActividad = ['labels' => [], 'data' => []];
 
 // Consultar "Total de citas"
-$totalCitasQuery = "SELECT COUNT(*) AS total FROM citas $where";
+$totalCitasQuery = "SELECT COUNT(*) AS total FROM citas WHERE $where";
 $totalCitasResult = $database->query($totalCitasQuery);
-$totalCitasRow = $totalCitasResult->fetch_assoc();
-$totalCitas = $totalCitasRow ? $totalCitasRow['total'] : 0;
+$totalCitas = $totalCitasResult ? $totalCitasResult->fetch_assoc()['total'] : 0;
 
 // Consultar datos para "Número de citas por especialidad"
 $citasPorEspecialidadQuery = "SELECT especialidades.espnombre AS label, COUNT(*) AS value
                               FROM citas
                               INNER JOIN doctor ON citas.docid = doctor.docid
                               INNER JOIN especialidades ON doctor.especialidades = especialidades.id
-                              $where
+                              WHERE $where
                               GROUP BY especialidades.espnombre";
-                              
 $citasPorEspecialidadResult = $database->query($citasPorEspecialidadQuery);
 if ($citasPorEspecialidadResult && $citasPorEspecialidadResult->num_rows > 0) {
     while ($row = $citasPorEspecialidadResult->fetch_assoc()) {
@@ -58,7 +53,7 @@ if ($citasPorEspecialidadResult && $citasPorEspecialidadResult->num_rows > 0) {
 $citasPorDoctorQuery = "SELECT doctor.docnombre AS label, COUNT(*) AS value
                         FROM citas
                         INNER JOIN doctor ON citas.docid = doctor.docid
-                        $where
+                        WHERE $where
                         GROUP BY doctor.docnombre";
 $citasPorDoctorResult = $database->query($citasPorDoctorQuery);
 if ($citasPorDoctorResult && $citasPorDoctorResult->num_rows > 0) {
@@ -71,7 +66,7 @@ if ($citasPorDoctorResult && $citasPorDoctorResult->num_rows > 0) {
 // Consultar datos para "Top 3 horarios con mayor actividad"
 $horariosConMayorActividadQuery = "SELECT CONCAT(TIME_FORMAT(hora_inicio, '%H:%i'), ' - ', TIME_FORMAT(hora_fin, '%H:%i')) AS label, COUNT(*) AS value
                                    FROM citas
-                                   $where
+                                   WHERE $where
                                    GROUP BY hora_inicio, hora_fin
                                    ORDER BY value DESC
                                    LIMIT 3";
@@ -86,7 +81,7 @@ if ($horariosConMayorActividadResult && $horariosConMayorActividadResult->num_ro
 // Consultar datos para "Top 2 días con mayor actividad"
 $diasConMayorActividadQuery = "SELECT DATE_FORMAT(fecha, '%W') AS label, COUNT(*) AS value
                                FROM citas
-                               $where
+                               WHERE $where
                                GROUP BY label
                                ORDER BY value DESC
                                LIMIT 2";
@@ -113,27 +108,17 @@ if (!empty($diasConMayorActividad['labels'])) {
         $label = $diasEnEspanol[$label] ?? $label;
     }
 }
-// Verificar si hay datos
-if ($totalCitas == 0 &&
-    empty($citasPorEspecialidad['labels']) &&
-    empty($citasPorDoctor['labels']) &&
-    empty($horariosConMayorActividad['labels']) &&
-    empty($diasConMayorActividad['labels'])) {
-    // No hay datos
-    echo json_encode([
-        "success" => false,
-        "message" => "No se encontraron datos para los filtros seleccionados."
-    ]);
-    exit;
-}
 
-// Devolver los datos en formato JSON
-echo json_encode([
+// Construir respuesta
+$response = [
     "success" => true,
     "totalCitas" => $totalCitas,
     "citasPorEspecialidad" => $citasPorEspecialidad,
     "citasPorDoctor" => $citasPorDoctor,
     "horariosConMayorActividad" => $horariosConMayorActividad,
     "diasConMayorActividad" => $diasConMayorActividad
-]);
+];
+
+// Devolver respuesta JSON
+echo json_encode($response);
 ?>

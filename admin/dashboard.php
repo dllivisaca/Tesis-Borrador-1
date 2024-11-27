@@ -15,7 +15,7 @@ if (isset($_SESSION["usuario"])) {
 include("../conexion_db.php");
 
 // Total de citas
-$totalCitasQuery = "SELECT COUNT(*) AS total FROM citas";
+$totalCitasQuery = "SELECT COUNT(*) AS total FROM citas WHERE estado = 'finalizada'";
 $totalCitasResult = $database->query($totalCitasQuery);
 $totalCitas = $totalCitasResult->fetch_assoc()["total"];
 
@@ -24,6 +24,7 @@ $citasPorEspecialidadQuery = "SELECT especialidades.espnombre, COUNT(*) AS canti
                             FROM citas
                             INNER JOIN doctor ON citas.docid = doctor.docid
                             INNER JOIN especialidades ON doctor.especialidades = especialidades.id
+                            WHERE citas.estado = 'finalizada'
                             GROUP BY especialidades.espnombre";
 $citasPorEspecialidadResult = $database->query($citasPorEspecialidadQuery);
 $citasPorEspecialidad = [];
@@ -45,6 +46,7 @@ unset($especialidad); // Limpiar referencia
 $citasPorDoctorQuery = "SELECT doctor.docnombre, COUNT(*) AS cantidad
                         FROM citas
                         INNER JOIN doctor ON citas.docid = doctor.docid
+                        WHERE citas.estado = 'finalizada'
                         GROUP BY doctor.docnombre";
 $citasPorDoctorResult = $database->query($citasPorDoctorQuery);
 $citasPorDoctor = [];
@@ -55,6 +57,7 @@ while ($row = $citasPorDoctorResult->fetch_assoc()) {
 // Top 3 horarios con mayor actividad
 $horariosConMayorActividadQuery = "SELECT CONCAT(TIME_FORMAT(hora_inicio, '%H:%i'), ' - ', TIME_FORMAT(hora_fin, '%H:%i')) AS horario, COUNT(*) AS cantidad
                                    FROM citas
+                                   WHERE estado = 'finalizada'
                                    GROUP BY hora_inicio, hora_fin
                                    ORDER BY cantidad DESC
                                    LIMIT 3";
@@ -67,6 +70,7 @@ while ($row = $horariosConMayorActividadResult->fetch_assoc()) {
 // Top 2 días con mayor actividad
 $diasConMayorActividadQuery = "SELECT DATE_FORMAT(fecha, '%W') AS dia, COUNT(*) AS cantidad
                                FROM citas
+                               WHERE estado = 'finalizada'
                                GROUP BY dia
                                ORDER BY cantidad DESC
                                LIMIT 2";
@@ -402,7 +406,7 @@ unset($dia); // Limpiar referencia
 
             <div class="stats-container">
                 <div class="stat-box">
-                    <h3>Total de citas</h3>
+                    <h3>Total de citas finalizadas</h3>
                     <p id="totalCitas"><?php echo $totalCitas; ?></p>
                 </div>
                 <div class="stat-box">
