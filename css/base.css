@@ -1,0 +1,157 @@
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff; /* Cambiar fondo a blanco */
+    color: #333; /* Texto más oscuro */
+}
+
+.menu {
+    width: 15%; /* Aumentar ligeramente el ancho del menú */
+    background-color: #ffffff;
+    padding: 20px; /* Espaciado interno reducido */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-title {
+    font-size: 14px; /* Reducir tamaño de la fuente */
+    color: #000;
+    font-weight: bold;
+}
+
+.menu .profile-title {
+    font-size: 17px;
+    color: #000; /* Azul */
+    font-weight: bold;
+    line-height: 1; /* Ajusta la altura de la línea para que no genere espacio extra */
+    margin: 0; /* Elimina cualquier margen */
+    padding: 0; /* Elimina cualquier relleno */
+    display: inline-block; /* Para evitar que se expanda innecesariamente */
+    vertical-align: middle; /* Asegura el alineamiento vertical */
+}
+
+.menu a {
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.menu-links {
+    gap: 8px; /* Reducir espacio entre enlaces */
+    margin-top: 10px; /* Reducir espacio superior */
+}
+
+.menu-link {
+    font-size: 14px; /* Reducir tamaño de la fuente */
+    padding: 8px 10px; /* Reducir padding */
+    color: #555555;
+    border-radius: 6px;
+    text-align: left;
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.menu-link:hover {
+    background-color: #f4f4f4; /* Fondo gris claro al pasar el mouse */
+    color: #007bff; /* Azul */
+}
+
+.menu-link-active {
+    font-size: 14px;
+    color: #007bff;
+    border-right: none;
+    padding: 8px 10px;
+    position: relative;
+    font-weight: bold;
+
+    /* Ajuste preciso de la barra azul */
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -18px; /* Ajusta este valor según el ancho del menú y la separación */
+        width: 4px; /* Ancho de la barra */
+        height: 100%; /* Altura de toda la opción */
+        background-color: #007bff; /* Azul */
+    }
+}
+
+.menu .profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* Reducir espacio entre logo y texto */
+    margin-bottom: 10px; /* Reducir margen inferior */
+    margin-top: 40px; /* Reducir margen superior */
+}
+
+.menu-logo {
+    width: 40px; /* Reducir tamaño del logo */
+    height: 40px;
+    border-radius: 50%;
+}
+
+.btn-logout {
+    width: 90%; /* Ajustar tamaño del botón al nuevo ancho */
+    background-color: #ff4c4c;
+    color: white;
+    padding: 8px; /* Reducir tamaño del botón */
+    font-size: 12px; /* Reducir tamaño de la fuente */
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 15px; /* Reducir margen inferior */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.linea-separadora {
+    width: 100%; /* Que ocupe todo el ancho del contenedor */
+    height: 1px; /* Grosor de la línea */
+    background-color: #e0e0e0; /* Color gris claro */
+    margin: 10px 0; /* Espaciado superior e inferior */
+    border: none; /* Sin bordes adicionales */
+}
+
+.btn-logout:hover {
+    background-color: #e63939; /* Rojo más oscuro */
+}
+
+.btn-filter {
+    background-color: #007bff; /* Color azul */
+    color: white; /* Texto blanco */
+    padding: 8px 16px; /* Espaciado interno */
+    font-size: 12px; /* Tamaño de fuente */
+    border: none; /* Sin borde */
+    border-radius: 6px; /* Bordes redondeados */
+    cursor: pointer; /* Manita al pasar el mouse */
+    margin-left: 10px; /* Espaciado entre el botón y los selectores */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+.btn-filter:hover {
+    background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+}
+
+
+
+.btn-logout {
+    width: 100%;
+    background-color: #ff6b6b; /* Rojo más claro */
+    color: white;
+    padding: 12px; /* Tamaño del botón */
+    font-size: 14px;
+    border: none; /* Sin bordes */
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: background-color 0.3s ease;
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: bold;
+}
+
+.btn-logout:hover {
+    background-color: #d9534f;
+}

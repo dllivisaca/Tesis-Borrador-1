@@ -1,0 +1,91 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    background-color: #ffffff; /* Fondo blanco para toda la estructura */
+}
+
+.dash-body {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.dash-body h2 {
+    font-size: 17px;
+    color: #000;
+    margin-top: 0px; /* Reducir espacio superior */
+    margin-bottom: 20px; /* Espaciado inferior */
+    text-align: left;
+    line-height: 1; /* Ajustar altura de línea */
+}
+
+.filter-container {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los elementos */
+    gap: 10px; /* Espaciado entre los elementos */
+    margin-bottom: 10px;
+}
+
+.filter-container select {
+    padding: 8px;
+    font-size: 12px; /* Reducir tamaño de la fuente */
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.filter-container label {
+    font-size: 12px; /* Reducir tamaño de la fuente */
+    color: #00b8d9;
+    font-weight: bold;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas por fila */
+    row-gap: 10px; /* Reducir espacio entre filas */
+    column-gap: 20px; /* Espacio entre columnas */
+    padding: 0px; /* Espaciado interno */
+}
+
+.stat-box {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    padding: 15px; /* Espaciado interno más reducido */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%; /* Asegura que cada tarjeta ocupe su columna */
+    max-width: 260px; /* Limitar el ancho máximo */
+    margin: 0 auto; /* Centrar los gráficos */
+}
+
+.stat-box h3 {
+    font-size: 14px; /* Reducir tamaño del título */
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 8px; /* Espaciado inferior del título */
+}
+
+.stat-box p {
+    font-size: 40px; /* Reducir tamaño del número */
+    color: #000;
+    font-weight: bold;
+    margin: 0;
+}
+
+.stat-box canvas {
+    max-width: 100%; /* Asegura que los gráficos no excedan el ancho */
+    height: auto;
+}
+
+@media (max-width: 1024px) {
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr); /* Cambiar a 2 columnas en pantallas medianas */
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-container {
+        grid-template-columns: 1fr; /* Cambiar a 1 columna en pantallas pequeñas */
+    }
+}
