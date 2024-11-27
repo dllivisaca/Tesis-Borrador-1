@@ -18,12 +18,8 @@ body {
     top: 0;
     z-index: 1000;
     background-color: white;
-    transition: box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
-}
-
-.menu.scroll {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-bottom: 2px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ajustada */
+    padding: 20px; /* Agregar padding interno */
 }
 
 .profile-title {
@@ -74,20 +70,19 @@ body {
 .menu-link-active {
     font-size: 14px;
     color: #007bff;
-    border-right: none;
     padding: 8px 10px;
     position: relative;
     font-weight: bold;
 
-    /* Ajuste preciso de la barra azul */
+    /* Línea azul en el lado derecho */
     &::after {
         content: '';
         position: absolute;
-        top: 0;
-        right: -18px; /* Ajusta este valor según el ancho del menú y la separación */
-        width: 4px; /* Ancho de la barra */
-        height: 100%; /* Altura de toda la opción */
-        background-color: #007bff; /* Azul */
+        top: 0; /* Alineado al inicio del elemento */
+        right: -20px; /* Ajusta según el padding del menú */
+        width: 4px; /* Grosor de la línea */
+        height: 100%; /* Altura completa del elemento */
+        background-color: #007bff; /* Color azul */
     }
 }
 
