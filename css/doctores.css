@@ -132,10 +132,18 @@ div[style*="display: flex; justify-content: space-between;"] {
     vertical-align: middle; /* Centrar el texto verticalmente */
 }
 
-/* Centrando el contenido de las celdas */
 .sub-table td {
-    text-align: center; /* Centrar el texto horizontalmente */
-    vertical-align: middle; /* Centrar el texto verticalmente */
+    display: table-cell; /* Asegura comportamiento de celda */
+    vertical-align: middle; /* Alinea verticalmente al centro */
+    text-align: center; /* Opcional: alinear horizontalmente */
+    padding: 12px 15px; /* Espaciado interno */
+}
+
+.sub-table td button {
+    margin: 0; /* Elimina márgenes de los botones */
+    padding: 6px 12px; /* Ajusta el tamaño si es necesario */
+    font-size: 14px; /* Tamaño de fuente consistente */
+    line-height: 1; /* Asegura altura de línea adecuada */
 }
 
 .overlay {

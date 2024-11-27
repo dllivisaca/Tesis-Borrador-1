@@ -198,11 +198,11 @@
 
                                         <td>
                                         <div style="display:flex;justify-content: center;">
-                                        <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Editar</font></button></a>
+                                        <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 5px;"><font class="tn-in-text">Editar</font></button></a>
                                         &nbsp;&nbsp;&nbsp;
-                                        <a href="?action=view&id='.$docid.'" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver más</font></button></a>
+                                        <a href="?action=view&id='.$docid.'" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 5px;"><font class="tn-in-text">Ver más</font></button></a>
                                        &nbsp;&nbsp;&nbsp;
-                                       <a href="?action=drop&id='.$docid.'&name='.$name.'" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Eliminar</font></button></a>
+                                       <a href="?action=drop&id='.$docid.'&name='.$name.'" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 5px;"><font class="tn-in-text">Eliminar</font></button></a>
                                         </div>
                                         </td>
                                     </tr>';
