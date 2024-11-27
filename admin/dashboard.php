@@ -395,6 +395,9 @@ unset($dia); // Limpiar referencia
 
                 <!-- Botón de filtrar -->
                 <button id="filterButton" class="btn-filter">Filtrar</button>
+
+                <!-- Botón de limpiar filtros -->
+                <button id="clearFiltersButton" class="btn-filter">Limpiar filtros</button>
             </div>
 
             <div class="stats-container">
@@ -607,14 +610,11 @@ unset($dia); // Limpiar referencia
             const monthSelect = document.getElementById("month");
             const daySelect = document.getElementById("day");
 
-            // Poblar los años (por ejemplo, de 2020 a 2030)
-            const currentYear = new Date().getFullYear();
-            for (let year = currentYear - 5; year <= currentYear + 5; year++) {
-                const option = document.createElement("option");
-                option.value = year;
-                option.textContent = year;
-                yearSelect.appendChild(option);
-            }
+            // Limitar opciones del filtro de año a solo 2024
+            const option = document.createElement("option");
+            option.value = 2024;
+            option.textContent = 2024;
+            yearSelect.appendChild(option);
 
             // Lista de nombres de los meses
             const monthNames = [
@@ -699,6 +699,11 @@ unset($dia); // Limpiar referencia
                     .catch(error => console.error("Error al filtrar los datos:", error));
             });
 
+             // Botón "Limpiar filtros"
+            clearFiltersButton.addEventListener("click", function () {
+                location.reload(); // Recargar la página
+            });
+
             function actualizarGraficos(data) {
                 // Actualizar "Total de citas"
                 document.querySelector('#totalCitas').textContent = data.totalCitas;
@@ -724,6 +729,8 @@ unset($dia); // Limpiar referencia
                 diasConMayorActividadChart.update();
             }
         });
+
+        
 
     </script>
 </body>
