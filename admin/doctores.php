@@ -24,6 +24,18 @@
 
     //import database
     include("../conexion_db.php");
+
+    if($_POST){
+        $keyword=$_POST["search"];
+        
+        $sqlmain= "select * from doctor where docnombre='$keyword' or docnombre like '$keyword%' or docnombre like '%$keyword' or docnombre like '%$keyword%'";
+    }else{
+        $sqlmain= "select * from doctor order by docid desc";
+    }
+
+    // Ejecuta la consulta y cuenta los resultados
+    $result = $database->query($sqlmain);
+    $num_results = $result->num_rows; // Aquí se cuenta el número de doctores encontrados
     
     ?>
     <div class="container">
@@ -51,7 +63,7 @@
                     <button class="btn-action">← Atrás</button>
                 </a>
                 <form action="" method="post" class="search-bar">
-                    <input type="search" name="search" placeholder="Escribe el nombre del doctor" list="doctores">
+                    <input type="search" name="search" placeholder="Escribe el nombre del doctor" list="doctores" value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>">
                     <input type="submit" value="Buscar">
                 </form>
             </div>
@@ -78,7 +90,7 @@
                   
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-right: 15px; height: 50px;">
                     <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: center;">
-                        Todos los Doctores (<?php echo $list11->num_rows; ?>)
+                        Todos los Doctores (<?php echo $num_results; ?>)
                     </p>
                     <a href="?action=add&id=none&error=0" class="non-style-link">
                         <button class="btn-add" style="align-self: center;">+ Agregar nuevo doctor</button>
@@ -94,6 +106,8 @@
                     }else{
                         $sqlmain= "select * from doctor order by docid desc";
                     }
+
+                    
                 ?>
                   
                 <tr>
@@ -132,12 +146,11 @@
                                     <td colspan="4">
                                     <br><br><br><br>
                                     <center>
-                                    <img src="../img/notfound.svg" width="25%">
+                                    
                                     
                                     <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">No existen resultados para el texto ingresado</p>
-                                    <a class="non-style-link" href="doctores.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Doctors &nbsp;</font></button>
-                                    </a>
+                                    <p class="heading-main12" style="margin-left: 45px;font-size:16px;color:rgb(49, 49, 49)">No se encontraron resultados para el nombre ingresado. Intenta con otro término o revisa si está correctamente escrito.</p>
+                                    
                                     </center>
                                     <br><br><br><br>
                                     </td>
