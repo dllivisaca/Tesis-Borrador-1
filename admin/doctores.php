@@ -13,8 +13,12 @@
 <body>
     <?php
     error_reporting(E_ERROR | E_PARSE);
-    
+
     session_start();
+
+    if (isset($_GET['success']) && $_GET['success'] == 1) {
+        echo '<script>window.onload = function() { document.getElementById("successModal").style.display = "flex"; }</script>';
+    }
 
     if(isset($_SESSION["usuario"])){
         if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
@@ -39,7 +43,10 @@
     $result = $database->query($sqlmain);
     $num_results = $result->num_rows; // Aquí se cuenta el número de doctores encontrados
     
+   
     ?>
+    
+
     <div class="container">
         <div class="menu">
             <div class="profile-container">
@@ -697,22 +704,22 @@
   <div class="popup">
     <a href="#" class="close" onclick="closeModal()">×</a>
     <h2>Agregar Nuevo Doctor</h2>
-    <form action="agregar_doctor.php" method="POST" class="doctor-form">
+    <form action="agregar_doctor.php" method="POST" class="doctor-form" onsubmit="return validateForm()">
       <div class="form-group">
         <label for="name">Nombre del Doctor:</label>
-        <input type="text" name="name" id="name" placeholder="Nombre del doctor" required>
+        <input type="text" name="name" id="name" placeholder="Nombre del doctor" required minlength="4">
       </div>
       <div class="form-group">
         <label for="usuario">Nombre de Usuario:</label>
-        <input type="text" name="usuario" id="usuario" placeholder="Nombre de usuario" required>
+        <input type="text" name="usuario" id="usuario" placeholder="Nombre de usuario" required minlength="4">
       </div>
       <div class="form-group">
         <label for="ci">CI:</label>
-        <input type="text" name="ci" id="ci" placeholder="Número de CI" required>
+        <input type="text" name="ci" id="ci" placeholder="Número de CI" required minlength="10" maxlength="10" pattern="\d+">
       </div>
       <div class="form-group">
         <label for="Telf">Teléfono:</label>
-        <input type="text" name="Telf" id="Telf" placeholder="Número de Teléfono" required>
+        <input type="text" name="Telf" id="Telf" placeholder="Número de Teléfono" required minlength="10" maxlength="10" pattern="\d+">
       </div>
       <div class="form-group">
         <label for="espec">Especialidad:</label>
@@ -726,10 +733,20 @@
           ?>
         </select>
       </div>
-      <div class="form-group">
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="password" placeholder="Contraseña" required>
-      </div>
+        <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input 
+                type="password" 
+                name="password" 
+                id="password" 
+                placeholder="Contraseña" 
+                required 
+                minlength="8"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+                onfocus="showPasswordMessage()" 
+                onblur="hidePasswordMessage()">
+            <small id="passwordMessage" class="password-rules" style="display: none;">Mínimo 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.</small>
+        </div>
       <div class="form-group">
         <label for="cpassword">Confirmar Contraseña:</label>
         <input type="password" name="cpassword" id="cpassword" placeholder="Confirmar Contraseña" required>
@@ -742,6 +759,43 @@
   </div>
 </div>
 
+<script>
+  function validateForm() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('cpassword').value;
+
+    if (password !== confirmPassword) {
+      alert('Las contraseñas no coinciden.');
+      return false;
+    }
+    return true;
+  }
+
+  function showPasswordMessage() {
+      document.getElementById('passwordMessage').style.display = 'block';
+  }
+
+  function hidePasswordMessage() {
+      document.getElementById('passwordMessage').style.display = 'none';
+  }
+
+  function closeSuccessModal() {
+    document.getElementById("successModal").style.display = "none";
+}
+
+</script>
+<div id="successModal" class="overlay" style="display: none;">
+  <div class="popup">
+    <a href="#" class="close" onclick="closeSuccessModal()">×</a>
+    <h2>¡Doctor agregado con éxito!</h2>
+    <div class="content">
+      El nuevo doctor ha sido registrado correctamente en el sistema.
+    </div>
+    <div class="form-buttons">
+      <button onclick="closeSuccessModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

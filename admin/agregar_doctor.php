@@ -78,12 +78,16 @@
         //header('location: signup.php');
         $error='3';
     }
+
+    if ($error == '4') {
+        header("location: doctores.php?success=1");
+    } else {
+        header("location: doctores.php?action=add&error=".$error);
+    }
     
 
-    header("location: doctores.php?action=add&error=".$error);
+   
     ?>
     
-   
-
-</body>
+   </body>
 </html>

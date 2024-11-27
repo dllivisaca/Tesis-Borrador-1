@@ -230,7 +230,7 @@ div[style*="display: flex; justify-content: space-between;"] {
   .form-group label {
     flex: 1; /* Ocupa el 30% del ancho */
     min-width: 100px; /* Asegura que el label tenga un tamaño mínimo */
-    text-align: right;
+    text-align: left;
     padding-right: 10px;
     font-size: 14px;
   }
@@ -304,5 +304,13 @@ div[style*="display: flex; justify-content: space-between;"] {
       padding: 8px; /* Reduce el padding */
     }
   }
-  
-  
+  .password-rules {
+    font-size: 0.75rem; /* Reduce ligeramente el tamaño de la fuente */
+    color: #555; /* Color neutro */
+    margin: 0.25rem 0 0; /* Ajusta los márgenes */
+    line-height: 1.2; /* Mantén una altura de línea compacta */
+    text-align: left; /* Alinea el texto a la izquierda */
+    white-space: normal; /* Permite que el texto se divida en líneas si es necesario */
+    word-wrap: break-word; /* Asegura que las palabras largas se ajusten dentro del contenedor */
+    display: block; /* Asegura un comportamiento consistente */
+}
