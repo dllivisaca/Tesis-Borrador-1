@@ -16,6 +16,44 @@
 
     session_start();
 
+    if (isset($_GET['edit_success'])) {
+        if ($_GET['edit_success'] == 1) {
+            echo '<script>
+                window.onload = function() {
+                    document.getElementById("editSuccessModal").style.display = "flex";
+                };
+            </script>';
+        } elseif ($_GET['edit_success'] == 0) {
+            echo '<script>
+                window.onload = function() {
+                    alert("No se realizaron cambios en los datos del doctor.");
+                };
+            </script>';
+        }
+    
+        // Elimina el parámetro de la URL sin recargar la página
+        echo '<script>
+            const url = new URL(window.location.href);
+            url.searchParams.delete("edit_success");
+            window.history.replaceState({}, document.title, url.toString());
+        </script>';
+    }
+
+    if (isset($_GET['edit_success']) && $_GET['edit_success'] == 1) {
+        echo '<script>
+            window.onload = function() {
+                document.getElementById("editSuccessModal").style.display = "flex";
+            };
+        </script>';
+        // Elimina el parámetro de la URL sin recargar la página
+        echo '<script>
+            const url = new URL(window.location.href);
+            url.searchParams.delete("edit_success");
+            window.history.replaceState({}, document.title, url.toString());
+        </script>';
+    }
+    
+
     if (isset($_GET['success']) && $_GET['success'] == 1) {
         echo '<script>
             window.onload = function() {
@@ -810,6 +848,24 @@
     document.getElementById("successModal").style.display = "none";
   }
 
+  function closeEditSuccessModal() {
+    document.getElementById("editSuccessModal").style.display = "none";
+}
+
+function closeNoChangesModal() {
+    document.getElementById("noChangesModal").style.display = "none";
+}
+
+// Muestra el modal si edit_success=0 está en la URL
+if (window.location.search.includes('edit_success=0')) {
+    document.getElementById("noChangesModal").style.display = "flex";
+
+    // Elimina el parámetro "edit_success" de la URL sin recargar la página
+    const url = new URL(window.location.href);
+    url.searchParams.delete('edit_success');
+    window.history.replaceState({}, document.title, url.toString());
+}
+
   window.addEventListener('scroll', function () {
     const menu = document.querySelector('.menu');
     if (window.scrollY > 0) {
@@ -915,6 +971,33 @@ function hideEditPasswordMessage() {
 
 
 </script>
+<div id="editSuccessModal" class="overlay" style="display: none;">
+    <div class="popup">
+        <a href="#" class="close" onclick="closeEditSuccessModal()">×</a>
+        <h2>¡Doctor editado con éxito!</h2>
+        <div class="content">
+            Los detalles del doctor han sido actualizados correctamente.
+        </div>
+        <div class="form-buttons">
+            <button onclick="closeEditSuccessModal()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<div id="noChangesModal" class="overlay" style="display: none;">
+  <div class="popup">
+    <a href="#" class="close" onclick="closeNoChangesModal()">×</a>
+    <h2>Sin Cambios Realizados</h2>
+    <div class="content">
+      No se realizaron cambios en los datos del doctor.
+    </div>
+    <div class="form-buttons">
+      <button onclick="closeNoChangesModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+
 <div id="successModal" class="overlay" style="display: none;">
   <div class="popup">
     <a href="#" class="close" onclick="closeSuccessModal()">×</a>
