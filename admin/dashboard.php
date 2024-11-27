@@ -259,8 +259,10 @@ unset($dia); // Limpiar referencia
         .dash-body h2 {
             font-size: 17px;
             color: #000;
-            margin-bottom: 20px;
+            margin-top: 0px; /* Reducir espacio superior */
+            margin-bottom: 20px; /* Espaciado inferior */
             text-align: left;
+            line-height: 1; /* Ajustar altura de línea */
         }
 
         .filter-container {
@@ -286,8 +288,9 @@ unset($dia); // Limpiar referencia
         .stats-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* Tres columnas por fila */
-            gap: 20px; /* Espacio entre los elementos */
-            padding: 10px; /* Espaciado interno */
+            row-gap: 10px; /* Reducir espacio entre filas */
+            column-gap: 20px; /* Espacio entre columnas */
+            padding: 0px; /* Espaciado interno */
         }
 
         .stat-box {
@@ -298,7 +301,7 @@ unset($dia); // Limpiar referencia
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 100%; /* Asegura que cada tarjeta ocupe su columna */
-            max-width: 250px; /* Limitar el ancho máximo */
+            max-width: 280px; /* Limitar el ancho máximo */
             margin: 0 auto; /* Centrar los gráficos */
         }
 
