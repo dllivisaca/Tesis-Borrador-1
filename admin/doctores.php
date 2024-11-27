@@ -856,6 +856,63 @@ function closeEditModal() {
     document.getElementById('editDoctorModal').style.display = 'none';
 }
 
+function validateEditForm() {
+  // Obtiene todos los valores del formulario
+  const name = document.getElementById('editName').value.trim();
+  const usuario = document.getElementById('editUsuario').value.trim();
+  const ci = document.getElementById('editCi').value.trim();
+  const telf = document.getElementById('editTelf').value.trim();
+  const espec = document.getElementById('editEspec').value;
+  const password = document.getElementById('editPassword').value;
+  const confirmPassword = document.getElementById('editCPassword').value;
+
+  // Verifica si algún campo está vacío
+  if (!name || !usuario || !ci || !telf || !espec) {
+    alert('Todos los campos son obligatorios. Por favor, complete todos los campos.');
+    return false;
+  }
+
+  // Verifica que el CI tenga 10 caracteres y sea numérico
+  if (ci.length !== 10 || !/^\d+$/.test(ci)) {
+    alert('El CI debe tener 10 dígitos y ser un número válido.');
+    return false;
+  }
+
+  // Verifica que el teléfono tenga 10 caracteres y sea numérico
+  if (telf.length !== 10 || !/^\d+$/.test(telf)) {
+    alert('El número de teléfono debe tener 10 dígitos y ser un número válido.');
+    return false;
+  }
+
+  // Verifica si se ingresó una contraseña y si las contraseñas coinciden
+  if (password || confirmPassword) {
+    if (password !== confirmPassword) {
+      alert('Las contraseñas no coinciden.');
+      return false;
+    }
+
+    // Verifica que la contraseña cumpla con las reglas
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordPattern.test(password)) {
+      alert('La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.');
+      return false;
+    }
+  }
+
+  // Si todas las validaciones pasan, el formulario es válido
+  return true;
+}
+
+
+function showEditPasswordMessage() {
+  document.getElementById('editPasswordMessage').style.display = 'block';
+}
+
+function hideEditPasswordMessage() {
+  document.getElementById('editPasswordMessage').style.display = 'none';
+}
+
+
 
 </script>
 <div id="successModal" class="overlay" style="display: none;">
@@ -875,28 +932,34 @@ function closeEditModal() {
   <div class="popup">
     <a href="#" class="close" onclick="closeEditModal()">×</a>
     <h2>Editar Detalles del Doctor</h2>
-    <form action="editar_doctor.php" method="POST" class="doctor-form">
+    <form action="editar_doctor.php" method="POST" class="doctor-form" onsubmit="return validateEditForm()">
       <input type="hidden" name="id00" id="editId">
       <input type="hidden" name="oldusuario" id="editOldUsuario">
+
       <div class="form-group">
-        <label for="name">Nombre del Doctor:</label>
-        <input type="text" name="name" id="editName" required>
+        <label for="editName">Nombre del Doctor:</label>
+        <input type="text" name="name" id="editName" required minlength="4">
       </div>
+
       <div class="form-group">
-        <label for="usuario">Usuario:</label>
-        <input type="text" name="usuario" id="editUsuario" required>
+        <label for="editUsuario">Usuario:</label>
+        <input type="text" name="usuario" id="editUsuario" required minlength="4">
       </div>
+
       <div class="form-group">
-        <label for="ci">CI:</label>
-        <input type="text" name="ci" id="editCi" required>
+        <label for="editCi">CI:</label>
+        <input type="text" name="ci" id="editCi" required minlength="10" maxlength="10" pattern="\d+">
       </div>
+
       <div class="form-group">
-        <label for="Telf">Teléfono:</label>
-        <input type="text" name="Telf" id="editTelf" required>
+        <label for="editTelf">Teléfono:</label>
+        <input type="text" name="Telf" id="editTelf" required minlength="10" maxlength="10" pattern="\d+">
       </div>
+
       <div class="form-group">
-        <label for="espec">Especialidad:</label>
+        <label for="editEspec">Especialidad:</label>
         <select name="espec" id="editEspec" required>
+          <option value="">Selecciona una especialidad</option>
           <?php
           // Rellenar el select con las especialidades disponibles
           $especialidades = $database->query("SELECT * FROM especialidades");
@@ -906,14 +969,28 @@ function closeEditModal() {
           ?>
         </select>
       </div>
+
       <div class="form-group">
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="editPassword" required>
+        <label for="editPassword">Contraseña:</label>
+        <input
+          type="password"
+          name="password"
+          id="editPassword"
+          minlength="8"
+          pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+          onfocus="showEditPasswordMessage()"
+          onblur="hideEditPasswordMessage()"
+        >
+        <small id="editPasswordMessage" class="password-rules" style="display: none;">
+          Mínimo 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.
+        </small>
       </div>
+
       <div class="form-group">
-        <label for="cpassword">Confirmar Contraseña:</label>
-        <input type="password" name="cpassword" id="editCPassword" required>
+        <label for="editCPassword">Confirmar Contraseña:</label>
+        <input type="password" name="cpassword" id="editCPassword">
       </div>
+
       <div class="form-buttons">
         <button type="submit">Guardar</button>
         <button type="button" onclick="closeEditModal()">Cancelar</button>
@@ -921,6 +998,7 @@ function closeEditModal() {
     </form>
   </div>
 </div>
+
 
 
 </body>
