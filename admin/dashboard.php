@@ -688,12 +688,20 @@ unset($dia); // Limpiar referencia
                     },
                     body: JSON.stringify({ year, month, day }),
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            actualizarGraficos(data);
-                        } else {
-                            alert("No se encontraron datos para los filtros seleccionados.");
+                    .then(response => response.text())
+                    .then(text => {
+                        try {
+                            const data = JSON.parse(text);
+                            console.log("Respuesta del servidor:", data);
+                            if (data.success) {
+                                actualizarGraficos(data);
+                            } else {
+                                alert(data.message || "No se encontraron datos para los filtros seleccionados.");
+                            }
+                        } catch (err) {
+                            console.error("Error al parsear JSON:", err);
+                            console.error("Texto de respuesta:", text);
+                            alert("Ocurrió un error al procesar la respuesta del servidor.");
                         }
                     })
                     .catch(error => console.error("Error al filtrar los datos:", error));
