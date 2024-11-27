@@ -76,14 +76,12 @@
                 ?>                                             
             </form>
                   
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-right: 15px;">
-                    <p class="heading-main12" style="margin-left: 45px; font-size: 17px; color: rgb(49, 49, 49);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-right: 15px; height: 50px;">
+                    <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: center;">
                         Todos los Doctores (<?php echo $list11->num_rows; ?>)
                     </p>
                     <a href="?action=add&id=none&error=0" class="non-style-link">
-                        
-                        <a href="?action=add&id=none&error=0" class="non-style-link">
-                            <button class="btn-add">+ Agregar nuevo doctor</button>
+                        <button class="btn-add" style="align-self: center;">+ Agregar nuevo doctor</button>
                         </a>
                     </a>
                 </div>

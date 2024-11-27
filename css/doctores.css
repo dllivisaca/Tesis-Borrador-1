@@ -17,13 +17,14 @@
 /* Botón "Atrás" */
 .btn-back {
     padding: 8px 15px;
-    font-size: 14px;
+    font-size: 12px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-family: 'Poppins', Arial, sans-serif;
 }
 
 .btn-back:hover {
@@ -39,7 +40,7 @@
 
 .search-bar input[type="search"] {
     padding: 8px 15px;
-    font-size: 14px;
+    font-size: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
     width: 300px;
@@ -47,7 +48,7 @@
 
 .search-bar input[type="submit"] {
     padding: 8px 20px;
-    font-size: 14px;
+    font-size: 12px;
     background-color: #007bff;
     color: white;
     border: none;
@@ -68,9 +69,50 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    text-align: center;
+    display: inline-flex;
+    align-items: center; /* Centra el contenido del botón */
+    justify-content: center;
+    font-family: 'Poppins', Arial, sans-serif;
 }
 
 .btn-add:hover {
     background-color: #0056b3;
+}
+
+/* Tipografía general para los elementos de entrada */
+input[type="search"],
+input[type="submit"] {
+    font-family: 'Poppins', Arial, sans-serif; /* Especifica la tipografía */
+    font-size: 12px; /* Tamaño del texto */
+    color: #333; /* Color del texto */
+}
+
+/* Estilo para el campo de búsqueda */
+input[type="search"] {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 300px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+/* Estilo para el botón de envío */
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover effects */
+input[type="search"]:focus {
+    border-color: #007bff; /* Cambia el borde al hacer foco */
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
 }

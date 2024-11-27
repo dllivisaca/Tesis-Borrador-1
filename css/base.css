@@ -163,9 +163,12 @@ body {
 
 /* Estilo para el encabezado */
 .heading-main12 {
-    font-size: 22px;
-    color: #333;
-    margin-bottom: 20px;
+    margin: 0;
+    font-size: 17px;
+    color: rgb(49, 49, 49);
+    line-height: 1; /* Asegura que el texto no tenga espacio extra */
+    display: flex;
+    align-items: center;
     font-weight: bold;
 }
 
