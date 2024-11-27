@@ -23,6 +23,11 @@ if ($day) {
 
 $where = count($whereClauses) > 0 ? "WHERE " . implode(" AND ", $whereClauses) : "";
 
+// Consultar "Total de citas"
+$totalCitasQuery = "SELECT COUNT(*) AS total FROM citas $where";
+$totalCitasResult = $database->query($totalCitasQuery);
+$totalCitas = $totalCitasResult->fetch_assoc()['total'] ?? 0;
+
 // Consultar datos para "Número de citas por especialidad"
 $citasPorEspecialidadQuery = "SELECT especialidades.espnombre AS label, COUNT(*) AS value
                               FROM citas
@@ -95,6 +100,7 @@ foreach ($diasConMayorActividad['labels'] as &$label) {
 // Devolver los datos en formato JSON
 echo json_encode([
     "success" => true,
+    "totalCitas" => $totalCitas,
     "citasPorEspecialidad" => $citasPorEspecialidad,
     "citasPorDoctor" => $citasPorDoctor,
     "horariosConMayorActividad" => $horariosConMayorActividad,

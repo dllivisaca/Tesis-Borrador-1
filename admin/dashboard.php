@@ -301,7 +301,7 @@ unset($dia); // Limpiar referencia
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 100%; /* Asegura que cada tarjeta ocupe su columna */
-            max-width: 280px; /* Limitar el ancho máximo */
+            max-width: 260px; /* Limitar el ancho máximo */
             margin: 0 auto; /* Centrar los gráficos */
         }
 
@@ -400,7 +400,7 @@ unset($dia); // Limpiar referencia
             <div class="stats-container">
                 <div class="stat-box">
                     <h3>Total de citas</h3>
-                    <p><?php echo $totalCitas; ?></p>
+                    <p id="totalCitas"><?php echo $totalCitas; ?></p>
                 </div>
                 <div class="stat-box">
                     <h3>Número de citas por especialidad</h3>
@@ -700,6 +700,9 @@ unset($dia); // Limpiar referencia
             });
 
             function actualizarGraficos(data) {
+                // Actualizar "Total de citas"
+                document.querySelector('#totalCitas').textContent = data.totalCitas;
+
                 // Actualizar "Número de citas por especialidad"
                 citasPorEspecialidadChart.data.labels = data.citasPorEspecialidad.labels;
                 citasPorEspecialidadChart.data.datasets[0].data = data.citasPorEspecialidad.data;
