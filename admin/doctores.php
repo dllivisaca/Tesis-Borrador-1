@@ -804,6 +804,16 @@
     document.getElementById("successModal").style.display = "none";
   }
 
+  window.addEventListener('scroll', function () {
+    const menu = document.querySelector('.menu');
+    if (window.scrollY > 0) {
+        menu.classList.add('scroll');
+        console.log('Clase scroll agregada');
+    } else {
+        menu.classList.remove('scroll');
+        console.log('Clase scroll eliminada');
+    }
+});
 
 </script>
 <div id="successModal" class="overlay" style="display: none;">

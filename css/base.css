@@ -14,10 +14,16 @@ body {
 }
 
 .menu {
-    width: 15%; /* Aumentar ligeramente el ancho del menú */
-    background-color: #ffffff;
-    padding: 20px; /* Espaciado interno reducido */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    transition: box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.menu.scroll {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid #ccc;
 }
 
 .profile-title {
