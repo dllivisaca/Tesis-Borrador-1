@@ -242,9 +242,21 @@
                                                         <font class="tn-in-text">Editar</font>
                                                     </button>
                                                 </a>
+                                                &nbsp;&nbsp;&nbsp;
+                                                <a href="#" class="non-style-link">
+                                                    <button 
+                                                        class="btn-action view-button" 
+                                                        data-name="' . htmlspecialchars($name, ENT_QUOTES) . '" 
+                                                        data-usuario="' . htmlspecialchars($usuario, ENT_QUOTES) . '" 
+                                                        data-ci="' . htmlspecialchars($row['docci'], ENT_QUOTES) . '" 
+                                                        data-telf="' . htmlspecialchars($row['doctelf'], ENT_QUOTES) . '" 
+                                                        data-especialidad="' . htmlspecialchars($especial_name, ENT_QUOTES) . '" 
+                                                        style="padding-top: 12px; padding-bottom: 12px; margin-top: 5px;">
+                                                        <font class="tn-in-text">Ver más</font>
+                                                    </button>
+                                                </a>
 
-                                        &nbsp;&nbsp;&nbsp;
-                                        <a href="?action=view&id='.$docid.'" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 5px;"><font class="tn-in-text">Ver más</font></button></a>
+                                            
                                        &nbsp;&nbsp;&nbsp;
                                        <a href="?action=drop&id='.$docid.'&name='.$name.'" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 5px;"><font class="tn-in-text">Eliminar</font></button></a>
                                         </div>
@@ -852,6 +864,10 @@
     document.getElementById("editSuccessModal").style.display = "none";
 }
 
+function closeViewModal() {
+    document.getElementById('viewDoctorModal').style.display = 'none';
+}
+
 function closeNoChangesModal() {
     document.getElementById("noChangesModal").style.display = "none";
 }
@@ -876,6 +892,32 @@ if (window.location.search.includes('edit_success=0')) {
         console.log('Clase scroll eliminada');
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const viewButtons = document.querySelectorAll('.view-button');
+    
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Obtén los datos del botón (atributos data-*)
+            const name = this.getAttribute('data-name');
+            const usuario = this.getAttribute('data-usuario');
+            const ci = this.getAttribute('data-ci');
+            const telf = this.getAttribute('data-telf');
+            const especialidad = this.getAttribute('data-especialidad');
+
+            // Llena el modal con los datos obtenidos
+            document.getElementById('viewName').textContent = name;
+            document.getElementById('viewUsuario').textContent = usuario;
+            document.getElementById('viewCi').textContent = ci;
+            document.getElementById('viewTelf').textContent = telf;
+            document.getElementById('viewEspecialidad').textContent = especialidad;
+
+            // Muestra el modal
+            document.getElementById('viewDoctorModal').style.display = 'flex';
+        });
+    });
+});
+
 
 document.addEventListener('DOMContentLoaded', function () {
     const editButtons = document.querySelectorAll('.edit-button');
@@ -1010,6 +1052,24 @@ function hideEditPasswordMessage() {
     </div>
   </div>
 </div>
+
+<div id="viewDoctorModal" class="overlay" style="display: none;">
+  <div class="popup">
+    <a href="#" class="close" onclick="closeViewModal()">×</a>
+    <h2>Detalles del Doctor</h2>
+    <div class="content">
+      <p><strong>Nombre:</strong> <span id="viewName"></span></p>
+      <p><strong>Usuario:</strong> <span id="viewUsuario"></span></p>
+      <p><strong>CI:</strong> <span id="viewCi"></span></p>
+      <p><strong>Teléfono:</strong> <span id="viewTelf"></span></p>
+      <p><strong>Especialidad:</strong> <span id="viewEspecialidad"></span></p>
+    </div>
+    <div class="form-buttons">
+      <button onclick="closeViewModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
 
 <div id="editDoctorModal" class="overlay" style="display: none;">
   <div class="popup">
