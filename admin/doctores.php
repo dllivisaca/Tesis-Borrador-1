@@ -186,19 +186,25 @@
                                     $especial_array= $especial_res->fetch_assoc();
                                     $especial_name=$especial_array["espnombre"];
                                     echo '<tr>
-                                        <td> &nbsp;'.
-                                        substr($name,0,30)
-                                        .'</td>
+                                        <td>' . substr($name, 0, 30) . '</td>
+                                        <td>' . substr($usuario, 0, 20) . '</td>
+                                        <td>' . substr($especial_name, 0, 20) . '</td>
                                         <td>
-                                        '.substr($usuario,0,20).'
-                                        </td>
-                                        <td>
-                                            '.substr($especial_name,0,20).'
-                                        </td>
+                                            <div style="display:flex;justify-content: center;">
+                                                <a href="#" class="non-style-link">
+                                                    <button 
+                                                        class="btn-action edit-button" 
+                                                        data-docid="' . $docid . '" 
+                                                        data-name="' . htmlspecialchars($name, ENT_QUOTES) . '" 
+                                                        data-usuario="' . htmlspecialchars($usuario, ENT_QUOTES) . '" 
+                                                        data-ci="' . htmlspecialchars($row['docci'], ENT_QUOTES) . '" 
+                                                        data-telf="' . htmlspecialchars($row['doctelf'], ENT_QUOTES) . '" 
+                                                        data-especialidad="' . $espe . '" 
+                                                        style="padding-top: 12px;padding-bottom: 12px;margin-top: 5px;">
+                                                        <font class="tn-in-text">Editar</font>
+                                                    </button>
+                                                </a>
 
-                                        <td>
-                                        <div style="display:flex;justify-content: center;">
-                                        <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 5px;"><font class="tn-in-text">Editar</font></button></a>
                                         &nbsp;&nbsp;&nbsp;
                                         <a href="?action=view&id='.$docid.'" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 5px;"><font class="tn-in-text">Ver más</font></button></a>
                                        &nbsp;&nbsp;&nbsp;
@@ -815,6 +821,42 @@
     }
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.edit-button');
+    
+    editButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Obtén los datos del botón (vienen de data-* atributos)
+            const docid = this.getAttribute('data-docid');
+            const name = this.getAttribute('data-name');
+            const usuario = this.getAttribute('data-usuario');
+            const ci = this.getAttribute('data-ci');
+            const telf = this.getAttribute('data-telf');
+            const especialidad = this.getAttribute('data-especialidad');
+
+            // Llena los campos del modal
+            document.getElementById('editId').value = docid;
+            document.getElementById('editName').value = name;
+            document.getElementById('editUsuario').value = usuario;
+            document.getElementById('editCi').value = ci;
+            document.getElementById('editTelf').value = telf;
+
+            // Selecciona la especialidad actual en el dropdown
+            const especialidadDropdown = document.getElementById('editEspec');
+            especialidadDropdown.value = especialidad;
+
+            // Abre el modal
+            document.getElementById('editDoctorModal').style.display = 'flex';
+        });
+    });
+});
+
+// Cierra el modal al hacer clic en el botón "Cancelar"
+function closeEditModal() {
+    document.getElementById('editDoctorModal').style.display = 'none';
+}
+
+
 </script>
 <div id="successModal" class="overlay" style="display: none;">
   <div class="popup">
@@ -828,6 +870,58 @@
     </div>
   </div>
 </div>
+
+<div id="editDoctorModal" class="overlay" style="display: none;">
+  <div class="popup">
+    <a href="#" class="close" onclick="closeEditModal()">×</a>
+    <h2>Editar Detalles del Doctor</h2>
+    <form action="editar_doctor.php" method="POST" class="doctor-form">
+      <input type="hidden" name="id00" id="editId">
+      <input type="hidden" name="oldusuario" id="editOldUsuario">
+      <div class="form-group">
+        <label for="name">Nombre del Doctor:</label>
+        <input type="text" name="name" id="editName" required>
+      </div>
+      <div class="form-group">
+        <label for="usuario">Usuario:</label>
+        <input type="text" name="usuario" id="editUsuario" required>
+      </div>
+      <div class="form-group">
+        <label for="ci">CI:</label>
+        <input type="text" name="ci" id="editCi" required>
+      </div>
+      <div class="form-group">
+        <label for="Telf">Teléfono:</label>
+        <input type="text" name="Telf" id="editTelf" required>
+      </div>
+      <div class="form-group">
+        <label for="espec">Especialidad:</label>
+        <select name="espec" id="editEspec" required>
+          <?php
+          // Rellenar el select con las especialidades disponibles
+          $especialidades = $database->query("SELECT * FROM especialidades");
+          while ($row = $especialidades->fetch_assoc()) {
+            echo "<option value='{$row['id']}'>{$row['espnombre']}</option>";
+          }
+          ?>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input type="password" name="password" id="editPassword" required>
+      </div>
+      <div class="form-group">
+        <label for="cpassword">Confirmar Contraseña:</label>
+        <input type="password" name="cpassword" id="editCPassword" required>
+      </div>
+      <div class="form-buttons">
+        <button type="submit">Guardar</button>
+        <button type="button" onclick="closeEditModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
 </body>
 </html>
