@@ -234,6 +234,23 @@ unset($dia); // Limpiar referencia
             background-color: #e63939; /* Rojo más oscuro */
         }
 
+        .btn-filter {
+            background-color: #007bff; /* Color azul */
+            color: white; /* Texto blanco */
+            padding: 8px 16px; /* Espaciado interno */
+            font-size: 12px; /* Tamaño de fuente */
+            border: none; /* Sin borde */
+            border-radius: 6px; /* Bordes redondeados */
+            cursor: pointer; /* Manita al pasar el mouse */
+            margin-left: 10px; /* Espaciado entre el botón y los selectores */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        .btn-filter:hover {
+            background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+        }
+
         .dash-body {
             flex-grow: 1;
             padding: 20px;
@@ -372,6 +389,9 @@ unset($dia); // Limpiar referencia
                 <select id="day" name="day">
                     <option value="">Día</option>
                 </select>
+
+                <!-- Botón de filtrar -->
+                <button id="filterButton" class="btn-filter">Filtrar</button>
             </div>
 
             <div class="stats-container">
@@ -404,7 +424,7 @@ unset($dia); // Limpiar referencia
 
         // Número de citas por especialidad
         const citasPorEspecialidadCtx = document.getElementById('citasPorEspecialidadChart').getContext('2d');
-        new Chart(citasPorEspecialidadCtx, {
+        const citasPorEspecialidadChart = new Chart(citasPorEspecialidadCtx, {
             type: 'bar',
             data: {
                 labels: <?php echo json_encode(array_column($citasPorEspecialidad, 'espnombre')); ?>,
@@ -465,33 +485,31 @@ unset($dia); // Limpiar referencia
 
         // Número de citas por doctor
         const citasPorDoctorCtx = document.getElementById('citasPorDoctorChart').getContext('2d');
-        new Chart(citasPorDoctorCtx, {
+        const citasPorDoctorChart = new Chart(citasPorDoctorCtx, {
             type: 'pie',
             data: {
                 labels: <?php echo json_encode(array_column($citasPorDoctor, 'docnombre')); ?>,
                 datasets: [{
                     label: 'Número de citas',
                     data: <?php echo json_encode(array_column($citasPorDoctor, 'cantidad')); ?>,
-                    backgroundColor: ['rgba(192, 192, 192, 0.5)', 'rgba(160, 160, 160, 0.5)', 'rgba(128, 128, 128, 0.5)'], // Diferentes tonos de gris
-                    borderColor: ['rgba(96, 96, 96, 1)', 'rgba(64, 64, 64, 1)', 'rgba(32, 32, 32, 1)'], // Bordes en gris
+                    backgroundColor: ['rgba(192, 192, 192, 0.5)', 'rgba(160, 160, 160, 0.5)', 'rgba(128, 128, 128, 0.5)'],
+                    borderColor: ['rgba(96, 96, 96, 1)', 'rgba(64, 64, 64, 1)', 'rgba(32, 32, 32, 1)'],
                     borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: true, // Mantener relación de aspecto
-                aspectRatio: 1.8, // Relación ancho/alto (para gráficos de pastel)
+                aspectRatio: 1.5, // Ajustar proporción ancho/alto
                 plugins: {
-                    legend: {
-                        position: 'top' // Ubicar la leyenda en la parte superior
-                    }
+                    legend: { position: 'top' } // Posición de la leyenda
                 }
             }
         });
 
         // Top 3 horarios con mayor actividad
         const horariosConMayorActividadCtx = document.getElementById('horariosConMayorActividadChart').getContext('2d');
-        new Chart(horariosConMayorActividadCtx, {
+        const horariosConMayorActividadChart = new Chart(horariosConMayorActividadCtx, {
             type: 'bar',
             data: {
                 labels: <?php echo json_encode(array_column($horariosConMayorActividad, 'horario')); ?>,
@@ -500,19 +518,36 @@ unset($dia); // Limpiar referencia
                     data: <?php echo json_encode(array_column($horariosConMayorActividad, 'cantidad')); ?>,
                     backgroundColor: 'rgba(160, 160, 160, 0.5)', // Escala de gris
                     borderColor: 'rgba(96, 96, 96, 1)', // Gris oscuro
-                    borderWidth: 3,
-                    borderRadius: 10 
+                    borderWidth: 2,
+                    borderRadius: 10
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
                 scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 0,
+                            minRotation: 0,
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
                     y: {
                         beginAtZero: true,
-                        ticks: {
-                            stepSize: 1, // Incremento de 1 en el eje Y
-                            callback: function(value) {
-                                return Number.isInteger(value) ? value : ''; // Solo mostrar números enteros
+                        grid: {
+                            color: '#e0e0e0'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14
                             }
                         }
                     }
@@ -522,7 +557,7 @@ unset($dia); // Limpiar referencia
 
         // Top 2 días con mayor actividad
         const diasConMayorActividadCtx = document.getElementById('diasConMayorActividadChart').getContext('2d');
-        new Chart(diasConMayorActividadCtx, {
+        const diasConMayorActividadChart = new Chart(diasConMayorActividadCtx, {
             type: 'bar',
             data: {
                 labels: <?php echo json_encode(array_column($diasConMayorActividad, 'dia')); ?>,
@@ -531,25 +566,159 @@ unset($dia); // Limpiar referencia
                     data: <?php echo json_encode(array_column($diasConMayorActividad, 'cantidad')); ?>,
                     backgroundColor: 'rgba(192, 192, 192, 0.5)', // Escala de gris
                     borderColor: 'rgba(128, 128, 128, 1)', // Gris oscuro
-                    borderWidth: 3,
-                    borderRadius: 10 
+                    borderWidth: 2,
+                    borderRadius: 10
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
                 scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
                     y: {
                         beginAtZero: true,
-                        ticks: {
-                            stepSize: 1, // Incremento de 1 en el eje Y
-                            callback: function(value) {
-                                return Number.isInteger(value) ? value : ''; // Solo mostrar números enteros
+                        grid: {
+                            color: '#e0e0e0'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14
                             }
                         }
                     }
                 }
             }
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const yearSelect = document.getElementById("year");
+            const monthSelect = document.getElementById("month");
+            const daySelect = document.getElementById("day");
+
+            // Poblar los años (por ejemplo, de 2020 a 2030)
+            const currentYear = new Date().getFullYear();
+            for (let year = currentYear - 5; year <= currentYear + 5; year++) {
+                const option = document.createElement("option");
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+
+            // Lista de nombres de los meses
+            const monthNames = [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ];
+
+            // Poblar los meses con nombres
+            monthNames.forEach((month, index) => {
+                const option = document.createElement("option");
+                option.value = index + 1; // Los meses comienzan en 1
+                option.textContent = month;
+                monthSelect.appendChild(option);
+            });
+
+            // Función para actualizar los días según el año y mes seleccionados
+            function updateDays() {
+                const year = parseInt(yearSelect.value);
+                const month = parseInt(monthSelect.value);
+
+                // Limpiar los días anteriores
+                daySelect.innerHTML = '<option value="">Día</option>';
+
+                if (!isNaN(year) && !isNaN(month)) {
+                    const daysInMonth = new Date(year, month, 0).getDate(); // Obtiene el último día del mes
+                    for (let day = 1; day <= daysInMonth; day++) {
+                        const option = document.createElement("option");
+                        option.value = day;
+                        option.textContent = day;
+                        daySelect.appendChild(option);
+                    }
+                }
+            }
+
+            // Escuchar cambios en año y mes
+            yearSelect.addEventListener("change", updateDays);
+            monthSelect.addEventListener("change", updateDays);
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const filterButton = document.getElementById("filterButton");
+            const yearSelect = document.getElementById("year");
+            const monthSelect = document.getElementById("month");
+            const daySelect = document.getElementById("day");
+
+            filterButton.addEventListener("click", function () {
+                console.log("Botón 'Filtrar' presionado"); 
+                const year = yearSelect.value;
+                const month = monthSelect.value;
+                const day = daySelect.value;
+
+                if (!year && !month && !day) {
+                    alert("Por favor, selecciona al menos un filtro.");
+                    return;
+                }
+
+                fetch("filtrar_citas.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ year, month, day }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            actualizarGraficos(data);
+                        } else {
+                            alert("No se encontraron datos para los filtros seleccionados.");
+                        }
+                    })
+                    .catch(error => console.error("Error al filtrar los datos:", error));
+            });
+
+            function actualizarGraficos(data) {
+                // Actualizar "Número de citas por especialidad"
+                citasPorEspecialidadChart.data.labels = data.citasPorEspecialidad.labels;
+                citasPorEspecialidadChart.data.datasets[0].data = data.citasPorEspecialidad.data;
+                citasPorEspecialidadChart.update();
+
+                // Actualizar "Número de citas por doctor"
+                citasPorDoctorChart.data.labels = data.citasPorDoctor.labels;
+                citasPorDoctorChart.data.datasets[0].data = data.citasPorDoctor.data;
+                citasPorDoctorChart.update();
+
+                // Actualizar "Top 3 horarios con mayor actividad"
+                horariosConMayorActividadChart.data.labels = data.horariosConMayorActividad.labels;
+                horariosConMayorActividadChart.data.datasets[0].data = data.horariosConMayorActividad.data;
+                horariosConMayorActividadChart.update();
+
+                // Actualizar "Top 2 días con mayor actividad"
+                diasConMayorActividadChart.data.labels = data.diasConMayorActividad.labels;
+                diasConMayorActividadChart.data.datasets[0].data = data.diasConMayorActividad.data;
+                diasConMayorActividadChart.update();
+            }
+        });
+
     </script>
 </body>
 </html>
