@@ -573,15 +573,19 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                 }
             }
             ?>
-            <div class="container">
-                <div class="info-label">Nombre del Doctor:</div>
-                <div class="info-text"><?php echo $doctor['docnombre']; ?></div>
+            <div class="header-container">
+                <div class="info-section">
+                    <div class="info-label">Nombre del Doctor:</div>
+                    <div class="info-text"><?php echo $doctor['docnombre']; ?></div>
+                </div>
 
-                <div class="info-label">Especialidad:</div>
-                <div class="info-text"><?php echo $especialidad; ?></div>
+                <div class="info-section">
+                    <div class="info-label">Especialidad:</div>
+                    <div class="info-text"><?php echo $especialidad; ?></div>
+                </div>          
 
                 <!-- Pestañas -->
-                <div class="tab_box">
+                <div class="buttons-container">
                     <?php if ($tipo_horario === 'fijo') : ?>
                         <button type="button" class="tab_btn active disabled" disabled>Horario Fijo</button>
                         <button type="button" class="tab_btn disabled" disabled>Horario Personalizado</button>
@@ -594,6 +598,7 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                     <?php endif; ?>
                     <div class="line"></div>
                 </div>
+            </div>
 
                 <!-- Contenido de Horario Personalizado -->
                 <div class="content_box">

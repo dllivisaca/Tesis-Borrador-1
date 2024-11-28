@@ -22,3 +22,55 @@
     font-weight: bold !important;
     margin: 0 !important; /* Quitar márgenes adicionales */
 }
+
+.header-container {
+    display: flex;
+    align-items: center; /* Alinea los elementos verticalmente al centro */
+    gap: 40px; /* Espaciado entre las secciones de información */
+    width: 100%;
+    padding: 10px 0;
+}
+
+.info-section {
+    display: flex; /* Cambiar a flex para que el label y el texto estén alineados horizontalmente */
+    align-items: center; /* Alinear verticalmente */
+    gap: 10px; /* Espacio entre la etiqueta y el texto */
+}
+
+.info-label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    margin-right: 5px; /* Espacio opcional entre la etiqueta y el valor */
+}
+
+.info-text {
+    font-size: 16px;
+    color: #333;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px; /* Espaciado entre los botones */
+}
+
+.tab_btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: default; /* Cursor deshabilitado */
+    background-color: #ccc; /* Fondo gris claro */
+    color: #666; /* Color del texto */
+}
+
+.tab_btn.active {
+    background-color: #007BFF; /* Fondo azul para el botón activo */
+    color: #fff; /* Texto blanco para el botón activo */
+}
+
+.line {
+    margin-top: 5px;
+    height: 2px;
+    width: 100%;
+    background-color: #007BFF; /* Línea para indicar la pestaña activa */
+}
