@@ -534,7 +534,7 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
             </div>
         </div>
     
-        <div class="dash-body">
+        
             
 
             <?php
@@ -582,7 +582,8 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                 <div class="info-section">
                     <div class="info-label">Especialidad:</div>
                     <div class="info-text"><?php echo $especialidad; ?></div>
-                </div>          
+                </div>     
+            </div>     
 
                 <!-- Pestañas -->
                 <div class="buttons-container">
@@ -598,7 +599,7 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                     <?php endif; ?>
                     <div class="line"></div>
                 </div>
-            </div>
+            
 
                 <!-- Contenido de Horario Personalizado -->
                 <div class="content_box">
