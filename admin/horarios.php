@@ -60,7 +60,7 @@
         </div>
         <div class="filter-row">
             <form method="POST" action="horarios.php">
-                <label for="docid">Doctor:</label>
+                <label for="docid" class="label-doctor">Doctor:</label>
                 <select name="docid" id="docid" class="box filter-container-items">
                     <option value="" disabled selected hidden>Escoge un doctor de la lista</option>
                     <?php 

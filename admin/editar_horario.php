@@ -79,14 +79,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitFijo'])) {
     if (($horainicioman && !$horafinman) || (!$horainicioman && $horafinman)) {
         echo "<script>
                 alert('Por favor, selecciona tanto la hora de inicio como la hora de fin para la mañana.');
-                window.location.href = 'horarios2.php';
+                window.location.href = 'horarios.php';
               </script>";
         exit();
     }
     if (($horainiciotar && !$horafintar) || (!$horainiciotar && $horafintar)) {
         echo "<script>
                 alert('Por favor, selecciona tanto la hora de inicio como la hora de fin para la tarde.');
-                window.location.href = 'horarios2.php';
+                window.location.href = 'horarios.php';
               </script>";
         exit();
     }
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitFijo'])) {
         // Si no hubo cambios, simplemente redirigir sin mostrar el mensaje de cambios guardados
         echo "<script>
                 alert('No hubo cambios en los horarios.');
-                window.location.href = 'horarios2.php';
+                window.location.href = 'horarios.php';
             </script>";
         exit();
     }
@@ -159,14 +159,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitFijo'])) {
                 if ($nuevo_inicio_manana >= $nuevo_fin_manana && $nuevo_inicio_manana !== '' && $nuevo_fin_manana !== '') {
                     echo "<script>
                             alert('La hora de inicio de la mañana debe ser anterior a la hora de fin');
-                            window.location.href = 'horarios2.php';
+                            window.location.href = 'horarios.php';
                           </script>";
                     exit();
                 }
                 if ($nuevo_inicio_tarde >= $nuevo_fin_tarde && $nuevo_inicio_tarde !== '' && $nuevo_fin_tarde !== '') {
                     echo "<script>
                             alert('La hora de inicio de la tarde debe ser anterior a la hora de fin');
-                            window.location.href = 'horarios2.php';
+                            window.location.href = 'horarios.php';
                           </script>";
                     exit();
                 }
@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitFijo'])) {
                 if (!$database->query($sql_update)) {
                     echo "<script>
                             alert('Error al actualizar los horarios.');
-                            window.location.href = 'horarios2.php';
+                            window.location.href = 'horarios.php';
                         </script>";
                     exit();
                 }
@@ -194,14 +194,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitFijo'])) {
             if ($nuevo_inicio_manana >= $nuevo_fin_manana && $nuevo_inicio_manana !== '' && $nuevo_fin_manana !== '') {
                 echo "<script>
                         alert('La hora de inicio de la mañana debe ser anterior a la hora de fin');
-                        window.location.href = 'horarios2.php';
+                        window.location.href = 'horarios.php';
                       </script>";
                 exit();
             }
             if ($nuevo_inicio_tarde >= $nuevo_fin_tarde && $nuevo_inicio_tarde !== '' && $nuevo_fin_tarde !== '') {
                 echo "<script>
                         alert('La hora de inicio de la tarde debe ser anterior a la hora de fin');
-                        window.location.href = 'horarios2.php';
+                        window.location.href = 'horarios.php';
                       </script>";
                 exit();
             }
@@ -217,7 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitFijo'])) {
             if (!$database->query($sql_insert)) {
                 echo "<script>
                         alert('Error al insertar los nuevos horarios.');
-                        window.location.href = 'horarios2.php';
+                        window.location.href = 'horarios.php';
                     </script>";
                 exit();
             }
@@ -235,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitFijo'])) {
             if (!$database->query($sql_delete)) {
                 echo "<script>
                         alert('Error al eliminar el horario para el día $dia_eliminar.');
-                        window.location.href = 'horarios2.php';
+                        window.location.href = 'horarios.php';
                     </script>";
                 exit();
             }
@@ -247,13 +247,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitFijo'])) {
     if ($cambios_realizados) {
         echo "<script>
                 alert('Cambios guardados correctamente.');
-                window.location.href = 'horarios2.php';
+                window.location.href = 'horarios.php';
               </script>";
     } else {
         // Mostrar mensaje de que no hubo cambios
         echo "<script>
                 alert('No hubo cambios en los horarios.');
-                window.location.href = 'horarios2.php';
+                window.location.href = 'horarios.php';
               </script>";
     }
     exit();
@@ -302,7 +302,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitPersonalizado']
         ) {
             echo "<script>
                     alert('Para el día $dia_normalizado, si ingresas una hora de inicio de la mañana, debes ingresar también la hora de fin, y viceversa.');
-                    window.location.href = 'horarios2.php';
+                    window.location.href = 'horarios.php';
                   </script>";
             exit();
         }
@@ -314,7 +314,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitPersonalizado']
         ) {
             echo "<script>
                     alert('Para el día $dia_normalizado, si ingresas una hora de inicio de la tarde, debes ingresar también la hora de fin, y viceversa.');
-                    window.location.href = 'horarios2.php';
+                    window.location.href = 'horarios.php';
                   </script>";
             exit();
         }
@@ -325,7 +325,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitPersonalizado']
         // Si no hubo cambios, simplemente redirigir sin mostrar el mensaje de cambios guardados
         echo "<script>
                 alert('No hubo cambios en los horarios.');
-                window.location.href = 'horarios2.php';
+                window.location.href = 'horarios.php';
             </script>";
         exit();
     }
@@ -336,7 +336,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitPersonalizado']
         if (!empty($horario['inicio_manana']) && !empty($horario['fin_manana']) && $horario['inicio_manana'] >= $horario['fin_manana']) {
             echo "<script>
                     alert('La hora de inicio de la mañana debe ser anterior a la hora de fin para el día $dia_normalizado.');
-                    window.location.href = 'horarios2.php';
+                    window.location.href = 'horarios.php';
                   </script>";
             exit();
         }        
@@ -345,7 +345,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitPersonalizado']
         if (!empty($horario['inicio_tarde']) && !empty($horario['fin_tarde']) && $horario['inicio_tarde'] >= $horario['fin_tarde']) {
             echo "<script>
                     alert('La hora de inicio de la tarde debe ser anterior a la hora de fin para el día $dia_normalizado.');
-                    window.location.href = 'horarios2.php';
+                    window.location.href = 'horarios.php';
                   </script>";
             exit();
         }
@@ -356,7 +356,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitPersonalizado']
     if (!$database->query($sql_delete)) {
         echo "<script>
                 alert('Error al eliminar los horarios existentes.');
-                window.location.href = 'horarios2.php';
+                window.location.href = 'horarios.php';
               </script>";
         exit();
     }
@@ -385,7 +385,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitPersonalizado']
         if (!$database->query($sql_upsert)) {
             echo "<script>
                     alert('Error al insertar los nuevos horarios.');
-                    window.location.href = 'horarios2.php';
+                    window.location.href = 'horarios.php';
                   </script>";
             exit();
         }
@@ -394,7 +394,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitPersonalizado']
     // Mostrar mensaje de confirmación y redirigir
     echo "<script>
             alert('Cambios guardados correctamente.');
-            window.location.href = 'horarios2.php';
+            window.location.href = 'horarios.php';
           </script>";
     exit();
 }
@@ -429,11 +429,10 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
 <head>
     <meta charset="UTF-8">
     <title>Horarios</title>
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
-    <link rel="stylesheet" href="../css/styles.css">
-    <style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/editar_horario.css">
+    <!-- <style>
         .popup{
             animation: transitionIn-Y-bottom 0.5s;
         }
@@ -501,80 +500,42 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
         .horario-table th:nth-child(3), .horario-table td:nth-child(3) {
             width: 37.5%;
         }
-    </style>
+    </style> -->
 </head>
 <body>
-    <div class="container">
+<div class="container">
         <div class="menu">
-            <!-- Menú lateral -->
-            <table class="menu-container" border="0">
-                <tr>
-                    <td style="padding:10px" colspan="2">
-                        <table border="0" class="profile-container">
-                            <tr>
-                                <td width="30%" style="padding-left:20px" >
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
-                                </td>
-                                <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title">Administrador</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                <a href="../logout.php" ><input type="button" value="Cerrar sesión" class="logout-btn btn-primary-soft btn"></a>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor">
-                        <a href="doctores.php" class="non-style-link-menu"><div><p class="menu-text">Doctores</p></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="pacientes.php" class="non-style-link-menu"><div><p class="menu-text">Pacientes</p></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment">
-                        <a href="citas.php" class="non-style-link-menu"><div><p class="menu-text">Citas agendadas</p></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-schedule menu-active menu-icon-schedule-active">
-                        <a href="horarios2.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Horarios disponibles</p></div></a>
-                    </td>
-                </tr>
-            </table>
+            <div class="profile-container">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                <p class="profile-title">Administrador</p>
+            </div>
+            <a href="../logout.php"><button class="btn-logout">Cerrar sesión</button></a>
+            <div class="linea-separadora"></div>
+            <div class="menu-links">
+                <a href="dashboard.php" class="menu-link">Dashboard</a>
+                <a href="doctores.php" class="menu-link">Doctores</a>
+                <a href="pacientes.php" class="menu-link">Pacientes</a>
+                <a href="horarios.php" class="menu-link menu-link-active">Horarios disponibles</a>
+                <a href="citas.php" class="menu-link">Citas agendadas</a>
+                <a href="opiniones_recibidas.php" class="menu-link">Opiniones recibidas</a>
+            </div>
         </div>
+
         <div class="dash-body">
-            <table border="0" width="100%" style="margin-top:25px;">
-                <tr>
-                    <td width="13%">
-                        <a href="horarios2.php" ><button class="login-btn btn-primary-soft btn btn-icon-back" style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
-                    </td>
-                    <td>
-                        <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Editar Horario</p>
-                    </td>
-                    <td width="15%">
-                        <p style="font-size: 14px;color: rgb(119, 119, 119);text-align: right;">
-                            Fecha de hoy
-                        </p>
-                        <p class="heading-sub12" style="margin: 0;">
-                            <?php 
-                            date_default_timezone_set('America/Mexico_City');
-                            $today = date('Y-m-d');
-                            echo $today;
-                            ?>
-                        </p>
-                    </td>
-                    <td width="10%">
-                        <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
-                    </td>
-                </tr>
-            </table>
+            <div class="header-actions">
+            <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
+            <div class="header-inline">
+                <a href="horarios.php">
+                    <button class="btn-action">← Atrás</button>
+                </a>
+                <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: left;">
+                Editar horario
+                </p>
+            </div>
+        </div>
+    
+        <div class="dash-body">
+            
 
             <?php
             if ($_GET) {

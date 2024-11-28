@@ -82,10 +82,15 @@ select:focus {
 .filter-row label {
     font-size: 16px;
     font-weight: bold;
-    color: #333;
+    color: #00b8d9;
     margin: 0; /* Asegúrate de eliminar márgenes no deseados */
     padding: 0; /* Asegúrate de eliminar paddings no deseados */
     margin-right: 23px; /* Ajusta este valor para agregar más espacio */
+}
+
+.label-doctor {
+    color: #00b8d9; /* Cambia al color que desees */
+    font-weight: bold; /* Puedes mantener esto para que siga viéndose destacado */
 }
 
 .filter-row select {
