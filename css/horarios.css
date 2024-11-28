@@ -140,7 +140,7 @@ select:focus {
 
 /* Botón Eliminar */
 .button-icon.btn-delete {
-    background-color: #85B4FF; /* Rojo */
+    background-color: #85B4FF; 
     color: white;
     border: none;
     border-radius: 8px;
@@ -176,4 +176,27 @@ a {
 
 a:hover {
     text-decoration: none; /* Asegura que no aparezca subrayado al pasar el mouse */
+}
+
+th {
+    text-align: center !important; /* Fuerza el centrado horizontal */
+    vertical-align: middle !important; /* Fuerza el centrado vertical */
+    padding: 10px; /* Ajusta el espacio interno */
+    background-color: #f8f8f8; /* Fondo del encabezado */
+    font-weight: bold; /* Aplica negrita */
+}
+
+.button-icon.btn-add {
+    background-color: #85B4FF; /* Cambia el color de fondo */
+    color: white; /* Cambia el color del texto */
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-icon.btn-add:hover {
+    background-color: #0056b3; /* Color al pasar el mouse */
+    color: white; /* Asegura que el texto sea legible */
 }

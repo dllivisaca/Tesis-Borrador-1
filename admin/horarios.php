@@ -79,7 +79,7 @@
                 <?php
                 // Definir la función globalmente para que esté disponible en cualquier contexto
                 function ordenarDiasSemana($a, $b) {
-                    $ordenDias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+                    $ordenDias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
                     $posA = array_search($a['dia_semana'], $ordenDias);
                     $posB = array_search($b['dia_semana'], $ordenDias);
                     return $posA - $posB;
@@ -218,36 +218,52 @@
                                     }
                                 
                                     
-                            // Mostrar los resultados por cada doctor
-                                    foreach ($doctores as $docid => $doctor) {
-                                        echo '<tr>';
-                                        echo '<td>' . $doctor['docnombre'] . '</td>';
-                                        echo '<td>' . $doctor['especialidad'] . '</td>';
-                                        echo '<td style="text-align:center;">';
-
-                                        if (empty($doctor['horarios'])) {
-                                            echo 'No se encontraron horarios disponibles';
-                                        } else {
-                                            // Mostrar los horarios en dos columnas
-                                            echo '<div style="display: flex; justify-content: space-around;">';
-                                            for ($i = 0; $i < count($doctor['horarios']); $i += 2) {
-                                                echo '<div style="width: 45%;">';
-                                                // Mostrar el día y los horarios de la primera columna
-                                                echo '<b>' . $doctor['horarios'][$i]['dia_semana'] . '</b><br>';
-                                                echo $doctor['horarios'][$i]['horario'] . '<br>';
-
-                                                // Verificar si existe una segunda columna
-                                                if (isset($doctor['horarios'][$i + 1])) {
-                                                    echo '<b>' . $doctor['horarios'][$i + 1]['dia_semana'] . '</b><br>';
-                                                    echo $doctor['horarios'][$i + 1]['horario'] . '<br>';
-                                                }
-                                                echo '</div>';
-                                            }
+                                // Mostrar los resultados por cada doctor
+                                foreach ($doctores as $docid => $doctor) {
+                                    echo '<tr>';
+                                    echo '<td>' . $doctor['docnombre'] . '</td>';
+                                    echo '<td>' . $doctor['especialidad'] . '</td>';
+                                    echo '<td style="text-align:center;">';
+                                
+                                    if (empty($doctor['horarios'])) {
+                                        echo 'No se encontraron horarios disponibles';
+                                    } else {
+                                        // Ordenar los días de la semana
+                                        usort($doctor['horarios'], 'ordenarDiasSemana');
+                                
+                                        // Mostrar los horarios en una cuadrícula de tres columnas
+                                        echo '<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">';
+                                        foreach ($doctor['horarios'] as $horario) {
+                                            echo '<div>';
+                                            echo '<b>' . $horario['dia_semana'] . '</b><br>';
+                                            echo $horario['horario'] . '<br>';
                                             echo '</div>';
                                         }
-                                        echo '</td>';
+                                        echo '</div>';
+                                    }
+                                
+                                    echo '</td>';
+                                
+                                    // Botones de acción (Agregar, Editar, Eliminar)
+                                    echo '<td>';
+                                    if (empty($doctor['horarios'])) {
+                                        echo '<a href="agghorario_fijo.php?id=' . $docid . '" class="non-style-link">
+                                                <button class="btn-primary-soft btn button-icon btn-add">Agregar horario</button>
+                                            </a>';
+                                    } else {
+                                        echo '<a href="editar_horario.php?id=' . $docid . '" class="non-style-link">
+                                                <button class="btn-primary-soft btn button-icon btn-view">Editar</button>
+                                            </a>';
+                                        echo '<a href="borrar_horario.php?id=' . $docid . '" class="non-style-link" onclick="return confirm(\'¿Estás segura de eliminar todos los horarios guardados del doctor?\');">
+                                                <button class="btn-primary-soft btn button-icon btn-delete">Eliminar</button>
+                                            </a>';
+                                    }
+                                    echo '</td>';
+                                    echo '</tr>';
+                                }
+                            
 
-                                        // Mostrar el botón de "Agregar horario" si no tiene horarios
+                                        /* // Mostrar el botón de "Agregar horario" si no tiene horarios
                                         echo '<td>';
                                         if (empty($doctor['horarios'])) {
                                             echo '<a href="agghorario_fijo.php?id=' . $docid . '" class="non-style-link">
@@ -265,7 +281,7 @@
                                             </a>';
                                         }
                                         echo '</td>';
-                                        echo '</tr>';
+                                        echo '</tr>'; */
                                     
 
 
@@ -280,7 +296,7 @@
                                         echo '</td>';
                                         echo '</tr>'; */
                                     }
-                                }
+                                
                             ?>
  
                             </tbody>
