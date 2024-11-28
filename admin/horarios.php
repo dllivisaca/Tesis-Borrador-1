@@ -4,24 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/base.css">
+    
         
     <title>Horarios</title>
-    <style>
-        .popup{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-        .sub-table{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-</style>
+    
 </head>
 <body>
     <?php
-
-    //learn from w3schools.com
+    error_reporting(E_ERROR | E_PARSE);
 
     session_start();
 
@@ -35,130 +27,45 @@
 
     //import database
     include("../conexion_db.php");
-    
     ?>
     <div class="container">
         <div class="menu">
-            <table class="menu-container" border="0">
-                <tr>
-                    <td style="padding:10px" colspan="2">
-                        <table border="0" class="profile-container">
-                            <tr>
-                                <td width="30%" style="padding-left:20px" >
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
-                                </td>
-                                <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title">Administrador</p>
-                                    <!-- <p class="profile-subtitle">admin@edoc.com</p> -->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                <a href="../logout.php" ><input type="button" value="Cerrar sesión" class="logout-btn btn-primary-soft btn"></a>
-                                </td>
-                            </tr>
-                    </table>
-                    </td>
-                
-                </tr>
-                <!-- <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord" >
-                        <a href="index.php" class="non-style-link-menu"><div><p class="menu-text">Dashboard</p></a></div></a>
-                    </td>
-                </tr> -->
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor ">
-                        <a href="doctores.php" class="non-style-link-menu "><div><p class="menu-text">Doctores</p></a></div>
-                    </td>
-                </tr>
-                
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient">
-                        <a href="pacientes.php" class="non-style-link-menu"><div><p class="menu-text">Pacientes</p></a></div>
-                    </td>
-                </tr>
-
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment menu-active menu-icon-appoinment-active">
-                        <a href="citas.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Citas agendadas</p></a></div>
-                    </td>
-                </tr>
-
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-schedule ">
-                        <a href="horarios.php" class="non-style-link-menu"><div><p class="menu-text">Horarios disponibles</p></div></a>
-                    </td>
-                </tr>
-
-            </table>
+            <div class="profile-container">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                <p class="profile-title">Administrador</p>
+            </div>
+            <a href="../logout.php"><button class="btn-logout">Cerrar sesión</button></a>
+            <div class="linea-separadora"></div>
+            <div class="menu-links">
+                <a href="dashboard.php" class="menu-link">Dashboard</a>
+                <a href="doctores.php" class="menu-link">Doctores</a>
+                <a href="pacientes.php" class="menu-link">Pacientes</a>
+                <a href="horarios.php" class="menu-link menu-link-active">Horarios disponibles</a>
+                <a href="citas.php" class="menu-link">Citas agendadas</a>
+                <a href="opiniones_recibidas.php" class="menu-link">Opiniones recibidas</a>
+            </div>
         </div>
+
         <div class="dash-body">
-            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
-                <tr >
-                    <td width="13%" >
-                    <a href="horarios.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
-                    </td>
-                    <td>
-                        <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Gestor de horarios disponibles</p>
-                                           
-                    </td>
-                    <td width="15%">
-                        <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
-                            Today's Date
-                        </p>
-                        <p class="heading-sub12" style="padding: 0;margin: 0;">
-                            <?php 
-
-                        date_default_timezone_set('Asia/Kolkata');
-
-                        $today = date('Y-m-d');
-                        echo $today;
-
-                        $list110 = $database->query("select  * from  horarios;");
-
-                        ?>
-                        </p>
-                    </td>
-                    <td width="10%">
-                        <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
-                    </td>
-
-
-                </tr>
-               
-                <tr>
-                    <td colspan="4" >
-                        <div style="display: flex;margin-top: 40px;">
-                        <div class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Agrega un horario</div>
-                        <a href="?action=agregar_horario&id=none&error=0" class="non-style-link"><button  class="login-btn btn-primary btn button-icon"  style="margin-left:25px;background-image: url('../img/icons/add.svg');">Agrega un horario nuevo</font></button>
-                        </a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="padding-top:10px;width: 100%;" >
-                    
-                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Todos los horarios(<?php echo $list110->num_rows; ?>)</p>
-                    </td>
-                    
-                </tr>
+            <div class="header-actions">
+            <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
+            <div class="header-left">
+                <a href="doctores.php">
+                    <button class="btn-action">← Atrás</button>
+                </a>
+                <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: center;">
+                Gestor de horarios
+                </p>
+            </div>
+        </div>
+                
                 <tr>
                     <td colspan="4" style="padding-top:0px;width: 100%;" >
                         <center>
                         <table class="filter-container" border="0" >
                         <tr>
-                           <td width="10%">
-
-                           </td> 
-                        <td width="5%" style="text-align: center;">
-                        Fecha:
-                        </td>
-                        <td width="30%">
-                        <form action="" method="post">
-                            
-                            <input type="date" name="horariofecha" id="date" class="input-text filter-container-items" style="margin: 0;width: 95%;">
-
-                        </td>
+                           
+                        
                         <td width="5%" style="text-align: center;">
                         Doctor:
                         </td>
@@ -183,7 +90,7 @@
                         </select>
                     </td>
                     <td width="12%">
-                        <input type="submit"  name="filter" value=" Filter" class=" btn-primary-soft btn button-icon btn-filter"  style="padding: 15px; margin :0;width:100%">
+                        <input type="submit"  name="filter" value=" Buscar" class=" btn-primary-soft btn button-icon btn-filter"  style="padding: 15px; margin :0;width:100%">
                         </form>
                     </td>
 
@@ -196,43 +103,51 @@
                 </tr>
                 
                 <?php
-                    if($_POST){
-                        //print_r($_POST);
-                        $sqlpt1="";
-                        if(!empty($_POST["horariofecha"])){
-                            $horariofecha=$_POST["horariofecha"];
-                            $sqlpt1=" horarios.horariofecha='$horariofecha' ";
-                        }
+                // Definir la función globalmente para que esté disponible en cualquier contexto
+                function ordenarDiasSemana($a, $b) {
+                    $ordenDias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+                    $posA = array_search($a['dia_semana'], $ordenDias);
+                    $posB = array_search($b['dia_semana'], $ordenDias);
+                    return $posA - $posB;
+                }
 
+                    if($_POST){
+                        //print_r($_POST);                    
 
                         $sqlpt2="";
                         if(!empty($_POST["docid"])){
                             $docid=$_POST["docid"];
                             $sqlpt2=" doctor.docid=$docid ";
                         }
-                        //echo $sqlpt2;
-                        //echo $sqlpt1;
-                        $sqlmain= "select horarios.horarioid,horarios.titulo,doctor.docnombre,horarios.horariofecha,horarios.horariohora from horarios inner join doctor on horarios.docid=doctor.docid ";
-                        $sqllist=array($sqlpt1,$sqlpt2);
-                        $sqlkeywords=array(" where "," and ");
-                        $key2=0;
-                        foreach($sqllist as $key){
 
-                            if(!empty($key)){
-                                $sqlmain.=$sqlkeywords[$key2].$key;
-                                $key2++;
-                            };
-                        };
+                        
+                                            
+                        // Consulta SQL para obtener los horarios disponibles de la tabla `disponibilidad_doctor`
+                        $sqlmain = "SELECT doctor.docid, doctor.docnombre, doctor.especialidades, disponibilidad_doctor.dia_semana, 
+                        disponibilidad_doctor.horainicioman, disponibilidad_doctor.horafinman, 
+                        disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar 
+                        FROM doctor 
+                        LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid";
+
+                        // Aplica el filtro por doctor si se selecciona uno
+                        if (!empty($sqlpt2)) {
+                        $sqlmain .= " WHERE $sqlpt2";
+                        }
+
+                    } else {
+                        // Consulta por defecto si no se ha seleccionado ningún filtro
+                        $sqlmain = "SELECT doctor.docid, doctor.docnombre, doctor.especialidades, disponibilidad_doctor.dia_semana, disponibilidad_doctor.horainicioman, disponibilidad_doctor.horafinman, disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar 
+                        FROM doctor 
+                        LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid";
+                    }
+
+                        
                         //echo $sqlmain;
 
                         
                         
                         //
-                    }else{
-                        $sqlmain= "select horarios.horarioid,horarios.titulo,doctor.docnombre,horarios.horariofecha,horarios.horariohora from horarios inner join doctor on horarios.docid=doctor.docid  order by horarios.horariofecha desc";
-
-                    }
-
+                    
 
 
                 ?>
@@ -247,16 +162,16 @@
                                 <th class="table-headin">
                                     
                                 
-                                Titulo
+                                 Nombre del doctor
                                 
                                 </th>
                                 
                                 <th class="table-headin">
-                                    Doctor
+                                    Especialidad
                                 </th>
                                 <th class="table-headin">
                                     
-                                    Fecha y hora
+                                    Horario disponible
                                     
                                 </th>
                                 
@@ -271,65 +186,127 @@
                         
                             <?php
 
-                                
-                                $result= $database->query($sqlmain);
-
-                                if($result->num_rows==0){
-                                    echo '<tr>
-                                    <td colspan="4">
-                                    <br><br><br><br>
+                                // Ejecutar la consulta
+                                $result = $database->query($sqlmain);
+                               
+                                if ($result->num_rows == 0) {
+                                    echo '<tr><td colspan="4">
                                     <center>
                                     <img src="../img/notfound.svg" width="25%">
-                                    
-                                    <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="horarios.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Ver todos los horarios &nbsp;</font></button>
-                                    </a>
-                                    </center>
-                                    <br><br><br><br>
-                                    </td>
-                                    </tr>';
-                                    
-                                }
-                                else{
-                                for ( $x=0; $x<$result->num_rows;$x++){
-                                    $row=$result->fetch_assoc();
-                                    $horarioid=$row["horarioid"];
-                                    $titulo=$row["titulo"];
-                                    $docnombre=$row["docnombre"];
-                                    $horariofecha=$row["horariofecha"];
-                                    $horariohora=$row["horariohora"];
-                                    
-                                    echo '<tr>
-                                        <td> &nbsp;'.
-                                        substr($titulo,0,30)
-                                        .'</td>
-                                        <td>
-                                        '.substr($docnombre,0,20).'
-                                        </td>
-                                        <td style="text-align:center;">
-                                            '.substr($horariofecha,0,10).' '.substr($horariohora,0,5).'
-                                        </td>
-                                        
+                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">No se encontraron horarios disponibles!</p>
+                                    <a class="non-style-link" href="horarios.php"><button class="login-btn btn-primary-soft btn" style="margin-left:20px;">&nbsp; Ver todos los horarios &nbsp;</button></a>
+                                    </center></td></tr>';
+                                } else {
+                                    // Agrupar los resultados por doctor
+                                    $doctores = [];
+                                    while ($row = $result->fetch_assoc()) {
+                                        $docid = $row['docid'];
+                                        $docnombre = $row['docnombre'];
+                                        $espe = $row['especialidades'];
+                                
+                                        // Obtener la especialidad del doctor
+                                        $especial_res = $database->query("SELECT espnombre FROM especialidades WHERE id='$espe'");
+                                        $especial_array = $especial_res->fetch_assoc();
+                                        $especial_name = $especial_array['espnombre'] ?? 'N/A';
+                                
+                                        // Inicializar el array si el doctor no está ya registrado
+                                        if (!isset($doctores[$docid])) {
+                                            $doctores[$docid] = [
+                                                'docnombre' => $docnombre,
+                                                'especialidad' => $especial_name,
+                                                'horarios' => []
+                                            ];
+                                        }
+                                
+                                        // Variable para mostrar horarios válidos
+                                        $horarios_mostrar = '';
 
-                                        <td>
-                                        <div style="display:flex;justify-content: center;">
-                                        
-                                        <a href="?action=view&id='.$horarioid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;
-                                       <a href="?action=drop&id='.$horarioid.'&name='.$titulo.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Remove</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;
-                                       
-                                       <a href="agendar.php?id='.$horarioid.'" class="non-style-link"><button  class="login-btn btn-primary-soft btn "  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Book Now</font></button></a>
+                                        // Verificar que ambos valores (hora de inicio y fin) no sean "00:00:00" para el turno de la mañana
+                                        if (!empty($row['horainicioman']) && !empty($row['horafinman']) && $row['horainicioman'] !== "00:00:00" && $row['horafinman'] !== "00:00:00") {
+                                            $horarios_mostrar .= substr($row['horainicioman'], 0, 5) . ' - ' . substr($row['horafinman'], 0, 5) . '<br>';
+                                        }
 
-                                       
-                                        </div>
-                                        </td>
-                                    </tr>';
+                                        // Verificar que ambos valores (hora de inicio y fin) no sean "00:00:00" para el turno de la tarde
+                                        if (!empty($row['horainiciotar']) && !empty($row['horafintar']) && $row['horainiciotar'] !== "00:00:00" && $row['horafintar'] !== "00:00:00") {
+                                            $horarios_mostrar .= substr($row['horainiciotar'], 0, 5) . ' - ' . substr($row['horafintar'], 0, 5);
+                                        }
+
+                                        // Si no hay horarios válidos, saltar a la siguiente iteración
+                                        if (empty($horarios_mostrar)) {
+                                            continue;
+                                        }
+
+                                        // Añadir los horarios válidos al array de doctores
+                                        $doctores[$docid]['horarios'][] = [
+                                            'dia_semana' => $row['dia_semana'] ?? 'N/A',
+                                            'horario' => $horarios_mostrar
+                                        ];
+                                    }
+                                
                                     
+                            // Mostrar los resultados por cada doctor
+                                    foreach ($doctores as $docid => $doctor) {
+                                        echo '<tr>';
+                                        echo '<td>' . $doctor['docnombre'] . '</td>';
+                                        echo '<td>' . $doctor['especialidad'] . '</td>';
+                                        echo '<td style="text-align:center;">';
+
+                                        if (empty($doctor['horarios'])) {
+                                            echo 'No se encontraron horarios disponibles';
+                                        } else {
+                                            // Mostrar los horarios en dos columnas
+                                            echo '<div style="display: flex; justify-content: space-around;">';
+                                            for ($i = 0; $i < count($doctor['horarios']); $i += 2) {
+                                                echo '<div style="width: 45%;">';
+                                                // Mostrar el día y los horarios de la primera columna
+                                                echo '<b>' . $doctor['horarios'][$i]['dia_semana'] . '</b><br>';
+                                                echo $doctor['horarios'][$i]['horario'] . '<br>';
+
+                                                // Verificar si existe una segunda columna
+                                                if (isset($doctor['horarios'][$i + 1])) {
+                                                    echo '<b>' . $doctor['horarios'][$i + 1]['dia_semana'] . '</b><br>';
+                                                    echo $doctor['horarios'][$i + 1]['horario'] . '<br>';
+                                                }
+                                                echo '</div>';
+                                            }
+                                            echo '</div>';
+                                        }
+                                        echo '</td>';
+
+                                        // Mostrar el botón de "Agregar horario" si no tiene horarios
+                                        echo '<td>';
+                                        if (empty($doctor['horarios'])) {
+                                            echo '<a href="agghorario_fijo.php?id=' . $docid . '" class="non-style-link">
+                                                    <button class="btn-primary-soft btn button-icon btn-add">Agregar horario</button>
+                                                </a>';
+                                        } else {
+                                            // Mostrar los botones "Editar" y "Eliminar" si tiene horarios
+                                            echo '<a href="editar_horario.php?id=' . $docid . '" class="non-style-link">
+                                                    <button class="btn-primary-soft btn button-icon btn-view">Editar</button>
+                                                </a>';
+                                           
+
+                                            echo '<a href="borrar_horario.php?id=' . $docid . '" class="non-style-link" onclick="return confirm(\'¿Estás segura de eliminar todos los horarios guardados del doctor?\');">
+                                                <button class="btn-primary-soft btn button-icon btn-delete">Eliminar</button>
+                                            </a>';
+                                        }
+                                        echo '</td>';
+                                        echo '</tr>';
+                                    
+
+
+                                        // Aquí es donde nos aseguramos de que el ID del doctor sea único para cada enlace de edición o eliminación
+                                        /* echo '<td>';
+                                        echo '<a href="editar_horario.php?id=' . $docid . '" class="non-style-link">
+                                                <button class="btn-primary-soft btn button-icon btn-view">Editar</button>
+                                            </a>';
+                                        echo '<a href="delete_horario.php?id=' . $docid . '" class="non-style-link">
+                                                <button class="btn-primary-soft btn button-icon btn-delete">Eliminar</button>
+                                            </a>';
+                                        echo '</td>';
+                                        echo '</tr>'; */
+                                    }
                                 }
-                            }
-                                 
                             ?>
  
                             </tbody>
@@ -351,103 +328,76 @@
         $id=$_GET["id"];
         $action=$_GET["action"];
         if($action=='agregar_horario'){
+            $sqlmain= "select * from doctor where docid='$id'";
+            $result= $database->query($sqlmain);
+            $row=$result->fetch_assoc();
+            $docnombre=$row["docnombre"];
+            
+            $espe=$row["especialidades"];
+            
+            $especial_res= $database->query("select espnombre from especialidades where id='$espe'");
+            $especial_array= $especial_res->fetch_assoc();
+            $especial_name=$especial_array["espnombre"];
+            
+
 
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
                     <center>
-                    
-                    
-                        <a class="close" href="horarios.php">&times;</a> 
+                        <h2></h2>
+                        <a class="close" href="horarios.php">&times;</a>
+                        <div class="content">
+                            eDoc Web App<br>
+                            
+                        </div>
                         <div style="display: flex;justify-content: center;">
-                        <div class="abc">
                         <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        <tr>
-                                <td class="label-td" colspan="2">'.
-                                   ""
-                                
-                                .'</td>
-                            </tr>
-
+                        
                             <tr>
                                 <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Agregar nuevo horario.</p><br>
+                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View Details.</p><br><br>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                <form action="agregar_horario.php" method="POST" class="add-new-form">
-                                    <label for="titulo" class="form-label">Título: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="text" name="titulo" class="input-text" placeholder="Nombre del horario" required><br>
-                                </td>
-                            </tr>
+                            
                             <tr>
                                 
                                 <td class="label-td" colspan="2">
-                                    <label for="docid" class="form-label">Selecciona a un doctor: </label>
+                                    <label for="name" class="form-label">Name: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <select name="docid" id="" class="box" >
-                                    <option value="" disabled selected hidden>Escoge al doctor dentro de la lista</option><br/>';
-                                        
-        
-                                        $list11 = $database->query("select  * from  doctor order by docnombre asc;");
-        
-                                        for ($y=0;$y<$list11->num_rows;$y++){
-                                            $row00=$list11->fetch_assoc();
-                                            $sn=$row00["docnombre"];
-                                            $id00=$row00["docid"];
-                                            echo "<option value=".$id00.">$sn</option><br/>";
-                                        };
-        
-        
-        
-                                        
-                        echo     '       </select><br><br>
+                                    '.$docnombre.'<br><br>
                                 </td>
+                                
                             </tr>
                             
+                           
                             
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="fecha" class="form-label">Fecha: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="date" name="fecha" class="input-text" min="'.date('Y-m-d').'" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="hora" class="form-label">Hora: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="time" name="hora" class="input-text" placeholder="Time" required><br>
-                                </td>
-                            </tr>
                            
                             <tr>
+                                <td class="label-td" colspan="2">
+                                    <label for="espec" class="form-label">Especialidades: </label>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                            <td class="label-td" colspan="2">
+                            '.$especial_name.'<br><br>
+                            </td>
+                            </tr>
+                            <tr>
                                 <td colspan="2">
-                                    <input type="reset" value="Reset" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="horarios.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
                                 
-                                    <input type="submit" value="Place this Session" class="login-btn btn-primary btn" name="shedulesubmit">
+                                    
                                 </td>
                 
                             </tr>
                            
-                            </form>
-                            </tr>
+
                         </table>
-                        </div>
                         </div>
                     </center>
                     <br><br>
@@ -476,27 +426,6 @@
             </div>
             </div>
             ';
-        }elseif($action=='drop'){
-            $nameget=$_GET["name"];
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <h2>Are you sure?</h2>
-                        <a class="close" href="horarios.php">&times;</a>
-                        <div class="content">
-                            You want to delete this record<br>('.substr($nameget,0,40).').
-                            
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        <a href="borrar_horario.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
-                        <a href="horarios.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
-
-                        </div>
-                    </center>
-            </div>
-            </div>
-            '; 
         }elseif($action=='view'){
             $sqlmain= "select horarios.horarioid,horarios.titulo,doctor.docnombre,horarios.horariofecha,horarios.horariohora from horarios inner join doctor on horarios.docid=doctor.docid  where  horarios.horarioid=$id";
             $result= $database->query($sqlmain);

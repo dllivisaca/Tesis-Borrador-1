@@ -163,7 +163,7 @@ if (isset($_GET['delete_success'])) {
                 <a href="dashboard.php" class="menu-link">Dashboard</a>
                 <a href="doctores.php" class="menu-link menu-link-active">Doctores</a>
                 <a href="pacientes.php" class="menu-link">Pacientes</a>
-                <a href="horarios2.php" class="menu-link">Horarios disponibles</a>
+                <a href="horarios.php" class="menu-link">Horarios disponibles</a>
                 <a href="citas.php" class="menu-link">Citas agendadas</a>
                 <a href="opiniones_recibidas.php" class="menu-link">Opiniones recibidas</a>
             </div>

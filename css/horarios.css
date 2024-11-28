@@ -1,0 +1,16 @@
+.header-inline {
+    display: flex;
+    align-items: center; /* Alinear verticalmente los elementos */
+    gap: 10px; /* Espaciado entre el botón y el texto */
+}
+
+.header-inline .btn-action {
+    margin: 0; /* Elimina márgenes del botón */
+}
+
+.header-inline .heading-main12 {
+    margin: 0; /* Asegura que el texto no tenga márgenes adicionales */
+    font-size: 17px; /* Tamaño del texto */
+    font-weight: bold; /* Negrita para destacar */
+    color: rgb(49, 49, 49); /* Color oscuro */
+}
