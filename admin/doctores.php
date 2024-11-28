@@ -80,17 +80,50 @@
     include("../conexion_db.php");
 
     // Mostrar mensajes de eliminación o errores
-    if (isset($_GET['delete_success']) && $_GET['delete_success'] == 1) {
-        echo '<script>alert("Doctor eliminado con éxito.");</script>';
-    } elseif (isset($_GET['delete_success']) && $_GET['delete_success'] == 0) {
-        echo '<script>alert("Error al eliminar el doctor.");</script>';
-    } elseif (isset($_GET['error'])) {
-        if ($_GET['error'] == 'doctor_not_found') {
-            echo '<script>alert("Doctor no encontrado.");</script>';
-        } elseif ($_GET['error'] == 'invalid_id') {
-            echo '<script>alert("ID inválido.");</script>';
-        }
+if (isset($_GET['delete_success'])) {
+    if ($_GET['delete_success'] == 1) {
+        echo '<script>
+            window.onload = function() {
+                alert("Doctor eliminado con éxito.");
+            };
+        </script>';
+    } elseif ($_GET['delete_success'] == 0) {
+        echo '<script>
+            window.onload = function() {
+                alert("Error al eliminar el doctor.");
+            };
+        </script>';
     }
+
+    // Elimina el parámetro de la URL sin recargar la página
+    echo '<script>
+        const url = new URL(window.location.href);
+        url.searchParams.delete("delete_success");
+        window.history.replaceState({}, document.title, url.toString());
+    </script>';
+} elseif (isset($_GET['error'])) {
+    if ($_GET['error'] == 'doctor_not_found') {
+        echo '<script>
+            window.onload = function() {
+                alert("Doctor no encontrado.");
+            };
+        </script>';
+    } elseif ($_GET['error'] == 'invalid_id') {
+        echo '<script>
+            window.onload = function() {
+                alert("ID inválido.");
+            };
+        </script>';
+    }
+
+    // Elimina el parámetro de la URL sin recargar la página
+    echo '<script>
+        const url = new URL(window.location.href);
+        url.searchParams.delete("error");
+        window.history.replaceState({}, document.title, url.toString());
+    </script>';
+}
+
 
     if($_POST){
         $keyword=$_POST["search"];
@@ -435,146 +468,6 @@
             </div>
             </div>
             ';
-        }elseif($action=='add'){
-                $error_1=$_GET["error"];
-                $errorlist= array(
-                    '1'=>'<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>',
-                    '2'=>'<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Conformation Error! Reconform Password</label>',
-                    '3'=>'<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>',
-                    '4'=>"",
-                    '0'=>'',
-
-                );
-                if($error_1!='4'){
-                echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                    
-                        <a class="close" href="doctores.php">&times;</a> 
-                        <div style="display: flex;justify-content: center;">
-                        <div class="abc">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        <tr>
-                                <td class="label-td" colspan="2">'.
-                                    $errorlist[$error_1]
-                                .'</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Add New Doctor.</p><br><br>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <form action="agregar_doctor.php" method="POST" class="agregar_doctor-form">
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Name: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="text" name="name" class="input-text" placeholder="Doctor Name" required><br>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Usuario" class="form-label">Usuario: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="text" name="usuario" class="input-text" placeholder="Email Address" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="ci" class="form-label">CI: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="text" name="ci" class="input-text" placeholder="CI Number" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Telf" class="form-label">Telephone: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="tel" name="Telf" class="input-text" placeholder="Telephone Number" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="espec" class="form-label">Choose especialidades: </label>
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <select name="espec" id="" class="box" >';
-                                        
-        
-                                        $list11 = $database->query("select  * from  especialidades order by espnombre asc;");
-        
-                                        for ($y=0;$y<$list11->num_rows;$y++){
-                                            $row00=$list11->fetch_assoc();
-                                            $sn=$row00["espnombre"];
-                                            $id00=$row00["id"];
-                                            echo "<option value=".$id00.">$sn</option><br/>";
-                                        };
-        
-        
-        
-                                        
-                        echo     '       </select><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="password" class="form-label">Password: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="password" name="password" class="input-text" placeholder="Defind a Password" required><br>
-                                </td>
-                            </tr><tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="cpassword" class="form-label">Conform Password: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="password" name="cpassword" class="input-text" placeholder="Conform Password" required><br>
-                                </td>
-                            </tr>
-                            
-                
-                            <tr>
-                                <td colspan="2">
-                                    <input type="reset" value="Reset" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                
-                                    <input type="submit" value="Add" class="login-btn btn-primary btn">
-                                </td>
-                
-                            </tr>
-                           
-                            </form>
-                            </tr>
-                        </table>
-                        </div>
-                        </div>
-                    </center>
-                    <br><br>
-            </div>
-            </div>
-            ';
-
             }else{
                 echo '
                     <div id="popup1" class="overlay">
@@ -781,7 +674,7 @@
 
 
         }; };
-    };
+    ;
 
 ?>
 </div>
