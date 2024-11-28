@@ -124,3 +124,56 @@ select:focus {
     transition: background-color 0.3s ease; /* Transición suave */
 }
 
+/* Botón Editar */
+.button-icon.btn-view {
+    background-color: #85B4FF; /* Azul claro */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.button-icon.btn-view:hover {
+    background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+}
+
+/* Botón Eliminar */
+.button-icon.btn-delete {
+    background-color: #85B4FF; /* Rojo */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-icon.btn-delete:hover {
+    background-color: #0056b3; /* Rojo más oscuro al pasar el mouse */
+}
+
+table {
+    width: 100%; /* Asegúrate de que la tabla use todo el ancho disponible */
+    border-collapse: collapse; /* Elimina espacios entre bordes */
+}
+
+th, td {
+    text-align: center; /* Centra horizontalmente el texto */
+    vertical-align: middle; /* Centra verticalmente el texto */
+    padding: 10px; /* Opcional: agrega espacio interno para mayor legibilidad */
+    border: 1px solid #ddd; /* Agrega un borde para separar las celdas */
+}
+
+th {
+    background-color: #f8f8f8; /* Fondo de encabezados */
+    font-weight: bold; /* Encabezados en negrita */
+}
+
+a {
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+}
+
+a:hover {
+    text-decoration: none; /* Asegura que no aparezca subrayado al pasar el mouse */
+}
