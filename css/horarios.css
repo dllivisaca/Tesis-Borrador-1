@@ -1,16 +1,119 @@
 .header-inline {
     display: flex;
-    align-items: center; /* Alinear verticalmente los elementos */
+    align-items: center;
     gap: 10px; /* Espaciado entre el botón y el texto */
 }
 
-.header-inline .btn-action {
-    margin: 0; /* Elimina márgenes del botón */
+.header-inline {
+    background-color: #ffffff;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 0; /* Elimina cualquier margen innecesario */
+    padding-left: 0; /* Alineación exacta con el contenedor */
+}
+
+.header-inline .btn-action:hover {
+    background-color: #f0f0f0; /* Cambia el fondo al pasar el mouse */
 }
 
 .header-inline .heading-main12 {
-    margin: 0; /* Asegura que el texto no tenga márgenes adicionales */
-    font-size: 17px; /* Tamaño del texto */
-    font-weight: bold; /* Negrita para destacar */
-    color: rgb(49, 49, 49); /* Color oscuro */
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
 }
+
+.btn-action {
+    background-color: #85B4FF; /* Azul claro */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+
+  .filter-container td:nth-child(2) .box.filter-container-items {
+    margin-left: -25px !important; /* Ajusta el valor según sea necesario */
+}
+
+.header-inline .heading-main12 {
+    margin-left: 10px !important; /* Ajusta el valor según sea necesario */
+}
+
+select {
+    width: 250px !important; /* Ajusta el ancho del select */
+    height: 37px; /* Mantén la altura adecuada */
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 14px; /* Tamaño de fuente */
+    outline: none; /* Elimina el borde azul al hacer clic */
+    background-color: white; /* Fondo blanco */
+    transition: border-color 0.3s ease; /* Transición suave */
+}
+
+select:hover {
+    border-color: #999; /* Borde más oscuro al pasar el mouse */
+}
+
+select:focus {
+    border-color: #007bff; /* Borde azul al enfocar */
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaciado entre los elementos */
+    margin: 0; /* Elimina márgenes adicionales */
+    padding: 0; /* Elimina padding adicional */
+}
+
+.filter-row label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 0; /* Asegúrate de eliminar márgenes no deseados */
+    padding: 0; /* Asegúrate de eliminar paddings no deseados */
+    margin-right: 23px; /* Ajusta este valor para agregar más espacio */
+}
+
+.filter-row select {
+    width: 250px;
+    height: 37px;
+    margin: 0; /* Elimina márgenes heredados */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: white;
+}
+
+
+.filter-row select:hover {
+    border-color: #999;
+}
+
+.filter-row select:focus {
+    border-color: #007bff;
+}
+
+.filter-row .btn-filter {
+    margin-left: 10px !important; /* Ajustar espacio entre select y botón */
+    height: 37px !important;
+    background-color: #007bff !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 0 15px !important;
+}
+
+.filter-row .btn-filter:hover {
+    background-color: #0056b3;
+}
+

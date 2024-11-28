@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/base.css">
-    
+    <link rel="stylesheet" href="../css/horarios.css">
         
     <title>Horarios</title>
     
@@ -49,58 +49,31 @@
         <div class="dash-body">
             <div class="header-actions">
             <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
-            <div class="header-left">
-                <a href="doctores.php">
+            <div class="header-inline">
+                <a href="horarios.php">
                     <button class="btn-action">← Atrás</button>
                 </a>
-                <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: center;">
+                <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: left;">
                 Gestor de horarios
                 </p>
             </div>
         </div>
+
+        <div class="filter-row">
+            <label for="docid">Doctor:</label>
+            <select name="docid" id="docid" class="box filter-container-items">
+                <option value="" disabled selected hidden>Escoge un doctor de la lista</option>
+                <?php 
+                    $list11 = $database->query("select * from doctor order by docnombre asc;");
+                    while ($row = $list11->fetch_assoc()) {
+                        echo "<option value='".$row["docid"]."'>".$row["docnombre"]."</option>";
+                    }
+                ?>
+            </select>
+            <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Buscar</button>
+        </div>
+
                 
-                <tr>
-                    <td colspan="4" style="padding-top:0px;width: 100%;" >
-                        <center>
-                        <table class="filter-container" border="0" >
-                        <tr>
-                           
-                        
-                        <td width="5%" style="text-align: center;">
-                        Doctor:
-                        </td>
-                        <td width="30%">
-                        <select name="docid" id="" class="box filter-container-items" style="width:90% ;height: 37px;margin: 0;" >
-                            <option value="" disabled selected hidden>Escoge un doctor de la lista</option><br/>
-                                
-                            <?php 
-                            
-                                $list11 = $database->query("select  * from  doctor order by docnombre asc;");
-
-                                for ($y=0;$y<$list11->num_rows;$y++){
-                                    $row00=$list11->fetch_assoc();
-                                    $sn=$row00["docnombre"];
-                                    $id00=$row00["docid"];
-                                    echo "<option value=".$id00.">$sn</option><br/>";
-                                };
-
-
-                                ?>
-
-                        </select>
-                    </td>
-                    <td width="12%">
-                        <input type="submit"  name="filter" value=" Buscar" class=" btn-primary-soft btn button-icon btn-filter"  style="padding: 15px; margin :0;width:100%">
-                        </form>
-                    </td>
-
-                    </tr>
-                            </table>
-
-                        </center>
-                    </td>
-                    
-                </tr>
                 
                 <?php
                 // Definir la función globalmente para que esté disponible en cualquier contexto
