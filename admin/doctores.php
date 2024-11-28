@@ -79,6 +79,19 @@
     //import database
     include("../conexion_db.php");
 
+    // Mostrar mensajes de eliminación o errores
+    if (isset($_GET['delete_success']) && $_GET['delete_success'] == 1) {
+        echo '<script>alert("Doctor eliminado con éxito.");</script>';
+    } elseif (isset($_GET['delete_success']) && $_GET['delete_success'] == 0) {
+        echo '<script>alert("Error al eliminar el doctor.");</script>';
+    } elseif (isset($_GET['error'])) {
+        if ($_GET['error'] == 'doctor_not_found') {
+            echo '<script>alert("Doctor no encontrado.");</script>';
+        } elseif ($_GET['error'] == 'invalid_id') {
+            echo '<script>alert("ID inválido.");</script>';
+        }
+    }
+
     if($_POST){
         $keyword=$_POST["search"];
         
@@ -216,7 +229,14 @@
                                 else{
                                 for ( $x=0; $x<$result->num_rows;$x++){
                                     $row=$result->fetch_assoc();
-                                    $docid=$row["docid"];
+
+                                    if (isset($row["docid"]) && is_numeric($row["docid"])) {
+                                        $docid = $row["docid"];
+                                    } else {
+                                        echo "<p style='color: red;'>Error: ID del doctor no encontrado o inválido.</p>";
+                                        continue; // Salta este registro si no tiene un ID válido
+                                    }
+                    
                                     $name=$row["docnombre"];
                                     $usuario=$row["docusuario"];
                                     $espe=$row["especialidades"];
@@ -258,7 +278,19 @@
 
                                             
                                        &nbsp;&nbsp;&nbsp;
-                                       <a href="?action=drop&id='.$docid.'&name='.$name.'" class="non-style-link"><button  class="btn-action"  style="padding-top: 12px;padding-bottom: 12px;margin-top: 5px;"><font class="tn-in-text">Eliminar</font></button></a>
+                                       
+                                       
+                                       <a href="#" class="non-style-link">
+                                            <button 
+                                                class="btn-action delete-button" 
+                                                data-id="' . $docid . '"
+                                                data-name="' . htmlspecialchars($name, ENT_QUOTES) . '"
+                                                style="padding: 12px; margin-top: 5px;">
+                                                <font class="tn-in-text">Eliminar</font>
+                                            </button>
+                                        </a>
+
+
                                         </div>
                                         </td>
                                     </tr>';
@@ -894,6 +926,40 @@ if (window.location.search.includes('edit_success=0')) {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+    const deleteButtons = document.querySelectorAll('.delete-button');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault(); // Evita la acción por defecto
+            const name = this.getAttribute('data-name');
+            const id = this.getAttribute('data-id');
+            
+            // Llena el modal con los datos del doctor
+            document.getElementById('deleteDoctorName').textContent = name;
+            document.getElementById('confirmDeleteButton').setAttribute('data-id', id);
+
+            // Muestra el modal
+            document.getElementById('deleteDoctorModal').style.display = 'flex';
+        });
+    });
+});
+
+function closeDeleteModal() {
+    document.getElementById('deleteDoctorModal').style.display = 'none';
+}
+
+function confirmDelete() {
+    const doctorId = document.getElementById('confirmDeleteButton').getAttribute('data-id');
+    if (doctorId) {
+        window.location.href = `borrar_doctor.php?id=${doctorId}`;
+    } else {
+        alert('No se pudo obtener el ID del doctor.');
+    }
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
     const viewButtons = document.querySelectorAll('.view-button');
     
     viewButtons.forEach(button => {
@@ -1052,6 +1118,21 @@ function hideEditPasswordMessage() {
     </div>
   </div>
 </div>
+
+<div id="deleteDoctorModal" class="overlay" style="display: none;">
+    <div class="popup">
+        <a href="#" class="close" onclick="closeDeleteModal()">×</a>
+        <h2>Confirmar Eliminación</h2>
+        <div class="content">
+            <p>¿Estás seguro de que deseas eliminar al doctor <span id="deleteDoctorName"></span>?</p>
+        </div>
+        <div class="form-buttons">
+            <button id="confirmDeleteButton" onclick="confirmDelete()">Eliminar</button>
+            <button onclick="closeDeleteModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
 
 <div id="viewDoctorModal" class="overlay" style="display: none;">
   <div class="popup">
