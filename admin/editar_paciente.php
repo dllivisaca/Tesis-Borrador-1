@@ -1,75 +1,61 @@
-
 <?php
-    
-    
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-    //import database
-    include("../conexion_db.php");
+session_start();
+include("../conexion_db.php");
 
+// Verificar autenticación
+if (!isset($_SESSION["usuario"]) || $_SESSION["usuario_rol"] != 'adm') {
+    header("location: ../login.php");
+    exit();
+}
 
+// Recoger datos del formulario
+$id = $_POST['id00'];
+$name = $_POST['name'];
+$usuario = $_POST['usuario'];
+$ci = $_POST['ci'];
+$telf = $_POST['Telf'];
+$direccion = $_POST['direccion'];
+$fecnac = $_POST['fecnac'];
+$password = $_POST['password'];
+$cpassword = $_POST['cpassword'];
 
-    if($_POST){
-        //print_r($_POST);
-        $result= $database->query("select * from usuarios");
-        $name=$_POST['name'];
-        $ci=$_POST['ci'];
-        $oldusuario=$_POST["oldusuario"];
-        $direccion=$_POST['direccion'];
-        $fecnac=$_POST['fecnac'];
-        $usuario=$_POST['usuario'];
-        $telf=$_POST['Telf'];
-        $password=$_POST['password'];
-        $cpassword=$_POST['cpassword'];
-        $id=$_POST['id00'];
-        
-        if ($password==$cpassword){
-            $error='3';
-            $result= $database->query("select paciente.pacid from paciente inner join usuarios on paciente.pacusuario=usuarios.usuario where usuarios.usuario='$usuario';");
-            //$resultqq= $database->query("select * from doctor where docid='$id';");
-            if($result->num_rows==1){
-                $id2=$result->fetch_assoc()["pacid"];
-            }else{
-                $id2=$id;
-            }
-            
-            echo $id2."jdfjdfdh";
-            if($id2!=$id){
-                $error='1';
-                //$resultqq1= $database->query("select * from doctor where docemail='$email';");
-                //$did= $resultqq1->fetch_assoc()["docid"];
-                //if($resultqq1->num_rows==1){
-                    
-            }else{
+// Consulta para obtener datos actuales
+$current_data_query = $database->query("SELECT * FROM paciente WHERE pacid = '$id'");
+$current_data = $current_data_query->fetch_assoc();
 
-                //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,especialidades) values('$email','$name','$password','$nic','$tele',$spec);";
-                $sql1="update paciente set pacusuario='$usuario',pacnombre='$name',pacpassword='$password',pacdireccion='$direccion',pacci='$ci',pacfecnac='$fecnac',pactelf='$telf' where pacid=$id ;";
-                $database->query($sql1);
-                
-                $sql1="update usuarios set usuario='$usuario' where usuario='$oldusuario' ;";
-                $database->query($sql1);
-                //echo $sql1;
-                //echo $sql2;
-                $error= '4';
-                
-            }
-            
-        }else{
-            $error='2';
-        }
-    
-    
-        
-        
-    }else{
-        //header('location: signup.php');
-        $error='3';
+// Verificar cambios
+$changes = [];
+if ($name !== $current_data['pacnombre']) $changes[] = "pacnombre = '$name'";
+if ($usuario !== $current_data['pacusuario']) $changes[] = "pacusuario = '$usuario'";
+if ($ci !== $current_data['pacci']) $changes[] = "pacci = '$ci'";
+if ($telf !== $current_data['pactelf']) $changes[] = "pactelf = '$telf'";
+if ($direccion !== $current_data['pacdireccion']) $changes[] = "pacdireccion = '$direccion'";
+if ($fecnac !== $current_data['pacfecnac']) $changes[] = "pacfecnac = '$fecnac'";
+
+// Manejar contraseña si se ingresó una nueva
+if (!empty($password) && $password === $cpassword) {
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    $changes[] = "pacpassword = '$hashedPassword'";
+} elseif (!empty($password) && $password !== $cpassword) {
+    header("location: pacientes.php?action=edit&id=$id&error=2"); // Contraseñas no coinciden
+    exit();
+}
+
+// Ejecutar actualización si hay cambios
+if (count($changes) > 0) {
+    $update_query = "UPDATE paciente SET " . implode(', ', $changes) . " WHERE pacid = '$id'";
+    $database->query($update_query);
+
+    if ($database->error) {
+        echo "Error en la consulta: " . $database->error;
+        exit();
     }
-    
-
-    header("location: pacientes.php?action=edit&error=".$error."&id=".$id);
-    ?>
-    
-   
-
-</body>
-</html>
+    header("location: pacientes.php?edit_success=1"); // Redirige indicando éxito
+} else {
+    header("location: pacientes.php?edit_success=0"); // Redirige indicando que no hubo cambios
+}
+exit();
+?>

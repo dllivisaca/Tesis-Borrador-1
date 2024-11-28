@@ -25,6 +25,30 @@
         header("location: ../login.php");
     }
 
+    //Edición exitosa
+    if (isset($_GET['edit_success']) && $_GET['edit_success'] == 1) {
+        echo '<script>
+            window.onload = function() {
+                document.getElementById("editSuccessModal").style.display = "flex";
+            };
+        </script>';
+        // Limpia el parámetro de la URL
+        echo '<script>
+            const url = new URL(window.location.href);
+            url.searchParams.delete("edit_success");
+            window.history.replaceState({}, document.title, url.toString());
+        </script>';
+    }
+
+    //Cuando no hay cambios
+    if (isset($_GET['edit_success']) && $_GET['edit_success'] == 0) {
+        echo '<script>
+            window.onload = function() {
+                alert("No se realizaron cambios en los datos del paciente.");
+            };
+        </script>';
+    }
+
     // Manejo de mensajes de éxito
     if (isset($_GET['success']) && $_GET['success'] == 1) {
         echo '<script>
@@ -906,6 +930,58 @@
 
 ?> -->
 </div>
+<div id="editPatientModal" class="overlay" style="display: none;">
+    <div class="popup">
+        <h2>Editar Detalles del Paciente</h2>
+        <form action="editar_paciente.php" method="POST" class="patient-form" onsubmit="return validateEditPatientForm()">
+            <input type="hidden" name="id00" id="editPacId">
+            <input type="hidden" name="oldusuario" id="editOldUsuario">
+
+            <div class="form-group">
+                <label for="editName">Nombre del Paciente:</label>
+                <input type="text" name="name" id="editName" required minlength="4">
+            </div>
+
+            <div class="form-group">
+                <label for="editUsuario">Usuario:</label>
+                <input type="text" name="usuario" id="editUsuario" required minlength="4">
+            </div>
+
+            <div class="form-group">
+                <label for="editCi">CI:</label>
+                <input type="text" name="ci" id="editCi" required minlength="10" maxlength="10" pattern="\d+">
+            </div>
+
+            <div class="form-group">
+                <label for="editTelf">Teléfono:</label>
+                <input 
+                    type="text" 
+                    name="Telf" 
+                    id="editTelf" 
+                    placeholder="+593999999999" 
+                    required 
+                    pattern="\+593\d{9}" 
+                    title="El número debe estar en el formato +593999999999">
+            </div>
+
+            <div class="form-group">
+                <label for="editDireccion">Dirección:</label>
+                <input type="text" name="direccion" id="editDireccion" required>
+            </div>
+
+            <div class="form-group">
+                <label for="editFecnac">Fecha de Nacimiento:</label>
+                <input type="date" name="fecnac" id="editFecnac" required>
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit">Guardar</button>
+                <button type="button" onclick="closeEditPatientModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div id="addPatientModal" class="overlay" style="display: none;">
     <div class="popup">
         <h2>Agregar Nuevo Paciente</h2>
@@ -967,6 +1043,21 @@
     </div>
 </div>
 
+<div id="editSuccessModal" class="overlay" style="display: none;">
+    <div class="popup">
+        <h2>¡Paciente editado con éxito!</h2>
+        <div class="content">
+            Los detalles del paciente han sido actualizados correctamente.
+        </div>
+        <div class="form-buttons">
+            <button onclick="closeEditSuccessModal()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div id="successModal" class="overlay" style="display: none;">
     <div class="popup">
         <h2>¡Paciente agregado con éxito!</h2>
@@ -984,6 +1075,10 @@
 
     function closeSuccessModal() {
     document.getElementById("successModal").style.display = "none";
+}
+
+function closeEditSuccessModal() {
+    document.getElementById("editSuccessModal").style.display = "none";
 }
 
 // Mostrar el modal si success=1 está en la URL
@@ -1022,6 +1117,39 @@ if (window.location.search.includes('success=1')) {
   function hidePasswordMessage() {
       document.getElementById('passwordMessage').style.display = 'none';
   }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.edit-button');
+    editButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Obtén los datos del paciente
+            const pacid = this.getAttribute('data-pacid');
+            const name = this.getAttribute('data-name');
+            const usuario = this.getAttribute('data-usuario');
+            const ci = this.getAttribute('data-ci');
+            const telf = this.getAttribute('data-telf');
+            const direccion = this.getAttribute('data-direccion');
+            const fecnac = this.getAttribute('data-fecnac');
+
+            // Llena los campos del modal con los datos obtenidos
+            document.getElementById('editPacId').value = pacid;
+            document.getElementById('editName').value = name;
+            document.getElementById('editUsuario').value = usuario;
+            document.getElementById('editCi').value = ci;
+            document.getElementById('editTelf').value = telf;
+            document.getElementById('editDireccion').value = direccion;
+            document.getElementById('editFecnac').value = fecnac;
+
+            // Muestra el modal
+            document.getElementById('editPatientModal').style.display = 'flex';
+        });
+    });
+});
+
+function closeEditPatientModal() {
+    document.getElementById('editPatientModal').style.display = 'none';
+}
+
 
 </script>
 
