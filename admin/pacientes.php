@@ -25,6 +25,29 @@
         header("location: ../login.php");
     }
 
+    if (isset($_GET['delete_success'])) {
+        if ($_GET['delete_success'] == 1) {
+            echo '<script>
+            window.onload = function() {
+                alert("Paciente eliminado con éxito.");
+            };
+            </script>';
+        } elseif ($_GET['delete_success'] == 0) {
+            echo '<script>
+            window.onload = function() {
+                alert("Error al eliminar al paciente.");
+            };
+            </script>';
+        }
+    
+        // Elimina el parámetro de la URL sin recargar la página
+        echo '<script>
+        const url = new URL(window.location.href);
+        url.searchParams.delete("delete_success");
+        window.history.replaceState({}, document.title, url.toString());
+        </script>';}
+    
+
     //Edición exitosa
     if (isset($_GET['edit_success']) && $_GET['edit_success'] == 1) {
         echo '<script>
@@ -282,7 +305,7 @@
                                     <a href="#" class="non-style-link">
                                         <button 
                                             class="btn-action delete-button" 
-                                            data-pacid="' . $pacid . '" 
+                                            data-id="' . $pacid . '" 
                                             data-name="' . htmlspecialchars($nombre, ENT_QUOTES) . '" 
                                             style="padding-top: 12px; padding-bottom: 12px; margin-top: 5px;">
                                             <font class="tn-in-text">Eliminar</font>
@@ -657,6 +680,20 @@
 ?>
 </div>
 
+<div id="deletePatientModal" class="overlay" style="display: none;">
+    <div class="popup">
+        <h2>Confirmar Eliminación</h2>
+        <div class="content">
+            <p>¿Estás seguro de que deseas eliminar al paciente <span id="deletePatientName"></span>?</p>
+        </div>
+        <div class="form-buttons">
+            <button id="confirmDeletePatientButton" onclick="confirmDeletePatient()">Eliminar</button>
+            <button onclick="closeDeletePatientModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+
 <div id="viewPatientModal" class="overlay" style="display: none;">
     <div class="popup">
         <h2>Detalles del Paciente</h2>
@@ -923,6 +960,38 @@ if (window.location.search.includes('success=1')) {
 
 function closeViewPatientModal() {
     document.getElementById('viewPatientModal').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteButtons = document.querySelectorAll('.delete-button');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault(); // Evita la acción por defecto
+            const name = this.getAttribute('data-name');
+            const id = this.getAttribute('data-id');
+
+            // Llena el modal con los datos del paciente
+            document.getElementById('deletePatientName').textContent = name.trim();
+            document.getElementById('confirmDeletePatientButton').setAttribute('data-id', id);
+
+            // Muestra el modal
+            document.getElementById('deletePatientModal').style.display = 'flex';
+        });
+    });
+});
+
+function closeDeletePatientModal() {
+    document.getElementById('deletePatientModal').style.display = 'none';
+}
+
+function confirmDeletePatient() {
+    const patientId = document.getElementById('confirmDeletePatientButton').getAttribute('data-id');
+    if (patientId) {
+        window.location.href = `borrar_paciente.php?id=${patientId}`;
+    } else {
+        alert('No se pudo obtener el ID del paciente.');
+    }
 }
 
 
