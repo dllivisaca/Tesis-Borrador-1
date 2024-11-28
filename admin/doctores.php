@@ -716,7 +716,14 @@ if (isset($_GET['delete_success'])) {
       </div>
       <div class="form-group">
         <label for="Telf">Teléfono:</label>
-        <input type="text" name="Telf" id="Telf" placeholder="Número de Teléfono" required minlength="10" maxlength="10" pattern="\d+">
+        <input 
+            type="text" 
+            name="Telf" 
+            id="Telf" 
+            placeholder="+593999999999" 
+            required 
+            pattern="\+593\d{9}" 
+            title="El número debe estar en el formato +593999999999">
       </div>
       <div class="form-group">
         <label for="espec">Especialidad:</label>
@@ -941,11 +948,12 @@ function validateEditForm() {
     return false;
   }
 
-  // Verifica que el teléfono tenga 10 caracteres y sea numérico
-  if (telf.length !== 10 || !/^\d+$/.test(telf)) {
-    alert('El número de teléfono debe tener 10 dígitos y ser un número válido.');
-    return false;
-  }
+  // Verifica que el teléfono tenga el formato +593999999999
+    if (!/^\+593\d{9}$/.test(telf)) {
+        alert('El número de teléfono debe estar en el formato +593999999999.');
+        return false;
+    }
+
 
   // Verifica si se ingresó una contraseña y si las contraseñas coinciden
   if (password || confirmPassword) {
@@ -1076,7 +1084,14 @@ function hideEditPasswordMessage() {
 
       <div class="form-group">
         <label for="editTelf">Teléfono:</label>
-        <input type="text" name="Telf" id="editTelf" required minlength="10" maxlength="10" pattern="\d+">
+        <input 
+            type="text" 
+            name="Telf" 
+            id="editTelf" 
+            placeholder="+593999999999" 
+            required 
+            pattern="\+593\d{9}" 
+            title="El número debe estar en el formato +593999999999">
       </div>
 
       <div class="form-group">

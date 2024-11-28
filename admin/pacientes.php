@@ -4,25 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
-        
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/pacientes.css">
     <title>Pacientes</title>
-    <style>
-        .popup{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-        .sub-table{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-</style>
+    
 </head>
 <body>
     <?php
-
-    //learn from w3schools.com
-
     session_start();
 
     if(isset($_SESSION["usuario"])){
@@ -35,249 +24,205 @@
 
     //import database
     include("../conexion_db.php");
-    
+
+    if($_POST){
+        $keyword=$_POST["search"];
+        
+        $sqlmain= "select * from paciente where pacusuario='$keyword' or pacnombre='$keyword' or pacnombre like '$keyword%' or pacnombre like '%$keyword' or pacnombre like '%$keyword%' ";
+    }else{
+        $sqlmain= "select * from paciente order by pacid desc";
+
+    }
+
+    // Ejecuta la consulta y cuenta los resultados
+    $result = $database->query($sqlmain);
+    $num_results = $result->num_rows; // Aquí se cuenta el número de doctores encontrados
     ?>
     <div class="container">
-        <div class="menu">
-            <table class="menu-container" border="0">
-                <tr>
-                    <td style="padding:10px" colspan="2">
-                        <table border="0" class="profile-container">
-                            <tr>
-                                <td width="30%" style="padding-left:20px" >
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
-                                </td>
-                                <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title">Administrador</p>
-                                    <!-- <p class="profile-subtitle">admin@edoc.com</p> -->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                <a href="../logout.php" ><input type="button" value="Cerrar sesión" class="logout-btn btn-primary-soft btn"></a>
-                                </td>
-                            </tr>
-                    </table>
-                    </td>
-                </tr>
-                <!-- <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-dashbord" >
-                        <a href="index.php" class="non-style-link-menu"><div><p class="menu-text">Dashboard</p></a></div></a>
-                    </td>
-                </tr> -->
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-doctor ">
-                        <a href="doctores.php" class="non-style-link-menu "><div><p class="menu-text">Doctores</p></a></div>
-                    </td>
-                </tr>
-                
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-patient  menu-active menu-icon-patient-active">
-                        <a href="pacientes.php" class="non-style-link-menu  non-style-link-menu-active"><div><p class="menu-text">Pacientes</p></a></div>
-                    </td>
-                </tr>
-
-                <tr class="menu-row">
-                    <td class="menu-btn menu-icon-appoinment menu-active menu-icon-appoinment-active">
-                        <a href="citas.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Citas agendadas</p></a></div>
-                    </td>
-                </tr>
-
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-schedule ">
-                        <a href="horarios.php" class="non-style-link-menu"><div><p class="menu-text">Horarios disponibles</p></div></a>
-                    </td>
-                </tr>
-
-            </table>
+    <div class="menu">
+            <div class="profile-container">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                <p class="profile-title">Administrador</p>
+            </div>
+            <a href="../logout.php"><button class="btn-logout">Cerrar sesión</button></a>
+            <div class="linea-separadora"></div>
+            <div class="menu-links">
+                <a href="dashboard.php" class="menu-link">Dashboard</a>
+                <a href="doctores.php" class="menu-link">Doctores</a>
+                <a href="pacientes.php" class="menu-link menu-link-active">Pacientes</a>
+                <a href="horarios2.php" class="menu-link">Horarios disponibles</a>
+                <a href="citas.php" class="menu-link">Citas agendadas</a>
+                <a href="opiniones_recibidas.php" class="menu-link">Opiniones recibidas</a>
+            </div>
         </div>
         <div class="dash-body">
-            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
-                <tr >
-                    <td width="13%">
+            <div class="header-actions">
+            <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
+            <div class="header-left">
+                <a href="pacientes.php">
+                    <button class="btn-action">← Atrás</button>
+                </a>
+                <form action="" method="post" class="search-bar">
+                    <input type="search" name="search" placeholder="Escribe el nombre del paciente" list="pacientes" value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>">
+                    <input type="submit" value="Buscar">
+                </form>
+            </div>
+        </div>
 
-                    <a href="pacientes.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
-                        
-                    </td>
-                    <td>
-                        
-                        <form action="" method="post" class="header-search">
+        <form action="" method="post" class="header-search">       
+            <?php
+                echo '<datalist id="pacientes">';
+                $list11 = $database->query("select  pacnombre,pacusuario from paciente;");
 
-                            <input type="search" name="search" class="input-text header-searchbar" placeholder="Busca con el nombre del paciente" list="pacientes">&nbsp;&nbsp;
-                            
-                            <?php
-                                echo '<datalist id="pacientes">';
-                                $list11 = $database->query("select  pacnombre,pacusuario from paciente;");
+                for ($y=0;$y<$list11->num_rows;$y++){
+                    $row00=$list11->fetch_assoc();
+                    $d=$row00["pacnombre"];
+                    $c=$row00["pacusuario"];
+                    echo "<option value='$d'><br/>";
+                    echo "<option value='$c'><br/>";
+                };
 
-                                for ($y=0;$y<$list11->num_rows;$y++){
-                                    $row00=$list11->fetch_assoc();
-                                    $d=$row00["pacnombre"];
-                                    $c=$row00["pacusuario"];
-                                    echo "<option value='$d'><br/>";
-                                    echo "<option value='$c'><br/>";
-                                };
-
-                            echo ' </datalist>';
-?>
-                            
-                       
-                            <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                        
-                        </form>
-                        
-                    </td>
-                    <!-- <td width="15%">
-                        <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
-                            Today's Date
-                        </p>
-                        <p class="heading-sub12" style="padding: 0;margin: 0;">
-                            <?php 
-                        //date_default_timezone_set('Asia/Kolkata');
-
-                        //$date = date('Y-m-d');
-                        //echo $date;
-                        ?>
-                        </p>
-                    </td>
-                    <td width="10%">
-                        <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
-                    </td> -->
-
-
-                </tr>
-               
-                <tr >
-                    <td colspan="2" style="padding-top:30px;">
-                        <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">Agregar nuevo paciente</p>
-                    </td>
-                    <td colspan="2">
-                        <a href="?action=add&id=none&error=0" class="non-style-link"><button  class="login-btn btn-primary btn button-icon"  style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image: url('../img/icons/add.svg');">Agregar nuevo</font></button>
-                            </a></td>
-                </tr>
-
-                <tr>
-                    <td colspan="4" style="padding-top:10px;">
-                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Todos los pacientes (<?php echo $list11->num_rows; ?>)</p>
-                    </td>
-                    
-                </tr>
-                <?php
-                    if($_POST){
-                        $keyword=$_POST["search"];
-                        
-                        $sqlmain= "select * from paciente where pacusuario='$keyword' or pacnombre='$keyword' or pacnombre like '$keyword%' or pacnombre like '%$keyword' or pacnombre like '%$keyword%' ";
-                    }else{
-                        $sqlmain= "select * from paciente order by pacid desc";
-
-                    }
-
-
-
-                ?>
-                  
-                <tr>
-                   <td colspan="4">
-                       <center>
-                        <div class="abc scroll">
-                        <table width="93%" class="sub-table scrolldown"  style="border-spacing:0;">
-                        <thead>
-                        <tr>
-                                <th class="table-headin">
-                                    
-                                
-                                Nombre
-                                
-                                </th>
-                                <th class="table-headin">
-                                    
-                                
-                                    Teléfono
-                                    
-                                </th>
-                                <th class="table-headin">
-                                
-                            
-                                Usuario
-                                
-                                </th>
-                                <th class="table-headin">
-                                    Acciones
-                                </th>
-                               
-                        </thead>
-                        <tbody>
-                        
-                            <?php
-
-                                
-                                $result= $database->query($sqlmain);
-
-                                if($result->num_rows==0){
-                                    echo '<tr>
-                                    <td colspan="4">
-                                    <br><br><br><br>
-                                    <center>
-                                    <img src="../img/notfound.svg" width="25%">
-                                    
-                                    <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="patient.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Patients &nbsp;</font></button>
-                                    </a>
-                                    </center>
-                                    <br><br><br><br>
-                                    </td>
-                                    </tr>';
-                                    
-                                }
-                                else{
-                                for ( $x=0; $x<$result->num_rows;$x++){
-                                    $row=$result->fetch_assoc();
-                                    $pacid=$row["pacid"];
-                                    $nombre=$row["pacnombre"];
-                                    $usuario=$row["pacusuario"];
-                                    /* $ci=$row["pacci"];
-                                    $fecnac=$row["pacfecnac"]; */
-                                    $telf=$row["pactelf"];
-                                    
-                                    echo '<tr>
-                                        <td> &nbsp;'.
-                                        substr($nombre,0,35)
-                                        .'</td>
-                                        
-                                        <td>
-                                            '.substr($telf,0,10).'
-                                        </td>
-                                        <td>
-                                        '.substr($usuario,0,20).'
-                                         </td>
-                                    
-
-                                        <td>
-                                        <div style="display:flex;justify-content: center;">
-                                        <a href="?action=edit&id='.$pacid.'&error=0" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Edit</font></button></a>
-                                        &nbsp;&nbsp;&nbsp;
-                                        <a href="?action=view&id='.$pacid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;
-                                       <a href="?action=drop&id='.$pacid.'&name='.$nombre.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Remove</font></button></a>
-                                        </div>
-                                        </td>
-
-
-
-                                    </tr>';
-                                    
-                                }
-                            }
+            echo ' </datalist>';
+            ?>                                             
+        </form> 
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-right: 15px; height: 50px;">
+            <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: center;">
+                Todos los Pacientes (<?php echo $num_results; ?>)
+            </p>
+            <a href="#" onclick="openModal()" class="non-style-link">
+                <button class="btn-add" style="align-self: center;">+ Agregar nuevo paciente</button>
+            </a>
+        </div>
                                  
-                            ?>
- 
-                            </tbody>
+                  
+            <tr>
+                <td colspan="4">
+                    <center>
+                    <div class="abc scroll">
+                    <table class="sub-table scrolldown" border="0">
+                    <thead>
+                    <tr>
+                            <th class="table-headin">
+                                
+                            
+                            Nombre del Paciente
+                            
+                            </th>
+                            <th class="table-headin">
+                            
+                        
+                            Usuario
+                            
+                            </th>
+                            <th class="table-headin">
+                                
+                            
+                                Teléfono
+                                
+                            </th>
+                            
+                            <th class="table-headin">
+                                Acciones
+                            </th>
+                            
+                    </thead>
+                    <tbody>
+                    
+                        <?php
 
-                        </table>
-                        </div>
-                        </center>
-                   </td> 
-                </tr>
+                            
+                            $result= $database->query($sqlmain);
+
+                            if($result->num_rows==0){
+                                echo '<tr>
+                                <td colspan="4">
+                                <br><br><br><br>
+                                <center>
+                                
+                                
+                                <br>
+                                <p class="heading-main12" style="margin-left: 45px;font-size:16px;color:rgb(49, 49, 49)">No se encontraron resultados para el nombre ingresado. Intenta con otro término o revisa si está correctamente escrito.</p>
+                                </center>
+                                <br><br><br><br>
+                                </td>
+                                </tr>';
+                                
+                            }
+                            else{
+                            for ( $x=0; $x<$result->num_rows;$x++){
+                                $row=$result->fetch_assoc();
+                                $pacid=$row["pacid"];
+                                $nombre=$row["pacnombre"];
+                                $usuario=$row["pacusuario"];
+                                /* $ci=$row["pacci"];
+                                $fecnac=$row["pacfecnac"]; */
+                                $telf=$row["pactelf"];
+                                
+                                echo '<tr>
+                                    <td>' . substr($nombre, 0, 30) . '</td>
+                                    <td>' . substr($usuario, 0, 20) . '</td>
+                                    <td>' . substr($telf, 0, 20) . '</td>
+                                    <td>
+                                        <div style="display:flex;justify-content: center;">
+                                        <a href="#" class="non-style-link">
+                                            <button 
+                                                class="btn-action edit-button" 
+                                                data-pacid="' . $pacid . '" 
+                                                data-name="' . htmlspecialchars($nombre, ENT_QUOTES) . '" 
+                                                data-usuario="' . htmlspecialchars($usuario, ENT_QUOTES) . '" 
+                                                data-ci="' . htmlspecialchars($row['pacci'], ENT_QUOTES) . '" 
+                                                data-telf="' . htmlspecialchars($row['pactelf'], ENT_QUOTES) . '" 
+                                                data-direccion="' . htmlspecialchars($row['pacdireccion'], ENT_QUOTES) . '" 
+                                                data-fecnac="' . htmlspecialchars($row['pacfecnac'], ENT_QUOTES) . '" 
+                                                style="padding-top: 12px; padding-bottom: 12px; margin-top: 5px;">
+                                                <font class="tn-in-text">Editar</font>
+                                            </button>
+                                        </a>                                    
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="#" class="non-style-link">
+                                            <button 
+                                                class="btn-action view-button" 
+                                                data-pacid="' . $pacid . '" 
+                                                data-name="' . htmlspecialchars($nombre, ENT_QUOTES) . '" 
+                                                data-usuario="' . htmlspecialchars($usuario, ENT_QUOTES) . '" 
+                                                data-ci="' . htmlspecialchars($row['pacci'], ENT_QUOTES) . '" 
+                                                data-telf="' . htmlspecialchars($row['pactelf'], ENT_QUOTES) . '" 
+                                                data-direccion="' . htmlspecialchars($row['pacdireccion'], ENT_QUOTES) . '" 
+                                                data-fecnac="' . htmlspecialchars($row['pacfecnac'], ENT_QUOTES) . '" 
+                                                style="padding-top: 12px; padding-bottom: 12px; margin-top: 5px;">
+                                                <font class="tn-in-text">Ver más</font>
+                                            </button>
+                                        </a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a href="#" class="non-style-link">
+                                        <button 
+                                            class="btn-action delete-button" 
+                                            data-pacid="' . $pacid . '" 
+                                            data-name="' . htmlspecialchars($nombre, ENT_QUOTES) . '" 
+                                            style="padding-top: 12px; padding-bottom: 12px; margin-top: 5px;">
+                                            <font class="tn-in-text">Eliminar</font>
+                                        </button>
+                                    </a>
+                                    </div>
+                                    </td>
+
+
+
+                                </tr>';
+                                
+                            }
+                        }
+                                
+                        ?>
+
+                        </tbody>
+
+                    </table>
+                    </div>
+                    </center>
+                </td> 
+            </tr>
                        
                         
                         
