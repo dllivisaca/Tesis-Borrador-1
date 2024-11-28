@@ -14,6 +14,20 @@
     <?php
     session_start();
 
+    if (isset($_GET['success']) && $_GET['success'] == 1) {
+        echo '<script>
+            window.onload = function() {
+                document.getElementById("successModal").style.display = "flex";
+            };
+        </script>';
+        // Elimina el parámetro "success" de la URL sin recargar la página
+        echo '<script>
+            const url = new URL(window.location.href);
+            url.searchParams.delete("success");
+            window.history.replaceState({}, document.title, url.toString());
+        </script>';
+    }
+    
     if(isset($_SESSION["usuario"])){
         if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
             header("location: ../login.php");
@@ -851,6 +865,125 @@
 
 ?> -->
 </div>
+<div id="addPatientModal" class="overlay" style="display: none;">
+    <div class="popup">
+        <h2>Agregar Nuevo Paciente</h2>
+        <form action="agregar_paciente.php" method="POST" class="patient-form" onsubmit="return validatePatientForm()">
+            <div class="form-group">
+                <label for="name">Nombre del Paciente:</label>
+                <input type="text" name="name" id="name" placeholder="Nombre del paciente" required minlength="4">
+            </div>
+            <div class="form-group">
+                <label for="usuario">Usuario:</label>
+                <input type="text" name="usuario" id="usuario" placeholder="Nombre de usuario" required minlength="4">
+            </div>
+            <div class="form-group">
+                <label for="ci">CI:</label>
+                <input type="text" name="ci" id="ci" placeholder="Número de CI" required minlength="10" maxlength="10" pattern="\d+">
+            </div>
+            <div class="form-group">
+                <label for="Telf">Teléfono:</label>
+                <input 
+                    type="text" 
+                    name="Telf" 
+                    id="Telf" 
+                    placeholder="+593999999999" 
+                    required 
+                    pattern="\+593\d{9}" 
+                    title="El número debe estar en el formato +593999999999">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección:</label>
+                <input type="text" name="direccion" id="direccion" placeholder="Dirección del paciente" required minlength="5">
+            </div>
+            <div class="form-group">
+                <label for="fecnac">Fecha de Nacimiento:</label>
+                <input type="date" name="fecnac" id="fecnac" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                    placeholder="Contraseña" 
+                    required 
+                    minlength="8"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+                    onfocus="showPasswordMessage()" 
+                    onblur="hidePasswordMessage()">
+                <small id="passwordMessage" class="password-rules" style="display: none;">Mínimo 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.</small>
+            </div>
+            <div class="form-group">
+                <label for="cpassword">Confirmar Contraseña:</label>
+                <input type="password" name="cpassword" id="cpassword" placeholder="Confirmar Contraseña" required>
+            </div>
+            <div class="form-buttons">
+                <button type="submit">Guardar</button>
+                <button type="button" onclick="closeModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="successModal" class="overlay" style="display: none;">
+    <div class="popup">
+        <h2>¡Paciente agregado con éxito!</h2>
+        <div class="content">
+            El nuevo paciente ha sido registrado correctamente en el sistema.
+        </div>
+        <div class="form-buttons">
+            <button onclick="closeSuccessModal()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function closeSuccessModal() {
+    document.getElementById("successModal").style.display = "none";
+}
+
+// Mostrar el modal si success=1 está en la URL
+if (window.location.search.includes('success=1')) {
+    document.getElementById("successModal").style.display = "flex";
+
+    // Elimina el parámetro "success" de la URL sin recargar la página
+    const url = new URL(window.location.href);
+    url.searchParams.delete('success');
+    window.history.replaceState({}, document.title, url.toString());
+}
+
+  function openModal() {
+      document.getElementById("addPatientModal").style.display = "flex";
+  }
+
+  function closeModal() {
+      document.getElementById("addPatientModal").style.display = "none";
+  }
+
+  function validatePatientForm() {
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('cpassword').value;
+
+      if (password !== confirmPassword) {
+          alert('Las contraseñas no coinciden.');
+          return false;
+      }
+      return true;
+  }
+
+  function showPasswordMessage() {
+      document.getElementById('passwordMessage').style.display = 'block';
+  }
+
+  function hidePasswordMessage() {
+      document.getElementById('passwordMessage').style.display = 'none';
+  }
+
+</script>
+
 
 </body>
 </html>
