@@ -1,3 +1,17 @@
+.content_box {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+}
+
+/* Contenedor de la tabla de horarios para limitar su tamaño */
+.horario-container {
+    width: 50%;  /* Esto limitará el tamaño de la tabla al 50% del contenedor */
+    margin: 0 auto;  /* Centrará el contenedor de la tabla */
+    max-width: 600px;  /* Limitará el ancho máximo para que no se expanda demasiado */
+}
+
 .header-inline {
     display: flex !important;
     align-items: center !important; /* Alinea verticalmente los elementos */
@@ -49,38 +63,63 @@
     color: #333;
 }
 
+.horario-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.horario-table th, .horario-table td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Opcional: mejora visual de los elementos de la tabla */
+.horario-table th {
+    background-color: #f2f2f2; /* Color de fondo para los encabezados */
+    font-weight: bold;
+}
+
+.horario-table td {
+    font-size: 14px;
+}
+
+.horario-table td select {
+    width: 90px;  /* Ajusta el ancho de los selectores para que se vean uniformes */
+}
+
+select {
+    padding: 5px;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
 .buttons-container {
     display: flex;
-    justify-content: center; /* Centra los botones horizontalmente */
-    align-items: center; /* Alinea los botones verticalmente */
-    position: relative; /* Relativo para ubicar la línea */
-    gap: 10px; /* Espacio entre los botones */
+    align-items: center;
+    position: relative;
     margin-top: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
 }
 
 .tab_btn {
-    padding: 8px 20px;
+    padding: 8px 15px;
     border: none;
-    border-radius: 5px;
-    background-color: #ccc;
+    background: none;
     color: #666;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
-    position: relative;
+    transition: color 0.3s ease;
 }
 
 .tab_btn.active {
-    background-color: #007BFF; /* Fondo azul para el botón activo */
-    color: #fff; /* Texto blanco para el botón activo */
+    color: #007BFF;
 }
 
 .line {
     position: absolute;
-    bottom: -5px; /* Ajusta la línea un poco más abajo de los botones */
-    height: 3px;
-    width: 100px; /* Puedes ajustar el ancho inicial o calcularlo dinámicamente */
+    bottom: -1px;
+    height: 2px;
     background-color: #007BFF;
-    transition: all 0.3s ease; /* Transición suave para el movimiento */
+    transition: all 0.3s ease;
 }
-
-

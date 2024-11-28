@@ -864,13 +864,13 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
             }
 
             tabs.forEach((tab) => {
-                tab.addEventListener('click', (e) => {
+                tab.addEventListener('click', (e) => { 
                     // Desactivar todas las pestañas
                     tabs.forEach(tab => tab.classList.remove('active'));
                     // Activar la pestaña clicada
-                    tab.classList.add('active');
+                    e.target.classList.add('active');
                     // Actualizar la posición de la línea
-                    updateLinePosition(tab);
+                    updateLinePosition(e.target);
                 });
             });
 
