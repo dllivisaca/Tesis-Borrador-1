@@ -657,6 +657,24 @@
 ?>
 </div>
 
+<div id="viewPatientModal" class="overlay" style="display: none;">
+    <div class="popup">
+        <h2>Detalles del Paciente</h2>
+        <div class="content">
+            <p><strong>Nombre:</strong> <span id="viewPacName"></span></p>
+            <p><strong>Usuario:</strong> <span id="viewPacUsuario"></span></p>
+            <p><strong>CI:</strong> <span id="viewPacCi"></span></p>
+            <p><strong>Teléfono:</strong> <span id="viewPacTelf"></span></p>
+            <p><strong>Dirección:</strong> <span id="viewPacDireccion"></span></p>
+            <p><strong>Fecha de Nacimiento:</strong> <span id="viewPacFecNac"></span></p>
+        </div>
+        <div class="form-buttons">
+            <button onclick="closeViewPatientModal()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+
 <div id="editPatientModal" class="overlay" style="display: none;">
     <div class="popup">
         <h2>Editar Detalles del Paciente</h2>
@@ -875,6 +893,38 @@ if (window.location.search.includes('success=1')) {
     function hideEditPasswordMessage() {
     document.getElementById('editPasswordMessage').style.display = 'none';
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const viewButtons = document.querySelectorAll('.view-button');
+    
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Obtén los datos del paciente desde los atributos data-*
+            const name = this.getAttribute('data-name');
+            const usuario = this.getAttribute('data-usuario');
+            const ci = this.getAttribute('data-ci');
+            const telf = this.getAttribute('data-telf');
+            const direccion = this.getAttribute('data-direccion');
+            const fecnac = this.getAttribute('data-fecnac');
+
+            // Llena los campos del modal con los datos obtenidos
+            document.getElementById('viewPacName').textContent = name;
+            document.getElementById('viewPacUsuario').textContent = usuario;
+            document.getElementById('viewPacCi').textContent = ci;
+            document.getElementById('viewPacTelf').textContent = telf;
+            document.getElementById('viewPacDireccion').textContent = direccion;
+            document.getElementById('viewPacFecNac').textContent = fecnac;
+
+            // Muestra el modal
+            document.getElementById('viewPatientModal').style.display = 'flex';
+        });
+    });
+});
+
+function closeViewPatientModal() {
+    document.getElementById('viewPatientModal').style.display = 'none';
+}
+
 
   document.addEventListener('DOMContentLoaded', function () {
     const editButtons = document.querySelectorAll('.edit-button');
