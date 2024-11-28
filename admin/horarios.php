@@ -58,19 +58,20 @@
                 </p>
             </div>
         </div>
-
         <div class="filter-row">
-            <label for="docid">Doctor:</label>
-            <select name="docid" id="docid" class="box filter-container-items">
-                <option value="" disabled selected hidden>Escoge un doctor de la lista</option>
-                <?php 
-                    $list11 = $database->query("select * from doctor order by docnombre asc;");
-                    while ($row = $list11->fetch_assoc()) {
-                        echo "<option value='".$row["docid"]."'>".$row["docnombre"]."</option>";
-                    }
-                ?>
-            </select>
-            <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Buscar</button>
+            <form method="POST" action="horarios.php">
+                <label for="docid">Doctor:</label>
+                <select name="docid" id="docid" class="box filter-container-items">
+                    <option value="" disabled selected hidden>Escoge un doctor de la lista</option>
+                    <?php 
+                        $list11 = $database->query("select * from doctor order by docnombre asc;");
+                        while ($row = $list11->fetch_assoc()) {
+                            echo "<option value='".$row["docid"]."'>".$row["docnombre"]."</option>";
+                        }
+                    ?>
+                </select>
+                <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Buscar</button>
+            </form>
         </div>
 
                 
