@@ -600,7 +600,7 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                     <div class="line"></div>
                 </div>
             
-
+            <div class="content_wrapper">
                 <!-- Contenido de Horario Personalizado -->
                 <div class="content_box">
                     <?php if ($tipo_horario === 'personalizado') : ?>
@@ -667,6 +667,7 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                         </div>
                     <?php endif; ?>
                 </div>
+            </div>
 
                 <!-- Contenido de Horario Fijo -->
                 <div class="content_box">

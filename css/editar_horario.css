@@ -1,14 +1,23 @@
-.content_box {
+/* Contenedor general que ocupa toda la pantalla */
+.content_wrapper {
     display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 10px;
+    justify-content: flex-end;  /* Alinea el contenido hacia la derecha */
+    padding: 20px;  /* Espaciado para que no esté pegado al borde */
+}
+
+.content_box {
+    width: 50%;  /* Cambia este valor si deseas ajustar más o menos espacio */
+    max-width: 600px;  /* Limitar el ancho máximo para que no se expanda demasiado */
+    background-color: #ffffff;  /* Fondo blanco para destacarlo */
+    padding: 20px;  /* Espaciado interno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra para darle más definición */
+    border-radius: 8px;  /* Bordes redondeados */
 }
 
 /* Contenedor de la tabla de horarios para limitar su tamaño */
 .horario-container {
-    width: 50%;  /* Esto limitará el tamaño de la tabla al 50% del contenedor */
-    margin: 0 auto;  /* Centrará el contenedor de la tabla */
+    width: 45%;  /* Esto limitará el tamaño de la tabla al 50% del contenedor */
+    margin: 0;  /* Centrará el contenedor de la tabla */
     max-width: 600px;  /* Limitará el ancho máximo para que no se expanda demasiado */
 }
 
@@ -123,3 +132,4 @@ select {
     background-color: #007BFF;
     transition: all 0.3s ease;
 }
+
