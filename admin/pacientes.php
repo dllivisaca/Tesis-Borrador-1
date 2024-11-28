@@ -12,8 +12,20 @@
 </head>
 <body>
     <?php
+    error_reporting(E_ERROR | E_PARSE);
+
     session_start();
 
+    // Verificar que el usuario esté autenticado y tenga permisos
+    if(isset($_SESSION["usuario"])){
+        if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
+            header("location: ../login.php");
+        }
+    }else{
+        header("location: ../login.php");
+    }
+
+    // Manejo de mensajes de éxito
     if (isset($_GET['success']) && $_GET['success'] == 1) {
         echo '<script>
             window.onload = function() {
@@ -28,13 +40,41 @@
         </script>';
     }
     
-    if(isset($_SESSION["usuario"])){
-        if(($_SESSION["usuario"])=="" or $_SESSION['usuario_rol']!='adm'){
-            header("location: ../login.php");
+    // Manejo de errores
+    if (isset($_GET['error'])) {
+        $error = $_GET['error'];
+        $errorMessage = '';
+
+        switch ($error) {
+            case '1':
+                $errorMessage = "Ya existe una cuenta con este nombre de usuario.";
+                break;
+            case '2':
+                $errorMessage = "Las contraseñas no coinciden.";
+                break;
+            case '3':
+                $errorMessage = "Faltan datos obligatorios. Por favor, completa todos los campos.";
+                break;
+            default:
+                $errorMessage = "Ocurrió un error desconocido.";
         }
-    }else{
-        header("location: ../login.php");
+
+        if (!empty($errorMessage)) {
+            echo '<script>
+                window.onload = function() {
+                    alert("' . addslashes($errorMessage) . '");
+                };
+            </script>';
+        }
+
+        // Elimina el parámetro de la URL sin recargar la página
+        echo '<script>
+            const url = new URL(window.location.href);
+            url.searchParams.delete("error");
+            window.history.replaceState({}, document.title, url.toString());
+        </script>';
     }
+    
 
     //import database
     include("../conexion_db.php");
@@ -246,8 +286,9 @@
     <?php 
     if($_GET){
         
-        $id=$_GET["id"];
-        $action=$_GET["action"];
+        $id = isset($_GET["id"]) ? $_GET["id"] : null;
+        $action = isset($_GET["action"]) ? $_GET["action"] : null;
+
         if($action=='drop'){
             $nameget=$_GET["name"];
             echo '
