@@ -45,9 +45,15 @@
         echo '<script>
             window.onload = function() {
                 alert("No se realizaron cambios en los datos del paciente.");
+                
+                // Eliminar el parámetro de la URL después de mostrar la alerta
+                const url = new URL(window.location.href);
+                url.searchParams.delete("edit_success");
+                window.history.replaceState({}, document.title, url.toString());
             };
         </script>';
     }
+    
 
     // Manejo de mensajes de éxito
     if (isset($_GET['success']) && $_GET['success'] == 1) {
@@ -345,12 +351,6 @@
             $telf=$row["pactelf"];
             $direccion=$row["pacdireccion"];
             
-            
-            /* $especial_res= $database->query("select espnombre from especialidades where id='$espe'");
-            $especial_array= $especial_res->fetch_assoc();
-            $especial_name=$especial_array["espnombre"];
-            $ci=$row['docci'];
-            $telf=$row['doctelf']; */
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -453,145 +453,6 @@
             </div>
             </div>
             ';
-
-        }elseif($action=='add'){
-            $error_1=$_GET["error"];
-            $errorlist= array(
-                '1'=>'<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>',
-                '2'=>'<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Conformation Error! Reconform Password</label>',
-                '3'=>'<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>',
-                '4'=>"",
-                '0'=>'',
-
-            );
-            if($error_1!='4'){
-            echo '
-        <div id="popup1" class="overlay">
-                <div class="popup">
-                <center>
-                
-                    <a class="close" href="doctores.php">&times;</a> 
-                    <div style="display: flex;justify-content: center;">
-                    <div class="abc">
-                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                    <tr>
-                            <td class="label-td" colspan="2">'.
-                                $errorlist[$error_1]
-                            .'</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Agregar nuevo paciente.</p><br><br>
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <form action="agregar_paciente.php" method="POST" class="agregar_paciente-form">
-                            <td class="label-td" colspan="2">
-                                <label for="name" class="form-label">Nombre: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="text" name="name" class="input-text" placeholder="Nombre del paciente" required><br>
-                            </td>
-                            
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label for="Usuario" class="form-label">Usuario: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="text" name="usuario" class="input-text" placeholder="Usuario del paciente" required><br>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label for="ci" class="form-label">CI: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="text" name="ci" class="input-text" placeholder="Número de cédula" required><br>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label for="Telf" class="form-label">Teléfono: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="tel" name="Telf" class="input-text" placeholder="Número de teléfono" required><br>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label for="direccion" class="form-label">Dirección: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="text" name="direccion" class="input-text" placeholder="Dirección" required><br>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label for="fecnac" class="form-label">Fecha de nacimiento: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="date" name="fecnac" class="input-text" placeholder="Fecha de nacimiento" required><br>
-                            </td>
-                        </tr>
-                        
-                        
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label for="password" class="form-label">Password: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="password" name="password" class="input-text" placeholder="Defind a Password" required><br>
-                            </td>
-                        </tr><tr>
-                            <td class="label-td" colspan="2">
-                                <label for="cpassword" class="form-label">Conform Password: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="password" name="cpassword" class="input-text" placeholder="Conform Password" required><br>
-                            </td>
-                        </tr>
-                        
-            
-                        <tr>
-                            <td colspan="2">
-                                <input type="reset" value="Reset" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            
-                                <input type="submit" value="Add" class="login-btn btn-primary btn">
-                            </td>
-            
-                        </tr>
-                       
-                        </form>
-                        </tr>
-                    </table>
-                    </div>
-                    </div>
-                </center>
-                <br><br>
-        </div>
-        </div>
-        ';
-
         }else{
             echo '
                 <div id="popup1" class="overlay">
@@ -792,144 +653,10 @@
 
 
     }; };
-};
-
+;
 ?>
-
-
-
-
-
-
-
-
-
-
-<!--             /* $sqlmain= "select * from paciente where pacid='$id'";
-            $result= $database->query($sqlmain);
-            $row=$result->fetch_assoc();
-            $name=$row["pname"];
-            $email=$row["pemail"];
-            $nic=$row["pnic"];
-            $dob=$row["pdob"];
-            $tele=$row["ptel"];
-            $address=$row["paddress"];
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <a class="close" href="patient.php">&times;</a>
-                        <div class="content">
-
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View Details.</p><br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Patient ID: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    P-'.$id.'<br><br>
-                                </td>
-                                
-                            </tr>
-                            
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Name: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    '.$name.'<br><br>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Email: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$email.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">NIC: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$nic.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Teléfono: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$tele.'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Address: </label>
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                            '.$address.'<br><br>
-                            </td>
-                            </tr>
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Date of Birth: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    '.$dob.'<br><br>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="patient.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-                                
-                                    
-                                </td>
-                
-                            </tr>
-                           
-
-                        </table>
-                        </div>
-                    </center>
-                    <br><br>
-            </div>
-            </div>
-            '; */
-        
-    };
-
-?> -->
 </div>
+
 <div id="editPatientModal" class="overlay" style="display: none;">
     <div class="popup">
         <h2>Editar Detalles del Paciente</h2>
@@ -974,6 +701,28 @@
                 <input type="date" name="fecnac" id="editFecnac" required>
             </div>
 
+            <!-- Campos para editar contraseña -->
+            <div class="form-group">
+                <label for="editPassword">Nueva Contraseña:</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    id="editPassword" 
+                    minlength="8" 
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" 
+                    placeholder="Deja vacío si no deseas cambiarla"
+                    onfocus="showEditPasswordMessage()"
+                    onblur="hideEditPasswordMessage()">
+                <small id="editPasswordMessage" class="password-rules" style="display: none;">
+                    Mínimo 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="editCPassword">Confirmar Nueva Contraseña:</label>
+                <input type="password" name="cpassword" id="editCPassword" placeholder="Confirmar nueva contraseña">
+            </div>
+
             <div class="form-buttons">
                 <button type="submit">Guardar</button>
                 <button type="button" onclick="closeEditPatientModal()">Cancelar</button>
@@ -983,64 +732,65 @@
 </div>
 
 <div id="addPatientModal" class="overlay" style="display: none;">
-    <div class="popup">
-        <h2>Agregar Nuevo Paciente</h2>
-        <form action="agregar_paciente.php" method="POST" class="patient-form" onsubmit="return validatePatientForm()">
-            <div class="form-group">
-                <label for="name">Nombre del Paciente:</label>
-                <input type="text" name="name" id="name" placeholder="Nombre del paciente" required minlength="4">
-            </div>
-            <div class="form-group">
-                <label for="usuario">Usuario:</label>
-                <input type="text" name="usuario" id="usuario" placeholder="Nombre de usuario" required minlength="4">
-            </div>
-            <div class="form-group">
-                <label for="ci">CI:</label>
-                <input type="text" name="ci" id="ci" placeholder="Número de CI" required minlength="10" maxlength="10" pattern="\d+">
-            </div>
-            <div class="form-group">
-                <label for="Telf">Teléfono:</label>
-                <input 
-                    type="text" 
-                    name="Telf" 
-                    id="Telf" 
-                    placeholder="+593999999999" 
-                    required 
-                    pattern="\+593\d{9}" 
-                    title="El número debe estar en el formato +593999999999">
-            </div>
-            <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" name="direccion" id="direccion" placeholder="Dirección del paciente" required minlength="5">
-            </div>
-            <div class="form-group">
-                <label for="fecnac">Fecha de Nacimiento:</label>
-                <input type="date" name="fecnac" id="fecnac" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Contraseña:</label>
-                <input 
-                    type="password" 
-                    name="password" 
-                    id="password" 
-                    placeholder="Contraseña" 
-                    required 
-                    minlength="8"
-                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
-                    onfocus="showPasswordMessage()" 
-                    onblur="hidePasswordMessage()">
-                <small id="passwordMessage" class="password-rules" style="display: none;">Mínimo 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.</small>
-            </div>
-            <div class="form-group">
-                <label for="cpassword">Confirmar Contraseña:</label>
-                <input type="password" name="cpassword" id="cpassword" placeholder="Confirmar Contraseña" required>
-            </div>
-            <div class="form-buttons">
-                <button type="submit">Guardar</button>
-                <button type="button" onclick="closeModal()">Cancelar</button>
-            </div>
-        </form>
-    </div>
+  <div class="popup">
+    <h2>Agregar Nuevo Paciente</h2>
+    <form action="agregar_paciente.php" method="POST" class="patient-form" onsubmit="return validatePatientForm()">
+      <div class="form-group">
+        <label for="name">Nombre del Paciente:</label>
+        <input type="text" name="name" id="name" placeholder="Nombre del paciente" required minlength="4">
+      </div>
+      <div class="form-group">
+        <label for="usuario">Usuario:</label>
+        <input type="text" name="usuario" id="usuario" placeholder="Nombre de usuario" required minlength="4">
+      </div>
+      <div class="form-group">
+        <label for="ci">CI:</label>
+        <input type="text" name="ci" id="ci" placeholder="Número de CI" required minlength="10" maxlength="10" pattern="\d+">
+      </div>
+      <div class="form-group">
+        <label for="Telf">Teléfono:</label>
+        <input 
+            type="text" 
+            name="Telf" 
+            id="Telf" 
+            placeholder="+593999999999" 
+            required 
+            pattern="\+593\d{9}" 
+            title="El número debe estar en el formato +593999999999">
+      </div>
+      <div class="form-group">
+        <label for="direccion">Dirección:</label>
+        <input type="text" name="direccion" id="direccion" placeholder="Dirección del paciente" required minlength="5">
+      </div>
+      <div class="form-group">
+        <label for="fecnac">Fecha de Nacimiento:</label>
+        <input type="date" name="fecnac" id="fecnac" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input 
+            type="password" 
+            name="password" 
+            id="password" 
+            placeholder="Contraseña" 
+            required 
+            minlength="8"
+            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+            onfocus="showPasswordMessage()" 
+            onblur="hidePasswordMessage()">
+        <small id="passwordMessage" class="password-rules" style="display: none;">Mínimo 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.</small>
+      </div>
+      <div class="form-group">
+        <label for="cpassword">Confirmar Contraseña:</label>
+        <input type="password" name="cpassword" id="cpassword" placeholder="Confirmar Contraseña" required>
+      </div>
+      <div class="form-buttons">
+        <button type="submit">Guardar</button>
+        <button type="button" onclick="closeModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div id="editSuccessModal" class="overlay" style="display: none;">
@@ -1117,6 +867,14 @@ if (window.location.search.includes('success=1')) {
   function hidePasswordMessage() {
       document.getElementById('passwordMessage').style.display = 'none';
   }
+
+  function showEditPasswordMessage() {
+    document.getElementById('editPasswordMessage').style.display = 'block';
+    }
+
+    function hideEditPasswordMessage() {
+    document.getElementById('editPasswordMessage').style.display = 'none';
+    }
 
   document.addEventListener('DOMContentLoaded', function () {
     const editButtons = document.querySelectorAll('.edit-button');

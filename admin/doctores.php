@@ -1109,13 +1109,14 @@ function hideEditPasswordMessage() {
       </div>
 
       <div class="form-group">
-        <label for="editPassword">Contraseña:</label>
+        <label for="editPassword">Nueva Contraseña:</label>
         <input
           type="password"
           name="password"
           id="editPassword"
           minlength="8"
           pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+            placeholder="Deja vacío si no deseas cambiarla"
           onfocus="showEditPasswordMessage()"
           onblur="hideEditPasswordMessage()"
         >
@@ -1125,8 +1126,8 @@ function hideEditPasswordMessage() {
       </div>
 
       <div class="form-group">
-        <label for="editCPassword">Confirmar Contraseña:</label>
-        <input type="password" name="cpassword" id="editCPassword">
+        <label for="editCPassword">Confirmar Nueva Contraseña:</label>
+        <input type="password" name="cpassword" id="editCPassword" placeholder="Confirmar nueva contraseña">
       </div>
 
       <div class="form-buttons">
