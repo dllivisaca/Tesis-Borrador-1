@@ -102,16 +102,28 @@ if (isset($_GET['delete_success'])) {
         window.history.replaceState({}, document.title, url.toString());
     </script>';
 } elseif (isset($_GET['error'])) {
-    if ($_GET['error'] == 'doctor_not_found') {
+    // Manejar diferentes errores
+    $error = $_GET['error'];
+    $errorMessage = '';
+
+    switch ($error) {
+        case '1':
+            $errorMessage = "Ya existe una cuenta con este nombre de usuario.";
+            break;
+        case '2':
+            $errorMessage = "Las contraseñas no coinciden.";
+            break;
+        case '3':
+            $errorMessage = "Faltan datos en el formulario. Por favor, completa todos los campos.";
+            break;
+        default:
+            $errorMessage = "Ocurrió un error desconocido.";
+    }
+
+    if (!empty($errorMessage)) {
         echo '<script>
             window.onload = function() {
-                alert("Doctor no encontrado.");
-            };
-        </script>';
-    } elseif ($_GET['error'] == 'invalid_id') {
-        echo '<script>
-            window.onload = function() {
-                alert("ID inválido.");
+                alert("' . addslashes($errorMessage) . '");
             };
         </script>';
     }
@@ -136,8 +148,6 @@ if (isset($_GET['delete_success'])) {
     // Ejecuta la consulta y cuenta los resultados
     $result = $database->query($sqlmain);
     $num_results = $result->num_rows; // Aquí se cuenta el número de doctores encontrados
-    
-   
     ?>
     
 
@@ -208,8 +218,6 @@ if (isset($_GET['delete_success'])) {
                     }else{
                         $sqlmain= "select * from doctor order by docid desc";
                     }
-
-                    
                 ?>
                   
                 <tr>
@@ -330,7 +338,6 @@ if (isset($_GET['delete_success'])) {
                                     
                                 }
                             }
-                                 
                             ?>
  
                             </tbody>
@@ -675,7 +682,6 @@ if (isset($_GET['delete_success'])) {
 
         }; };
     ;
-
 ?>
 </div>
 
@@ -828,7 +834,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const id = this.getAttribute('data-id');
             
             // Llena el modal con los datos del doctor
-            document.getElementById('deleteDoctorName').textContent = name;
+            document.getElementById('deleteDoctorName').textContent = name.trim();
             document.getElementById('confirmDeleteButton').setAttribute('data-id', id);
 
             // Muestra el modal
@@ -974,7 +980,7 @@ function hideEditPasswordMessage() {
 </script>
 <div id="editSuccessModal" class="overlay" style="display: none;">
     <div class="popup">
-        <a href="#" class="close" onclick="closeEditSuccessModal()">×</a>
+        <!-- <a href="#" class="close" onclick="closeEditSuccessModal()">×</a> -->
         <h2>¡Doctor editado con éxito!</h2>
         <div class="content">
             Los detalles del doctor han sido actualizados correctamente.
@@ -987,7 +993,7 @@ function hideEditPasswordMessage() {
 
 <div id="noChangesModal" class="overlay" style="display: none;">
   <div class="popup">
-    <a href="#" class="close" onclick="closeNoChangesModal()">×</a>
+    <!-- <a href="#" class="close" onclick="closeNoChangesModal()">×</a> -->
     <h2>Sin Cambios Realizados</h2>
     <div class="content">
       No se realizaron cambios en los datos del doctor.
@@ -1001,7 +1007,7 @@ function hideEditPasswordMessage() {
 
 <div id="successModal" class="overlay" style="display: none;">
   <div class="popup">
-    <a href="#" class="close" onclick="closeSuccessModal()">×</a>
+    <!-- <a href="#" class="close" onclick="closeSuccessModal()">×</a> -->
     <h2>¡Doctor agregado con éxito!</h2>
     <div class="content">
       El nuevo doctor ha sido registrado correctamente en el sistema.
@@ -1014,7 +1020,7 @@ function hideEditPasswordMessage() {
 
 <div id="deleteDoctorModal" class="overlay" style="display: none;">
     <div class="popup">
-        <a href="#" class="close" onclick="closeDeleteModal()">×</a>
+        <!-- <a href="#" class="close" onclick="closeDeleteModal()">×</a> -->
         <h2>Confirmar Eliminación</h2>
         <div class="content">
             <p>¿Estás seguro de que deseas eliminar al doctor <span id="deleteDoctorName"></span>?</p>
@@ -1029,7 +1035,7 @@ function hideEditPasswordMessage() {
 
 <div id="viewDoctorModal" class="overlay" style="display: none;">
   <div class="popup">
-    <a href="#" class="close" onclick="closeViewModal()">×</a>
+    <!-- <a href="#" class="close" onclick="closeViewModal()">×</a> -->
     <h2>Detalles del Doctor</h2>
     <div class="content">
       <p><strong>Nombre:</strong> <span id="viewName"></span></p>
@@ -1047,7 +1053,7 @@ function hideEditPasswordMessage() {
 
 <div id="editDoctorModal" class="overlay" style="display: none;">
   <div class="popup">
-    <a href="#" class="close" onclick="closeEditModal()">×</a>
+    <!-- <a href="#" class="close" onclick="closeEditModal()">×</a> -->
     <h2>Editar Detalles del Doctor</h2>
     <form action="editar_doctor.php" method="POST" class="doctor-form" onsubmit="return validateEditForm()">
       <input type="hidden" name="id00" id="editId">

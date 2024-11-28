@@ -1,81 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
-        
-    <title>Doctor</title>
-    <style>
-        .popup{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-    </style>
-</head>
-<body>
-    <?php
-    session_start();
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-    if (isset($_SESSION["usuario"])) {
-        if (($_SESSION["usuario"]) == "" || $_SESSION['usuario_rol'] != 'adm') {
-            header("location: ../login.php");
-        }
-    } else {
+session_start();
+
+if (isset($_SESSION["usuario"])) {
+    if (($_SESSION["usuario"]) == "" || $_SESSION['usuario_rol'] != 'adm') {
         header("location: ../login.php");
+        exit();
     }
-    
-    // Import database
-    include("../conexion_db.php");
+} else {
+    header("location: ../login.php");
+    exit();
+}
 
-    if ($_POST) {
-        $result = $database->query("select * from usuarios");
+// Importar la conexión a la base de datos
+include("../conexion_db.php");
 
-        // Recoger los datos del formulario
-        $name = $_POST['name'];
-        $ci = $_POST['ci'];
-        $espec = $_POST['espec'];
-        $usuario = $_POST['usuario'];
-        $telf = $_POST['Telf'];
-        $password = $_POST['password'];
-        $cpassword = $_POST['cpassword'];
+if ($_POST) {
+    // Recoger los datos del formulario
+    $name = $_POST['name'];
+    $ci = $_POST['ci'];
+    $espec = $_POST['espec'];
+    $usuario = $_POST['usuario'];
+    $telf = $_POST['Telf'];
+    $password = $_POST['password'];
+    $cpassword = $_POST['cpassword'];
 
-        if ($password == $cpassword) {
-            $error = '3';
-            
-            // Comprobar si el usuario ya existe
-            $result = $database->query("select * from usuarios where usuario='$usuario';");
-            if ($result->num_rows == 1) {
-                $error = '1';
-            } else {
-                // Hash de la contraseña antes de guardarla
-                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-                // Insertar el doctor y el usuario en las respectivas tablas
-                $sql1 = "insert into doctor(docusuario,docnombre,docpassword,docci,doctelf,especialidades) 
-                         values('$usuario','$name','$hashedPassword','$ci','$telf',$espec);";
-                $sql2 = "insert into usuarios values('$usuario','doc','$ci')";
-
-                $database->query($sql1);
-                $database->query($sql2);
-
-                $error = '4';
-            }
+    if ($password == $cpassword) {
+        // Comprobar si el usuario ya existe
+        $result = $database->query("SELECT * FROM usuarios WHERE usuario='$usuario';");
+        if ($result->num_rows == 1) {
+            $error = '1'; // Usuario ya existe
         } else {
-            $error = '2'; // Error de confirmación de contraseña
+            // Hash de la contraseña antes de guardarla
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+            // Insertar el doctor y el usuario en las respectivas tablas
+            $sql1 = "INSERT INTO doctor (docusuario, docnombre, docpassword, docci, doctelf, especialidades) 
+                     VALUES ('$usuario', '$name', '$hashedPassword', '$ci', '$telf', $espec);";
+            $sql2 = "INSERT INTO usuarios VALUES ('$usuario', 'doc', '$ci')";
+
+            $database->query($sql1);
+            if ($database->error) {
+                echo "Error en la consulta: " . $database->error;
+                exit();
+            }
+            $database->query($sql2);
+            if ($database->error) {
+                echo "Error en la consulta: " . $database->error;
+                exit();
+            }
+
+            $error = '4'; // Éxito
         }
     } else {
-        $error = '3'; // Error por falta de datos POST
+        $error = '2'; // Error de confirmación de contraseña
     }
+} else {
+    $error = '3'; // Error por falta de datos POST
+}
 
-    // Redirección basada en el resultado
-    if ($error == '4') {
-        header("location: doctores.php?success=1");
-    } else {
-        header("location: doctores.php?action=add&error=" . $error);
-    }
-    ?>
-</body>
-</html>
+// Redirección basada en el resultado
+if ($error == '4') {
+    header("location: doctores.php?success=1");
+    exit();
+} else {
+    header("location: doctores.php?action=add&error=" . $error);
+    exit();
+}
+?>
