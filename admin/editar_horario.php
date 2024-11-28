@@ -854,8 +854,36 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
             return valid;
         }
 
-        // Función para manejar pestañas
         document.addEventListener("DOMContentLoaded", function() {
+            const tabs = document.querySelectorAll('.tab_btn');
+            const line = document.querySelector('.line');
+
+            function updateLinePosition(activeTab) {
+                line.style.width = `${activeTab.offsetWidth}px`;
+                line.style.left = `${activeTab.offsetLeft}px`;
+            }
+
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', (e) => {
+                    // Desactivar todas las pestañas
+                    tabs.forEach(tab => tab.classList.remove('active'));
+                    // Activar la pestaña clicada
+                    tab.classList.add('active');
+                    // Actualizar la posición de la línea
+                    updateLinePosition(tab);
+                });
+            });
+
+            // Mostrar la línea debajo de la pestaña activa inicial al cargar la página
+            const initialActiveTab = document.querySelector('.tab_btn.active');
+            if (initialActiveTab) {
+                updateLinePosition(initialActiveTab);
+            }
+        });
+
+
+        // Función para manejar pestañas
+        /* document.addEventListener("DOMContentLoaded", function() {
             const tabs = document.querySelectorAll('.tab_btn');
             const all_content = document.querySelectorAll('.content_box');
 
@@ -874,11 +902,11 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                     // Mostrar el contenido correspondiente
                     all_content[index].classList.add('active');
                 })
-            });
+            }); */
 
             // Mostrar pestaña por defecto si es necesario
             // tabs[0].click(); 
-        });
+        ;
     </script>
 </body>
 </html>

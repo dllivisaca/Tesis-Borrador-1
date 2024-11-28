@@ -51,18 +51,22 @@
 
 .buttons-container {
     display: flex;
-    gap: 10px; /* Espaciado entre los botones */
-    margin-top: 15px; /* Espacio para separar los botones de la información de la cabecera */
-    width: 100%; /* Asegura que los botones ocupen el ancho completo */
+    justify-content: center; /* Centra los botones horizontalmente */
+    align-items: center; /* Alinea los botones verticalmente */
+    position: relative; /* Relativo para ubicar la línea */
+    gap: 10px; /* Espacio entre los botones */
+    margin-top: 15px;
 }
 
 .tab_btn {
-    padding: 8px 12px;
+    padding: 8px 20px;
     border: none;
     border-radius: 5px;
-    cursor: default; /* Cursor deshabilitado */
-    background-color: #ccc; /* Fondo gris claro */
-    color: #666; /* Color del texto */
+    background-color: #ccc;
+    color: #666;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
+    position: relative;
 }
 
 .tab_btn.active {
@@ -71,8 +75,12 @@
 }
 
 .line {
-    margin-top: 5px;
-    height: 2px;
-    width: 100%;
-    background-color: #007BFF; /* Línea para indicar la pestaña activa */
+    position: absolute;
+    bottom: -5px; /* Ajusta la línea un poco más abajo de los botones */
+    height: 3px;
+    width: 100px; /* Puedes ajustar el ancho inicial o calcularlo dinámicamente */
+    background-color: #007BFF;
+    transition: all 0.3s ease; /* Transición suave para el movimiento */
 }
+
+
