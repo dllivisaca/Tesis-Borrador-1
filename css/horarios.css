@@ -200,3 +200,25 @@ th {
     background-color: #0056b3; /* Color al pasar el mouse */
     color: white; /* Asegura que el texto sea legible */
 }
+.horarios-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Ajusta a 3 columnas */
+    gap: 10px; /* Espacio entre las celdas */
+    justify-items: center; /* Centra cada celda horizontalmente */
+    align-items: start; /* Alinea verticalmente cada celda al inicio */
+    width: 100%; /* Asegura que la cuadrícula ocupe todo el ancho */
+}
+
+.horarios-grid div {
+    text-align: center; /* Centra horizontalmente el texto */
+    line-height: 1.5; /* Espaciado entre líneas */
+    width: 100%; /* Hace que cada celda ocupe todo el espacio */
+    padding: 5px; /* Añade un poco de espacio interno para mejorar la legibilidad */
+}
+
+
+@media (max-width: 768px) {
+    .horarios-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Más compacto en pantallas pequeñas */
+    }
+}

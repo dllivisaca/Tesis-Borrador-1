@@ -232,7 +232,8 @@
                                         usort($doctor['horarios'], 'ordenarDiasSemana');
                                 
                                         // Mostrar los horarios en una cuadrícula de tres columnas
-                                        echo '<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">';
+                                        echo '<div class="horarios-grid">';
+
                                         foreach ($doctor['horarios'] as $horario) {
                                             echo '<div>';
                                             echo '<b>' . $horario['dia_semana'] . '</b><br>';
