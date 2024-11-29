@@ -181,6 +181,8 @@ table {
     font-size: 12px; /* Ajusta este valor según tu preferencia (puedes usar 12px o menos si lo deseas) */
 }
 
+
+
 .buttons-container {
     display: flex;
     width: 100%; /* Asegura que el contenedor ocupe todo el ancho */

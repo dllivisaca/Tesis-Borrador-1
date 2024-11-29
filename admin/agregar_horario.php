@@ -202,15 +202,12 @@
                         
                         // Mostrar el formulario con los días y horas
                         echo '
-                        
-                                
-                                <div>
-                                    <table>
-                                        
-                                        <tr>
-                                            <td class="label-td" colspan="2">
-                                                <form id="horarioFijoForm" action="" method="POST" class="add-new-form">
-                                                    <table class="horario-table" border="0">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <form id="horarioFijoForm" action="" method="POST" class="add-new-form">
+                                                <table class="horario-table" border="0">
                                                     <tr>
                                                         <th>Día</th>
                                                         <th>Horario de Mañana</th>
@@ -243,19 +240,17 @@
                                                             <select name="horafintar" class="input-text"></select><br><br>
                                                         </td>
                                                     </tr>
-                                                </table>
-                                                <div class="boton-centrado">
-                                                    <!-- Botón para agregar el horario -->
-                                                    <input type="submit" value="Agregar horario" class="login-btn btn-primary btn" name="shedulesubmit">
-                                                </div>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </table>
-                        
-                        </div>
-                        </div>
-                        ';
+                                            </table>
+                                            <div class="boton-centrado">
+                                                <!-- Botón para agregar el horario -->
+                                                <input type="submit" value="Agregar horario" class="login-btn btn-primary btn" name="shedulesubmit">
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                    </div>
+                    ';
                     
                     // Procesar los datos del formulario de horario personalizado
                     if (isset($_POST['submitPersonalizado'])) {
