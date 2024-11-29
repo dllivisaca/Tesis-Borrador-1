@@ -199,7 +199,7 @@ body {
   cursor: pointer;
   text-align: center;
   margin-left: 15px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .button-icon:hover {
@@ -257,7 +257,7 @@ body {
 }
 
 .btn-delete {
-  background-color: #f44336;
+  background-color: #85B4FF;
   color: white;
 }
 
@@ -312,7 +312,7 @@ table th {
   background: #f4f4f4;
 }
 .btn-cancel, .btn-edit {
-  background-color: #007bff;
+  background-color: #85B4FF;
   color: white;
   border: none;
   padding: 8px 15px;
@@ -324,7 +324,7 @@ table th {
   background-color: #0056b3;
 }
 .btn-cancel {
-  background-color: #d9534f;
+  background-color: #85B4FF;
 }
 .btn-cancel:hover {
   background-color: #c9302c;
@@ -400,4 +400,52 @@ table th {
 
 .filter-row {
   padding-top: 20px; /* Espacio entre la fila de filtros y la tabla */
+}
+
+button.btn-filter{
+  
+  font-size: 12px; /* Uniforma el tamaño de fuente */
+}
+
+.btn-common {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px; /* Asegura que ambos botones tengan el mismo padding */
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  margin: 5px; /* Ajusta el espacio entre los botones si es necesario */
+}
+
+.btn-common:hover {
+  background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+}
+
+
+/* Cambiar tamaño de fuente y estilo para el input de fecha */
+input[type="date"] {
+  font-size: 12px; /* Cambia el tamaño de fuente */
+  padding: 8px; /* Ajusta el espacio interno */
+  border-radius: 6px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde gris claro */
+  font-family: 'Poppins', Arial, sans-serif; /* Asegura una tipografía consistente */
+}
+
+/* Cambiar tamaño de fuente y estilo para el selector de doctor */
+select {
+  font-size: 12px; /* Cambia el tamaño de fuente */
+  padding: 8px; /* Ajusta el espacio interno */
+  border-radius: 6px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde gris claro */
+  font-family: 'Poppins', Arial, sans-serif; /* Asegura una tipografía consistente */
+}
+
+.filter-row label {
+  font-size: 14px; /* Cambia el tamaño de fuente */
+  font-weight: bold; /* Si quieres que el texto sea más grueso */
+  color: #00b8d9; /* Ajusta el color del texto */
+  font-family: 'Poppins', Arial, sans-serif; /* Asegura la consistencia tipográfica */
 }

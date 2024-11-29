@@ -348,8 +348,8 @@
                         }
                     ?>
                 </select>
-                <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Buscar</button>
-                <button type="button" class="btn-primary-soft btn button-icon btn-add" onclick="openAgregarCitaModal()">+ Agregar nueva cita</button>
+                <button type="submit" class="btn-common btn-filter" style="padding: 10px 20px;">Buscar</button>
+                <button type="button" class="btn-common btn-add" onclick="openAgregarCitaModal()">+ Agregar nueva cita</button>
             </form>
         </div>
 
