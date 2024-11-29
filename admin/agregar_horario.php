@@ -202,12 +202,10 @@
                         
                         // Mostrar el formulario con los días y horas
                         echo '
-                        <div id="popup1" class="overlay">
-                            <div class="popup">
-                            <center>
+                        
                                 
-                                <div style="display: flex;justify-content: center;">
-                                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                                <div>
+                                    <table>
                                         
                                         <tr>
                                             <td class="label-td" colspan="2">
@@ -231,7 +229,7 @@
                                                         </td>
                                                         <td class="horario-manana">
                                                             <!-- Horario de mañana -->
-                                                            <label for="horainicioman" class="form-label">Horario de mañana: </label>
+                                                            
                                                             <select name="horainicioman" class="input-text"></select>
                                                             <span class="col-auto"> - </span>
                                                             <select name="horafinman" class="input-text"></select><br><br>
@@ -239,7 +237,7 @@
 
                                                         <td class="horario-tarde">
                                                             <!-- Horario de tarde -->
-                                                            <label for="horainiciotar" class="form-label">Horario de tarde: </label>
+                                                            
                                                             <select name="horainiciotar" class="input-text"></select>
                                                             <span class="col-auto"> - </span>
                                                             <select name="horafintar" class="input-text"></select><br><br>
@@ -254,9 +252,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
-                            </center>
-                            <br><br>
+                        
                         </div>
                         </div>
                         ';
@@ -444,7 +440,7 @@
                     selectElement.innerHTML = ''; // Limpiar opciones previas
 
                     // Agregar opción por defecto vacía y deshabilitada
-                    const opcionDefault = new Option('Seleccione', '', true, true);
+                    const opcionDefault = new Option('Elija', '', true, true);
                     opcionDefault.disabled = true;
                     selectElement.add(opcionDefault);
 

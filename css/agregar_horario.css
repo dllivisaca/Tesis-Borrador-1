@@ -57,6 +57,7 @@
     display: flex;
     justify-content: flex-end;  /* Alinea el contenido hacia la derecha */
     padding: 20px;  /* Espaciado para que no esté pegado al borde */
+    
 }
 
 .content_box {
@@ -138,12 +139,24 @@
     width: 100%; /* Asegúrate de que ocupe todo el ancho disponible */
     border-collapse: collapse; /* Quitar el espacio entre bordes */
     table-layout: fixed; /* Forzar que las columnas se distribuyan uniformemente */
+    margin: 0;
+    border: none !important; /* Asegura que no haya bordes externos */
+    border-collapse: collapse; /* Junta las celdas */
+    border-spacing: 0; /* Elimina espacios entre celdas */
+    outline: none !important; /* Elimina contornos */
 }
 
 .horario-table th, .horario-table td {
     padding: 8px;  /* Espaciado para mejorar legibilidad */
     text-align: center; /* Centramos el contenido para mejor alineación */
     vertical-align: middle; /* Alinear verticalmente al tope */
+    border: none;
+}
+
+table {
+    border-collapse: collapse; /* Quitar espacio entre bordes */
+    border-spacing: 0; /* Evitar márgenes internos */
+    outline: none; /* Sin contornos visibles */
 }
 
 /* Opcional: mejora visual de los elementos de la tabla */
@@ -165,7 +178,7 @@
 .horario-table td, 
 .horario-table th, 
 .horario-table select {
-    font-size: 10px; /* Ajusta este valor según tu preferencia (puedes usar 12px o menos si lo deseas) */
+    font-size: 12px; /* Ajusta este valor según tu preferencia (puedes usar 12px o menos si lo deseas) */
 }
 
 .buttons-container {
@@ -334,6 +347,19 @@ input[type="submit"]:disabled {
     display: block;
 }
 
+/* Estilo global para tbody */
+.horario-table tbody {
+    border: none !important;
+    border-color: transparent !important; /* Asegúrate de que el borde sea transparente */
+    box-shadow: none !important; /* Elimina sombras */
+    background-color: transparent !important; /* Sin fondo */
+}
+
+/* Prevenir cualquier cambio de estilo al pasar el cursor */
+.horario-table tbody:hover {
+    background-color: transparent; /* Evitar fondo al pasar el cursor */
+    box-shadow: none; /* Sin sombras */
+}
 
 * {
     box-sizing: border-box;
