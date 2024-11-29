@@ -419,11 +419,25 @@
                                     }
 
                                     if ($estado == 'pendiente') {
-                                        echo '<button class="btn-action" onclick="marcarComoFinalizada(' . $citaid . ')">Marcar como finalizada</button>';
-                                        
-                                        // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
-                                        if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
+                                        // Comparar fecha y hora actuales con la fecha y hora de la cita
+                                        $fechaHoraCita = new DateTime($fecha . ' ' . $hora_inicio);
+                                        $interval = $currentDateTime->diff($fechaHoraCita);
+                                        $hoursDifference = ($fechaHoraCita->getTimestamp() - $currentDateTime->getTimestamp()) / 3600;
+                                    
+                                        // Mostrar el botón de "Marcar como finalizada" solo si la cita ya pasó
+                                        if ($fechaHoraCita < $currentDateTime) {
+                                            echo '<button class="btn-action" onclick="marcarComoFinalizada(' . $citaid . ')">Marcar como finalizada</button>';
+                                        }
+                                    
+                                        // Mostrar el botón de "Reenviar recordatorio" solo si faltan entre 24 horas y 1 hora
+                                        if ($hoursDifference <= 24 && $hoursDifference > 1 && $recordatorioReenviado == 0) {
                                             echo '<button class="btn-action" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar recordatorio</button>';
+                                        }
+
+                                        // Mostrar los botones de "Cancelar" y "Editar" si faltan más de 48 horas para la cita
+                                        if ($hoursDifference >= 48) {
+                                            echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
+                                                <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
                                         }
                                     }
 

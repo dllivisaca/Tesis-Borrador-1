@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Guayaquil');
 include("../conexion_db.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

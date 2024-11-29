@@ -9,18 +9,16 @@ if (!$database) {
 }
 
 try {
-
     // Determinar el origen de la ejecución
     $origen = php_sapi_name() === 'cli' ? 'Ejecución automática' : 'Ejecución manual';
 
-    // Obtener la fecha y hora actual
-    $fecha_actual = new DateTime();
-
     // Preparar consulta para actualizar las citas pendientes
-    $sql = "UPDATE citas 
-            SET estado = 'no atendida' 
-            WHERE estado = 'pendiente' 
-            AND TIMESTAMPDIFF(HOUR, CONCAT(fecha, ' ', hora_inicio), NOW()) > 24";
+    $sql = "
+        UPDATE citas 
+        SET estado = 'no atendida' 
+        WHERE estado = 'pendiente' 
+        AND TIMESTAMPDIFF(HOUR, CONCAT(fecha, ' ', hora_inicio), NOW()) >= 24
+    ";
 
     $result = $database->query($sql);
 
@@ -41,6 +39,7 @@ try {
     $log_file = __DIR__ . "/actualizar_estados_log.txt";
     $log_message = date('Y-m-d H:i:s') . " - [$origen] $mensaje\n";
     file_put_contents($log_file, $log_message, FILE_APPEND);
+
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
 
@@ -49,5 +48,4 @@ try {
     $log_message = date('Y-m-d H:i:s') . " - [$origen] Error: " . $e->getMessage() . "\n";
     file_put_contents($log_file, $log_message, FILE_APPEND);
 }
-
 ?>
