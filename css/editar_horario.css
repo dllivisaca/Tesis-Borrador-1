@@ -238,7 +238,6 @@ input[type="submit"]:disabled {
     margin: 0 auto;
 }
 
-
 .horario-fijo {
     margin-top: 5px; /* Espaciado superior */
     margin-left: -25px; /* Ajusta este porcentaje para moverlo más a la izquierda */
@@ -250,6 +249,11 @@ input[type="submit"]:disabled {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
     border-radius: 8px; /* Bordes redondeados */
 }
+
+.horario-table .horario-manana select {
+    width: 60px; /* Ajusta este valor según el tamaño deseado */
+}
+
 
 .dias-container {
     display: flex;
