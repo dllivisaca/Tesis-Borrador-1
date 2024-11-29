@@ -146,6 +146,7 @@
     margin: 2px 0; /* Añadir espacio vertical entre los selectores */
     padding: 2px;  /* Reducir padding para mantenerlos compactos */
     border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 
@@ -238,9 +239,8 @@ input[type="submit"]:disabled {
 }
 
 
-
 .horario-fijo {
-    margin-top: 20px; /* Espaciado superior */
+    margin-top: 5px; /* Espaciado superior */
     margin-left: -25px; /* Ajusta este porcentaje para moverlo más a la izquierda */
     margin-right: auto; /* Centra si hay espacio adicional */
     width: 50%; /* Mantén el ancho adecuado */
