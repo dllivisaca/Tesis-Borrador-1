@@ -413,10 +413,10 @@
                                     } */
 
                                     // Mostrar botón de cancelar o editar si la cita está pendiente y faltan más de 48 horas
-                                    if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
+                                    /* if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
                                         echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
                                             <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
-                                    }
+                                    } */
 
                                     if ($estado == 'pendiente') {
                                         // Comparar fecha y hora actuales con la fecha y hora de la cita
