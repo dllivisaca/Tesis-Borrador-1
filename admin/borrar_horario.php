@@ -22,18 +22,18 @@ if(isset($_GET['id'])){
         // Redirigir con un mensaje de éxito
         echo "<script>
                 alert('Todos los horarios del doctor han sido eliminados correctamente.');
-                window.location.href = 'horarios2.php';
+                window.location.href = 'horarios.php';
               </script>";
     } else {
         // Mostrar mensaje de error
         echo "<script>
                 alert('Ocurrió un error al eliminar los horarios.');
-                window.location.href = 'horarios2.php';
+                window.location.href = 'horarios.php';
               </script>";
     }
 } else {
     // Si no se proporciona el ID, redirigir
-    header("location: horarios2.php");
+    header("location: horarios.php");
     exit();
 }
 ?>

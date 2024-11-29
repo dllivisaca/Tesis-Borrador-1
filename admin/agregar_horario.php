@@ -18,17 +18,17 @@
 
     // Mostrar el pop-up si se ha agregado el horario correctamente
     if (isset($_SESSION['success_message'])) {
+        // Usar json_encode para manejar correctamente las comillas y caracteres especiales
+        $message = json_encode($_SESSION['success_message']);
         echo "
         <script>
-            alert('" . $_SESSION['success_message'] . "');
-            setTimeout(function(){
-                window.location.href = 'horarios2.php';
-            }, 2000); // Redirige después de 2 segundos
+            alert($message);
+            window.location.href = 'horarios.php';
         </script>
         ";
-        unset($_SESSION['success_message']); // Eliminar el mensaje después de mostrarlo
+        unset($_SESSION['success_message']);
     }
-
+    
     // Mostrar error si algo salió mal
     if (isset($_SESSION['error_message'])) {
         echo "<p style='color: red;'>" . $_SESSION['error_message'] . "</p>";
@@ -121,8 +121,8 @@
         </div>
 
         <div class="dash-body">
-                <div class="header-actions">
-                <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
+            <div class="header-actions">
+            <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
                 <div class="header-inline">
                     <a href="horarios.php">
                         <button class="btn-action">← Atrás</button>
@@ -130,305 +130,329 @@
                     <p class="heading-main12">Agregar horario</p>
                 </div>
             </div>
-    </div>
-    
-   
-
-    <?php
-    if($_GET){
-        $id=$_GET["id"];
         
-            $sqlmain= "select * from doctor where docid='$id'";
-            $result= $database->query($sqlmain);
-            $row=$result->fetch_assoc();
-            $docnombre=$row["docnombre"];
+      
+
+            <?php
+            if($_GET){
+                $id=$_GET["id"];
+                
+                    $sqlmain= "select * from doctor where docid='$id'";
+                    $result= $database->query($sqlmain);
+                    $row=$result->fetch_assoc();
+                    $docnombre=$row["docnombre"];
+                    
+                    $espe=$row["especialidades"];
+                    
+                    $especial_res= $database->query("select espnombre from especialidades where id='$espe'");
+                    $especial_array= $especial_res->fetch_assoc();
+                    $especial_name=$especial_array["espnombre"];
+                    
+
+
+                    echo '
+                    <div id="popup1" class="overlay">
+                            <div class="popup">
+                            <center>
+                                <h2></h2>
+                                
+                                
+                                <div style="display: flex;justify-content: center;">
+                                <table width="60%" class="sub-table scrolldown add-doc-form-container" border="0">
+                                    
+                                    <tr>
+
+                                        <td class="label-td" colspan="2">
+                                            <label for="espec" class="form-label">Especialidad: </label>
+                                        </td>
+                                        <td class="label-td" colspan="2">
+                                            '.$especial_name.'<br><br>
+                                        </td>
+                                        <td class="label-td" colspan="2">
+                                            <label for="name" class="form-label">Doctor: </label>
+                                        </td>
+                                        <td class="label-td" colspan="2">
+                                            '.$docnombre.'<br><br>
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+                                </div>
+                            </center>
+                            <br><br>
+                    </div>
+                    </div>
+
+                    
+                    ';
+                }
             
-            $espe=$row["especialidades"];
+                    ?>
             
-            $especial_res= $database->query("select espnombre from especialidades where id='$espe'");
-            $especial_array= $especial_res->fetch_assoc();
-            $especial_name=$especial_array["espnombre"];
-            
+                <div class="header-container">
+                    <div class="info-section">
+                        <div class="info-label">Nombre del Doctor:</div>
+                        <div class="info-text"><?php echo $docnombre; ?></div>
+                    </div>
 
+                    <div class="info-section">
+                        <div class="info-label">Especialidad:</div>
+                        <div class="info-text"><?php echo $especial_name; ?></div>
+                    </div>
+                </div>
 
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <h2></h2>
-                        
-                        
-                        <div style="display: flex;justify-content: center;">
-                        <table width="60%" class="sub-table scrolldown add-doc-form-container" border="0">
-                            
-                            <tr>
-
-                                <td class="label-td" colspan="2">
-                                    <label for="espec" class="form-label">Especialidad: </label>
-                                </td>
-                                <td class="label-td" colspan="2">
-                                    '.$especial_name.'<br><br>
-                                </td>
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Doctor: </label>
-                                </td>
-                                <td class="label-td" colspan="2">
-                                    '.$docnombre.'<br><br>
-                                </td>
-
-                            </tr>
-
-                        </table>
-                        </div>
-                    </center>
-                    <br><br>
-            </div>
-            </div>
-
-            
-            ';
-        }
-    
-            ?>
+                <div class="tab-container">
+                <div class="buttons-wrapper">
+                    <div class="buttons-container">
+                        <button type="button" class="tab_btn active">Horario Fijo</button>
+                        <button type="button" class="tab_btn">Horario Personalizado</button>
+                        <div class="line"></div>
+                    </div>
+                </div>
            
-            <div class="tab_box">
+            <!-- <div class="tab_box">
                 <button class="tab_btn">Horario fijo</button>
                 <button class="tab_btn">Horario personalizado</button>
                 <div class="line"></div>
             </div> 
-          
-            
-            <!-- Contenido de Horario Fijo -->
-            <div class="content_box">
-                <div class="content">
+           -->
+
+           <div class="content_wrapper">
+                <!-- Contenido de Horario Fijo -->
+                <div class="content_box horario-fijo active" id="tab-fijo">
+                    <div class="content">
                     <h3>Horario Fijo</h3>
                     <?php
-                
-                
-
-            if ($_GET) {
-                $id = $_GET["id"];
-                
-                // Consultar al doctor usando el ID del doctor
-                $sqlmain = "SELECT * FROM doctor WHERE docid='$id'";
-                $result = $database->query($sqlmain);
-                $row = $result->fetch_assoc();
-                $docnombre = $row["docnombre"];
-                
-                $espe = $row["especialidades"];
-                $especial_res = $database->query("SELECT espnombre FROM especialidades WHERE id='$espe'");
-                $especial_array = $especial_res->fetch_assoc();
-                $especial_name = $especial_array["espnombre"];
-                
-                // Mostrar el formulario con los días y horas
-                echo '
-                <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
+                    if ($_GET) {
+                        $id = $_GET["id"];
                         
-                        <div style="display: flex;justify-content: center;">
-                            <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        // Consultar al doctor usando el ID del doctor
+                        $sqlmain = "SELECT * FROM doctor WHERE docid='$id'";
+                        $result = $database->query($sqlmain);
+                        $row = $result->fetch_assoc();
+                        $docnombre = $row["docnombre"];
+                        
+                        $espe = $row["especialidades"];
+                        $especial_res = $database->query("SELECT espnombre FROM especialidades WHERE id='$espe'");
+                        $especial_array = $especial_res->fetch_assoc();
+                        $especial_name = $especial_array["espnombre"];
+                        
+                        // Mostrar el formulario con los días y horas
+                        echo '
+                        <div id="popup1" class="overlay">
+                            <div class="popup">
+                            <center>
                                 
-                                <tr>
-                                    <td class="label-td" colspan="2">
-                                        <form id="horarioFijoForm" action="" method="POST" class="add-new-form">
-                                            <!-- Días de la semana con checkboxes -->
-                                        <input type="checkbox" id="checkboxLunes" name="day_schedule[]" value="Lunes"> <label for="checkboxLunes">Lunes</label><br>
-                                        <input type="checkbox" id="checkboxMartes" name="day_schedule[]" value="Martes"> <label for="checkboxMartes">Martes</label><br>
-                                        <input type="checkbox" id="checkboxMiercoles" name="day_schedule[]" value="Miercoles"> <label for="checkboxMiercoles">Miércoles</label><br>
-                                        <input type="checkbox" id="checkboxJueves" name="day_schedule[]" value="Jueves"> <label for="checkboxJueves">Jueves</label><br>
-                                        <input type="checkbox" id="checkboxViernes" name="day_schedule[]" value="Viernes"> <label for="checkboxViernes">Viernes</label><br>
-                                        <input type="checkbox" id="checkboxSabado" name="day_schedule[]" value="Sabado"> <label for="checkboxSabado">Sábado</label><br>
-                                        <input type="checkbox" id="checkboxDomingo" name="day_schedule[]" value="Domingo"> <label for="checkboxDomingo">Domingo</label><br><br>
+                                <div style="display: flex;justify-content: center;">
+                                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                                        
+                                        <tr>
+                                            <td class="label-td" colspan="2">
+                                                <form id="horarioFijoForm" action="" method="POST" class="add-new-form">
+                                                    <!-- Días de la semana con checkboxes -->
+                                                <input type="checkbox" id="checkboxLunes" name="day_schedule[]" value="Lunes"> <label for="checkboxLunes">Lunes</label><br>
+                                                <input type="checkbox" id="checkboxMartes" name="day_schedule[]" value="Martes"> <label for="checkboxMartes">Martes</label><br>
+                                                <input type="checkbox" id="checkboxMiercoles" name="day_schedule[]" value="Miercoles"> <label for="checkboxMiercoles">Miércoles</label><br>
+                                                <input type="checkbox" id="checkboxJueves" name="day_schedule[]" value="Jueves"> <label for="checkboxJueves">Jueves</label><br>
+                                                <input type="checkbox" id="checkboxViernes" name="day_schedule[]" value="Viernes"> <label for="checkboxViernes">Viernes</label><br>
+                                                <input type="checkbox" id="checkboxSabado" name="day_schedule[]" value="Sabado"> <label for="checkboxSabado">Sábado</label><br>
+                                                <input type="checkbox" id="checkboxDomingo" name="day_schedule[]" value="Domingo"> <label for="checkboxDomingo">Domingo</label><br><br>
 
-                                        <!-- Horario de mañana -->
-                                        <label for="horainicioman" class="form-label">Horario de mañana: </label>
-                                        <select name="horainicioman" class="input-text"></select>
-                                        <span class="col-auto"> - </span>
-                                        <select name="horafinman" class="input-text"></select><br><br>
+                                                <!-- Horario de mañana -->
+                                                <label for="horainicioman" class="form-label">Horario de mañana: </label>
+                                                <select name="horainicioman" class="input-text"></select>
+                                                <span class="col-auto"> - </span>
+                                                <select name="horafinman" class="input-text"></select><br><br>
 
-                                        <!-- Horario de tarde -->
-                                        <label for="horainiciotar" class="form-label">Horario de tarde: </label>
-                                        <select name="horainiciotar" class="input-text"></select>
-                                        <span class="col-auto"> - </span>
-                                        <select name="horafintar" class="input-text"></select><br><br>
+                                                <!-- Horario de tarde -->
+                                                <label for="horainiciotar" class="form-label">Horario de tarde: </label>
+                                                <select name="horainiciotar" class="input-text"></select>
+                                                <span class="col-auto"> - </span>
+                                                <select name="horafintar" class="input-text"></select><br><br>
 
-                                        <!-- Botón para agregar el horario -->
-                                        <input type="submit" value="Agregar horario" class="login-btn btn-primary btn" name="shedulesubmit">
-                                        </form>
-                                    </td>
-                                </tr>
-                            </table>
+                                                <!-- Botón para agregar el horario -->
+                                                <input type="submit" value="Agregar horario" class="login-btn btn-primary btn" name="shedulesubmit">
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </center>
+                            <br><br>
                         </div>
-                    </center>
-                    <br><br>
-                </div>
-                </div>
-                ';
-            
-            // Procesar los datos del formulario de horario personalizado
-            if (isset($_POST['submitPersonalizado'])) {
-                $doctor_id = $_GET['id'];  // ID del doctor obtenido de la URL
-                $dias = $_POST['dias'] ?? [];  // Array de días seleccionados
+                        </div>
+                        ';
+                    
+                    // Procesar los datos del formulario de horario personalizado
+                    if (isset($_POST['submitPersonalizado'])) {
+                        $doctor_id = $_GET['id'];  // ID del doctor obtenido de la URL
+                        $dias = $_POST['dias'] ?? [];  // Array de días seleccionados
 
-                if (!empty($dias)) {
-                    foreach ($dias as $dia) {
-                        // Recoger horarios de mañana y tarde de cada día
-                        $horainicioman = $_POST['horainicioman_' . $dia] ?? null;
-                        $horafinman = $_POST['horafinman_' . $dia] ?? null;
-                        $horainiciotar = $_POST['horainiciotar_' . $dia] ?? null;
-                        $horafintar = $_POST['horafintar_' . $dia] ?? null;
+                        if (!empty($dias)) {
+                            foreach ($dias as $dia) {
+                                // Recoger horarios de mañana y tarde de cada día
+                                $horainicioman = $_POST['horainicioman_' . $dia] ?? null;
+                                $horafinman = $_POST['horafinman_' . $dia] ?? null;
+                                $horainiciotar = $_POST['horainiciotar_' . $dia] ?? null;
+                                $horafintar = $_POST['horafintar_' . $dia] ?? null;
 
-                        // Insertar el horario solo si al menos un horario está definido (mañana o tarde)
-                        if ($horainicioman || $horainiciotar) {
-                            $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
-                                    VALUES ('$doctor_id', '$dia', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
+                                // Insertar el horario solo si al menos un horario está definido (mañana o tarde)
+                                if ($horainicioman || $horainiciotar) {
+                                    $sql = "INSERT INTO disponibilidad_doctor (docid, dia_semana, horainicioman, horafinman, horainiciotar, horafintar)
+                                            VALUES ('$doctor_id', '$dia', '$horainicioman', '$horafinman', '$horainiciotar', '$horafintar')";
 
-                            // Ejecutar la consulta
-                            if ($database->query($sql)) {
-                                $_SESSION['success_message'] = "Horario personalizado agregado correctamente para el día $dia.";
-                            } else {
-                                $_SESSION['error_message'] = "Error al agregar el horario personalizado para el día $dia: " . $database->error;
+                                    // Ejecutar la consulta
+                                    if ($database->query($sql)) {
+                                        $_SESSION['success_message'] = "Horario personalizado agregado correctamente para el día $dia.";
+                                    } else {
+                                        $_SESSION['error_message'] = "Error al agregar el horario personalizado para el día $dia: " . $database->error;
+                                    }
+                                } else {
+                                    $_SESSION['error_message'] = "Debe ingresar al menos un horario para el día $dia.";
+                                }
                             }
+
+                            // Redirigir para evitar el reenvío del formulario
+                            header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $doctor_id);
+                            exit();
                         } else {
-                            $_SESSION['error_message'] = "Debe ingresar al menos un horario para el día $dia.";
+                            $_SESSION['error_message'] = "Por favor seleccione al menos un día.";
                         }
                     }
-
-                    // Redirigir para evitar el reenvío del formulario
-                    header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $doctor_id);
-                    exit();
-                } else {
-                    $_SESSION['error_message'] = "Por favor seleccione al menos un día.";
                 }
-            }
-        }
 
-        ?>
+                ?>
+                    </div>
                 </div>
 
-                <div class="content">
-                    <h3>Horario Personalizado</h3>
-            
+                <!-- Contenido de Horario Personalizado -->
+                <div class="content_box">
+                    <div class="content">
+                        <h3>Horario Personalizado</h3>
                 
-                <!-- Formulario de Horario Personalizado -->
-                <form id="horarioPersonalizadoForm" action="" method="POST">
-                    <table border="0" width="100%">
-                        <tr>
-                            <th>Día</th>
-                            <th>Horario de Mañana</th>
-                            <th>Horario de Tarde</th>
-                        </tr>
-                        <?php
-                        /* $dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-                        foreach ($dias_semana as $dia) {
-                            echo '<tr>';
-                            echo '<td><input type="checkbox" name="dias[]" value="'.$dia.'"> '.$dia.'</td>';
-                            echo '<td>Inicio: <input type="time" name="horainicioman_'.$dia.'"> Fin: <input type="time" name="horafinman_'.$dia.'"></td>';
-                            echo '<td>Inicio: <input type="time" name="horainiciotar_'.$dia.'"> Fin: <input type="time" name="horafintar_'.$dia.'"></td>';
-                            echo '</tr>';
-                        } */
-                        ?>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="dias[]" value="Lunes"> Lunes
-                            </td>
-                            <td>
-                                Inicio: <select name="horainicioman_Lunes"></select> 
-                                Fin: <select name="horafinman_Lunes"></select>
-                            </td>
-                            <td>
-                                Inicio: <select name="horainiciotar_Lunes"></select> 
-                                Fin: <select name="horafintar_Lunes"></select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="dias[]" value="Martes"> Martes
-                            </td>
-                            <td>
-                                Inicio: <select name="horainicioman_Martes"></select> 
-                                Fin: <select name="horafinman_Martes"></select>
-                            </td>
-                            <td>
-                                Inicio: <select name="horainiciotar_Martes"></select> 
-                                Fin: <select name="horafintar_Martes"></select>
-                            </td>
-                        </tr>
-                        <tr>
-                        <td>
-                            <input type="checkbox" name="dias[]" value="Miércoles"> Miércoles
-                        </td>
-                        <td>
-                            Inicio: <select name="horainicioman_Miércoles"></select> 
-                            Fin: <select name="horafinman_Miércoles"></select>
-                        </td>
-                        <td>
-                            Inicio: <select name="horainiciotar_Miércoles"></select> 
-                            Fin: <select name="horafintar_Miércoles"></select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="dias[]" value="Jueves"> Jueves
-                        </td>
-                        <td>
-                            Inicio: <select name="horainicioman_Jueves"></select> 
-                            Fin: <select name="horafinman_Jueves"></select>
-                        </td>
-                        <td>
-                            Inicio: <select name="horainiciotar_Jueves"></select> 
-                            Fin: <select name="horafintar_Jueves"></select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="dias[]" value="Viernes"> Viernes
-                        </td>
-                        <td>
-                            Inicio: <select name="horainicioman_Viernes"></select> 
-                            Fin: <select name="horafinman_Viernes"></select>
-                        </td>
-                        <td>
-                            Inicio: <select name="horainiciotar_Viernes"></select> 
-                            Fin: <select name="horafintar_Viernes"></select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="dias[]" value="Sábado"> Sábado
-                        </td>
-                        <td>
-                            Inicio: <select name="horainicioman_Sábado"></select> 
-                            Fin: <select name="horafinman_Sábado"></select>
-                        </td>
-                        <td>
-                            Inicio: <select name="horainiciotar_Sábado"></select> 
-                            Fin: <select name="horafintar_Sábado"></select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="dias[]" value="Domingo"> Domingo
-                        </td>
-                        <td>
-                            Inicio: <select name="horainicioman_Domingo"></select> 
-                            Fin: <select name="horafinman_Domingo"></select>
-                        </td>
-                        <td>
-                            Inicio: <select name="horainiciotar_Domingo"></select> 
-                            Fin: <select name="horafintar_Domingo"></select>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td colspan="2">&nbsp;</td>
-                        </tr>
-                    </table>
-                    <input type="submit" value="Agregar horario" name="submitPersonalizado">
-                </form>
-            </div>
-            </div>
-            
+                            
+                        <!-- Formulario de Horario Personalizado -->
+                        <form id="horarioPersonalizadoForm" action="" method="POST">
+                            <table border="0" width="100%">
+                                <tr>
+                                    <th>Día</th>
+                                    <th>Horario de Mañana</th>
+                                    <th>Horario de Tarde</th>
+                                </tr>
+                                <?php
+                                /* $dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+                                foreach ($dias_semana as $dia) {
+                                    echo '<tr>';
+                                    echo '<td><input type="checkbox" name="dias[]" value="'.$dia.'"> '.$dia.'</td>';
+                                    echo '<td>Inicio: <input type="time" name="horainicioman_'.$dia.'"> Fin: <input type="time" name="horafinman_'.$dia.'"></td>';
+                                    echo '<td>Inicio: <input type="time" name="horainiciotar_'.$dia.'"> Fin: <input type="time" name="horafintar_'.$dia.'"></td>';
+                                    echo '</tr>';
+                                } */
+                                ?>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="dias[]" value="Lunes"> Lunes
+                                    </td>
+                                    <td>
+                                        Inicio: <select name="horainicioman_Lunes"></select> 
+                                        Fin: <select name="horafinman_Lunes"></select>
+                                    </td>
+                                    <td>
+                                        Inicio: <select name="horainiciotar_Lunes"></select> 
+                                        Fin: <select name="horafintar_Lunes"></select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="dias[]" value="Martes"> Martes
+                                    </td>
+                                    <td>
+                                        Inicio: <select name="horainicioman_Martes"></select> 
+                                        Fin: <select name="horafinman_Martes"></select>
+                                    </td>
+                                    <td>
+                                        Inicio: <select name="horainiciotar_Martes"></select> 
+                                        Fin: <select name="horafintar_Martes"></select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                <td>
+                                    <input type="checkbox" name="dias[]" value="Miércoles"> Miércoles
+                                </td>
+                                <td>
+                                    Inicio: <select name="horainicioman_Miércoles"></select> 
+                                    Fin: <select name="horafinman_Miércoles"></select>
+                                </td>
+                                <td>
+                                    Inicio: <select name="horainiciotar_Miércoles"></select> 
+                                    Fin: <select name="horafintar_Miércoles"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="dias[]" value="Jueves"> Jueves
+                                </td>
+                                <td>
+                                    Inicio: <select name="horainicioman_Jueves"></select> 
+                                    Fin: <select name="horafinman_Jueves"></select>
+                                </td>
+                                <td>
+                                    Inicio: <select name="horainiciotar_Jueves"></select> 
+                                    Fin: <select name="horafintar_Jueves"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="dias[]" value="Viernes"> Viernes
+                                </td>
+                                <td>
+                                    Inicio: <select name="horainicioman_Viernes"></select> 
+                                    Fin: <select name="horafinman_Viernes"></select>
+                                </td>
+                                <td>
+                                    Inicio: <select name="horainiciotar_Viernes"></select> 
+                                    Fin: <select name="horafintar_Viernes"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="dias[]" value="Sábado"> Sábado
+                                </td>
+                                <td>
+                                    Inicio: <select name="horainicioman_Sábado"></select> 
+                                    Fin: <select name="horafinman_Sábado"></select>
+                                </td>
+                                <td>
+                                    Inicio: <select name="horainiciotar_Sábado"></select> 
+                                    Fin: <select name="horafintar_Sábado"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="dias[]" value="Domingo"> Domingo
+                                </td>
+                                <td>
+                                    Inicio: <select name="horainicioman_Domingo"></select> 
+                                    Fin: <select name="horafinman_Domingo"></select>
+                                </td>
+                                <td>
+                                    Inicio: <select name="horainiciotar_Domingo"></select> 
+                                    Fin: <select name="horafintar_Domingo"></select>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td colspan="2">&nbsp;</td>
+                                </tr>
+                            </table>
+                            <input type="submit" value="Agregar horario" name="submitPersonalizado">
+                        </form>
+                    </div>
+                </div>
+                        
+
+
+           </div>       
 
             <script>
                 // Función para generar opciones de horarios en intervalos de 30 minutos
@@ -665,7 +689,7 @@
 
                     // Código para pestañas
                     const tabs = document.querySelectorAll('.tab_btn');
-                    const all_content = document.querySelectorAll('.content');
+                    const all_content = document.querySelectorAll('.content_box');
 
                     tabs.forEach((tab, index) => {
                         tab.addEventListener('click', (e) => { 
@@ -682,7 +706,6 @@
                     // Mostrar pestaña por defecto
                     tabs[0].click(); 
                 });
-            </script>
-            
+            </script> 
 </body>
 </html>

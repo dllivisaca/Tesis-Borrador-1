@@ -387,6 +387,14 @@ input[type="submit"]:disabled {
     margin-right: 10px; /* Espaciado entre checkbox y texto */
 }
 
+.content_box {
+    display: none;
+}
+
+.content_box.active {
+    display: block;
+}
+
 
 * {
     box-sizing: border-box;
