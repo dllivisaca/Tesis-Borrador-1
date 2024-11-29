@@ -28,7 +28,7 @@
         ";
         unset($_SESSION['success_message']);
     }
-    
+
     // Mostrar error si algo salió mal
     if (isset($_SESSION['error_message'])) {
         echo "<p style='color: red;'>" . $_SESSION['error_message'] . "</p>";
@@ -148,44 +148,6 @@
                     $especial_array= $especial_res->fetch_assoc();
                     $especial_name=$especial_array["espnombre"];
                     
-
-
-                    echo '
-                    <div id="popup1" class="overlay">
-                            <div class="popup">
-                            <center>
-                                <h2></h2>
-                                
-                                
-                                <div style="display: flex;justify-content: center;">
-                                <table width="60%" class="sub-table scrolldown add-doc-form-container" border="0">
-                                    
-                                    <tr>
-
-                                        <td class="label-td" colspan="2">
-                                            <label for="espec" class="form-label">Especialidad: </label>
-                                        </td>
-                                        <td class="label-td" colspan="2">
-                                            '.$especial_name.'<br><br>
-                                        </td>
-                                        <td class="label-td" colspan="2">
-                                            <label for="name" class="form-label">Doctor: </label>
-                                        </td>
-                                        <td class="label-td" colspan="2">
-                                            '.$docnombre.'<br><br>
-                                        </td>
-
-                                    </tr>
-
-                                </table>
-                                </div>
-                            </center>
-                            <br><br>
-                    </div>
-                    </div>
-
-                    
-                    ';
                 }
             
                     ?>
@@ -222,7 +184,7 @@
                 <!-- Contenido de Horario Fijo -->
                 <div class="content_box horario-fijo active" id="tab-fijo">
                     <div class="content">
-                    <h3>Horario Fijo</h3>
+                    
                     <?php
                     if ($_GET) {
                         $id = $_GET["id"];
@@ -250,34 +212,49 @@
                                         <tr>
                                             <td class="label-td" colspan="2">
                                                 <form id="horarioFijoForm" action="" method="POST" class="add-new-form">
-                                                    <!-- Días de la semana con checkboxes -->
-                                                <input type="checkbox" id="checkboxLunes" name="day_schedule[]" value="Lunes"> <label for="checkboxLunes">Lunes</label><br>
-                                                <input type="checkbox" id="checkboxMartes" name="day_schedule[]" value="Martes"> <label for="checkboxMartes">Martes</label><br>
-                                                <input type="checkbox" id="checkboxMiercoles" name="day_schedule[]" value="Miercoles"> <label for="checkboxMiercoles">Miércoles</label><br>
-                                                <input type="checkbox" id="checkboxJueves" name="day_schedule[]" value="Jueves"> <label for="checkboxJueves">Jueves</label><br>
-                                                <input type="checkbox" id="checkboxViernes" name="day_schedule[]" value="Viernes"> <label for="checkboxViernes">Viernes</label><br>
-                                                <input type="checkbox" id="checkboxSabado" name="day_schedule[]" value="Sabado"> <label for="checkboxSabado">Sábado</label><br>
-                                                <input type="checkbox" id="checkboxDomingo" name="day_schedule[]" value="Domingo"> <label for="checkboxDomingo">Domingo</label><br><br>
+                                                    <table class="horario-table" border="0">
+                                                    <tr>
+                                                        <th>Día</th>
+                                                        <th>Horario de Mañana</th>
+                                                        <th>Horario de Tarde</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="dias-column">
+                                                            <!-- Días de la semana con checkboxes -->
+                                                            <input type="checkbox" id="checkboxLunes" name="day_schedule[]" value="Lunes"> <label for="checkboxLunes">Lunes</label><br>
+                                                            <input type="checkbox" id="checkboxMartes" name="day_schedule[]" value="Martes"> <label for="checkboxMartes">Martes</label><br>
+                                                            <input type="checkbox" id="checkboxMiercoles" name="day_schedule[]" value="Miercoles"> <label for="checkboxMiercoles">Miércoles</label><br>
+                                                            <input type="checkbox" id="checkboxJueves" name="day_schedule[]" value="Jueves"> <label for="checkboxJueves">Jueves</label><br>
+                                                            <input type="checkbox" id="checkboxViernes" name="day_schedule[]" value="Viernes"> <label for="checkboxViernes">Viernes</label><br>
+                                                            <input type="checkbox" id="checkboxSabado" name="day_schedule[]" value="Sabado"> <label for="checkboxSabado">Sábado</label><br>
+                                                            <input type="checkbox" id="checkboxDomingo" name="day_schedule[]" value="Domingo"> <label for="checkboxDomingo">Domingo</label><br><br>
+                                                        </td>
+                                                        <td class="horario-manana">
+                                                            <!-- Horario de mañana -->
+                                                            <label for="horainicioman" class="form-label">Horario de mañana: </label>
+                                                            <select name="horainicioman" class="input-text"></select>
+                                                            <span class="col-auto"> - </span>
+                                                            <select name="horafinman" class="input-text"></select><br><br>
+                                                        </td>
 
-                                                <!-- Horario de mañana -->
-                                                <label for="horainicioman" class="form-label">Horario de mañana: </label>
-                                                <select name="horainicioman" class="input-text"></select>
-                                                <span class="col-auto"> - </span>
-                                                <select name="horafinman" class="input-text"></select><br><br>
-
-                                                <!-- Horario de tarde -->
-                                                <label for="horainiciotar" class="form-label">Horario de tarde: </label>
-                                                <select name="horainiciotar" class="input-text"></select>
-                                                <span class="col-auto"> - </span>
-                                                <select name="horafintar" class="input-text"></select><br><br>
-
-                                                <!-- Botón para agregar el horario -->
-                                                <input type="submit" value="Agregar horario" class="login-btn btn-primary btn" name="shedulesubmit">
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                                        <td class="horario-tarde">
+                                                            <!-- Horario de tarde -->
+                                                            <label for="horainiciotar" class="form-label">Horario de tarde: </label>
+                                                            <select name="horainiciotar" class="input-text"></select>
+                                                            <span class="col-auto"> - </span>
+                                                            <select name="horafintar" class="input-text"></select><br><br>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <div class="boton-centrado">
+                                                    <!-- Botón para agregar el horario -->
+                                                    <input type="submit" value="Agregar horario" class="login-btn btn-primary btn" name="shedulesubmit">
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                             </center>
                             <br><br>
                         </div>
@@ -329,8 +306,6 @@
                 <!-- Contenido de Horario Personalizado -->
                 <div class="content_box">
                     <div class="content">
-                        <h3>Horario Personalizado</h3>
-                
                             
                         <!-- Formulario de Horario Personalizado -->
                         <form id="horarioPersonalizadoForm" action="" method="POST">

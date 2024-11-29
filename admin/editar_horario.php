@@ -630,12 +630,12 @@
                                             </td>
                                             <td class="horario-manana">
                                                 <select name="horainicioman">
-                                                        <option value="">Seleccione</option>
+                                                        <option value="">Elija</option>
                                                         <?php generarOpcionesHorario('07:00', '12:00', $horarios_guardados[array_key_first($horarios_guardados)]['inicio_manana'] ?? ''); ?>
                                                     </select>
                                                     <span>-</span>
                                                 <select name="horafinman">
-                                                    <option value="">Seleccione</option>
+                                                    <option value="">Elija</option>
                                                     <?php generarOpcionesHorario('07:30', '12:30', $horarios_guardados[array_key_first($horarios_guardados)]['fin_manana'] ?? ''); ?>
                                                 </select>
                                             </td>
@@ -754,7 +754,7 @@
                 selectElement.innerHTML = ''; // Limpiar opciones previas
 
                 // Agregar opción por defecto vacía y deshabilitada
-                const opcionDefault = new Option('Seleccione', '', true, true);
+                const opcionDefault = new Option('Elija', '', true, true);
                 opcionDefault.disabled = true;
                 selectElement.add(opcionDefault);
 
