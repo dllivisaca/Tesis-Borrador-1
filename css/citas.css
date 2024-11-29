@@ -1,0 +1,333 @@
+/* Contenedor principal para la barra superior */
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-right: 15px;
+}
+
+/* Contenedor de los elementos "Atrás" y la barra de búsqueda */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-action {
+    background-color: #85B4FF; /* Azul claro */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover para el botón */
+.btn-action:hover {
+    background-color: #0056b3; /* Azul más oscuro */
+}
+
+/* Estilo de la barra de búsqueda */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-bar input[type="search"] {
+    padding: 8px 15px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 300px;
+}
+
+.search-bar input[type="submit"] {
+    padding: 8px 20px;
+    font-size: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.search-bar input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Botón "Agregar nuevo doctor" */
+.btn-add {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center; /* Centra el contenido del botón */
+    justify-content: center;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+.btn-add:hover {
+    background-color: #0056b3;
+}
+
+/* Tipografía general para los elementos de entrada */
+input[type="search"],
+input[type="submit"] {
+    font-family: 'Poppins', Arial, sans-serif; /* Especifica la tipografía */
+    font-size: 12px; /* Tamaño del texto */
+    color: #333; /* Color del texto */
+}
+
+/* Estilo para el campo de búsqueda */
+input[type="search"] {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 300px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+/* Estilo para el botón de envío */
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover effects */
+input[type="search"]:focus {
+    border-color: #007bff; /* Cambia el borde al hacer foco */
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+}
+
+/* Contenedor principal de los elementos */
+div[style*="display: flex; justify-content: space-between;"] {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinea los elementos al inicio (superior) */
+    gap: 10px; /* Espacio entre los elementos */
+    padding: 0; /* Asegúrate de eliminar rellenos adicionales */
+    margin: 0; /* Asegúrate de eliminar márgenes adicionales */
+}
+
+/* Centrando los encabezados de la tabla */
+.sub-table th {
+    text-align: center; /* Centrar el texto horizontalmente */
+    vertical-align: middle; /* Centrar el texto verticalmente */
+}
+
+.sub-table td {
+    display: table-cell; /* Asegura comportamiento de celda */
+    vertical-align: middle; /* Alinea verticalmente al centro */
+    text-align: center; /* Opcional: alinear horizontalmente */
+    padding: 12px 15px; /* Espaciado interno */
+}
+
+.sub-table td button {
+    margin: 0; /* Elimina márgenes de los botones */
+    padding: 6px 12px; /* Ajusta el tamaño si es necesario */
+    font-size: 14px; /* Tamaño de fuente consistente */
+    line-height: 1; /* Asegura altura de línea adecuada */
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* Por defecto está oculto */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  /* Estilo para el contenedor del popup */
+  .popup {
+    width: 95%; /* Ocupa el 95% del ancho de la pantalla */
+    max-width: 600px; /* No excede 600px */
+    background-color: white;
+    border-radius: 8px;
+    padding: 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0px auto; /* Márgenes adaptativos */
+  }
+
+  /* Botón para cerrar el popup */
+  .popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* Estilo para el formulario */
+  .popup form input,
+  .popup form select,
+  .popup form button {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    font-size: 14px;
+  }
+
+  .popup form button {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .popup form button:hover {
+    background: #0056b3;
+  }
+
+  /* Contenedor del popup */
+.popup {
+    width: 90%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: auto;
+  }
+  
+  .popup h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 22px;
+  }
+  
+  /* Estructura del formulario */
+  form.doctor-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px; /* Reduce el margen entre campos */
+  }
+  
+  .form-group label {
+    flex: 1; /* Ocupa el 30% del ancho */
+    min-width: 100px; /* Asegura que el label tenga un tamaño mínimo */
+    text-align: left;
+    padding-right: 10px;
+    font-size: 14px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    flex: 2; /* Ocupa el 70% del ancho */
+    width: 100%; /* Para pantallas pequeñas */
+    padding: 0px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Diseño responsive */
+  @media (max-width: 768px) {
+    .form-group {
+      flex-direction: column; /* Apila el label y el input */
+      align-items: stretch; /* Asegura que los elementos usen todo el ancho */
+      gap: 5px; /* Espaciado menor entre los elementos */
+    }
+  
+    .form-group label {
+      font-size: 12px; /* Reduce el tamaño de fuente */
+      margin-bottom: 0px;
+    }
+  
+    .form-group input,
+    .form-group select {
+      font-size: 14px; /* Reduce el tamaño de fuente */
+      padding: 0px; /* Reduce el padding */
+      width: 100%; /* Asegura que los inputs ocupen el 100% */
+    }
+  
+    .popup {
+        width: 95%; /* Ocupa casi todo el ancho disponible */
+        max-width: 500px; /* Máximo ancho en pantallas grandes */
+        background-color: white;
+        border-radius: 8px;
+        padding: 0px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin: 0;
+    }
+  
+    .form-buttons {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    button {
+      font-size: 14px; /* Ajusta el tamaño del texto en los botones */
+      padding: 8px; /* Reduce el padding */
+    }
+  }
+  .password-rules {
+    font-size: 0.75rem; /* Reduce ligeramente el tamaño de la fuente */
+    color: #555; /* Color neutro */
+    margin: 0.25rem 0 0; /* Ajusta los márgenes */
+    line-height: 1.2; /* Mantén una altura de línea compacta */
+    text-align: left; /* Alinea el texto a la izquierda */
+    white-space: normal; /* Permite que el texto se divida en líneas si es necesario */
+    word-wrap: break-word; /* Asegura que las palabras largas se ajusten dentro del contenedor */
+    display: block; /* Asegura un comportamiento consistente */
+}
+
+/* Contenedor para botones de acciones */
+.action-buttons-container {
+  display: flex;
+  gap: 10px; /* Espacio entre botones */
+  justify-content: center; /* Centrar horizontalmente los botones */
+  align-items: center; /* Centrar verticalmente */
+  flex-wrap: wrap; /* Permitir que los botones se ajusten a otra fila si hay muchos */
+}

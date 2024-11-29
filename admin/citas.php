@@ -5,101 +5,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/citas.css">
     <title>Citas Agendadas - Administrador</title>
-    <style>
-        /* Estilos reutilizados del paciente para mantener la consistencia */
-        .container {
-            display: flex;
-        }
-        .menu {
-            width: 20%;
-            background-color: #f4f4f4;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        }
-        .dash-body {
-            width: 80%;
-            padding: 20px;
-        }
-        .table-container {
-            margin-top: 20px;
-            width: 100%;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table th, table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        table th {
-            background: #f4f4f4;
-        }
-        .btn-cancel, .btn-edit {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .btn-cancel:hover, .btn-edit:hover {
-            background-color: #0056b3;
-        }
-        .btn-cancel {
-            background-color: #d9534f;
-        }
-        .btn-cancel:hover {
-            background-color: #c9302c;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 40%;
-            border-radius: 10px;
-            position: relative;
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
     <?php
+    error_reporting(E_ERROR | E_PARSE);
+
     date_default_timezone_set('America/Guayaquil');
 
     session_start();
@@ -390,118 +304,141 @@
     ?>
     <div class="container">
         <div class="menu">
-            <p class="profile-title">Administrador: <?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?></p>
-            <a href="../logout.php"><button class="logout-btn">Cerrar sesión</button></a>
+            <div class="profile-container">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                <p class="profile-title">Administrador</p>
+            </div>
+            <a href="../logout.php"><button class="btn-logout">Cerrar sesión</button></a>
+            <div class="linea-separadora"></div>
             <div class="menu-links">
+                <a href="dashboard.php" class="menu-link">Dashboard</a>
+                <a href="doctores.php" class="menu-link">Doctores</a>
+                <a href="pacientes.php" class="menu-link">Pacientes</a>
                 <a href="horarios.php" class="menu-link">Horarios disponibles</a>
                 <a href="citas.php" class="menu-link menu-link-active">Citas agendadas</a>
-                <a href="configuracion.php" class="menu-link">Configuración</a>
+                <a href="opiniones_recibidas.php" class="menu-link">Opiniones recibidas</a>
             </div>
         </div>
+        
         <div class="dash-body">
-            <h2>Citas Agendadas - Administrador</h2>
-            <div class="filter-container">
-                <form action="" method="post">
-                    <label for="sheduledate">Fecha:</label>
-                    <input type="date" name="sheduledate" id="sheduledate">
-                    <label for="doctor">Doctor:</label>
-                    <select name="doctor" id="doctor">
-                        <option value="" disabled selected>Escoge un doctor de la lista</option>
-                        <?php
-                        // Obtener lista de doctores para el filtro
-                        $doctoresResult = $database->query("SELECT docid, docnombre FROM doctor");
-                        while ($doctor = $doctoresResult->fetch_assoc()) {
-                            echo '<option value="' . htmlspecialchars($doctor['docid'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($doctor['docnombre'], ENT_QUOTES, 'UTF-8') . '</option>';
-                        }
-                        ?>
-                    </select>
-                    <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Filtrar</button>
-                    <button type="button" class="btn-primary-soft btn button-icon btn-add" onclick="openAgregarCitaModal()">+ Agregar nueva cita</button>
-                </form>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nombre del paciente</th>
-                            <th>Nombre del doctor</th>
-                            <th>Especialidad</th>
-                            <th>Fecha y hora</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($result->num_rows == 0) {
-                            echo '<tr>
-                                    <td colspan="6">
-                                        <center>No se encontraron citas agendadas.</center>
-                                    </td>
-                                  </tr>';
-                        } else {
-                            $currentDateTime = new DateTime();
-                            while ($row = $result->fetch_assoc()) {
-                                $citaid = htmlspecialchars($row["citaid"], ENT_QUOTES, 'UTF-8');
-                                $pacnombre = htmlspecialchars($row["pacnombre"], ENT_QUOTES, 'UTF-8');
-                                $docnombre = htmlspecialchars($row["docnombre"], ENT_QUOTES, 'UTF-8');
-                                $espnombre = htmlspecialchars($row["espnombre"], ENT_QUOTES, 'UTF-8');
-                                $fecha = htmlspecialchars($row["fecha"], ENT_QUOTES, 'UTF-8');
-                                $hora_inicio = substr($row["hora_inicio"], 0, 5);
-                                $hora_fin = substr($row["hora_fin"], 0, 5);
-                                $hora_completa = htmlspecialchars($hora_inicio . ' - ' . $hora_fin, ENT_QUOTES, 'UTF-8');
-                                $estado = htmlspecialchars($row["estado"], ENT_QUOTES, 'UTF-8');
-                                $recordatorioReenviado = $row['recordatorio_reenviado'];
-
-                                $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
-                                $interval = $currentDateTime->diff($fechaCita);
-                                $hoursDifference = ($interval->days * 24) + $interval->h;
-                                /* $minutesDifference = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i; */
-
-
-                                echo '<tr>
-                                        <td>' . $pacnombre . '</td>
-                                        <td>' . $docnombre . '</td>
-                                        <td>' . $espnombre . '</td>
-                                        <td>' . $fecha . ' ' . $hora_completa . '</td>
-                                        <td>' . $estado . '</td>
-                                        <td>';
-
-                                // Mostrar botón de cancelar o editar si la cita está pendiente y faltan más de 48 horas
-                                /* if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
-                                    echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
-                                          <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
-                                } */
-
-                                // Mostrar botón de cancelar o editar si la cita está pendiente y faltan más de 48 horas
-                                if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
-                                    echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
-                                          <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
-                                }
-
-                                if ($estado == 'pendiente') {
-                                    echo '<button class="btn-action" onclick="marcarComoFinalizada(' . $citaid . ')">Marcar como finalizada</button>';
-                                    
-                                    // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
-                                    if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
-                                        echo '<button class="btn-action" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar recordatorio</button>';
-                                    }
-                                }
-
-                                // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
-                                /* if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
-                                    echo '<button class="btn-edit" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar Recordatorio</button>';
-                                } */
-                                            
-                                echo '</td></tr>';
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
+            <div class="header-actions">
+            <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
+            <div class="header-inline">
+                <a href="citas.php">
+                    <button class="btn-action">← Atrás</button>
+                </a>
+                <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: left;">
+                Gestor de citas
+                </p>
             </div>
         </div>
-    </div>
+
+        <div class="filter-row">
+            <form method="POST" action="citas.php">
+                <label for="sheduledate">Fecha:</label>
+                <input type="date" name="sheduledate" id="sheduledate">
+                <label for="docid" class="label-doctor">Doctor:</label>
+                <select name="docid" id="docid" class="box filter-container-items">
+                    <option value="" disabled selected hidden>Escoge un doctor de la lista</option>
+                    <?php 
+                        $list11 = $database->query("select * from doctor order by docnombre asc;");
+                        while ($row = $list11->fetch_assoc()) {
+                            echo "<option value='".$row["docid"]."'>".$row["docnombre"]."</option>";
+                        }
+                    ?>
+                </select>
+                <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Buscar</button>
+                <button type="button" class="btn-primary-soft btn button-icon btn-add" onclick="openAgregarCitaModal()">+ Agregar nueva cita</button>
+            </form>
+        </div>
+
+
+
+
+        
+            <div class="table-container">
+                <div class="abc scroll">
+                    <table class="sub-table scrolldown" border="0">
+                        <thead>
+                            <tr>
+                                <th class="table-headin">Nombre del paciente</th>
+                                <th class="table-headin">Nombre del doctor</th>
+                                <th class="table-headin">Especialidad</th>
+                                <th class="table-headin">Fecha y hora</th>
+                                <th class="table-headin">Estado</th>
+                                <th class="table-headin">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if ($result->num_rows == 0) {
+                                echo '<tr>
+                                        <td colspan="6">
+                                            <center>No se encontraron citas agendadas.</center>
+                                        </td>
+                                    </tr>';
+                            } else {
+                                $currentDateTime = new DateTime();
+                                while ($row = $result->fetch_assoc()) {
+                                    $citaid = htmlspecialchars($row["citaid"], ENT_QUOTES, 'UTF-8');
+                                    $pacnombre = htmlspecialchars($row["pacnombre"], ENT_QUOTES, 'UTF-8');
+                                    $docnombre = htmlspecialchars($row["docnombre"], ENT_QUOTES, 'UTF-8');
+                                    $espnombre = htmlspecialchars($row["espnombre"], ENT_QUOTES, 'UTF-8');
+                                    $fecha = htmlspecialchars($row["fecha"], ENT_QUOTES, 'UTF-8');
+                                    $hora_inicio = substr($row["hora_inicio"], 0, 5);
+                                    $hora_fin = substr($row["hora_fin"], 0, 5);
+                                    $hora_completa = htmlspecialchars($hora_inicio . ' - ' . $hora_fin, ENT_QUOTES, 'UTF-8');
+                                    $estado = htmlspecialchars($row["estado"], ENT_QUOTES, 'UTF-8');
+                                    $recordatorioReenviado = $row['recordatorio_reenviado'];
+
+                                    $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
+                                    $interval = $currentDateTime->diff($fechaCita);
+                                    $hoursDifference = ($interval->days * 24) + $interval->h;
+                                    /* $minutesDifference = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i; */
+
+
+                                    echo '<tr>
+                                            <td>' . $pacnombre . '</td>
+                                            <td>' . $docnombre . '</td>
+                                            <td>' . $espnombre . '</td>
+                                            <td>' . $fecha . ' ' . $hora_completa . '</td>
+                                            <td>' . $estado . '</td>
+                                            <td>';
+
+                                    // Mostrar botón de cancelar o editar si la cita está pendiente y faltan más de 48 horas
+                                    /* if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
+                                        echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
+                                            <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
+                                    } */
+
+                                    // Mostrar botón de cancelar o editar si la cita está pendiente y faltan más de 48 horas
+                                    if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
+                                        echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
+                                            <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
+                                    }
+
+                                    if ($estado == 'pendiente') {
+                                        echo '<button class="btn-action" onclick="marcarComoFinalizada(' . $citaid . ')">Marcar como finalizada</button>';
+                                        
+                                        // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
+                                        if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
+                                            echo '<button class="btn-action" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar recordatorio</button>';
+                                        }
+                                    }
+
+                                    // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
+                                    /* if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
+                                        echo '<button class="btn-edit" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar Recordatorio</button>';
+                                    } */
+                                                
+                                    echo '</td></tr>';
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
     <!-- Modal for editing appointment -->
     <div id="editarModal" class="modal">
