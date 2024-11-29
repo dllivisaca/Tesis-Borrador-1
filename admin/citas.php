@@ -336,10 +336,11 @@
         <div class="filter-row">
             <form method="POST" action="citas.php">
                 <label for="sheduledate">Fecha:</label>
-                <input type="date" name="sheduledate" id="sheduledate">
+                <input type="date" name="sheduledate" id="sheduledate" value="<?php echo isset($_POST['sheduledate']) ? htmlspecialchars($_POST['sheduledate'], ENT_QUOTES, 'UTF-8') : ''; ?>">
+
                 <label for="docid" class="label-doctor">Doctor:</label>
-                <select name="docid" id="docid" class="box filter-container-items">
-                    <option value="" disabled selected hidden>Escoge un doctor de la lista</option>
+                <select name="doctor" id="docid" class="box filter-container-items">
+                    <option value="" disabled <?php echo empty($_POST['doctor']) ? 'selected' : ''; ?>>Escoge un doctor de la lista</option>
                     <?php 
                         $list11 = $database->query("select * from doctor order by docnombre asc;");
                         while ($row = $list11->fetch_assoc()) {
