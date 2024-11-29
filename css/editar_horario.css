@@ -136,10 +136,7 @@
 }
 
 
-.horario-table td:first-child {
-    text-align: left; /* Alinea los días a la izquierda */
-    padding-left: 10px; /* Ajusta para que haya espacio entre el borde y el contenido */
-}
+
 
 /* Estilo para el botón de "Guardar cambios" */
 input[type="submit"] {
@@ -174,3 +171,44 @@ input[type="submit"]:disabled {
     cursor: not-allowed; /* Cursor deshabilitado */
     box-shadow: none; /* Sin sombra */
 }
+
+/* Mover los días hacia la derecha de manera uniforme */
+.horario-table td:first-child {
+    text-align: left; /* Alinear a la izquierda */
+    padding-left: 40px; /* Ajusta este valor para mover hacia la derecha */
+}
+
+/* Contenedor para centrar el botón */
+.boton-centrado {
+    display: flex; /* Establece el modelo flexbox */
+    justify-content: center; /* Centra el botón horizontalmente */
+    margin-top: 20px; /* Añade un espacio superior */
+}
+
+/* Estilo del botón */
+.boton-centrado input[type="submit"] {
+    background-color: #007BFF; /* Azul */
+    color: #ffffff; /* Texto blanco */
+    font-size: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+/* Hover del botón */
+.boton-centrado input[type="submit"]:hover {
+    background-color: #0056b3; /* Azul más oscuro */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); /* Sombra más grande */
+}
+
+/* Botón activo */
+.boton-centrado input[type="submit"]:active {
+    background-color: #003f7f; /* Azul más oscuro */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más pequeña */
+}
+
+
