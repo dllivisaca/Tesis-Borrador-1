@@ -175,18 +175,26 @@ table th, table td {
 table th {
   background: #f4f4f4;
 }
+
+
+
 .btn-cancel, .btn-edit {
-  background-color: #85B4FF;
-  color: white;
+  background-color: #85B4FF; /* Mantén el color original */
+  color: white; /* Asegura que el texto sea blanco */
+  text-decoration: none !important; /* Elimina cualquier subrayado forzado */
   border: none;
   padding: 8px 15px;
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+  margin-bottom: 5px; /* Espacio entre los botones verticalmente */
+  display: block; /* Asegura que cada botón esté en su propia línea */
 }
 .btn-cancel:hover, .btn-edit:hover {
   background-color: #0056b3;
+  text-decoration: none !important; /* Asegura que no aparezca subrayado en hover */
 }
+
 .btn-cancel {
   background-color: #85B4FF;
 }
