@@ -606,7 +606,7 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                     <?php if ($tipo_horario === 'personalizado') : ?>
                         <!-- Contenido de Horario Personalizado -->
                         <div class="content active">
-                            <h3>Horario Personalizado</h3>
+                            
                             <!-- <form id="horarioPersonalizadoForm" action="" method="POST"> -->
                             <form id="horarioPersonalizadoForm" action="" method="POST" onsubmit="return validarHorariosPersonalizados(this);">
                                 <input type="hidden" name="docid" value="<?php echo $docid; ?>">
@@ -631,12 +631,13 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
                                         echo '<td><input type="checkbox" name="dias[]" value="' . $dia . '" ' . ($horario_guardado ? 'checked' : '') . '> ' . $dia . '</td>';
 
                                         // Horario de mañana
+                                        
                                         echo '<td>';
-                                        echo 'Inicio: <select name="horainicioman_' . $dia . '">';
+                                        echo '<select name="horainicioman_' . $dia . '">';
                                         echo '<option value="" ' . (empty($horario_guardado['inicio_manana']) ? 'selected' : '') . '>Seleccione</option>';
                                         generarOpcionesHorario('07:00', '12:00', $horario_guardado['inicio_manana'] ?? '');
                                         echo '</select>';
-                                        echo ' Fin: <select name="horafinman_' . $dia . '">';
+                                        echo ' <select name="horafinman_' . $dia . '">';
                                         echo '<option value="" ' . (empty($horario_guardado['fin_manana']) ? 'selected' : '') . '>Seleccione</option>';
                                         generarOpcionesHorario('07:30', '12:30', $horario_guardado['fin_manana'] ?? '');
                                         echo '</select>';
@@ -644,11 +645,11 @@ function generarOpcionesHorario($horaInicio, $horaFin, $valorSeleccionado = '') 
 
                                         // Horario de tarde
                                         echo '<td>';
-                                        echo 'Inicio: <select name="horainiciotar_' . $dia . '">';
+                                        echo '<select name="horainiciotar_' . $dia . '">';
                                         echo '<option value="" ' . (empty($horario_guardado['inicio_tarde']) ? 'selected' : '') . '>Seleccione</option>';
                                         generarOpcionesHorario('13:00', '18:00', $horario_guardado['inicio_tarde'] ?? '');
                                         echo '</select>';
-                                        echo ' Fin: <select name="horafintar_' . $dia . '">';
+                                        echo '<select name="horafintar_' . $dia . '">';
                                         echo '<option value="" ' . (empty($horario_guardado['fin_tarde']) ? 'selected' : '') . '>Seleccione</option>';
                                         generarOpcionesHorario('13:30', '18:30', $horario_guardado['fin_tarde'] ?? '');
                                         echo '</select>';

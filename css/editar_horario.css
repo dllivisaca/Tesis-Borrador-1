@@ -6,25 +6,25 @@
 }
 
 .content_box {
-    width: 50%;  /* Cambia este valor si deseas ajustar más o menos espacio */
-    max-width: 600px;  /* Limitar el ancho máximo para que no se expanda demasiado */
+    width: 45%;  /* Cambia este valor si deseas ajustar más o menos espacio */
+    max-width: 500px;  /* Limitar el ancho máximo para que no se expanda demasiado */
     background-color: #ffffff;  /* Fondo blanco para destacarlo */
-    padding: 20px;  /* Espaciado interno */
+    padding: 15px;  /* Espaciado interno */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra para darle más definición */
     border-radius: 8px;  /* Bordes redondeados */
 }
 
 /* Contenedor de la tabla de horarios para limitar su tamaño */
 .horario-container {
-    width: 45%;  /* Esto limitará el tamaño de la tabla al 50% del contenedor */
-    margin: 0;  /* Centrará el contenedor de la tabla */
-    max-width: 600px;  /* Limitará el ancho máximo para que no se expanda demasiado */
+    width: 100%; /* Ocupa todo el espacio disponible */
+    margin: 0 auto; /* Asegúrate de no centrarlo */
+    padding-left: 20px; /* Ajusta este valor según lo necesario */
 }
 
 .header-inline {
     display: flex !important;
     align-items: center !important; /* Alinea verticalmente los elementos */
-    gap: 10px !important; /* Espacio entre el botón y el título */
+    gap: 5px !important; /* Espacio entre el botón y el título */
 }
 
 .btn-action {
@@ -73,13 +73,13 @@
 }
 
 .horario-table {
-    width: 100%;
-    border-collapse: collapse;
+    margin-left: 20px; /* Desplaza la tabla hacia la derecha */
 }
 
 .horario-table th, .horario-table td {
-    padding: 10px;
-    text-align: left;
+    padding: 8px;  /* Espaciado para mejorar legibilidad */
+    text-align: center; /* Centramos el contenido para mejor alineación */
+    vertical-align: middle; /* Alinear verticalmente al tope */
 }
 
 /* Opcional: mejora visual de los elementos de la tabla */
@@ -88,27 +88,20 @@
     font-weight: bold;
 }
 
-.horario-table td {
-    font-size: 14px;
-}
-
-.horario-table td select {
-    width: 90px;  /* Ajusta el ancho de los selectores para que se vean uniformes */
-}
-
-select {
-    padding: 5px;
-    margin: 5px 0;
-    font-size: 14px;
+/* Reducir el tamaño de la fuente del formulario de horario personalizado */
+.horario-table td, 
+.horario-table th, 
+.horario-table select {
+    font-size: 9px; /* Ajusta este valor según tu preferencia (puedes usar 12px o menos si lo deseas) */
 }
 
 .buttons-container {
     display: flex;
     align-items: center;
     position: relative;
-    margin-top: 15px;
+    margin-top: 10px;
     border-bottom: 1px solid #ddd;
-    padding-bottom: 5px;
+    padding-bottom: 3px;
 }
 
 .tab_btn {
@@ -133,3 +126,15 @@ select {
     transition: all 0.3s ease;
 }
 
+/* Ajustar el ancho de los selectores para que no se vean demasiado grandes */
+.horario-table select {
+    width: 40%;  /* Ajustar el ancho de los selectores */
+    margin: 2px 0; /* Añadir espacio vertical entre los selectores */
+    padding: 2px;  /* Reducir padding para mantenerlos compactos */
+}
+
+
+.horario-table td:first-child {
+    text-align: left; /* Alinea los días a la izquierda */
+    padding-left: 10px; /* Ajusta para que haya espacio entre el borde y el contenido */
+}
