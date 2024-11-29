@@ -300,7 +300,7 @@
                             
                         <!-- Formulario de Horario Personalizado -->
                         <form id="horarioPersonalizadoForm" action="" method="POST">
-                            <table border="0" width="100%">
+                            <table class="horario-table">
                                 <tr>
                                     <th>Día</th>
                                     <th>Horario de Mañana</th>
@@ -425,13 +425,13 @@
                                     <td colspan="2">&nbsp;</td>
                                 </tr>
                             </table>
-                            <input type="submit" value="Agregar horario" name="submitPersonalizado">
+                            
+                            <div class="boton-centrado-personalizado">
+                                <input type="submit" value="Agregar horario" name="submitPersonalizado">
+                            </div>
                         </form>
                     </div>
                 </div>
-                        
-
-
            </div>       
 
             <script>

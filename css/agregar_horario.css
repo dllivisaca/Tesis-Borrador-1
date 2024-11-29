@@ -269,6 +269,13 @@ input[type="submit"]:disabled {
     margin-top: 20px; /* Añade un espacio superior */
 }
 
+.boton-centrado-personalizado {
+    display: flex; /* Establece el modelo flexbox */
+    justify-content: center; /* Centra el botón horizontalmente */
+    margin-top: -20px; /* Añade un espacio superior */
+}
+
+
 /* Estilo del botón */
 .boton-centrado input[type="submit"] {
     background-color: #007BFF; /* Azul */
@@ -358,27 +365,6 @@ input[type="submit"]:disabled {
     box-shadow: none; /* Sin sombras */
 }
 
-th {
-    font-size: 12px; /* Cambia según tu preferencia */
-    font-weight: bold; /* Negrita para resaltar */
-    color: #000; /* Cambia el color si lo deseas */
-    text-align: center; /* Asegura que el texto esté centrado */
-}
-
-td {
-    font-size: 12px; /* Cambia el tamaño del texto */
-    font-weight: normal; /* Ajusta el grosor del texto */
-    color: #333; /* Ajusta el color si es necesario */
-}
-
-select {
-    width: 40%;  /* Ajustar el ancho de los selectores */
-    margin: 2px 0; /* Añadir espacio vertical entre los selectores */
-    padding: 2px;  /* Reducir padding para mantenerlos compactos */
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 12px;
-}
 /* General Reset */
 * {
     box-sizing: border-box;
