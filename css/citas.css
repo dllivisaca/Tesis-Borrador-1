@@ -321,3 +321,12 @@ select {
   color: #00b8d9; /* Ajusta el color del texto */
   font-family: 'Poppins', Arial, sans-serif; /* Asegura la consistencia tipográfica */
 }
+
+.button-container {
+  display: flex;
+  flex-direction: column; /* Coloca los botones en columna */
+  align-items: center; /* Centra los botones horizontalmente */
+  justify-content: center; /* Centra los botones verticalmente */
+  gap: 10px; /* Espaciado uniforme entre los botones */
+  height: 100%; /* Asegura que el contenedor ocupe el espacio de la celda */
+}

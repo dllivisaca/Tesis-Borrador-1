@@ -436,12 +436,14 @@
 
                                         // Mostrar los botones de "Cancelar" y "Editar" si faltan más de 48 horas para la cita
                                         if ($hoursDifference >= 48) {
-                                            echo '<form action="" method="get" style="display:inline;">
-                                                    <input type="hidden" name="action" value="drop">
-                                                    <input type="hidden" name="id" value="' . $citaid . '">
-                                                    <button type="submit" class="btn-cancel">Cancelar</button>
+                                            echo '<div class="button-container">
+                                                <form action="" method="get" style="display:inline;">
+                                                        <input type="hidden" name="action" value="drop">
+                                                        <input type="hidden" name="id" value="' . $citaid . '">
+                                                        <button type="submit" class="btn-cancel">Cancelar</button>
                                                 </form>
-                                                <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
+                                                <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $row["docid"] . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>
+                                                </div>';
                                         }
                                     }
 
