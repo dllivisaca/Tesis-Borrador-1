@@ -29,11 +29,12 @@
     display: flex !important;
     align-items: center !important; /* Alinea verticalmente los elementos */
     gap: 5px !important; /* Espacio entre el botón y el título */
+    margin-bottom: 20px; /* Ajusta el valor según el espaciado deseado */
 }
 
 .btn-action {
     margin-right: 10px !important; /* Ajuste opcional para un espacio mejor entre el botón y el texto */
-    background-color: #85B4FF !important; /* Azul claro */
+    background-color: #85B4FF; /* Azul claro */
     color: white !important;
     border: none !important;
     border-radius: 8px !important;
@@ -41,6 +42,10 @@
     cursor: pointer !important;
     font-size: 14px !important;
     transition: background-color 0.3s ease !important;
+}
+
+.btn-action:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el cursor */
 }
 
 .heading-main12 {
@@ -66,13 +71,13 @@
 
 .info-label {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 13px;
     color: #333;
     margin-right: 5px; /* Espacio opcional entre la etiqueta y el valor */
 }
 
 .info-text {
-    font-size: 16px;
+    font-size: 13px;
     color: #333;
 }
 
