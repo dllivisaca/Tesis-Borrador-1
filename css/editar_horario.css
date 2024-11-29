@@ -25,8 +25,7 @@
     padding-left: 20px; /* Ajusta este valor según lo necesario */
 }
 
-.header-inline {
-    display: flex !important;
+.header-inline {display: flex !important;
     align-items: center !important; /* Alinea verticalmente los elementos */
     gap: 5px !important; /* Espacio entre el botón y el título */
     margin-bottom: 20px; /* Ajusta el valor según el espaciado deseado */
@@ -146,6 +145,7 @@
     width: 40%;  /* Ajustar el ancho de los selectores */
     margin: 2px 0; /* Añadir espacio vertical entre los selectores */
     padding: 2px;  /* Reducir padding para mantenerlos compactos */
+    border-radius: 5px;
 }
 
 
@@ -270,18 +270,35 @@ input[type="submit"]:disabled {
 
 .horario-fijo .dias-column label {
     display: flex;
-    align-items: center; /* Alinea el checkbox y el texto en la misma línea */
-    gap: 5px; /* Espaciado entre el checkbox y el texto */
-    font-size: 12px; /* Tamaño de texto */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el texto */
+    align-items: center;
+    gap: 5px; /* Espacio entre checkbox y texto */
+    font-size: 12px;
+}
+
+.horario-fijo .horario-table select {
+    padding: 3px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.horario-fijo .horario-table {
+    width: 100%;
+    border-collapse: collapse; /* Quitar espacio entre bordes */
+    table-layout: auto; /* Permite ajustar dinámicamente las columnas */
+}
+
+.horario-fijo .horario-table td {
+    vertical-align: middle; /* Centrar verticalmente */
+    text-align: center; /* Centrar horizontalmente */
 }
 
 .horario-fijo .horario-table th, 
 .horario-fijo .horario-table td {
+    padding: 8px;
     text-align: center;
-    vertical-align: middle; /* Centra el contenido verticalmente */
-    padding: 10px; /* Espaciado interno */
-    font-size: 12px; /* Tamaño adecuado de texto */
+    vertical-align: middle; /* Centrar verticalmente */
+    font-size: 12px; /* Tamaño de texto adecuado */
 }
 
 .horario-fijo .horario-table th {
@@ -289,18 +306,18 @@ input[type="submit"]:disabled {
     font-weight: bold; /* Negrita en los encabezados */
 }
 
-.horario-fijo .horario-table select {
-    width: 90%; /* Ajusta el ancho de los selectores */
-    font-size: 12px; /* Tamaño adecuado del texto */
-    margin: 5px 0; /* Espaciado interno */
+
+
+.horario-fijo .horario-table span {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 5px;
+    color: #333; /* Estilo del guion */
 }
 
 .horario-fijo .dias-column {
-    display: flex; /* Activa el modelo flexbox */
-    flex-direction: column; /* Coloca los elementos en columna */
-    gap: 10px; /* Espacio entre los días */
-    align-items: flex-start; /* Alinea los elementos a la izquierda */
-    padding-left: 20px; /* Ajusta según lo necesario */
+    text-align: left;
+    padding-left: 15px; /* Margen para separar los días del borde */
 }
 
 .horario-fijo .dias-column div {
@@ -311,6 +328,9 @@ input[type="submit"]:disabled {
 .horario-fijo .dias-column input[type="checkbox"] {
     margin-right: 10px; /* Espaciado entre checkbox y texto */
 }
+
+
+
 
 
 * {

@@ -629,23 +629,25 @@
                                                 ?>
                                             </td>
                                             <td class="horario-manana">
-                                                Inicio: <select name="horainicioman">
+                                                <select name="horainicioman">
                                                         <option value="">Seleccione</option>
                                                         <?php generarOpcionesHorario('07:00', '12:00', $horarios_guardados[array_key_first($horarios_guardados)]['inicio_manana'] ?? ''); ?>
                                                     </select>
-                                                Fin: <select name="horafinman">
+                                                    <span>-</span>
+                                                <select name="horafinman">
                                                     <option value="">Seleccione</option>
                                                     <?php generarOpcionesHorario('07:30', '12:30', $horarios_guardados[array_key_first($horarios_guardados)]['fin_manana'] ?? ''); ?>
                                                 </select>
                                             </td>
 
                                             <td class="horario-tarde">
-                                                Inicio: <select name="horainiciotar">
-                                                        <option value="">--Elija--</option>
+                                                <select name="horainiciotar">
+                                                        <option value="">Elija</option>
                                                         <?php generarOpcionesHorario('13:00', '18:00', $horarios_guardados[array_key_first($horarios_guardados)]['inicio_tarde'] ?? ''); ?>
                                                     </select>
-                                                Fin: <select name="horafintar">
-                                                    <option value="">--Elija--</option>
+                                                    <span>-</span>
+                                                <select name="horafintar">
+                                                    <option value="">Elija</option>
                                                     <?php generarOpcionesHorario('13:30', '18:30', $horarios_guardados[array_key_first($horarios_guardados)]['fin_tarde'] ?? ''); ?>
                                                 </select>
                                             </td>
@@ -693,12 +695,12 @@
                                                 echo '<td>';
                                                 echo '<div style="display: flex; align-items: center; justify-content: space-between;">';
                                                 echo '<select name="horainicioman_' . $dia . '">';
-                                                echo '<option value="" ' . (empty($horario_guardado['inicio_manana']) ? 'selected' : '') . '>--Elija--</option>';
+                                                echo '<option value="" ' . (empty($horario_guardado['inicio_manana']) ? 'selected' : '') . '>Elija</option>';
                                                 generarOpcionesHorario('07:00', '12:00', $horario_guardado['inicio_manana'] ?? '');
                                                 echo '</select>';
                                                 echo '<div style="width: 5px; height: 1px; background-color: #333; margin: 0 5px;"></div>'; // Línea horizontal
                                                 echo ' <select name="horafinman_' . $dia . '">';
-                                                echo '<option value="" ' . (empty($horario_guardado['fin_manana']) ? 'selected' : '') . '>--Elija--</option>';
+                                                echo '<option value="" ' . (empty($horario_guardado['fin_manana']) ? 'selected' : '') . '>Elija</option>';
                                                 generarOpcionesHorario('07:30', '12:30', $horario_guardado['fin_manana'] ?? '');
                                                 echo '</select>';
                                                 echo '</td>';
@@ -707,12 +709,12 @@
                                                 echo '<td>';
                                                 echo '<div style="display: flex; align-items: center; justify-content: space-between;">';
                                                 echo '<select name="horainiciotar_' . $dia . '">';
-                                                echo '<option value="" ' . (empty($horario_guardado['inicio_tarde']) ? 'selected' : '') . '>--Elija--</option>';
+                                                echo '<option value="" ' . (empty($horario_guardado['inicio_tarde']) ? 'selected' : '') . '>Elija</option>';
                                                 generarOpcionesHorario('13:00', '18:00', $horario_guardado['inicio_tarde'] ?? '');
                                                 echo '</select>';
                                                 echo '<div style="width: 5px; height: 1px; background-color: #333; margin: 0 5px;"></div>'; // Línea horizontal
                                                 echo '<select name="horafintar_' . $dia . '">';
-                                                echo '<option value="" ' . (empty($horario_guardado['fin_tarde']) ? 'selected' : '') . '>--Elija--</option>';
+                                                echo '<option value="" ' . (empty($horario_guardado['fin_tarde']) ? 'selected' : '') . '>Elija</option>';
                                                 generarOpcionesHorario('13:30', '18:30', $horario_guardado['fin_tarde'] ?? '');
                                                 echo '</select>';
                                                 echo '</td>';
