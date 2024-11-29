@@ -321,12 +321,14 @@
                                         <input type="checkbox" name="dias[]" value="Lunes"> Lunes
                                     </td>
                                     <td>
-                                        Inicio: <select name="horainicioman_Lunes"></select> 
-                                        Fin: <select name="horafinman_Lunes"></select>
+                                        <select name="horainicioman_Lunes"></select> 
+                                        <span>-</span>
+                                        <select name="horafinman_Lunes"></select>
                                     </td>
                                     <td>
-                                        Inicio: <select name="horainiciotar_Lunes"></select> 
-                                        Fin: <select name="horafintar_Lunes"></select>
+                                        <select name="horainiciotar_Lunes"></select> 
+                                        <span>-</span>
+                                        <select name="horafintar_Lunes"></select>
                                     </td>
                                 </tr>
                                 <tr>
@@ -334,12 +336,14 @@
                                         <input type="checkbox" name="dias[]" value="Martes"> Martes
                                     </td>
                                     <td>
-                                        Inicio: <select name="horainicioman_Martes"></select> 
-                                        Fin: <select name="horafinman_Martes"></select>
+                                        <select name="horainicioman_Martes"></select> 
+                                        <span>-</span>
+                                        <select name="horafinman_Martes"></select>
                                     </td>
                                     <td>
-                                        Inicio: <select name="horainiciotar_Martes"></select> 
-                                        Fin: <select name="horafintar_Martes"></select>
+                                        <select name="horainiciotar_Martes"></select> 
+                                        <span>-</span>
+                                        <select name="horafintar_Martes"></select>
                                     </td>
                                 </tr>
                                 <tr>
@@ -347,12 +351,14 @@
                                     <input type="checkbox" name="dias[]" value="Miércoles"> Miércoles
                                 </td>
                                 <td>
-                                    Inicio: <select name="horainicioman_Miércoles"></select> 
-                                    Fin: <select name="horafinman_Miércoles"></select>
+                                    <select name="horainicioman_Miércoles"></select> 
+                                    <span>-</span>
+                                    <select name="horafinman_Miércoles"></select>
                                 </td>
                                 <td>
-                                    Inicio: <select name="horainiciotar_Miércoles"></select> 
-                                    Fin: <select name="horafintar_Miércoles"></select>
+                                    <select name="horainiciotar_Miércoles"></select> 
+                                    <span>-</span>
+                                    <select name="horafintar_Miércoles"></select>
                                 </td>
                             </tr>
                             <tr>
@@ -360,12 +366,14 @@
                                     <input type="checkbox" name="dias[]" value="Jueves"> Jueves
                                 </td>
                                 <td>
-                                    Inicio: <select name="horainicioman_Jueves"></select> 
-                                    Fin: <select name="horafinman_Jueves"></select>
+                                    <select name="horainicioman_Jueves"></select>
+                                    <span>-</span>
+                                    <select name="horafinman_Jueves"></select>
                                 </td>
                                 <td>
-                                    Inicio: <select name="horainiciotar_Jueves"></select> 
-                                    Fin: <select name="horafintar_Jueves"></select>
+                                    <select name="horainiciotar_Jueves"></select>
+                                    <span>-</span> 
+                                    <select name="horafintar_Jueves"></select>
                                 </td>
                             </tr>
                             <tr>
@@ -373,12 +381,14 @@
                                     <input type="checkbox" name="dias[]" value="Viernes"> Viernes
                                 </td>
                                 <td>
-                                    Inicio: <select name="horainicioman_Viernes"></select> 
-                                    Fin: <select name="horafinman_Viernes"></select>
+                                    <select name="horainicioman_Viernes"></select> 
+                                    <span>-</span>
+                                    <select name="horafinman_Viernes"></select>
                                 </td>
                                 <td>
-                                    Inicio: <select name="horainiciotar_Viernes"></select> 
-                                    Fin: <select name="horafintar_Viernes"></select>
+                                    <select name="horainiciotar_Viernes"></select> 
+                                    <span>-</span>
+                                    <select name="horafintar_Viernes"></select>
                                 </td>
                             </tr>
                             <tr>
@@ -386,12 +396,14 @@
                                     <input type="checkbox" name="dias[]" value="Sábado"> Sábado
                                 </td>
                                 <td>
-                                    Inicio: <select name="horainicioman_Sábado"></select> 
-                                    Fin: <select name="horafinman_Sábado"></select>
+                                    <select name="horainicioman_Sábado"></select> 
+                                    <span>-</span>
+                                    <select name="horafinman_Sábado"></select>
                                 </td>
                                 <td>
-                                    Inicio: <select name="horainiciotar_Sábado"></select> 
-                                    Fin: <select name="horafintar_Sábado"></select>
+                                    <select name="horainiciotar_Sábado"></select> 
+                                    <span>-</span>
+                                    <select name="horafintar_Sábado"></select>
                                 </td>
                             </tr>
                             <tr>
@@ -399,12 +411,14 @@
                                     <input type="checkbox" name="dias[]" value="Domingo"> Domingo
                                 </td>
                                 <td>
-                                    Inicio: <select name="horainicioman_Domingo"></select> 
-                                    Fin: <select name="horafinman_Domingo"></select>
+                                    <select name="horainicioman_Domingo"></select> 
+                                    <span>-</span>
+                                    <select name="horafinman_Domingo"></select>
                                 </td>
                                 <td>
-                                    Inicio: <select name="horainiciotar_Domingo"></select> 
-                                    Fin: <select name="horafintar_Domingo"></select>
+                                    <select name="horainiciotar_Domingo"></select> 
+                                    <span>-</span>
+                                    <select name="horafintar_Domingo"></select>
                                 </td>
                             </tr>
                                 <tr>

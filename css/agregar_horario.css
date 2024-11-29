@@ -1,9 +1,4 @@
-/* General Reset */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+
 
 .header-inline {
     display: flex; /* Asegura que los elementos estén en línea */
@@ -362,9 +357,11 @@ input[type="submit"]:disabled {
     background-color: transparent; /* Evitar fondo al pasar el cursor */
     box-shadow: none; /* Sin sombras */
 }
-
+/* General Reset */
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 
