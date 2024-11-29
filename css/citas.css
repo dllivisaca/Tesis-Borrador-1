@@ -156,11 +156,12 @@ body {
   padding: 20px;
 }
 .table-container {
-  margin-top: 0px;
-  width: 100%;
+  margin: 0; /* Elimina márgenes adicionales */
+  padding: 0; /* Elimina cualquier relleno no deseado */
+  width: 100%; /* Asegura que la tabla ocupe todo el espacio disponible */
   background: #fff;
-  padding: 20px;
-  border-radius: 10px;
+  border-radius: 10px; /* Mantén los bordes redondeados si es necesario */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera, opcional */
 }
 table {
   width: 100%;
