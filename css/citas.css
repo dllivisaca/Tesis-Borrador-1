@@ -213,15 +213,101 @@ table th {
   background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro semitransparente */
 }
 .modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 40%;
-  border-radius: 10px;
-  position: relative;
-  animation: transitionIn-Y-bottom 0.5s;
+  background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 40%; /* Ajusta según el tamaño necesario */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    font-family: 'Poppins', Arial, sans-serif;
 }
+
+.modal-content h2 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center; /* Centrar título */
+  align-items: center; /* Centrar botones horizontalmente */
+  font-weight: bold;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espaciado entre los elementos */
+}
+
+.modal-content label {
+  font-size: 14px;
+  color: #555;
+  font-weight: bold;
+}
+
+.modal-content select,
+.modal-content input[type="date"],
+.modal-content button {
+  font-size: 14px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+}
+
+.modal-content input[type="date"] {
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  padding: 10px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño de fuente consistente */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 6px; /* Bordes redondeados */
+  box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total */
+}
+
+.modal-content button {
+  background-color: #007bff; /* Botón azul */
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3; /* Azul más oscuro */
+}
+
+.modal-content .close {
+  color: #aaa;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-content .close:hover {
+  color: #333;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column; /* Coloca el label y el input/select en columna */
+  gap: 8px; /* Espaciado entre etiqueta y campo */
+  width: 100%; /* Ocupa todo el ancho del modal */
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.modal-content input[type="date"],
+.modal-content select {
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
 .close {
   color: #aaa;
   float: right;
