@@ -6,12 +6,12 @@
 }
 
 .content_box {
-    width: 50%;  /* Cambia este valor si deseas ajustar más o menos espacio */
-    max-width: 500px;  /* Limitar el ancho máximo para que no se expanda demasiado */
-    background-color: #ffffff;  /* Fondo blanco para destacarlo */
-    padding: 15px;  /* Espaciado interno */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra para darle más definición */
-    border-radius: 8px;  /* Bordes redondeados */
+    width: 50%;
+    max-width: 500px;
+    background-color: #ffffff;
+    padding: 20px;  /* Añadir padding aquí */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 .content_box:nth-child(2) {
@@ -105,7 +105,7 @@
     display: flex;
     width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
     position: relative;
-    margin-bottom: 10px;
+    margin: 0 auto;
     padding-bottom: 5px;
     border-bottom: 3px solid #ccc; /* Línea gris */
 }
@@ -131,6 +131,7 @@
     position: absolute;
     bottom: -2px;
     height: 2px;
+    width: auto; /* Asegura que ajuste automáticamente al botón activo */
     background-color: #007BFF; /* Azul para la línea activa */
     transition: all 0.3s ease;
 }
@@ -219,7 +220,18 @@ input[type="submit"]:disabled {
 }
 
 .buttons-wrapper {
-    text-align: center;
+    display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
     width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
+.tab-container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+* {
+    box-sizing: border-box;
+}

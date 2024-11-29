@@ -431,7 +431,7 @@
         <title>Horarios</title>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="../css/base.css">
-        <link rel="stylesheet" href="../css/editar_horario.css">
+        <link rel="stylesheet" href="../css/editar_horario_personalizado.css">
         <!-- <style>
             .popup{
                 animation: transitionIn-Y-bottom 0.5s;
@@ -584,29 +584,24 @@
                         <div class="info-text"><?php echo $especialidad; ?></div>
                     </div>     
                 </div>     
-
-                    <!-- Pestañas -->
-                    <div style="text-align: center; width: 100%;">
-                        <div class="buttons-wrapper">
-                            <div class="buttons-container">
-                                <?php if ($tipo_horario === 'fijo') : ?>
-                                    <button type="button" class="tab_btn active disabled" disabled>Horario Fijo</button>
-                                    <button type="button" class="tab_btn disabled" disabled>Horario Personalizado</button>
-                                <?php elseif ($tipo_horario === 'personalizado') : ?>
-                                    <button type="button" class="tab_btn disabled" disabled>Horario Fijo</button>
-                                    <button type="button" class="tab_btn active disabled" disabled>Horario Personalizado</button>
-                                <?php else : ?>
-                                    <button type="button" class="tab_btn">Horario Fijo</button>
-                                    <button type="button" class="tab_btn">Horario Personalizado</button>
-                                <?php endif; ?>
-                                <div class="line"></div>
-                            </div>
+                <div class="tab-container">
+                    <div class="buttons-wrapper">
+                        <div class="buttons-container">
+                            <?php if ($tipo_horario === 'fijo') : ?>
+                                <button type="button" class="tab_btn active disabled" disabled>Horario Fijo</button>
+                                <button type="button" class="tab_btn disabled" disabled>Horario Personalizado</button>
+                            <?php elseif ($tipo_horario === 'personalizado') : ?>
+                                <button type="button" class="tab_btn disabled" disabled>Horario Fijo</button>
+                                <button type="button" class="tab_btn active disabled" disabled>Horario Personalizado</button>
+                            <?php else : ?>
+                                <button type="button" class="tab_btn">Horario Fijo</button>
+                                <button type="button" class="tab_btn">Horario Personalizado</button>
+                            <?php endif; ?>
+                            <div class="line"></div>
                         </div>
-                        
                     </div>
-                    
-                
-                <div class="content_wrapper">
+
+                    <div class="content_wrapper">
                      <!-- Contenido de Horario Fijo -->
                      <?php if ($tipo_horario === 'fijo') : ?>
                         <div class="content_box">
@@ -737,7 +732,9 @@
                             </div>
                         <?php endif; ?>
                         
-                    </div>                  
+                    </div>  
+
+                </div>            
         </div>
 
         <!-- Scripts de Validación y Generación de Horarios -->
@@ -866,28 +863,35 @@
                 return valid;
             }
 
-            document.addEventListener("DOMContentLoaded", function() {
+            document.addEventListener("DOMContentLoaded", function () {
                 const tabs = document.querySelectorAll('.tab_btn');
                 const line = document.querySelector('.line');
 
                 function updateLinePosition(activeTab) {
-                    line.style.width = `${activeTab.offsetWidth}px`;
-                    line.style.left = `${activeTab.offsetLeft}px`;
+                    const rect = activeTab.getBoundingClientRect();
+                    const parentRect = activeTab.parentNode.getBoundingClientRect();
+                    line.style.width = `${rect.width}px`;
+                    line.style.left = `${rect.left - parentRect.left}px`; // Ajusta con relación al contenedor padre
                 }
 
+                // Añade eventos a las pestañas
                 tabs.forEach((tab) => {
-                    tab.addEventListener('click', (e) => { 
-                        tabs.forEach(tab => tab.classList.remove('active')); // Quitar clase activa
-                        e.target.classList.add('active'); // Añadir clase activa al clicado
-                        updateLinePosition(e.target); // Actualizar línea azul
+                    tab.addEventListener('click', (e) => {
+                        tabs.forEach(tab => tab.classList.remove('active')); // Quita la clase activa
+                        e.target.classList.add('active'); // Añade la clase activa al clicado
+                        updateLinePosition(e.target); // Actualiza la posición de la línea
                     });
                 });
 
+                // Ajusta la posición inicial
                 const initialActiveTab = document.querySelector('.tab_btn.active');
                 if (initialActiveTab) {
                     updateLinePosition(initialActiveTab);
                 }
             });
+
+
+
 
 
 
