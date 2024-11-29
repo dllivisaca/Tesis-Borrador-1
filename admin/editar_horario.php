@@ -606,7 +606,7 @@
                      <?php if ($tipo_horario === 'fijo') : ?>
                         <div class="content_box">
                         <div class="content active">
-                                <h3>Horario Fijo</h3>
+                                
                                 <form id="horarioFijoForm" action="" method="POST"onsubmit="return validarHorarios(this);">
                                     <input type="hidden" name="docid" value="<?php echo $docid; ?>">
                                     <table class="horario-table" border="0">
@@ -691,10 +691,12 @@
                                                 // Horario de mañana
                                                 
                                                 echo '<td>';
+                                                echo '<div style="display: flex; align-items: center; justify-content: space-between;">';
                                                 echo '<select name="horainicioman_' . $dia . '">';
                                                 echo '<option value="" ' . (empty($horario_guardado['inicio_manana']) ? 'selected' : '') . '>--Elija--</option>';
                                                 generarOpcionesHorario('07:00', '12:00', $horario_guardado['inicio_manana'] ?? '');
                                                 echo '</select>';
+                                                echo '<div style="width: 5px; height: 1px; background-color: #333; margin: 0 5px;"></div>'; // Línea horizontal
                                                 echo ' <select name="horafinman_' . $dia . '">';
                                                 echo '<option value="" ' . (empty($horario_guardado['fin_manana']) ? 'selected' : '') . '>--Elija--</option>';
                                                 generarOpcionesHorario('07:30', '12:30', $horario_guardado['fin_manana'] ?? '');
@@ -703,10 +705,12 @@
 
                                                 // Horario de tarde
                                                 echo '<td>';
+                                                echo '<div style="display: flex; align-items: center; justify-content: space-between;">';
                                                 echo '<select name="horainiciotar_' . $dia . '">';
                                                 echo '<option value="" ' . (empty($horario_guardado['inicio_tarde']) ? 'selected' : '') . '>--Elija--</option>';
                                                 generarOpcionesHorario('13:00', '18:00', $horario_guardado['inicio_tarde'] ?? '');
                                                 echo '</select>';
+                                                echo '<div style="width: 5px; height: 1px; background-color: #333; margin: 0 5px;"></div>'; // Línea horizontal
                                                 echo '<select name="horafintar_' . $dia . '">';
                                                 echo '<option value="" ' . (empty($horario_guardado['fin_tarde']) ? 'selected' : '') . '>--Elija--</option>';
                                                 generarOpcionesHorario('13:30', '18:30', $horario_guardado['fin_tarde'] ?? '');
