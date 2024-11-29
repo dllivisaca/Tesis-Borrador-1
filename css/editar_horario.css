@@ -237,7 +237,82 @@ input[type="submit"]:disabled {
     margin: 0 auto;
 }
 
+
+
+.horario-fijo {
+    margin-top: 20px; /* Espaciado superior */
+    margin-left: -25px; /* Ajusta este porcentaje para moverlo más a la izquierda */
+    margin-right: auto; /* Centra si hay espacio adicional */
+    width: 50%; /* Mantén el ancho adecuado */
+    max-width: 600px; /* Limita el ancho máximo */
+    padding: 20px; /* Añade espaciado interno */
+    background-color: #ffffff; /* Fondo blanco */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    border-radius: 8px; /* Bordes redondeados */
+}
+
+.dias-container {
+    display: flex;
+    flex-direction: column; /* Cambiar la dirección a columna */
+    gap: 10px; /* Espaciado entre cada día */
+    margin-left: 20px; /* Ajustar el margen según sea necesario */
+}
+
+/* Estilos específicos para el formulario de horario fijo */
+.horario-fijo .dias-column {
+    display: flex;
+    flex-direction: column; /* Asegura que los días estén en una columna */
+    align-items: flex-start; /* Alinea los días a la izquierda */
+    gap: 10px; /* Espaciado entre cada día */
+    padding: 10px; /* Espaciado interno */
+    text-align: left; /* Alinea los textos a la izquierda */
+}
+
+.horario-fijo .dias-column label {
+    display: flex;
+    align-items: center; /* Alinea el checkbox y el texto en la misma línea */
+    gap: 5px; /* Espaciado entre el checkbox y el texto */
+    font-size: 12px; /* Tamaño de texto */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el texto */
+}
+
+.horario-fijo .horario-table th, 
+.horario-fijo .horario-table td {
+    text-align: center;
+    vertical-align: middle; /* Centra el contenido verticalmente */
+    padding: 10px; /* Espaciado interno */
+    font-size: 12px; /* Tamaño adecuado de texto */
+}
+
+.horario-fijo .horario-table th {
+    background-color: #f2f2f2; /* Fondo gris claro para encabezados */
+    font-weight: bold; /* Negrita en los encabezados */
+}
+
+.horario-fijo .horario-table select {
+    width: 90%; /* Ajusta el ancho de los selectores */
+    font-size: 12px; /* Tamaño adecuado del texto */
+    margin: 5px 0; /* Espaciado interno */
+}
+
+.horario-fijo .dias-column {
+    display: flex; /* Activa el modelo flexbox */
+    flex-direction: column; /* Coloca los elementos en columna */
+    gap: 10px; /* Espacio entre los días */
+    align-items: flex-start; /* Alinea los elementos a la izquierda */
+    padding-left: 20px; /* Ajusta según lo necesario */
+}
+
+.horario-fijo .dias-column div {
+    display: flex; /* Asegura alineación de los checkboxes y texto */
+    align-items: center;
+}
+
+.horario-fijo .dias-column input[type="checkbox"] {
+    margin-right: 10px; /* Espaciado entre checkbox y texto */
+}
+
+
 * {
     box-sizing: border-box;
 }
-
