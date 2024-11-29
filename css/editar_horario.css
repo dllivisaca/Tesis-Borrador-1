@@ -103,8 +103,7 @@
 
 .buttons-container {
     display: flex;
-    justify-content: center; /* Centra los botones */
-    align-items: center; /* Centra verticalmente */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
     position: relative;
     margin-bottom: 10px;
     padding-bottom: 5px;
@@ -112,13 +111,14 @@
 }
 
 .tab_btn {
+    flex: 1; /* Cada botón ocupa el mismo espacio */
     padding: 10px 20px;
     border: none;
     background: none;
     color: #666;
     font-weight: bold;
     font-size: 14px;
-    text-align: center; /* Asegurar que el texto dentro del botón esté centrado */
+    text-align: center; /* Centra el texto dentro del botón */
     cursor: pointer;
     transition: color 0.3s ease;
 }
@@ -218,4 +218,8 @@ input[type="submit"]:disabled {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más pequeña */
 }
 
+.buttons-wrapper {
+    text-align: center;
+    width: 100%;
+}
 

@@ -586,19 +586,25 @@
                 </div>     
 
                     <!-- Pestañas -->
-                    <div class="buttons-container">
-                        <?php if ($tipo_horario === 'fijo') : ?>
-                            <button type="button" class="tab_btn active disabled" disabled>Horario Fijo</button>
-                            <button type="button" class="tab_btn disabled" disabled>Horario Personalizado</button>
-                        <?php elseif ($tipo_horario === 'personalizado') : ?>
-                            <button type="button" class="tab_btn disabled" disabled>Horario Fijo</button>
-                            <button type="button" class="tab_btn active disabled" disabled>Horario Personalizado</button>
-                        <?php else : ?>
-                            <button type="button" class="tab_btn">Horario Fijo</button>
-                            <button type="button" class="tab_btn">Horario Personalizado</button>
-                        <?php endif; ?>
-                        <div class="line"></div>
+                    <div style="text-align: center; width: 100%;">
+                        <div class="buttons-wrapper">
+                            <div class="buttons-container">
+                                <?php if ($tipo_horario === 'fijo') : ?>
+                                    <button type="button" class="tab_btn active disabled" disabled>Horario Fijo</button>
+                                    <button type="button" class="tab_btn disabled" disabled>Horario Personalizado</button>
+                                <?php elseif ($tipo_horario === 'personalizado') : ?>
+                                    <button type="button" class="tab_btn disabled" disabled>Horario Fijo</button>
+                                    <button type="button" class="tab_btn active disabled" disabled>Horario Personalizado</button>
+                                <?php else : ?>
+                                    <button type="button" class="tab_btn">Horario Fijo</button>
+                                    <button type="button" class="tab_btn">Horario Personalizado</button>
+                                <?php endif; ?>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                        
                     </div>
+                    
                 
                 <div class="content_wrapper">
                      <!-- Contenido de Horario Fijo -->
