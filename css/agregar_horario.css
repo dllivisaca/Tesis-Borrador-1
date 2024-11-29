@@ -1,0 +1,395 @@
+/* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.header-inline {
+    display: flex; /* Asegura que los elementos estén en línea */
+    align-items: center; /* Centra verticalmente los elementos */
+    gap: 8px; /* Espacio entre el botón y el texto */
+    padding: 10px 0; /* Espaciado vertical */
+    margin-bottom: 20px; /* Espaciado inferior para separación */
+}
+
+.header-inline .btn-action {
+    background-color: #85B4FF; /* Azul claro */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 8px 12px; /* Espaciado interno */
+    font-size: 14px; /* Tamaño del texto */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease; /* Efecto suave */
+}
+
+
+.btn-action {
+    background-color: #85B4FF; /* Azul claro */
+    color: #ffffff; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 8px 12px; /* Espaciado interno */
+    font-size: 14px; /* Tamaño del texto */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease; /* Efecto suave al hover */
+}
+
+.btn-action:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el cursor */
+}
+
+.header-title {
+    font-size: 17px;
+    font-weight: bold;
+    color: rgb(49, 49, 49);
+    margin: 0;
+}
+
+.dash-body {
+    display: flex;
+    flex-direction: column; /* Los elementos fluyen en columna */
+}
+
+/* Contenedor general que ocupa toda la pantalla */
+.content_wrapper {
+    display: flex;
+    justify-content: flex-end;  /* Alinea el contenido hacia la derecha */
+    padding: 20px;  /* Espaciado para que no esté pegado al borde */
+}
+
+.content_box {
+    width: 50%;
+    max-width: 500px;
+    background-color: #ffffff;
+    padding: 20px;  /* Añadir padding aquí */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.content_box:nth-child(2) {
+    display: none; /* Oculta el segundo content_box, que sería el de Horario Fijo */
+}
+
+/* Contenedor de la tabla de horarios para limitar su tamaño */
+.horario-container {
+    width: 100%; /* Ocupa todo el espacio disponible */
+    margin: 0 auto; /* Asegúrate de no centrarlo */
+    padding-left: 20px; /* Ajusta este valor según lo necesario */
+}
+
+.header-inline {display: flex !important;
+    align-items: center !important; /* Alinea verticalmente los elementos */
+    gap: 5px !important; /* Espacio entre el botón y el título */
+    margin-bottom: 20px; /* Ajusta el valor según el espaciado deseado */
+}
+
+.btn-action {
+    margin-right: 10px !important; /* Ajuste opcional para un espacio mejor entre el botón y el texto */
+    background-color: #85B4FF; /* Azul claro */
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.btn-action:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el cursor */
+}
+
+.heading-main12 {
+    font-size: 17px !important;
+    color: rgb(49, 49, 49) !important;
+    font-weight: bold !important;
+    margin: 0 !important; /* Quitar márgenes adicionales */
+}
+
+.header-container {
+    display: flex;
+    align-items: center; /* Alinear los elementos verticalmente al centro */
+    gap: 40px; /* Espacio entre las secciones de información */
+    width: 100%;
+    padding: 10px 0;
+}
+
+.info-section {
+    display: flex; /* Cambiar a flex para que el label y el texto estén alineados horizontalmente */
+    align-items: center; /* Alinear verticalmente */
+    gap: 10px; /* Espacio entre la etiqueta y el texto */
+}
+
+.info-label {
+    font-weight: bold;
+    font-size: 13px;
+    color: #333;
+    margin-right: 5px; /* Espacio opcional entre la etiqueta y el valor */
+}
+
+.info-text {
+    font-size: 13px;
+    color: #333;
+}
+
+.horario-table {
+    width: 100%; /* Asegúrate de que ocupe todo el ancho disponible */
+    border-collapse: collapse; /* Quitar el espacio entre bordes */
+    table-layout: fixed; /* Forzar que las columnas se distribuyan uniformemente */
+}
+
+.horario-table th, .horario-table td {
+    padding: 8px;  /* Espaciado para mejorar legibilidad */
+    text-align: center; /* Centramos el contenido para mejor alineación */
+    vertical-align: middle; /* Alinear verticalmente al tope */
+}
+
+/* Opcional: mejora visual de los elementos de la tabla */
+.horario-table th {
+    background-color: #f2f2f2; /* Color de fondo para los encabezados */
+    font-weight: bold;
+}
+
+/* Reducir el tamaño de la fuente del formulario de horario personalizado */
+.horario-table td, 
+.horario-table th, 
+.horario-table select {
+    font-size: 10px; /* Ajusta este valor según tu preferencia (puedes usar 12px o menos si lo deseas) */
+}
+
+.buttons-container {
+    display: flex;
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+    position: relative;
+    margin: 0 auto;
+    padding-bottom: 5px;
+    border-bottom: 3px solid #ccc; /* Línea gris */
+}
+
+.tab_btn {
+    flex: 1; /* Cada botón ocupa el mismo espacio */
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    color: #666;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center; /* Centra el texto dentro del botón */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.tab_btn.active {
+    color: #007BFF;
+}
+
+.line {
+    position: absolute;
+    bottom: -2px;
+    height: 2px;
+    width: auto; /* Asegura que ajuste automáticamente al botón activo */
+    background-color: #007BFF; /* Azul para la línea activa */
+    transition: all 0.3s ease;
+}
+
+/* Ajustar el ancho de los selectores para que no se vean demasiado grandes */
+.horario-table select {
+    width: 40%;  /* Ajustar el ancho de los selectores */
+    margin: 2px 0; /* Añadir espacio vertical entre los selectores */
+    padding: 2px;  /* Reducir padding para mantenerlos compactos */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+
+
+
+/* Estilo para el botón de "Guardar cambios" */
+input[type="submit"] {
+    background-color: #007BFF; /* Azul claro */
+    color: #ffffff; /* Texto blanco */
+    font-size: 10px; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    border: none; /* Sin bordes */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Animaciones suaves */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+/* Efecto hover (cuando el cursor está sobre el botón) */
+input[type="submit"]:hover {
+    background-color: #0056b3; /* Azul más oscuro */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); /* Sombra más grande */
+}
+
+/* Efecto cuando el botón está activo (presionado) */
+input[type="submit"]:active {
+    background-color: #003f7f; /* Azul aún más oscuro */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más pequeña */
+}
+
+/* Opcional: estilo cuando el botón está deshabilitado */
+input[type="submit"]:disabled {
+    background-color: #cccccc; /* Gris claro */
+    cursor: not-allowed; /* Cursor deshabilitado */
+    box-shadow: none; /* Sin sombra */
+}
+
+/* Mover los días hacia la derecha de manera uniforme */
+.horario-table td:first-child {
+    text-align: left; /* Alinear a la izquierda */
+    padding-left: 40px; /* Ajusta este valor para mover hacia la derecha */
+}
+
+/* Contenedor para centrar el botón */
+.boton-centrado {
+    display: flex; /* Establece el modelo flexbox */
+    justify-content: center; /* Centra el botón horizontalmente */
+    margin-top: 20px; /* Añade un espacio superior */
+}
+
+/* Estilo del botón */
+.boton-centrado input[type="submit"] {
+    background-color: #007BFF; /* Azul */
+    color: #ffffff; /* Texto blanco */
+    font-size: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+/* Hover del botón */
+.boton-centrado input[type="submit"]:hover {
+    background-color: #0056b3; /* Azul más oscuro */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); /* Sombra más grande */
+}
+
+/* Botón activo */
+.boton-centrado input[type="submit"]:active {
+    background-color: #003f7f; /* Azul más oscuro */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más pequeña */
+}
+
+.buttons-wrapper {
+    display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.tab-container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.horario-fijo {
+    margin-top: 5px; /* Espaciado superior */
+    margin-left: -25px; /* Ajusta este porcentaje para moverlo más a la izquierda */
+    margin-right: auto; /* Centra si hay espacio adicional */
+    width: 50%; /* Mantén el ancho adecuado */
+    max-width: 600px; /* Limita el ancho máximo */
+    padding: 20px; /* Añade espaciado interno */
+    background-color: #ffffff; /* Fondo blanco */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    border-radius: 8px; /* Bordes redondeados */
+}
+
+.horario-table .horario-manana select {
+    width: 60px; /* Ajusta este valor según el tamaño deseado */
+}
+
+
+.dias-container {
+    display: flex;
+    flex-direction: column; /* Cambiar la dirección a columna */
+    gap: 10px; /* Espaciado entre cada día */
+    margin-left: 20px; /* Ajustar el margen según sea necesario */
+}
+
+/* Estilos específicos para el formulario de horario fijo */
+.horario-fijo .dias-column {
+    display: flex;
+    flex-direction: column; /* Asegura que los días estén en una columna */
+    align-items: flex-start; /* Alinea los días a la izquierda */
+    gap: 10px; /* Espaciado entre cada día */
+    padding: 10px; /* Espaciado interno */
+    text-align: left; /* Alinea los textos a la izquierda */
+}
+
+.horario-fijo .dias-column label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espacio entre checkbox y texto */
+    font-size: 12px;
+}
+
+.horario-fijo .horario-table select {
+    padding: 3px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.horario-fijo .horario-table {
+    width: 100%;
+    border-collapse: collapse; /* Quitar espacio entre bordes */
+    table-layout: auto; /* Permite ajustar dinámicamente las columnas */
+}
+
+.horario-fijo .horario-table td {
+    vertical-align: middle; /* Centrar verticalmente */
+    text-align: center; /* Centrar horizontalmente */
+}
+
+.horario-fijo .horario-table th, 
+.horario-fijo .horario-table td {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle; /* Centrar verticalmente */
+    font-size: 12px; /* Tamaño de texto adecuado */
+}
+
+.horario-fijo .horario-table th {
+    background-color: #f2f2f2; /* Fondo gris claro para encabezados */
+    font-weight: bold; /* Negrita en los encabezados */
+}
+
+
+
+.horario-fijo .horario-table span {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 5px;
+    color: #333; /* Estilo del guion */
+}
+
+.horario-fijo .dias-column {
+    text-align: left;
+    padding-left: 15px; /* Margen para separar los días del borde */
+}
+
+.horario-fijo .dias-column div {
+    display: flex; /* Asegura alineación de los checkboxes y texto */
+    align-items: center;
+}
+
+.horario-fijo .dias-column input[type="checkbox"] {
+    margin-right: 10px; /* Espaciado entre checkbox y texto */
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+

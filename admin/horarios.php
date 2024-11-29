@@ -248,7 +248,7 @@
                                     // Botones de acción (Agregar, Editar, Eliminar)
                                     echo '<td>';
                                     if (empty($doctor['horarios'])) {
-                                        echo '<a href="agghorario_fijo.php?id=' . $docid . '" class="non-style-link">
+                                        echo '<a href="agregar_horario.php?id=' . $docid . '" class="non-style-link">
                                                 <button class="btn-primary-soft btn button-icon btn-add">Agregar horario</button>
                                             </a>';
                                     } else {
