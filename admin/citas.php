@@ -557,8 +557,11 @@
 
             var fechaInput = document.getElementById("fecha");
             var now = new Date();
-            var minDateStr = now.toISOString().split('T')[0];
-            var maxDate = new Date(now.getTime() + 31 * 24 * 60 * 60 * 1000);
+            var tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 horas desde ahora
+            var minDateStr = tomorrow.toISOString().split('T')[0];
+
+            
+            var maxDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
             var maxDateStr = maxDate.toISOString().split('T')[0];
             fechaInput.setAttribute("min", minDateStr);
             fechaInput.setAttribute("max", maxDateStr);
@@ -579,64 +582,51 @@
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
             xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    
                         var response = xhr.responseText.trim();
-                        var options = response.split("\n").filter(option => option.trim() !== '');
-                        var timeOptions = options.map(option => option.trim());
 
-                        var now = new Date();
-                        var selectedDate = new Date(fecha);
-                        if (
-                            selectedDate.getFullYear() === now.getFullYear() &&
-                            selectedDate.getMonth() === now.getMonth() &&
-                            selectedDate.getDate() === now.getDate()
-                        ) {
-                            timeOptions = timeOptions.filter(time => {
-                                var timeMatch = time.match(/^\d{2}:\d{2}/);
-                                if (timeMatch) {
-                                    var [_, hours, minutes] = timeMatch;
-                                    var timeDate = new Date(selectedDate);
-                                    timeDate.setHours(parseInt(hours, 10), parseInt(minutes, 10));
-                                    return timeDate > now;
-                                }
-                                return false;
-                            });
-                        }
 
-                        if (hora_completa && !timeOptions.includes(hora_completa)) {
-                            timeOptions.push(hora_completa);
-                        }
+                        if (response === "No hay horarios disponibles para la fecha seleccionada" || response === "Fecha inválida.") {
+                var horaSelect = document.getElementById("hora");
+                horaSelect.innerHTML = '<option value="" disabled selected>No hay horarios disponibles para la fecha seleccionada</option>';
+                document.getElementById("guardarCambiosBtn").disabled = true;
+                return;
+            }
 
-                        timeOptions.sort((a, b) => {
-                            var timeA = a.match(/\d{2}:\d{2}/)[0];
-                            var timeB = b.match(/\d{2}:\d{2}/)[0];
-                            return timeA.localeCompare(timeB);
-                        });
+            var timeOptions = response.split("\n").filter(option => option.trim() !== '');
 
-                        var optionElements = timeOptions.map(time => {
-                            if (time === hora_completa) {
-                                return '<option value="' + time + '" selected>' + time + '</option>';
-                            } else {
-                                return '<option value="' + time + '">' + time + '</option>';
-                            }
-                        });
+            // No es necesario filtrar nuevamente en el frontend, ya que el servidor lo ha hecho
 
-                        var submitButton = document.getElementById("guardarCambiosBtn");
-                        var horaSelect = document.getElementById("hora");
+            timeOptions.sort((a, b) => {
+                var timeA = a.match(/\d{2}:\d{2}/)[0];
+                var timeB = b.match(/\d{2}:\d{2}/)[0];
+                return timeA.localeCompare(timeB);
+            });
 
-                        if (optionElements.length === 0) {
-                            horaSelect.innerHTML = '<option value="" disabled selected>No hay horarios disponibles para la fecha seleccionada</option>';
-                            submitButton.disabled = true;
-                        } else {
-                            horaSelect.innerHTML = optionElements.join("");
-                            submitButton.disabled = false;
-                        }
-                    }
+            var optionElements = timeOptions.map(time => {
+                if (time === hora_completa) {
+                    return '<option value="' + time + '" selected>' + time + '</option>';
+                } else {
+                    return '<option value="' + time + '">' + time + '</option>';
                 }
-            };
-            xhr.send("fecha=" + encodeURIComponent(fecha) + "&docid=" + encodeURIComponent(docid));
+            });
+
+            var submitButton = document.getElementById("guardarCambiosBtn");
+            var horaSelect = document.getElementById("hora");
+
+            if (optionElements.length === 0) {
+                horaSelect.innerHTML = '<option value="" disabled selected>No hay horarios disponibles para la fecha seleccionada</option>';
+                submitButton.disabled = true;
+            } else {
+                horaSelect.innerHTML = optionElements.join("");
+                submitButton.disabled = false;
+            }
         }
+    };
+
+    xhr.send("fecha=" + encodeURIComponent(fecha) + "&docid=" + encodeURIComponent(docid));
+}
 
         editarForm.onsubmit = function(e) {
             e.preventDefault();
@@ -708,7 +698,7 @@
             var fechaInput = document.getElementById("fecha_agregar");
             var now = new Date();
             var minDate = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 horas desde ahora
-            var maxDate = new Date(now.getTime() + 31 * 24 * 60 * 60 * 1000); // 30 días desde ahora
+            var maxDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 días desde ahora
 
             // Formatear las fechas a 'yyyy-mm-dd'
             function formatDate(date) {
@@ -720,6 +710,9 @@
 
             fechaInput.setAttribute("min", formatDate(minDate));
             fechaInput.setAttribute("max", formatDate(maxDate));
+
+            // Opcional: Establecer la fecha mínima como fecha por defecto
+            fechaInput.value = formatDate(minDate);
         }
 
         function closeAgregarCitaModal() {
