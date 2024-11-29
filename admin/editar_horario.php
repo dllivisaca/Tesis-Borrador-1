@@ -601,84 +601,10 @@
                     </div>
                 
                 <div class="content_wrapper">
-                    <!-- Contenido de Horario Personalizado -->
-                    <div class="content_box">
-                        <?php if ($tipo_horario === 'personalizado') : ?>
-                            <!-- Contenido de Horario Personalizado -->
-                            <div class="content active">
-                                
-                                <!-- <form id="horarioPersonalizadoForm" action="" method="POST"> -->
-                                <form id="horarioPersonalizadoForm" action="" method="POST" onsubmit="return validarHorariosPersonalizados(this);">
-                                    <input type="hidden" name="docid" value="<?php echo $docid; ?>">
-                                    <table class="horario-table" border="0">
-                                        <tr>
-                                            <th>Día</th>
-                                            <th>Horario de Mañana</th>
-                                            <th>Horario de Tarde</th>
-                                        </tr>
-                                        <?php
-                                        // Días de la semana
-                                        $diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-                                        
-                                        foreach ($diasSemana as $dia) {
-                                            $dia_normalizado = normalizarNombreDia($dia); // Normalizar el nombre del día
-                                            
-                                            // Verificar si el día tiene horario guardado
-                                            $horario_guardado = $horarios_guardados[$dia_normalizado] ?? null;
-
-                                            // Mostrar la fila para cada día
-                                            echo '<tr>';
-                                            echo '<td><input type="checkbox" name="dias[]" value="' . $dia . '" ' . ($horario_guardado ? 'checked' : '') . '> ' . $dia . '</td>';
-
-                                            // Horario de mañana
-                                            
-                                            echo '<td>';
-                                            echo '<select name="horainicioman_' . $dia . '">';
-                                            echo '<option value="" ' . (empty($horario_guardado['inicio_manana']) ? 'selected' : '') . '>--Elija--</option>';
-                                            generarOpcionesHorario('07:00', '12:00', $horario_guardado['inicio_manana'] ?? '');
-                                            echo '</select>';
-                                            echo ' <select name="horafinman_' . $dia . '">';
-                                            echo '<option value="" ' . (empty($horario_guardado['fin_manana']) ? 'selected' : '') . '>--Elija--</option>';
-                                            generarOpcionesHorario('07:30', '12:30', $horario_guardado['fin_manana'] ?? '');
-                                            echo '</select>';
-                                            echo '</td>';
-
-                                            // Horario de tarde
-                                            echo '<td>';
-                                            echo '<select name="horainiciotar_' . $dia . '">';
-                                            echo '<option value="" ' . (empty($horario_guardado['inicio_tarde']) ? 'selected' : '') . '>--Elija--</option>';
-                                            generarOpcionesHorario('13:00', '18:00', $horario_guardado['inicio_tarde'] ?? '');
-                                            echo '</select>';
-                                            echo '<select name="horafintar_' . $dia . '">';
-                                            echo '<option value="" ' . (empty($horario_guardado['fin_tarde']) ? 'selected' : '') . '>--Elija--</option>';
-                                            generarOpcionesHorario('13:30', '18:30', $horario_guardado['fin_tarde'] ?? '');
-                                            echo '</select>';
-                                            echo '</td>';
-
-                                            echo '</tr>';
-                                        }
-                                        ?>
-                                        <!-- <tr>
-                                            <td colspan="3" style="text-align: center;">
-                                                <input type="submit" value="Guardar cambios" name="submitPersonalizado">
-                                            </td>
-                                            
-                                        </tr> -->
-                                        
-                                    </table>
-                                    <div class="boton-centrado">
-                                        <input type="submit" value="Guardar cambios" name="submitPersonalizado">
-                                    </div>
-                                </form>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-
-                    <!-- Contenido de Horario Fijo -->
-                    <div class="content_box">
-                        <?php if ($tipo_horario === 'fijo') : ?>
-                            <div class="content active">
+                     <!-- Contenido de Horario Fijo -->
+                     <?php if ($tipo_horario === 'fijo') : ?>
+                        <div class="content_box">
+                        <div class="content active">
                                 <h3>Horario Fijo</h3>
                                 <form id="horarioFijoForm" action="" method="POST"onsubmit="return validarHorarios(this);">
                                     <input type="hidden" name="docid" value="<?php echo $docid; ?>">
@@ -729,10 +655,83 @@
                                     <input type="submit" value="Guardar cambios" name="submitFijo">
                                 </form>
                             </div>
+                        </div>
                         <?php endif; ?>
-                    </div>
-            </div>
 
+                        <!-- Contenido de Horario Personalizado -->
+                        <?php if ($tipo_horario === 'personalizado') : ?>
+                        <div class="content_box">
+                            
+                                <div class="content active">
+                                    
+                                    <!-- <form id="horarioPersonalizadoForm" action="" method="POST"> -->
+                                    <form id="horarioPersonalizadoForm" action="" method="POST" onsubmit="return validarHorariosPersonalizados(this);">
+                                        <input type="hidden" name="docid" value="<?php echo $docid; ?>">
+                                        <table class="horario-table" border="0">
+                                            <tr>
+                                                <th>Día</th>
+                                                <th>Horario de Mañana</th>
+                                                <th>Horario de Tarde</th>
+                                            </tr>
+                                            <?php
+                                            // Días de la semana
+                                            $diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+                                            
+                                            foreach ($diasSemana as $dia) {
+                                                $dia_normalizado = normalizarNombreDia($dia); // Normalizar el nombre del día
+                                                
+                                                // Verificar si el día tiene horario guardado
+                                                $horario_guardado = $horarios_guardados[$dia_normalizado] ?? null;
+
+                                                // Mostrar la fila para cada día
+                                                echo '<tr>';
+                                                echo '<td><input type="checkbox" name="dias[]" value="' . $dia . '" ' . ($horario_guardado ? 'checked' : '') . '> ' . $dia . '</td>';
+
+                                                // Horario de mañana
+                                                
+                                                echo '<td>';
+                                                echo '<select name="horainicioman_' . $dia . '">';
+                                                echo '<option value="" ' . (empty($horario_guardado['inicio_manana']) ? 'selected' : '') . '>--Elija--</option>';
+                                                generarOpcionesHorario('07:00', '12:00', $horario_guardado['inicio_manana'] ?? '');
+                                                echo '</select>';
+                                                echo ' <select name="horafinman_' . $dia . '">';
+                                                echo '<option value="" ' . (empty($horario_guardado['fin_manana']) ? 'selected' : '') . '>--Elija--</option>';
+                                                generarOpcionesHorario('07:30', '12:30', $horario_guardado['fin_manana'] ?? '');
+                                                echo '</select>';
+                                                echo '</td>';
+
+                                                // Horario de tarde
+                                                echo '<td>';
+                                                echo '<select name="horainiciotar_' . $dia . '">';
+                                                echo '<option value="" ' . (empty($horario_guardado['inicio_tarde']) ? 'selected' : '') . '>--Elija--</option>';
+                                                generarOpcionesHorario('13:00', '18:00', $horario_guardado['inicio_tarde'] ?? '');
+                                                echo '</select>';
+                                                echo '<select name="horafintar_' . $dia . '">';
+                                                echo '<option value="" ' . (empty($horario_guardado['fin_tarde']) ? 'selected' : '') . '>--Elija--</option>';
+                                                generarOpcionesHorario('13:30', '18:30', $horario_guardado['fin_tarde'] ?? '');
+                                                echo '</select>';
+                                                echo '</td>';
+
+                                                echo '</tr>';
+                                            }
+                                            ?>
+                                            <!-- <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    <input type="submit" value="Guardar cambios" name="submitPersonalizado">
+                                                </td>
+                                                
+                                            </tr> -->
+                                            
+                                        </table>
+                                        <div class="boton-centrado">
+                                            <input type="submit" value="Guardar cambios" name="submitPersonalizado">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        
+                    </div>                  
         </div>
 
         <!-- Scripts de Validación y Generación de Horarios -->
@@ -872,21 +871,18 @@
 
                 tabs.forEach((tab) => {
                     tab.addEventListener('click', (e) => { 
-                        // Desactivar todas las pestañas
-                        tabs.forEach(tab => tab.classList.remove('active'));
-                        // Activar la pestaña clicada
-                        e.target.classList.add('active');
-                        // Actualizar la posición de la línea
-                        updateLinePosition(e.target);
+                        tabs.forEach(tab => tab.classList.remove('active')); // Quitar clase activa
+                        e.target.classList.add('active'); // Añadir clase activa al clicado
+                        updateLinePosition(e.target); // Actualizar línea azul
                     });
                 });
 
-                // Mostrar la línea debajo de la pestaña activa inicial al cargar la página
                 const initialActiveTab = document.querySelector('.tab_btn.active');
                 if (initialActiveTab) {
                     updateLinePosition(initialActiveTab);
                 }
             });
+
 
 
             // Función para manejar pestañas

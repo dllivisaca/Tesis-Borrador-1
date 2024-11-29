@@ -14,6 +14,10 @@
     border-radius: 8px;  /* Bordes redondeados */
 }
 
+.content_box:nth-child(2) {
+    display: none; /* Oculta el segundo content_box, que sería el de Horario Fijo */
+}
+
 /* Contenedor de la tabla de horarios para limitar su tamaño */
 .horario-container {
     width: 100%; /* Ocupa todo el espacio disponible */
@@ -99,8 +103,8 @@
 
 .buttons-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: center; /* Centra los botones */
+    align-items: center; /* Centra verticalmente */
     position: relative;
     margin-bottom: 10px;
     padding-bottom: 5px;
@@ -114,6 +118,7 @@
     color: #666;
     font-weight: bold;
     font-size: 14px;
+    text-align: center; /* Asegurar que el texto dentro del botón esté centrado */
     cursor: pointer;
     transition: color 0.3s ease;
 }
