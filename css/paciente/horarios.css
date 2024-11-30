@@ -1,0 +1,229 @@
+.header-inline {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaciado entre el botón y el texto */
+}
+
+.header-inline {
+    background-color: #ffffff;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 0; /* Elimina cualquier margen innecesario */
+    padding-left: 0; /* Alineación exacta con el contenedor */
+}
+
+.header-inline .btn-action:hover {
+    background-color: #f0f0f0; /* Cambia el fondo al pasar el mouse */
+}
+
+.header-inline .heading-main12 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.btn-action {
+    background-color: #85B4FF; /* Azul claro */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+
+  .filter-container td:nth-child(2) .box.filter-container-items {
+    margin-left: -25px !important; /* Ajusta el valor según sea necesario */
+}
+
+.header-inline .btn-action:hover {
+    background-color: #0056b3 !important; /* Azul al pasar el mouse */
+    color: white !important; /* Texto blanco */
+}
+
+.header-inline .heading-main12 {
+    margin-left: 10px !important; /* Ajusta el valor según sea necesario */
+}
+
+select {
+    width: 250px !important; /* Ajusta el ancho del select */
+    height: 37px; /* Mantén la altura adecuada */
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 14px; /* Tamaño de fuente */
+    outline: none; /* Elimina el borde azul al hacer clic */
+    background-color: white; /* Fondo blanco */
+    transition: border-color 0.3s ease; /* Transición suave */
+}
+
+select:hover {
+    border-color: #999; /* Borde más oscuro al pasar el mouse */
+}
+
+select:focus {
+    border-color: #007bff; /* Borde azul al enfocar */
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaciado entre los elementos */
+    margin: 0; /* Elimina márgenes adicionales */
+    padding: 0; /* Elimina padding adicional */
+}
+
+.filter-row label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #00b8d9;
+    margin: 0; /* Asegúrate de eliminar márgenes no deseados */
+    padding: 0; /* Asegúrate de eliminar paddings no deseados */
+    margin-right: 23px; /* Ajusta este valor para agregar más espacio */
+}
+
+.label-doctor {
+    color: #00b8d9; /* Cambia al color que desees */
+    font-weight: bold; /* Puedes mantener esto para que siga viéndose destacado */
+}
+
+.filter-row select {
+    width: 250px;
+    height: 37px;
+    margin: 0; /* Elimina márgenes heredados */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: white;
+}
+
+
+.filter-row select:hover {
+    border-color: #999;
+}
+
+.filter-row select:focus {
+    border-color: #007bff;
+}
+
+.filter-row .btn-filter {
+    margin-left: 10px !important; /* Ajustar espacio entre select y botón */
+    height: 37px !important;
+    background-color: #007bff !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 0 15px !important;
+}
+
+.filter-row .btn-filter:hover {
+    background-color: #0056b3 !important; /* Azul más oscuro al pasar el mouse */
+    color: white !important; /* Asegura que el texto sea blanco */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+/* Botón Editar */
+.button-icon.btn-view {
+    background-color: #85B4FF; /* Azul claro */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.button-icon.btn-view:hover {
+    background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+}
+
+/* Botón Eliminar */
+.button-icon.btn-delete {
+    background-color: #85B4FF; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-icon.btn-delete:hover {
+    background-color: #0056b3; /* Rojo más oscuro al pasar el mouse */
+}
+
+table {
+    width: 100%; /* Asegúrate de que la tabla use todo el ancho disponible */
+    border-collapse: collapse; /* Elimina espacios entre bordes */
+}
+
+th, td {
+    text-align: center; /* Centra horizontalmente el texto */
+    vertical-align: middle; /* Centra verticalmente el texto */
+    padding: 10px; /* Opcional: agrega espacio interno para mayor legibilidad */
+    border: 1px solid #ddd; /* Agrega un borde para separar las celdas */
+}
+
+th {
+    background-color: #f8f8f8; /* Fondo de encabezados */
+    font-weight: bold; /* Encabezados en negrita */
+}
+
+a {
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+}
+
+a:hover {
+    text-decoration: none; /* Asegura que no aparezca subrayado al pasar el mouse */
+}
+
+th {
+    text-align: center !important; /* Fuerza el centrado horizontal */
+    vertical-align: middle !important; /* Fuerza el centrado vertical */
+    padding: 10px; /* Ajusta el espacio interno */
+    background-color: #f8f8f8; /* Fondo del encabezado */
+    font-weight: bold; /* Aplica negrita */
+}
+
+.button-icon.btn-add {
+    background-color: #85B4FF; /* Cambia el color de fondo */
+    color: white; /* Cambia el color del texto */
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-icon.btn-add:hover {
+    background-color: #0056b3; /* Color al pasar el mouse */
+    color: white; /* Asegura que el texto sea legible */
+}
+.horarios-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Ajusta a 3 columnas */
+    gap: 10px; /* Espacio entre las celdas */
+    justify-items: center; /* Centra cada celda horizontalmente */
+    align-items: start; /* Alinea verticalmente cada celda al inicio */
+    width: 100%; /* Asegura que la cuadrícula ocupe todo el ancho */
+}
+
+.horarios-grid div {
+    text-align: center; /* Centra horizontalmente el texto */
+    line-height: 1.5; /* Espaciado entre líneas */
+    width: 100%; /* Hace que cada celda ocupe todo el espacio */
+    padding: 5px; /* Añade un poco de espacio interno para mejorar la legibilidad */
+}
+
+
+@media (max-width: 768px) {
+    .horarios-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Más compacto en pantallas pequeñas */
+    }
+}

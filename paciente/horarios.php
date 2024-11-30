@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/horarios.css">
+    <link rel="stylesheet" href="../css/paciente/horarios.css">
         
     <title>Sessions</title>
     <!-- <style>
@@ -225,25 +225,27 @@
                                                     <td>' . $docnombre . '</td>
                                                     <td>' . $espnombre . '</td>
                                                     <td>
-                                                        <div class="horario-col">';
+                                                        <div class="horarios-grid">';
                                         }
 
                                         // Mostrar horarios de la mañana y la tarde
                                         if ($horainicioman != '' && $horafinman != '') {
-                                            echo '<div class="horario-item">
+                                            echo '<div>
                                                     <b>' . $dia_semana . '</b><br>
-                                                    ' . $horainicioman . ' - ' . $horafinman . '<br>
+                                                    ' . $horainicioman . ' - ' . $horafinman . '
                                                 </div>';
                                             $horario_col_empty = false;
                                         }
 
                                         if ($horainiciotar != '' && $horafintar != '') {
-                                            echo '<div class="horario-item">
+                                            echo '<div>
                                                     <b>' . $dia_semana . '</b><br>
                                                     ' . $horainiciotar . ' - ' . $horafintar . '
                                                 </div>';
                                             $horario_col_empty = false;
                                         }
+
+                                        
                                     }
 
                                     // Cerrar el último doctor después de salir del ciclo
@@ -273,7 +275,7 @@
                         </center>
                     </td> 
                 </tr>
-                
+
             </table>
         </div>
     </div>

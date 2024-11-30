@@ -111,7 +111,7 @@ unset($dia); // Limpiar referencia
     <title>Dashboard Administrativo</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/admin/dashboard.css">
 </head>
 <body>
     <div class="container">

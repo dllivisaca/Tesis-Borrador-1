@@ -67,7 +67,7 @@ $totalComments = $totalCommentsResult->fetch_assoc()['total'];
     <title>Opiniones Recibidas</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/opiniones_recibidas.css">
+    <link rel="stylesheet" href="../css/admin/opiniones_recibidas.css">
     
 </head>
 <body>
