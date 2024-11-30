@@ -71,22 +71,21 @@ body {
 }
 
 .menu-link-active {
-    font-size: 14px;
-    color: #007bff;
-    padding: 8px 10px;
-    position: relative;
+    font-size: 14px; /* Tamaño de fuente */
+    color: #007bff; /* Azul */
+    padding: 8px 10px; /* Ajuste de padding */
+    position: relative; /* Necesario para usar `::after` */
     font-weight: bold;
+}
 
-    /* Línea azul en el lado derecho */
-    &::after {
-        content: '';
-        position: absolute;
-        top: 0; /* Alineado al inicio del elemento */
-        right: -20px; /* Ajusta según el padding del menú */
-        width: 4px; /* Grosor de la línea */
-        height: 100%; /* Altura completa del elemento */
-        background-color: #007bff; /* Color azul */
-    }
+.menu-link-active::after {
+    content: ''; /* Asegúrate de que el contenido esté configurado */
+    position: absolute;
+    top: 0; /* Alineado al inicio del elemento */
+    right: 0; /* Ubicado al borde derecho */
+    width: 4px; /* Grosor de la línea */
+    height: 100%; /* Altura completa del elemento */
+    background-color: #007bff; /* Color azul */
 }
 
 .menu .profile-container {
