@@ -46,139 +46,45 @@ $commentsResult = $database->query($commentsQuery);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opiniones Recibidas</title>
-    <link rel="stylesheet" href="styles.css">
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-
-        .container {
-            display: flex;
-            width: 100%;
-            height: 100vh;
-        }
-
-        .sidebar {
-            width: 20%;
-            background-color: #f4f4f4;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar .profile {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .sidebar .profile-logo img {
-            width: 100px;
-            border-radius: 50%;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin: 10px 0;
-        }
-
-        .sidebar ul li a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        .sidebar ul li.active a {
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .main-content {
-            width: 80%;
-            padding: 20px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .summary {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .summary div {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 30%;
-        }
-
-        .comments {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .filter-form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .comments-list .comment {
-            background: #f9f9f9;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/opiniones_recibidas.css">
+    
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="profile">
-                <div class="profile-logo">
-                    <img src="logo.png" alt="Logo">
-                </div>
-                <p>Administrador</p>
-                <button class="btn-logout">Cerrar sesión</button>
+        <div class="menu">
+            <div class="profile-container">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                <p class="profile-title">Administrador</p>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="dashboard.php">Dashboard</a></li>
-                    <li><a href="doctores.php">Doctores</a></li>
-                    <li><a href="pacientes.php">Pacientes</a></li>
-                    <li><a href="horarios.php">Horarios disponibles</a></li>
-                    <li><a href="citas.php">Citas agendadas</a></li>
-                    <li class="active"><a href="opiniones_recibidas.php">Opiniones recibidas</a></li>
-                </ul>
-            </nav>
-        </aside>
+            <a href="../logout.php"><button class="btn-logout">Cerrar sesión</button></a>
+            <div class="linea-separadora"></div>
+            <div class="menu-links">
+                <a href="dashboard.php" class="menu-link">Dashboard</a>
+                <a href="doctores.php" class="menu-link">Doctores</a>
+                <a href="pacientes.php" class="menu-link">Pacientes</a>
+                <a href="horarios.php" class="menu-link">Horarios disponibles</a>
+                <a href="citas.php" class="menu-link">Citas agendadas</a>
+                <a href="opiniones_recibidas.php" class="menu-link menu-link-active">Opiniones recibidas</a>
+            </div>
+        </div>
+
+        <div class="dash-body">
+            <div class="header-actions">
+            <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
+            <div class="header-inline">
+                <a href="citas.php">
+                    <button class="btn-action">← Atrás</button>
+                </a>
+                <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: left;">
+                Opiniones recibidas
+                </p>
+            </div>
+        </div>
 
         <!-- Main Content -->
         <main class="main-content">
-            <header>
-                <button class="btn-back">Atrás</button>
-                <h1>Opiniones recibidas</h1>
-            </header>
-
             <div class="overview">
                 <div class="summary">
                     <div>
