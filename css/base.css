@@ -14,12 +14,15 @@ body {
 }
 
 .menu {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background-color: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ajustada */
-    padding: 20px; /* Agregar padding interno */
+    position: fixed; /* Cambia de sticky a fixed */
+    top: 0; /* Siempre visible desde la parte superior */
+    left: 0; /* Fijo al lado izquierdo */
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    width: 250px; /* Ajusta el ancho según tu diseño */
+    background-color: white; /* Fondo del menú */
+    z-index: 1000; /* Para asegurarte de que esté encima de otros elementos */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+    overflow-y: auto; /* Agrega scroll si el contenido del menú es largo */
 }
 
 .profile-title {
@@ -271,8 +274,9 @@ body {
 }
 
 .dash-body {
-    flex-grow: 1;
+    margin-left: 250px; /* Ajusta según el ancho del menú */
     padding: 20px;
+    width: calc(100% - 250px); /* El contenido ocupa el espacio restante */
 }
 
 .dash-body h2 {
