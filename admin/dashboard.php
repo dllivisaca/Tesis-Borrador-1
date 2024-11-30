@@ -129,7 +129,7 @@ unset($dia); // Limpiar referencia
                 <a href="pacientes.php" class="menu-link">Pacientes</a>
                 <a href="horarios.php" class="menu-link">Horarios disponibles</a>
                 <a href="citas.php" class="menu-link">Citas agendadas</a>
-                <a href="opiniones.php" class="menu-link">Opiniones recibidas</a>
+                <a href="opiniones_recibidas.php" class="menu-link">Opiniones recibidas</a>
             </div>
         </div>
         <div class="dash-body">
@@ -298,9 +298,24 @@ unset($dia); // Limpiar referencia
                         }
                     },
                     y: {
-                        beginAtZero: true,
+                        beginAtZero: true, // Comienza desde 0
+                        ticks: {
+                            callback: function(value) {
+                                // Mostrar solo si el valor es un número entero
+                                if (Number.isInteger(value)) {
+                                    return value;
+                                }
+                                return null; // No mostrar valores no enteros
+                            },
+                            stepSize: 1, // Incremento de 1 entre valores
+                            
+                            font: {
+                                size: 12, // Tamaño de la fuente
+                                
+                            }
+                        },
                         grid: {
-                            color: '#e0e0e0'
+                            color: '#e0e0e0' // Líneas de cuadrícula en gris claro
                         }
                     }
                 },

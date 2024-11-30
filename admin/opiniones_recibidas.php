@@ -97,9 +97,11 @@ $commentsResult = $database->query($commentsQuery);
                         <p style="text-align: center; font-family: 'Poppins', Arial, sans-serif; font-weight: bold; color: #696969">Tasa de respuesta</p>
                     </div>
 
-                    <div>
-                        <h2>Calificaciones obtenidas</h2>
-                        <canvas id="ratingsChart" width="400" height="200"></canvas>
+                    <div style="width: 60%; margin: 0 auto; text-align: center; max-width: 500px;">
+                        <canvas id="ratingsChart"></canvas>
+                        <p style="font-family: 'Poppins', Arial, sans-serif; font-weight: bold; font-size: 16px; color: #696969;">
+                            Calificaciones obtenidas
+                        </p>
                     </div>
                 </div>
             </div>
@@ -240,7 +242,7 @@ $commentsResult = $database->query($commentsQuery);
                 afterDatasetsDraw(chart) {
                     const { ctx, chartArea: { width, height } } = chart;
                     ctx.save();
-                    ctx.font = 'bold 24px Poppins'; // Negrita y fuente consistente
+                    ctx.font = 'bold 20px Poppins'; // Negrita y fuente consistente
                     ctx.fillStyle = '#007bff'; // Azul
                     ctx.textAlign = 'center';
                     ctx.fillText(tasaRespuesta.toFixed(0) + '%', width / 2, height / 2 + 15);
@@ -259,32 +261,46 @@ $commentsResult = $database->query($commentsQuery);
 
     // Crear el gráfico
     new Chart(ctx, {
-        type: 'bar', // Tipo de gráfico
+        type: 'bar', // Cambia a gráfico horizontal
         data: {
-            labels: labels, // Etiquetas
+            labels: labels, // Etiquetas en el eje Y
             datasets: [{
                 label: 'Calificaciones',
                 data: ratingsData, // Datos
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                backgroundColor: '#4A90E2', // Azul para las barras
+                borderWidth: 0,
+                barThickness: 15 // Grosor de las barras
             }]
         },
         options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1, // Incrementos de 1 en el eje Y
-                    callback: function(value) {
-                        return value; // Mostrar solo números enteros
+            responsive: true,
+            indexAxis: 'y', // Cambia el eje para barras horizontales
+            plugins: {
+                legend: { display: false }, // Sin leyendas
+                tooltip: { enabled: true } // Activa o desactiva según tu diseño
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1 // Incrementos de 1
+                    }
+                },
+                y: {
+                    ticks: {
+                        font: {
+                            size: 12, // Tamaño del texto
+                            weight: 'bold' // Negrita
+                        },
+                        color: '#007bff' // Color de las etiquetas
+                    },
+                    grid: {
+                        display: false // Ocultar líneas de cuadrícula
                     }
                 }
             }
         }
-    }
-});
+    });
 </script>
 
 </body>
