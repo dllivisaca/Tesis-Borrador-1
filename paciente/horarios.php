@@ -115,29 +115,45 @@
         </div>
 
         <div class="filter-row">
-            <form method="POST" action="horarios.php">
+            <form method="POST" action="horarios.php" style="display: flex; align-items: center; gap: 10px;">
                 <label for="docid" class="label-doctor">Doctor:</label>
                 <select name="docid" id="docid" class="box filter-container-items">
-                    <option value="" disabled selected hidden>Escoge un doctor de la lista</option>
                     <?php 
-                        $list11 = $database->query("select * from doctor order by docnombre asc;");
+                        $selectedDocId = isset($_POST['docid']) ? $_POST['docid'] : '';
+                        // Añadir 'selected' al placeholder si no se ha seleccionado ningún doctor
+                        echo "<option value='' disabled " . (empty($selectedDocId) ? "selected" : "") . ">Escoge un doctor de la lista</option>";
+                        $list11 = $database->query("SELECT * FROM doctor ORDER BY docnombre ASC");
                         while ($row = $list11->fetch_assoc()) {
-                            echo "<option value='".$row["docid"]."'>".$row["docnombre"]."</option>";
+                            $docid = $row["docid"];
+                            $docnombre = $row["docnombre"];
+                            $selected = ($docid == $selectedDocId) ? 'selected' : '';
+                            echo "<option value='$docid' $selected>$docnombre</option>";
                         }
                     ?>
                 </select>
                 <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Buscar</button>
+                <a href="http://localhost/login/paciente/horarios.php" class="btn-primary-soft btn button-icon btn-filter">Limpiar filtro</a>
             </form>
         </div>
+
 
 
  
         <?php
                 /* $sqlmain= "SELECT doctor.docid, doctor.docnombre, especialidades.espnombre, disponibilidad_doctor.dia_semana, disponibilidad_doctor.horainicioman, disponibilidad_doctor.horafinman, disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar FROM doctor LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid LEFT JOIN especialidades ON doctor.especialidades = especialidades.id ORDER BY doctor.docnombre, disponibilidad_doctor.dia_semana"; */
                 
-                $sqlmain= "SELECT doctor.docid, doctor.docnombre, especialidades.espnombre, especialidades.id as especialidad_id, disponibilidad_doctor.dia_semana, disponibilidad_doctor.horainicioman, disponibilidad_doctor.horafinman, disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar FROM doctor LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid LEFT JOIN especialidades ON doctor.especialidades = especialidades.id ORDER BY doctor.docnombre, disponibilidad_doctor.dia_semana";
+                $sqlmain = "SELECT doctor.docid, doctor.docnombre, especialidades.espnombre, especialidades.id as especialidad_id, disponibilidad_doctor.dia_semana, disponibilidad_doctor.horainicioman, disponibilidad_doctor.horafinman, disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar FROM doctor LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid LEFT JOIN especialidades ON doctor.especialidades = especialidades.id";
 
-                $result= $database->query($sqlmain);
+                // Verificar si el formulario envió un docid
+                if (isset($_POST['docid']) && !empty($_POST['docid'])) {
+                    $selectedDocId = $_POST['docid']; // Recuperar el ID del doctor seleccionado
+                    $sqlmain .= " WHERE doctor.docid = '$selectedDocId'";
+                }
+
+                // Agregar el ordenamiento al final
+                $sqlmain .= " ORDER BY doctor.docnombre, disponibilidad_doctor.dia_semana";
+
+                $result = $database->query($sqlmain);
         ?>
         
                 <tr>
@@ -191,7 +207,8 @@
                                                 echo '</td>';
                                                 echo '<td>';
                                                 if (!empty($current_horarios)) {
-                                                    echo '<button class="btn-primary-soft btn">Agendar cita</button>';
+                                                    // Agregar clase 'agendar-btn' y atributos de datos
+                                                    echo '<button class="btn-primary-soft btn agendar-btn" data-docid="' . $docid . '" data-docnombre="' . htmlspecialchars($docnombre, ENT_QUOTES) . '" data-espnombre="' . htmlspecialchars($espnombre, ENT_QUOTES) . '" data-especialidad-id="' . $especialidad_id . '">+ Agendar cita</button>';
                                                 } else {
                                                     echo '<button class="btn-primary-soft btn" disabled>Sin horarios</button>';
                                                 }
@@ -237,10 +254,8 @@
                                         echo '</td>';
                                         echo '<td>';
                                         if (!empty($current_horarios)) {
-                                            echo '<button class="btn-primary-soft btn">Agendar cita</button>';
-                                        } else {
-                                            echo '<button class="btn-primary-soft btn" disabled></button>';
-                                        }
+                                            echo '<button class="btn-primary-soft btn agendar-btn" data-docid="' . $current_doctor . '" data-docnombre="' . htmlspecialchars($current_docnombre, ENT_QUOTES) . '" data-espnombre="' . htmlspecialchars($current_espnombre, ENT_QUOTES) . '" data-especialidad-id="' . $current_especialidad_id . '">+ Agendar cita</button>';
+                                        } 
                                         echo '</tr>';
                                     }
                                 }

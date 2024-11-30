@@ -75,8 +75,6 @@ select:focus {
     display: flex;
     align-items: center;
     gap: 10px; /* Espaciado entre los elementos */
-    margin: 0; /* Elimina márgenes adicionales */
-    padding: 0; /* Elimina padding adicional */
 }
 
 .filter-row label {
@@ -114,13 +112,19 @@ select:focus {
 }
 
 .filter-row .btn-filter {
-    margin-left: 10px !important; /* Ajustar espacio entre select y botón */
-    height: 37px !important;
-    background-color: #007bff !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 0 15px !important;
+    height: 40px; /* Altura uniforme */
+    padding: 0 20px; /* Espaciado interno */
+    background-color: #007bff; /* Azul del botón */
+    color: white; /* Color del texto */
+    border: none; /* Sin bordes */
+    border-radius: 8px; /* Bordes redondeados */
+    font-size: 13px; /* Tamaño de la fuente */
+    cursor: pointer; /* Cursor de mano */
+    text-align: center; /* Texto centrado */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', Arial, sans-serif;
 }
 
 .filter-row .btn-filter:hover {
@@ -246,4 +250,23 @@ th {
 
 .sub-table tr:nth-child(even) {
     background-color: #f9f9f9;
+}
+
+/* Estilo para el botón de Agendar cita */
+.btn-primary-soft {
+    background-color: #85B4FF; /* Fondo azul claro */
+    color: white; /* Color del texto */
+    border: none; /* Sin bordes */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 12px; /* Tamaño del texto */
+   
+    cursor: pointer; /* Cursor de mano */
+    transition: background-color 0.3s ease; /* Transición suave */
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+/* Cambio de color al pasar el mouse */
+.btn-primary-soft:hover {
+    background-color: #0056b3; /* Azul más oscuro */
 }
