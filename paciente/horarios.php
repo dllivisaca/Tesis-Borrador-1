@@ -170,104 +170,83 @@
                                 }
                                 else{
                                     $current_doctor = null;
-                                    $horario_col_empty = true;
+                                    $current_horarios = []; // Almacena horarios combinados por día
 
-                                    //$current_especialidad = '';
-                                    while($row = $result->fetch_assoc()){
-                                        
+                                    while ($row = $result->fetch_assoc()) {
                                         $docid = $row['docid'];
                                         $especialidad_id = $row['especialidad_id'];
                                         $docnombre = $row['docnombre'];
                                         $espnombre = $row['espnombre'];
                                         $dia_semana = $row['dia_semana'];
+
                                         $horainicioman = ($row['horainicioman'] != '00:00:00') ? substr($row['horainicioman'], 0, 5) : '';
                                         $horafinman = ($row['horafinman'] != '00:00:00') ? substr($row['horafinman'], 0, 5) : '';
                                         $horainiciotar = ($row['horainiciotar'] != '00:00:00') ? substr($row['horainiciotar'], 0, 5) : '';
                                         $horafintar = ($row['horafintar'] != '00:00:00') ? substr($row['horafintar'], 0, 5) : '';
 
-                                        // Imprimir los datos obtenidos para asegurarte de que son correctos
-                                        /* echo "<div>";
-                                        echo "<p>Doctor ID: $docid - Especialidad ID: $especialidad_id</p>";
-                                        echo "<p>$dia_semana: "; */
-
-                                        // Cada vez que cambiamos de doctor, cerramos la fila anterior
+                                        // Cambia al siguiente doctor
                                         if ($current_doctor != $docid) {
-                                            // Si es diferente del actual doctor, cerramos el bloque de doctor anterior si no es la primera iteración
                                             if ($current_doctor !== null) {
-                                                if ($horario_col_empty) {
-                                                    echo '<p>No se encontraron horarios disponibles</p>';
-                                                }
-                                                echo '</div></td>';
+                                                // Imprime el doctor previo con los horarios correspondientes
+                                                echo '<tr>';
+                                                echo '<td>' . $current_docnombre . '</td>';
+                                                echo '<td>' . $current_espnombre . '</td>';
                                                 echo '<td>';
-                                                if (!$horario_col_empty) {
-                                                    // Generar botón de agendamiento con los datos correctos
-                                                    echo '<button class="login-btn btn-primary-soft btn agendar-btn" 
-                                                                style="padding-top:11px;padding-bottom:11px;width:100%" 
-                                                                data-docid="' . $current_docid . '" 
-                                                                data-docnombre="' . $current_docnombre . '" 
-                                                                data-espnombre="' . $current_espnombre . '" 
-                                                                data-especialidad-id="' . $current_especialidad_id . '">Agendar cita</button>';
+                                                if (!empty($current_horarios)) {
+                                                    echo '<div class="horarios-grid">';
+                                                    foreach ($current_horarios as $dia => $horarios) {
+                                                        echo '<div><b>' . $dia . '</b><br>' . implode(', ', $horarios) . '</div>';
+                                                    }
+                                                    echo '</div>';
+                                                } else {
+                                                    echo 'No se encontraron horarios disponibles';
                                                 }
-                                                echo '</td></tr>';
+                                                echo '</td>';
+                                                echo '<td><button class="btn-primary-soft btn">Agendar cita</button></td>';
+                                                echo '</tr>';
                                             }
 
-                                            // Actualizar el doctor actual y sus datos
+                                            // Reinicia las variables del nuevo doctor
                                             $current_doctor = $docid;
-                                            $current_docid = $docid;
                                             $current_docnombre = $docnombre;
                                             $current_espnombre = $espnombre;
-                                            $current_especialidad_id = $especialidad_id;
-
-                                            $horario_col_empty = true;
-
-                                            // Generar la fila HTML para el nuevo doctor
-                                            echo '<tr>
-                                                    <td>' . $docnombre . '</td>
-                                                    <td>' . $espnombre . '</td>
-                                                    <td>
-                                                        <div class="horarios-grid">';
+                                            $current_horarios = [];
                                         }
 
-                                        // Mostrar horarios de la mañana y la tarde
-                                        if ($horainicioman != '' && $horafinman != '') {
-                                            echo '<div>
-                                                    <b>' . $dia_semana . '</b><br>
-                                                    ' . $horainicioman . ' - ' . $horafinman . '
-                                                </div>';
-                                            $horario_col_empty = false;
+                                        // Combina los horarios por día
+                                        if (!isset($current_horarios[$dia_semana])) {
+                                            $current_horarios[$dia_semana] = [];
                                         }
-
-                                        if ($horainiciotar != '' && $horafintar != '') {
-                                            echo '<div>
-                                                    <b>' . $dia_semana . '</b><br>
-                                                    ' . $horainiciotar . ' - ' . $horafintar . '
-                                                </div>';
-                                            $horario_col_empty = false;
+                                        if ($horainicioman && $horafinman) {
+                                            $current_horarios[$dia_semana][] = $horainicioman . ' - ' . $horafinman;
                                         }
-
-                                        
+                                        if ($horainiciotar && $horafintar) {
+                                            $current_horarios[$dia_semana][] = $horainiciotar . ' - ' . $horafintar;
+                                        }
                                     }
 
-                                    // Cerrar el último doctor después de salir del ciclo
+                                    // Imprime la última fila
                                     if ($current_doctor !== null) {
-                                        if ($horario_col_empty) {
-                                            echo '<p>No se encontraron horarios disponibles</p>';
-                                        }
-                                        echo '</div></td>';
+                                        echo '<tr>';
+                                        echo '<td>' . $current_docnombre . '</td>';
+                                        echo '<td>' . $current_espnombre . '</td>';
                                         echo '<td>';
-                                        if (!$horario_col_empty) {
-                                            // Generar botón de agendamiento con los datos correctos
-                                            echo '<button class="login-btn btn-primary-soft btn agendar-btn" 
-                                                        style="padding-top:11px;padding-bottom:11px;width:100%" 
-                                                        data-docid="' . $current_docid . '" 
-                                                        data-docnombre="' . $current_docnombre . '" 
-                                                        data-espnombre="' . $current_espnombre . '" 
-                                                        data-especialidad-id="' . $current_especialidad_id . '">Agendar cita</button>';
+                                        if (!empty($current_horarios)) {
+                                            echo '<div class="horarios-grid">';
+                                            foreach ($current_horarios as $dia => $horarios) {
+                                                echo '<div><b>' . $dia . '</b><br>' . implode(', ', $horarios) . '</div>';
+                                            }
+                                            echo '</div>';
+                                        } else {
+                                            echo 'No se encontraron horarios disponibles';
                                         }
-                                        echo '</td></tr>';
+                                        echo '</td>';
+                                        echo '<td><button class="btn-primary-soft btn">Agendar cita</button></td>';
+                                        echo '</tr>';
                                     }
-                                }
 
+
+                                }   
                             ?>
                             </tbody>
                         </table>

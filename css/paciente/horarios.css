@@ -207,18 +207,18 @@ th {
 }
 .horarios-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Ajusta a 3 columnas */
-    gap: 10px; /* Espacio entre las celdas */
-    justify-items: center; /* Centra cada celda horizontalmente */
-    align-items: start; /* Alinea verticalmente cada celda al inicio */
-    width: 100%; /* Asegura que la cuadrícula ocupe todo el ancho */
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas */
+    gap: 10px; /* Espacio entre celdas */
+    width: 100%;
 }
 
 .horarios-grid div {
-    text-align: center; /* Centra horizontalmente el texto */
-    line-height: 1.5; /* Espaciado entre líneas */
-    width: 100%; /* Hace que cada celda ocupe todo el espacio */
-    padding: 5px; /* Añade un poco de espacio interno para mejorar la legibilidad */
+    text-align: center; /* Centrar el texto */
+    padding: 5px; /* Espaciado interno */
+}
+
+.horarios-grid div:hover {
+    background-color: #f1f1f1; /* Fondo más claro al pasar el mouse */
 }
 
 
@@ -226,4 +226,24 @@ th {
     .horarios-grid {
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Más compacto en pantallas pequeñas */
     }
+}
+
+.sub-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sub-table th, .sub-table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.sub-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.sub-table tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
