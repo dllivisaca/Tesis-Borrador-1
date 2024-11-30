@@ -148,4 +148,15 @@ body {
     display: block;
 }
 
+canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 150px; /* Limita la altura máxima del gráfico */
+    margin: 0 auto;
+}
+
+
+
+
 

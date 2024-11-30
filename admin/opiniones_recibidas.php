@@ -92,10 +92,11 @@ $commentsResult = $database->query($commentsQuery);
                         <canvas id="gaugeChart"></canvas>
                         <p style="text-align: center; font-family: 'Poppins', Arial, sans-serif; font-weight: bold; color: #696969">Puntuación promedio de satisfacción</p>
                     </div>
-                    <div>
-                        <h2><?php echo number_format($tasaRespuesta, 0); ?>%</h2>
-                        <p>Tasa de respuesta</p>
+                    <div style="width: 300px; margin: 0 auto;">
+                        <canvas id="responseRateChart"></canvas>
+                        <p style="text-align: center; font-family: 'Poppins', Arial, sans-serif; font-weight: bold; color: #696969">Tasa de respuesta</p>
                     </div>
+
                     <div>
                         <h2>Calificaciones obtenidas</h2>
                         <canvas id="ratingsChart" width="400" height="200"></canvas>
@@ -157,7 +158,7 @@ $commentsResult = $database->query($commentsQuery);
 
         const options = {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             plugins: {
                 tooltip: { enabled: false }, // Sin tooltips
                 legend: { display: false }   // Sin leyendas
@@ -199,6 +200,55 @@ $commentsResult = $database->query($commentsQuery);
                 }
             }]
         };
+
+        //////////////
+
+
+        const responseCtx = document.getElementById('responseRateChart').getContext('2d');
+
+        // Tasa de respuesta generada desde PHP
+        const tasaRespuesta = <?php echo number_format($tasaRespuesta, 0); ?>;
+
+        // Configuración de datos para el gráfico de Tasa de Respuesta
+        const responseData = {
+            datasets: [{
+                data: [tasaRespuesta, 100 - tasaRespuesta], // Tasa de respuesta y restante
+                backgroundColor: ['#4A90E2', '#E0E0E0'], // Azul y gris
+                borderWidth: 0,
+                cutout: '75%', // Grosor del arco
+                circumference: 180,
+                rotation: 270
+            }]
+        };
+
+        const responseOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: { enabled: false }, // Sin tooltips
+                legend: { display: false }   // Sin leyendas
+            }
+        };
+
+        // Crear gráfico tipo Gauge para Tasa de Respuesta
+        new Chart(responseCtx, {
+            type: 'doughnut',
+            data: responseData,
+            options: responseOptions,
+            plugins: [{
+                id: 'customResponseCenterText',
+                afterDatasetsDraw(chart) {
+                    const { ctx, chartArea: { width, height } } = chart;
+                    ctx.save();
+                    ctx.font = 'bold 24px Poppins'; // Negrita y fuente consistente
+                    ctx.fillStyle = '#007bff'; // Azul
+                    ctx.textAlign = 'center';
+                    ctx.fillText(tasaRespuesta.toFixed(0) + '%', width / 2, height / 2 + 15);
+                    ctx.restore();
+                }
+            }]
+        });
+
 
  
     const ctx = document.getElementById('ratingsChart').getContext('2d');
