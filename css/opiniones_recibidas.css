@@ -164,3 +164,60 @@ canvas {
     max-height: 150px; /* Limita la altura máxima del gráfico */
     margin: 0 auto;
 }
+
+label {
+    font-size: 13px; /* Cambia este valor según tus necesidades */
+    font-family: 'Poppins', Arial, sans-serif; /* Asegúrate de mantener la coherencia de la fuente */
+    color: #00b8d9; /* Color del texto */
+    font-weight: bold;
+}
+
+input, select, button {
+    border-radius: 8px; /* Ajusta el valor según tus necesidades */
+    border: 1px solid #ccc; /* Asegura un borde consistente */
+    padding: 3px 12px; /* Ajusta el relleno para mantener proporciones */
+    font-family: 'Poppins', Arial, sans-serif; /* Mantén la fuente coherente */
+}
+
+input:focus, select:focus, button:focus {
+    outline: none; /* Elimina el contorno predeterminado */
+    border: 1px solid #4A90E2; /* Cambia el color del borde al enfocar */
+}
+
+.filter-form {
+    display: flex;
+    align-items: center; /* Alineación vertical */
+    gap: 10px; /* Espaciado entre elementos */
+}
+
+.filter-form label {
+    font-size: 14px; /* Ajusta el tamaño de letra */
+    font-weight: bold; /* Resalta los labels */
+    color: #00b8d9; /* Color del label */
+    margin-right: 5px; /* Espaciado entre el label y el campo */
+}
+
+.filter-form input,
+.filter-form select {
+    border-radius: 8px; /* Bordes redondeados */
+    border: 1px solid #ccc; /* Borde estándar */
+    padding: 0px 12px; /* Espaciado interno */
+    font-family: 'Poppins', Arial, sans-serif; /* Fuente consistente */
+    font-size: 13px; /* Ajusta el tamaño de letra */
+    height: 38px; /* Asegura que todos los elementos tengan la misma altura */
+}
+
+.filter-form button {
+    border-radius: 8px;
+    background-color: #007bff; /* Color del botón */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-family: 'Poppins', Arial, sans-serif;
+    cursor: pointer;
+}
+
+.filter-form button:hover {
+    background-color: #0056b3; /* Efecto hover */
+}
+
