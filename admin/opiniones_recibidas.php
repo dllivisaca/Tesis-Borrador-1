@@ -74,7 +74,7 @@ $commentsResult = $database->query($commentsQuery);
             <div class="header-actions">
             <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
             <div class="header-inline">
-                <a href="citas.php">
+                <a href="opiniones_recibidas.php">
                     <button class="btn-action">← Atrás</button>
                 </a>
                 <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: left;">
@@ -107,7 +107,7 @@ $commentsResult = $database->query($commentsQuery);
             </div>
 
             <section class="comments">
-                <h2>Listado de comentarios</h2>
+                <p class="subheading-main1" style="color: #00b8d9; font-size: 15px;">Listado de comentarios</p>
                 <form method="GET" action="opiniones_recibidas.php" class="filter-form">
                     <label for="date">Fecha:</label>
                     <input type="date" name="date" id="date" value="<?php echo htmlspecialchars($dateFilter ?? ''); ?>">

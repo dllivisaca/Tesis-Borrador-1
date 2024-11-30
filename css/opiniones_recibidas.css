@@ -136,6 +136,15 @@ body {
     color: #00b8d9; /* Azul claro */
     margin-top: 20px; /* Espaciado superior */
     font-weight: bold; /* Negrita opcional */
+    font-family: 'Poppins', Arial, sans-serif; /* Tipografía consistente */ 
+    padding-left: 30px; /* Ajusta este valor según sea necesario */
+}
+
+.subheading-main1 {
+    font-size: 15px; /* Ajusta el tamaño */
+    color: #00b8d9; /* Azul claro */
+    margin-top: 20px; /* Espaciado superior */
+    font-weight: bold; /* Negrita opcional */
     font-family: 'Poppins', Arial, sans-serif; /* Tipografía consistente */
 }
 
@@ -155,7 +164,3 @@ canvas {
     max-height: 150px; /* Limita la altura máxima del gráfico */
     margin: 0 auto;
 }
-
-
-
-
