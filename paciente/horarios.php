@@ -184,10 +184,10 @@
                                         $horainiciotar = ($row['horainiciotar'] != '00:00:00') ? substr($row['horainiciotar'], 0, 5) : '';
                                         $horafintar = ($row['horafintar'] != '00:00:00') ? substr($row['horafintar'], 0, 5) : '';
 
-                                        // Cambia al siguiente doctor
+                                        // Si cambia el doctor, imprimimos la fila anterior
                                         if ($current_doctor != $docid) {
                                             if ($current_doctor !== null) {
-                                                // Imprime el doctor previo con los horarios correspondientes
+                                                // Imprimir la fila del doctor actual
                                                 echo '<tr>';
                                                 echo '<td>' . $current_docnombre . '</td>';
                                                 echo '<td>' . $current_espnombre . '</td>';
@@ -195,7 +195,7 @@
                                                 if (!empty($current_horarios)) {
                                                     echo '<div class="horarios-grid">';
                                                     foreach ($current_horarios as $dia => $horarios) {
-                                                        echo '<div><b>' . $dia . '</b><br>' . implode(', ', $horarios) . '</div>';
+                                                        echo '<div><b>' . $dia . '</b><br>' . implode('<br>', $horarios) . '</div>';
                                                     }
                                                     echo '</div>';
                                                 } else {
@@ -206,14 +206,14 @@
                                                 echo '</tr>';
                                             }
 
-                                            // Reinicia las variables del nuevo doctor
+                                            // Reiniciar datos del nuevo doctor
                                             $current_doctor = $docid;
                                             $current_docnombre = $docnombre;
                                             $current_espnombre = $espnombre;
                                             $current_horarios = [];
                                         }
 
-                                        // Combina los horarios por día
+                                        // Combinar horarios por día
                                         if (!isset($current_horarios[$dia_semana])) {
                                             $current_horarios[$dia_semana] = [];
                                         }
@@ -225,7 +225,7 @@
                                         }
                                     }
 
-                                    // Imprime la última fila
+                                    // Imprimir la última fila después del ciclo
                                     if ($current_doctor !== null) {
                                         echo '<tr>';
                                         echo '<td>' . $current_docnombre . '</td>';
@@ -234,7 +234,7 @@
                                         if (!empty($current_horarios)) {
                                             echo '<div class="horarios-grid">';
                                             foreach ($current_horarios as $dia => $horarios) {
-                                                echo '<div><b>' . $dia . '</b><br>' . implode(', ', $horarios) . '</div>';
+                                                echo '<div><b>' . $dia . '</b><br>' . implode('<br>', $horarios) . '</div>';
                                             }
                                             echo '</div>';
                                         } else {
@@ -244,7 +244,6 @@
                                         echo '<td><button class="btn-primary-soft btn">Agendar cita</button></td>';
                                         echo '</tr>';
                                     }
-
 
                                 }   
                             ?>
