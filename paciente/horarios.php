@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/horarios.css">
         
     <title>Sessions</title>
-    <style>
+    <!-- <style>
         .popup{
             animation: transitionIn-Y-bottom 0.5s;
         }
@@ -55,10 +55,11 @@
             text-decoration: none;
             cursor: pointer;
         }
-    </style>
+    </style> -->
 </head>
 <body>
     <?php
+    error_reporting(E_ERROR | E_PARSE);
 
     session_start();
 
@@ -81,51 +82,56 @@
     date_default_timezone_set('America/Guayaquil');
     $today = date('Y-m-d');
  ?>
- <div class="container">
-     <div class="menu">
-     <table class="menu-container" border="0">
-             <tr>
-                 <td style="padding:10px" colspan="2">
-                     <table border="0" class="profile-container">
-                         <tr>
-                             <td width="30%" style="padding-left:20px" >
-                                 <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
-                             </td>
-                             <td style="padding:0px;margin:0px;">
-                                 <p class="profile-title"><?php echo substr($username,0,13)  ?>..</p>
-                                 <p class="profile-subtitle"><?php echo substr($usuario,0,22)  ?></p>
-                             </td>
-                         </tr>
-                         <tr>
-                             <td colspan="2">
-                                 <a href="../logout.php" ><input type="button" value="Log out" class="logout-btn btn-primary-soft btn"></a>
-                             </td>
-                         </tr>
-                 </table>
-                 </td>
-             </tr>
-             <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-home " >
-                        <a href="citas.php" class="non-style-link-menu "><div><p class="menu-text">Inicio</p></a></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-session menu-active menu-icon-session-active">
-                        <a href="horarios.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Horarios disponibles</p></div></a>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-appoinment">
-                        <a href="citas.php" class="non-style-link-menu"><div><p class="menu-text">Mis citas agendadas</p></a></div>
-                    </td>
-                </tr>
-                <tr class="menu-row" >
-                    <td class="menu-btn menu-icon-settings">
-                        <a href="configuracion.php" class="non-style-link-menu"><div><p class="menu-text">Configuración</p></a></div>
-                    </td>
-                </tr>
-            </table>
+
+<div class="container">
+        <div class="menu">
+            <div class="profile-container">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                
+                <p class="profile-title"><?php echo substr($username,0,13)  ?>..</p>
+                
+            </div>
+
+
+            <a href="../logout.php"><button class="btn-logout">Cerrar sesión</button></a>
+            <div class="linea-separadora"></div>
+            <div class="menu-links">
+                <a href="citas.php" class="menu-link">Citas agendadas</a>
+                <a href="horarios.php" class="menu-link menu-link-active">Horarios disponibles</a>
+            </div>
         </div>
+
+        <div class="dash-body">
+            <div class="header-actions">
+            <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
+            <div class="header-inline">
+                <a href="horarios.php">
+                    <button class="btn-action">← Atrás</button>
+                </a>
+                <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: left;">
+                Horarios disponibles
+                </p>
+            </div>
+        </div>
+
+        <div class="filter-row">
+            <form method="POST" action="horarios.php">
+                <label for="docid" class="label-doctor">Doctor:</label>
+                <select name="docid" id="docid" class="box filter-container-items">
+                    <option value="" disabled selected hidden>Escoge un doctor de la lista</option>
+                    <?php 
+                        $list11 = $database->query("select * from doctor order by docnombre asc;");
+                        while ($row = $list11->fetch_assoc()) {
+                            echo "<option value='".$row["docid"]."'>".$row["docnombre"]."</option>";
+                        }
+                    ?>
+                </select>
+                <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Buscar</button>
+            </form>
+        </div>
+
+
+ 
         <?php
                 /* $sqlmain= "SELECT doctor.docid, doctor.docnombre, especialidades.espnombre, disponibilidad_doctor.dia_semana, disponibilidad_doctor.horainicioman, disponibilidad_doctor.horafinman, disponibilidad_doctor.horainiciotar, disponibilidad_doctor.horafintar FROM doctor LEFT JOIN disponibilidad_doctor ON doctor.docid = disponibilidad_doctor.docid LEFT JOIN especialidades ON doctor.especialidades = especialidades.id ORDER BY doctor.docnombre, disponibilidad_doctor.dia_semana"; */
                 
@@ -133,38 +139,18 @@
 
                 $result= $database->query($sqlmain);
         ?>
-        <div class="dash-body">
-            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
-                <tr >
-                    <td width="13%" >
-                    <a href="horarios.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
-                    </td>
-                    <td >
-                        <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Horarios Disponibles</p>
-                    </td>
-                    <td width="15%">
-                        <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
-                            Today's Date
-                        </p>
-                        <p class="heading-sub12" style="padding: 0;margin: 0;">
-                            <?php echo $today; ?>
-                        </p>
-                    </td>
-                    <td width="10%">
-                        <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
-                    </td>
-                </tr>
+        
                 <tr>
-                    <td colspan="4" style="padding-top:10px;width: 100%;" >
+                    <td colspan="4">
                         <center>
                         <div class="abc scroll">
-                        <table width="90%" class="sub-table scrolldown" border="0" style="padding: 50px;border:none">
+                        <table width="93%" class="sub-table scrolldown" border="0">
                             <thead>
                                 <tr>
-                                    <th>Doctor</th>
-                                    <th>Especialidad</th>
-                                    <th>Horarios Disponibles</th>
-                                    <th>Acciones</th>
+                                    <th class="table-headin">Doctor</th>
+                                    <th class="table-headin">Especialidad</th>
+                                    <th class="table-headin">Horarios Disponibles</th>
+                                    <th class="table-headin">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -287,6 +273,7 @@
                         </center>
                     </td> 
                 </tr>
+                
             </table>
         </div>
     </div>
