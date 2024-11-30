@@ -155,39 +155,26 @@
                             </thead>
                             <tbody>
                             <?php
-                                if($result->num_rows == 0){
-                                    echo '<tr>
-                                    <td colspan="4">
-                                    <br><br><br><br>
-                                    <center>
-                                    <img src="../img/notfound.svg" width="25%">
-                                    <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">No se encontraron horarios disponibles!</p>
-                                    </center>
-                                    <br><br><br><br>
-                                    </td>
-                                    </tr>';
-                                }
-                                else{
+                                if ($result->num_rows > 0) {
                                     $current_doctor = null;
-                                    $current_horarios = []; // Almacena horarios combinados por día
-
+                                    $current_horarios = [];
+                                    
                                     while ($row = $result->fetch_assoc()) {
                                         $docid = $row['docid'];
                                         $especialidad_id = $row['especialidad_id'];
                                         $docnombre = $row['docnombre'];
                                         $espnombre = $row['espnombre'];
                                         $dia_semana = $row['dia_semana'];
-
+                                        
                                         $horainicioman = ($row['horainicioman'] != '00:00:00') ? substr($row['horainicioman'], 0, 5) : '';
                                         $horafinman = ($row['horafinman'] != '00:00:00') ? substr($row['horafinman'], 0, 5) : '';
                                         $horainiciotar = ($row['horainiciotar'] != '00:00:00') ? substr($row['horainiciotar'], 0, 5) : '';
                                         $horafintar = ($row['horafintar'] != '00:00:00') ? substr($row['horafintar'], 0, 5) : '';
-
-                                        // Si cambia el doctor, imprimimos la fila anterior
+                                        
+                                        // Si cambia el doctor o es el primer doctor, procesa el anterior
                                         if ($current_doctor != $docid) {
                                             if ($current_doctor !== null) {
-                                                // Imprimir la fila del doctor actual
+                                                // Mostrar la fila del doctor anterior
                                                 echo '<tr>';
                                                 echo '<td>' . $current_docnombre . '</td>';
                                                 echo '<td>' . $current_espnombre . '</td>';
@@ -199,33 +186,40 @@
                                                     }
                                                     echo '</div>';
                                                 } else {
-                                                    echo 'No se encontraron horarios disponibles';
+                                                    echo '<p>No se encontraron horarios disponibles</p>'; // Mensaje claro
                                                 }
                                                 echo '</td>';
-                                                echo '<td><button class="btn-primary-soft btn">Agendar cita</button></td>';
+                                                echo '<td>';
+                                                if (!empty($current_horarios)) {
+                                                    echo '<button class="btn-primary-soft btn">Agendar cita</button>';
+                                                } else {
+                                                    echo '<button class="btn-primary-soft btn" disabled>Sin horarios</button>';
+                                                }
                                                 echo '</tr>';
                                             }
-
-                                            // Reiniciar datos del nuevo doctor
+                                            
+                                            // Reinicia variables para el nuevo doctor
                                             $current_doctor = $docid;
                                             $current_docnombre = $docnombre;
                                             $current_espnombre = $espnombre;
                                             $current_horarios = [];
                                         }
-
-                                        // Combinar horarios por día
-                                        if (!isset($current_horarios[$dia_semana])) {
-                                            $current_horarios[$dia_semana] = [];
-                                        }
-                                        if ($horainicioman && $horafinman) {
-                                            $current_horarios[$dia_semana][] = $horainicioman . ' - ' . $horafinman;
-                                        }
-                                        if ($horainiciotar && $horafintar) {
-                                            $current_horarios[$dia_semana][] = $horainiciotar . ' - ' . $horafintar;
+                                        
+                                        // Añade los horarios para el doctor actual, si existen
+                                        if (!empty($dia_semana)) { // Verifica que haya un día válido
+                                            if (!isset($current_horarios[$dia_semana])) {
+                                                $current_horarios[$dia_semana] = [];
+                                            }
+                                            if ($horainicioman && $horafinman) {
+                                                $current_horarios[$dia_semana][] = $horainicioman . ' - ' . $horafinman;
+                                            }
+                                            if ($horainiciotar && $horafintar) {
+                                                $current_horarios[$dia_semana][] = $horainiciotar . ' - ' . $horafintar;
+                                            }
                                         }
                                     }
-
-                                    // Imprimir la última fila después del ciclo
+                                    
+                                    // Procesa el último doctor fuera del ciclo
                                     if ($current_doctor !== null) {
                                         echo '<tr>';
                                         echo '<td>' . $current_docnombre . '</td>';
@@ -238,14 +232,21 @@
                                             }
                                             echo '</div>';
                                         } else {
-                                            echo 'No se encontraron horarios disponibles';
+                                            echo '<p>No se encontraron horarios disponibles</p>';
                                         }
                                         echo '</td>';
-                                        echo '<td><button class="btn-primary-soft btn">Agendar cita</button></td>';
+                                        echo '<td>';
+                                        if (!empty($current_horarios)) {
+                                            echo '<button class="btn-primary-soft btn">Agendar cita</button>';
+                                        } else {
+                                            echo '<button class="btn-primary-soft btn" disabled></button>';
+                                        }
                                         echo '</tr>';
                                     }
-
-                                }   
+                                }
+                                
+                                
+                                   
                             ?>
                             </tbody>
                         </table>
