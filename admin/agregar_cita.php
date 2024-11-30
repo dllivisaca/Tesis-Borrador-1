@@ -2,10 +2,7 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include("../conexion_db.php");
 
-    // Mostrar todos los datos recibidos
-    echo '<pre>';
-    print_r($_POST);
-    echo '</pre>';
+   
     
 
     $pacid = $_POST['pacid'];
@@ -34,13 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    // Mostrar valores recibidos para depurar
-    echo "Paciente ID: " . $pacid . "<br>";
-    echo "Doctor ID: " . $docid . "<br>";
-    echo "Especialidad ID: " . $especialidad_id . "<br>";
-    echo "Fecha: " . $fecha . "<br>";
-    echo "Hora inicio: " . $hora_inicio . "<br>";
-    echo "Hora fin: " . $hora_fin . "<br>";
+    
 
     // SQL para insertar los datos de la nueva cita
     $stmt = $database->prepare("INSERT INTO citas (pacid, docid, especialidad_id, fecha, hora_inicio, hora_fin, estado)

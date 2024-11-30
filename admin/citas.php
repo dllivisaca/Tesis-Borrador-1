@@ -486,7 +486,7 @@
 
     
     <!-- Modal for adding a new appointment -->
-    <div id="agregarCitaModal" class="modal">
+    <div id="agregarCitaModal" class="modal modal-agregar-cita">
         <div class="modal-content">
             <span class="close" onclick="closeAgregarCitaModal()">&times;</span>
             <h2>Agregar nueva cita</h2>
@@ -508,7 +508,7 @@
                         echo '<option value="' . $pacid . '">' . $nombreCompleto . ' - ' . $nombreUsuario . '</option>';
                     }
                     ?>
-                </select><br><br>
+                </select>
 
                 <label for="especialidad_medica">Especialidad médica:</label>
                 <select id="especialidad_medica" name="especialidad_id" required>
@@ -520,7 +520,7 @@
                         echo '<option value="' . htmlspecialchars($especialidad['id'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($especialidad['espnombre'], ENT_QUOTES, 'UTF-8') . '</option>';
                     }
                     ?>
-                </select><br><br>
+                </select>
 
                 <label for="nombre_doctor">Nombre del doctor:</label>
                 <select id="nombre_doctor" name="docid" required>
@@ -532,15 +532,15 @@
                         echo '<option value="' . htmlspecialchars($doctor['docid'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($doctor['docnombre'], ENT_QUOTES, 'UTF-8') . '</option>';
                     }
                     ?>
-                </select><br><br>
+                </select>
 
                 <label for="fecha_agregar">Fecha:</label>
-                <input type="date" id="fecha_agregar" name="fecha" required><br><br>
+                <input type="date" id="fecha_agregar" name="fecha" required>
 
                 <label for="hora_disponible_agregar">Horas disponibles:</label>
                 <select id="hora_disponible_agregar" name="hora_disponible" required>
                     <option value="" disabled selected>Escoge una hora de la lista</option>
-                </select><br><br>
+                </select>
 
                 <button type="submit" class="btn-primary" id="agregarCitaBtn">+ Agregar cita</button>
             </form>
