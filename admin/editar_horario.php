@@ -431,7 +431,7 @@
         <title>Horarios</title>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="../css/base.css">
-        <link rel="stylesheet" href="../css/editar_horario.css">
+        <link rel="stylesheet" href="../css/admin/editar_horario.css">
         <!-- <style>
             .popup{
                 animation: transitionIn-Y-bottom 0.5s;
