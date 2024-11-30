@@ -108,7 +108,7 @@ $commentsResult = $database->query($commentsQuery);
 
             <section class="comments">
                 <p class="subheading-main1" style="color: #00b8d9; font-size: 15px;">Listado de comentarios</p>
-                <form method="GET" action="opiniones_recibidas.php" class="filter-form">
+                <form method="GET" action="opiniones_recibidas.php" class="filter-form" >
                     <label for="date">Fecha:</label>
                     <input type="date" name="date" id="date" value="<?php echo htmlspecialchars($dateFilter ?? ''); ?>">
 
@@ -116,6 +116,9 @@ $commentsResult = $database->query($commentsQuery);
                     <input type="text" name="keyword" id="keyword" placeholder="Escribe una palabra clave" value="<?php echo htmlspecialchars($keywordFilter ?? ''); ?>">
 
                     <button type="submit" class="btn-search">Buscar</button>
+                    <button type="button" class="btn-clear" onclick="window.location.href='http://localhost/login/admin/opiniones_recibidas.php';">
+                        Limpiar filtros
+                    </button>
                 </form>
 
                 <div class="comments-list">
