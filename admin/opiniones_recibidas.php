@@ -90,7 +90,7 @@ $commentsResult = $database->query($commentsQuery);
                 <div class="summary">
                     <div style="width: 300px; margin: 0 auto;">
                         <canvas id="gaugeChart"></canvas>
-                        <p style="text-align: center; font-family: 'Poppins', Arial, sans-serif; font-weight: bold;">Puntuación promedio de satisfacción</p>
+                        <p style="text-align: center; font-family: 'Poppins', Arial, sans-serif; font-weight: bold; color: #696969">Puntuación promedio de satisfacción</p>
                     </div>
                     <div>
                         <h2><?php echo number_format($tasaRespuesta, 0); ?>%</h2>
@@ -147,9 +147,9 @@ $commentsResult = $database->query($commentsQuery);
         const data = {
             datasets: [{
                 data: [promedio, 5 - promedio], // Promedio y espacio restante para llegar a 5
-                backgroundColor: ['#4CAF50', '#E0E0E0'], // Colores
+                backgroundColor: ['#4A90E2', '#E0E0E0'], // Cambiar el color azul al más claro
                 borderWidth: 0,
-                cutout: '85%',
+                cutout: '75%', // Grosor del arco ajustado para mayor grosor
                 circumference: 180,
                 rotation: 270
             }]
@@ -157,32 +157,49 @@ $commentsResult = $database->query($commentsQuery);
 
         const options = {
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             plugins: {
                 tooltip: { enabled: false }, // Sin tooltips
                 legend: { display: false }   // Sin leyendas
             }
         };
 
-        // Crear el gráfico tipo "Gauge"
+        // Crear el gráfico tipo "Gauge" con el plugin local
         new Chart(gaugeCtx, {
             type: 'doughnut',
             data: data,
-            options: options
+            options: options,
+            plugins: [{
+                id: 'customCenterText',
+                afterDatasetsDraw(chart) {
+                    const { ctx, chartArea: { width, height } } = chart;
+                    ctx.save();
+                    ctx.font = 'bold 20px Poppins';
+                    ctx.fillStyle = '#007bff';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(promedio.toFixed(2) + '/5', width / 2, height / 2 + 15);
+                }
+            }]
         });
 
         // Plugin para mostrar texto en el centro del Gauge
-        Chart.register({
-            id: 'customCenterText',
-            afterDatasetsDraw(chart) {
-                const { ctx, chartArea: { width, height } } = chart;
-                ctx.save();
-                ctx.font = '20px Poppins';
-                ctx.fillStyle = '#333';
-                ctx.textAlign = 'center';
-                ctx.fillText(promedio.toFixed(2) + '/5', width / 2, height / 2 + 15);
-            }
-        });
+        const gaugeChartConfig = {
+            type: 'doughnut',
+            data: data, // Tus datos del gráfico Gauge
+            options: options, // Opciones del gráfico Gauge
+            plugins: [{
+                id: 'customCenterText',
+                afterDatasetsDraw(chart) {
+                    const { ctx, chartArea: { width, height } } = chart;
+                    ctx.save();
+                    ctx.font = '20px Poppins';
+                    ctx.fillStyle = '#007bff';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(promedio.toFixed(2) + '/5', width / 2, height / 2 + 15);
+                }
+            }]
+        };
+
  
     const ctx = document.getElementById('ratingsChart').getContext('2d');
 
