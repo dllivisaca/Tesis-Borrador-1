@@ -30,6 +30,7 @@ while ($row = $ratingsResult->fetch_assoc()) {
 $dateFilter = $_GET['date'] ?? null;
 $keywordFilter = $_GET['keyword'] ?? null;
 
+$limit = $_GET['limit'] ?? 3; // Límite inicial
 $commentsQuery = "SELECT comentario, fecha_respuesta FROM respuestas_encuestas WHERE estado = 'completado' AND comentario IS NOT NULL";
 if ($dateFilter) {
     $commentsQuery .= " AND DATE(fecha_respuesta) = '$dateFilter'";
@@ -37,8 +38,26 @@ if ($dateFilter) {
 if ($keywordFilter) {
     $commentsQuery .= " AND comentario LIKE '%$keywordFilter%'";
 }
-$commentsQuery .= " ORDER BY fecha_respuesta DESC";
+$commentsQuery .= " ORDER BY fecha_respuesta DESC LIMIT $limit";
+
+$totalFilteredQuery = "SELECT COUNT(*) AS total FROM respuestas_encuestas WHERE estado = 'completado' AND comentario IS NOT NULL";
+if ($dateFilter) {
+    $totalFilteredQuery .= " AND DATE(fecha_respuesta) = '$dateFilter'";
+}
+if ($keywordFilter) {
+    $totalFilteredQuery .= " AND comentario LIKE '%$keywordFilter%'";
+}
+$totalFilteredResult = $database->query($totalFilteredQuery);
+$totalFiltered = $totalFilteredResult->fetch_assoc()['total'];
+
+
 $commentsResult = $database->query($commentsQuery);
+
+// Consulta para contar el total de comentarios
+$totalCommentsQuery = "SELECT COUNT(*) AS total FROM respuestas_encuestas WHERE estado = 'completado' AND comentario IS NOT NULL";
+$totalCommentsResult = $database->query($totalCommentsQuery);
+$totalComments = $totalCommentsResult->fetch_assoc()['total'];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -121,7 +140,7 @@ $commentsResult = $database->query($commentsQuery);
                     </button>
                 </form>
 
-                <div class="comments-list">
+                <div class="comments-list" id="comments-list">
                     <?php
                     if ($commentsResult->num_rows > 0) {
                         while ($comment = $commentsResult->fetch_assoc()) {
@@ -135,6 +154,11 @@ $commentsResult = $database->query($commentsQuery);
                     }
                     ?>
                 </div>
+
+                <?php if ($limit < $totalFiltered): ?>
+                    <button id="load-more" class="btn-load-more" data-limit="<?php echo $limit; ?>" data-date="<?php echo $dateFilter; ?>" data-keyword="<?php echo $keywordFilter; ?>">Ver más</button>
+                <?php endif; ?>
+
             </section>
         </main>
     </div>
@@ -304,6 +328,42 @@ $commentsResult = $database->query($commentsQuery);
             }
         }
     });
+        document.addEventListener('DOMContentLoaded', () => {
+        const loadMoreBtn = document.getElementById('load-more');
+        
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', () => {
+                const currentLimit = parseInt(loadMoreBtn.getAttribute('data-limit')) || 3;
+                const dateFilter = loadMoreBtn.getAttribute('data-date') || '';
+                const keywordFilter = loadMoreBtn.getAttribute('data-keyword') || '';
+
+                const newLimit = currentLimit + 3; // Incrementar el límite en 3
+
+                // Enviar solicitud al servidor con los filtros y el nuevo límite
+                fetch(`opiniones_recibidas.php?limit=${newLimit}&date=${dateFilter}&keyword=${keywordFilter}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        
+                        // Actualizar comentarios
+                        const newComments = doc.getElementById('comments-list').innerHTML;
+                        document.getElementById('comments-list').innerHTML = newComments;
+
+                        // Actualizar el botón "Ver más"
+                        const hasMore = doc.getElementById('load-more');
+                        if (!hasMore) {
+                            loadMoreBtn.style.display = 'none';
+                        } else {
+                            loadMoreBtn.setAttribute('data-limit', newLimit);
+                        }
+                    })
+                    .catch(error => console.error('Error al cargar más comentarios:', error));
+            });
+        }
+    });
+
+
 </script>
 
 </body>
