@@ -59,7 +59,9 @@
 </head>
 <body>
     <?php
-    error_reporting(E_ERROR | E_PARSE);
+    error_reporting(E_ERROR | E_WARNING | E_PARSE);
+    ini_set('display_errors', 0);
+    
 
     session_start();
 
@@ -181,49 +183,50 @@
                                         $docnombre = $row['docnombre'];
                                         $espnombre = $row['espnombre'];
                                         $dia_semana = $row['dia_semana'];
-                                        
+                                    
                                         $horainicioman = ($row['horainicioman'] != '00:00:00') ? substr($row['horainicioman'], 0, 5) : '';
                                         $horafinman = ($row['horafinman'] != '00:00:00') ? substr($row['horafinman'], 0, 5) : '';
                                         $horainiciotar = ($row['horainiciotar'] != '00:00:00') ? substr($row['horainiciotar'], 0, 5) : '';
                                         $horafintar = ($row['horafintar'] != '00:00:00') ? substr($row['horafintar'], 0, 5) : '';
-                                        
+                                    
                                         // Si cambia el doctor o es el primer doctor, procesa el anterior
                                         if ($current_doctor != $docid) {
                                             if ($current_doctor !== null) {
                                                 // Mostrar la fila del doctor anterior
                                                 echo '<tr>';
-                                                echo '<td>' . $current_docnombre . '</td>';
-                                                echo '<td>' . $current_espnombre . '</td>';
+                                                echo '<td>' . htmlspecialchars($current_docnombre, ENT_QUOTES) . '</td>';
+                                                echo '<td>' . htmlspecialchars($current_espnombre, ENT_QUOTES) . '</td>';
                                                 echo '<td>';
                                                 if (!empty($current_horarios)) {
                                                     echo '<div class="horarios-grid">';
                                                     foreach ($current_horarios as $dia => $horarios) {
-                                                        echo '<div><b>' . $dia . '</b><br>' . implode('<br>', $horarios) . '</div>';
+                                                        echo '<div><b>' . htmlspecialchars($dia, ENT_QUOTES) . '</b><br>' . implode('<br>', $horarios) . '</div>';
                                                     }
                                                     echo '</div>';
                                                 } else {
-                                                    echo '<p>No se encontraron horarios disponibles</p>'; // Mensaje claro
+                                                    echo '<p>No se encontraron horarios disponibles</p>';
                                                 }
                                                 echo '</td>';
                                                 echo '<td>';
                                                 if (!empty($current_horarios)) {
-                                                    // Agregar clase 'agendar-btn' y atributos de datos
-                                                    echo '<button class="btn-primary-soft btn agendar-btn" data-docid="' . $docid . '" data-docnombre="' . htmlspecialchars($docnombre, ENT_QUOTES) . '" data-espnombre="' . htmlspecialchars($espnombre, ENT_QUOTES) . '" data-especialidad-id="' . $especialidad_id . '">+ Agendar cita</button>';
+                                                    // Asegúrate de usar $current_* variables para los botones
+                                                    echo '<button class="btn-primary-soft btn agendar-btn" data-docid="' . htmlspecialchars($current_doctor, ENT_QUOTES) . '" data-docnombre="' . htmlspecialchars($current_docnombre, ENT_QUOTES) . '" data-espnombre="' . htmlspecialchars($current_espnombre, ENT_QUOTES) . '" data-especialidad-id="' . htmlspecialchars($current_especialidad_id, ENT_QUOTES) . '">+ Agendar cita</button>';
                                                 } else {
                                                     echo '<button class="btn-primary-soft btn" disabled>Sin horarios</button>';
                                                 }
                                                 echo '</tr>';
                                             }
-                                            
+                                    
                                             // Reinicia variables para el nuevo doctor
                                             $current_doctor = $docid;
                                             $current_docnombre = $docnombre;
                                             $current_espnombre = $espnombre;
+                                            $current_especialidad_id = $especialidad_id;
                                             $current_horarios = [];
                                         }
-                                        
+                                    
                                         // Añade los horarios para el doctor actual, si existen
-                                        if (!empty($dia_semana)) { // Verifica que haya un día válido
+                                        if (!empty($dia_semana)) {
                                             if (!isset($current_horarios[$dia_semana])) {
                                                 $current_horarios[$dia_semana] = [];
                                             }
@@ -239,13 +242,13 @@
                                     // Procesa el último doctor fuera del ciclo
                                     if ($current_doctor !== null) {
                                         echo '<tr>';
-                                        echo '<td>' . $current_docnombre . '</td>';
-                                        echo '<td>' . $current_espnombre . '</td>';
+                                        echo '<td>' . htmlspecialchars($current_docnombre, ENT_QUOTES) . '</td>';
+                                        echo '<td>' . htmlspecialchars($current_espnombre, ENT_QUOTES) . '</td>';
                                         echo '<td>';
                                         if (!empty($current_horarios)) {
                                             echo '<div class="horarios-grid">';
                                             foreach ($current_horarios as $dia => $horarios) {
-                                                echo '<div><b>' . $dia . '</b><br>' . implode('<br>', $horarios) . '</div>';
+                                                echo '<div><b>' . htmlspecialchars($dia, ENT_QUOTES) . '</b><br>' . implode('<br>', $horarios) . '</div>';
                                             }
                                             echo '</div>';
                                         } else {
@@ -254,10 +257,11 @@
                                         echo '</td>';
                                         echo '<td>';
                                         if (!empty($current_horarios)) {
-                                            echo '<button class="btn-primary-soft btn agendar-btn" data-docid="' . $current_doctor . '" data-docnombre="' . htmlspecialchars($current_docnombre, ENT_QUOTES) . '" data-espnombre="' . htmlspecialchars($current_espnombre, ENT_QUOTES) . '" data-especialidad-id="' . $current_especialidad_id . '">+ Agendar cita</button>';
-                                        } 
+                                            echo '<button class="btn-primary-soft btn agendar-btn" data-docid="' . htmlspecialchars($current_doctor, ENT_QUOTES) . '" data-docnombre="' . htmlspecialchars($current_docnombre, ENT_QUOTES) . '" data-espnombre="' . htmlspecialchars($current_espnombre, ENT_QUOTES) . '" data-especialidad-id="' . htmlspecialchars($current_especialidad_id, ENT_QUOTES) . '">+ Agendar cita</button>';
+                                        }
                                         echo '</tr>';
                                     }
+                                    
                                 }
                                 
                                 
@@ -298,7 +302,7 @@
     </div>
 
     <script>
-        // Get modal element
+        /* // Get modal element
         var modal = document.getElementById("agendarModal");
         var span = document.getElementsByClassName("close")[0];
 
@@ -312,7 +316,31 @@
             if (event.target == modal) {
                 modal.style.display = "none";
             }
+        } */
+
+        // Mostrar el modal
+        var modal = document.getElementById("agendarModal");
+        var agendarButtons = document.getElementsByClassName("agendar-btn");
+
+        for (var i = 0; i < agendarButtons.length; i++) {
+            agendarButtons[i].onclick = function () {
+                modal.style.display = "block";
+            };
         }
+
+        // Cerrar el modal al hacer clic en el botón de cierre
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        // Cerrar el modal al hacer clic fuera de él
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+
 
         // Add click event to all "Agendar cita" buttons
         var agendarButtons = document.getElementsByClassName("agendar-btn");
