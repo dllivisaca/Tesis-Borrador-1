@@ -81,15 +81,16 @@ $commentsResult = $database->query($commentsQuery);
                 Opiniones recibidas
                 </p>
             </div>
+            <p class="subheading-main" style="color: #00b8d9; font-size: 15px;">Resumen general</p>
         </div>
 
         <!-- Main Content -->
         <main class="main-content">
             <div class="overview">
                 <div class="summary">
-                    <div>
-                        <h2><?php echo number_format($promedio, 2); ?>/5</h2>
-                        <p>Puntuación promedio de satisfacción</p>
+                    <div style="width: 300px; margin: 0 auto;">
+                        <canvas id="gaugeChart"></canvas>
+                        <p style="text-align: center; font-family: 'Poppins', Arial, sans-serif; font-weight: bold;">Puntuación promedio de satisfacción</p>
                     </div>
                     <div>
                         <h2><?php echo number_format($tasaRespuesta, 0); ?>%</h2>
@@ -137,6 +138,52 @@ $commentsResult = $database->query($commentsQuery);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+       const gaugeCtx = document.getElementById('gaugeChart').getContext('2d');
+
+        // Promedio dinámico generado desde PHP
+        const promedio = <?php echo number_format($promedio, 2); ?>;
+
+        // Configurar los datos del gráfico
+        const data = {
+            datasets: [{
+                data: [promedio, 5 - promedio], // Promedio y espacio restante para llegar a 5
+                backgroundColor: ['#4CAF50', '#E0E0E0'], // Colores
+                borderWidth: 0,
+                cutout: '85%',
+                circumference: 180,
+                rotation: 270
+            }]
+        };
+
+        const options = {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                tooltip: { enabled: false }, // Sin tooltips
+                legend: { display: false }   // Sin leyendas
+            }
+        };
+
+        // Crear el gráfico tipo "Gauge"
+        new Chart(gaugeCtx, {
+            type: 'doughnut',
+            data: data,
+            options: options
+        });
+
+        // Plugin para mostrar texto en el centro del Gauge
+        Chart.register({
+            id: 'customCenterText',
+            afterDatasetsDraw(chart) {
+                const { ctx, chartArea: { width, height } } = chart;
+                ctx.save();
+                ctx.font = '20px Poppins';
+                ctx.fillStyle = '#333';
+                ctx.textAlign = 'center';
+                ctx.fillText(promedio.toFixed(2) + '/5', width / 2, height / 2 + 15);
+            }
+        });
+ 
     const ctx = document.getElementById('ratingsChart').getContext('2d');
 
     // Datos dinámicos generados desde PHP

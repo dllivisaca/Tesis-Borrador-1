@@ -112,3 +112,39 @@ body {
     background-color: #0056b3; /* Azul más oscuro */
   }
   
+  .header-inline {
+    display: flex; /* Para alinear los elementos en una sola línea */
+    align-items: center; /* Centrar verticalmente los elementos */
+    gap: 10px; /* Espaciado entre el botón y el texto */
+}
+
+.header-inline .btn-action {
+    margin: 0; /* Elimina márgenes innecesarios */
+    padding: 8px 12px; /* Ajusta el tamaño del botón */
+    font-size: 14px; /* Ajusta el tamaño de la fuente en el botón */
+}
+
+.header-inline .heading-main12 {
+    margin: 0; /* Elimina márgenes adicionales del texto */
+    font-size: 16px; /* Ajusta el tamaño de la fuente si es necesario */
+    font-weight: bold;
+    color: #333;
+}
+
+.subheading-main {
+    font-size: 15px; /* Ajusta el tamaño */
+    color: #00b8d9; /* Azul claro */
+    margin-top: 20px; /* Espaciado superior */
+    font-weight: bold; /* Negrita opcional */
+    font-family: 'Poppins', Arial, sans-serif; /* Tipografía consistente */
+}
+
+#gaugeChart {
+    max-width: 300px; /* Ajusta según tu diseño */
+    max-height: 150px; /* Limita la altura máxima */
+    width: 100%;
+    height: auto; /* Mantiene las proporciones */
+    margin: 0 auto; /* Centra el gráfico */
+    display: block;
+}
+
