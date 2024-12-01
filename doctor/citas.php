@@ -353,86 +353,68 @@
         </div>
 
    
-        <div class="dash-body">
-            <h2>Mis citas asignadas</h2>
-            <div class="filter-container">
-                <form action="" method="post">
-                    <label for="sheduledate">Fecha:</label>
-                    <input type="date" name="sheduledate" id="sheduledate">
-                    <label for="paciente">Paciente:</label>
-                    <select name="paciente" id="paciente">
-                        <option value="">Escoge un paciente de la lista</option>
-                        <?php
-                        // Obtener lista de pacientes para el filtro
-                        $pacientesResult = $database->query("SELECT pacid, pacnombre FROM paciente");
-                        while ($paciente = $pacientesResult->fetch_assoc()) {
-                            echo '<option value="' . $paciente['pacid'] . '">' . $paciente['pacnombre'] . '</option>';
-                        }
-                        ?>
-                    </select>
-                    <button type="submit" class="btn-action">Buscar</button>
-                </form>
-            </div>
+        
             <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Paciente</th>
-                            <th>Fecha y hora</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($result->num_rows == 0) {
-                            echo '<tr>
-                                    <td colspan="4">
-                                        <center>No se encontraron citas asignadas.</center>
-                                    </td>
-                                  </tr>';
-                        } else {
-                            $currentDateTime = new DateTime();
-
-                            while ($row = $result->fetch_assoc()) {
-                                $citaid = $row["citaid"];
-                                $pacnombre = $row["pacnombre"];
-                                $fecha = $row["fecha"];
-                                $hora_inicio = substr($row["hora_inicio"], 0, 5);
-                                $hora_fin = substr($row["hora_fin"], 0, 5);
-                                $hora_completa = $hora_inicio . ' - ' . $hora_fin;
-                                $estado = $row["estado"];
-                                $recordatorioReenviado = $row['recordatorio_reenviado'];
-
-                                // Calcular la diferencia en horas
-                                $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
-                                $interval = $currentDateTime->diff($fechaCita);
-                                $hoursDifference = ($interval->days * 24) + $interval->h + ($interval->i / 60);
-
+                <div class="abc scroll">
+                    <table class="sub-table scrolldown" border="0">
+                        <thead>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>Fecha y hora</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if ($result->num_rows == 0) {
                                 echo '<tr>
-                                        <td>' . $pacnombre . '</td>
-                                        <td>' . $fecha . ' ' . $hora_completa . '</td>
-                                        <td>' . $estado . '</td>
-                                        <td>';
-                                
-                                if ($estado == 'pendiente') {
-                                    echo '<button class="btn-action" onclick="marcarComoFinalizada(' . $citaid . ')">Marcar como finalizada</button>';
-                                    
-                                    // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
-                                    if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
-                                        echo '<button class="btn-action" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar recordatorio</button>';
-                                    }
-                                }
+                                        <td colspan="4">
+                                            <center>No se encontraron citas asignadas.</center>
+                                        </td>
+                                    </tr>';
+                            } else {
+                                $currentDateTime = new DateTime();
 
-                                echo '</td></tr>';
+                                while ($row = $result->fetch_assoc()) {
+                                    $citaid = $row["citaid"];
+                                    $pacnombre = $row["pacnombre"];
+                                    $fecha = $row["fecha"];
+                                    $hora_inicio = substr($row["hora_inicio"], 0, 5);
+                                    $hora_fin = substr($row["hora_fin"], 0, 5);
+                                    $hora_completa = $hora_inicio . ' - ' . $hora_fin;
+                                    $estado = $row["estado"];
+                                    $recordatorioReenviado = $row['recordatorio_reenviado'];
+
+                                    // Calcular la diferencia en horas
+                                    $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
+                                    $interval = $currentDateTime->diff($fechaCita);
+                                    $hoursDifference = ($interval->days * 24) + $interval->h + ($interval->i / 60);
+
+                                    echo '<tr>
+                                            <td>' . $pacnombre . '</td>
+                                            <td>' . $fecha . ' ' . $hora_completa . '</td>
+                                            <td>' . $estado . '</td>
+                                            <td>';
+                                    
+                                    if ($estado == 'pendiente') {
+                                        echo '<button class="btn-finalized" onclick="marcarComoFinalizada(' . $citaid . ')">Marcar como finalizada</button>';
+                                        
+                                        // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
+                                        if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
+                                            echo '<button class="btn-resend" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar recordatorio</button>';
+                                        }
+                                    }
+
+                                    echo '</td></tr>';
+                                }
                             }
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </div>
+        
 
     <script>
         function marcarComoFinalizada(citaid) {
