@@ -118,8 +118,8 @@
 
         <div class="filter-row">
             <form method="POST" action="horarios.php" style="display: flex; align-items: center; gap: 10px;">
-                <label for="docid" class="label-doctor">Doctor:</label>
-                <select name="docid" id="docid" class="box filter-container-items">
+                <label for="docid_search" class="label-doctor">Doctor:</label>
+                <select name="docid" id="docid_search" class="box filter-container-items">
                     <?php 
                         $selectedDocId = isset($_POST['docid']) ? $_POST['docid'] : '';
                         // Añadir 'selected' al placeholder si no se ha seleccionado ningún doctor
@@ -287,7 +287,7 @@
             <p>Nombre del doctor: <span id="modalDocnombre"></span></p>
             <form id="agendarForm">
                 <input type="hidden" id="pacid" name="pacid" value="<?php echo $userid; ?>">
-                <input type="hidden" id="docid" name="docid">
+                <input type="hidden" id="modal_docid" name="docid">
                 <input type="hidden" id="especialidad_id" name="especialidad_id">
                 <label for="fecha">Fecha:</label>
                 <input type="date" id="fecha" name="fecha" required><br><br>
@@ -351,12 +351,15 @@
                 var espnombre = this.getAttribute("data-espnombre");
                 var especialidad_id = this.getAttribute("data-especialidad-id");
 
+                console.log("DocID seleccionado: ", docid); // Línea de depuración
+
                 /* console.log("DocID seleccionado: ", docid);
                 console.log("EspecialidadID seleccionado: ", especialidad_id); */
 
                 // Asignar los valores al formulario del modal
                 
-                document.getElementById("docid").value = docid; // Asignar el valor al input oculto
+                document.getElementById("modal_docid").value = docid; // Asignar el valor al input oculto
+                console.log("DocID asignado al formulario: ", docid);
                 document.getElementById("especialidad_id").value = especialidad_id; // Asignar el valor al input oculto
                 document.getElementById("modalDocnombre").innerText = docnombre;
                 document.getElementById("modalEspnombre").innerText = espnombre;
@@ -462,19 +465,38 @@
         document.getElementById("agendarForm").addEventListener("submit", function(e) {
             e.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
 
-            console.log("DocID enviado: ", document.getElementById("docid").value);
-            console.log("EspecialidadID enviado: ", document.getElementById("especialidad_id").value);
+            // Validar que `docid` está asignado
+            const docid = document.getElementById("modal_docid").value;
+            if (!docid) {
+                alert("Error: El ID del doctor no está asignado. Por favor, selecciona un doctor nuevamente.");
+                return; // Detener el envío si `docid` no está asignado
+            }
 
-            var formData = new FormData(this);
-            formData.append("hora_fin", document.getElementById("horas").value);
+            // Validar otros campos
+            const fecha = document.getElementById("fecha").value;
+            const hora = document.getElementById("horas").value;
+            if (!fecha || !hora) {
+                alert("Por favor, completa todos los campos obligatorios.");
+                return; // Detener el envío si faltan campos
+            }
 
-            var xhr = new XMLHttpRequest();
+            // Crear el objeto FormData
+            const formData = new FormData(this);
+
+            // Mostrar datos en la consola para depuración
+            console.log("FormData enviado:");
+            for (let pair of formData.entries()) {
+                console.log(`${pair[0]}: ${pair[1]}`);
+            }
+
+            // Enviar datos al backend
+            const xhr = new XMLHttpRequest();
             xhr.open("POST", "agendar_cita.php", true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert(xhr.responseText);  // Mostrar mensaje de éxito o error
-                    modal.style.display = "none";  // Cerrar el modal
-                    location.reload(); // Recargar la página para actualizar el estado de los horarios
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert(xhr.responseText); // Mostrar mensaje de éxito o error
+                    modal.style.display = "none"; // Cerrar el modal
+                    location.reload(); // Recargar la página
                 }
             };
             xhr.send(formData);
