@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/paciente/citas.css">
     
     <title>Mis citas agendadas</title>
-    <style>
+    <!-- <style>
         .container {
             display: flex;
         }
@@ -113,10 +113,14 @@
             text-decoration: none;
             cursor: pointer;
         }
-    </style>
+    </style> -->
 </head>
 <body>
     <?php
+    error_reporting(E_ERROR | E_PARSE);
+
+    date_default_timezone_set('America/Guayaquil');
+
     session_start();
 
     if (isset($_SESSION["usuario"])) {
@@ -216,19 +220,38 @@
     ?>
     <div class="container">
         <div class="menu">
-            <p class="profile-title"><?php echo $username; ?></p>
-            <a href="../logout.php"><button class="logout-btn">Cerrar sesión</button></a>
+            <div class="profile-container">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                
+                <p class="profile-title"><?php echo substr($username,0,13)  ?>..</p>
+                
+            </div>
+
+
+            <a href="../logout.php"><button class="btn-logout">Cerrar sesión</button></a>
+            <div class="linea-separadora"></div>
             <div class="menu-links">
-                <a href="horarios.php" class="menu-link">Horarios disponibles</a>
                 <a href="citas.php" class="menu-link menu-link-active">Citas agendadas</a>
-                <a href="configuracion.php" class="menu-link">Configuración</a>
+                <a href="horarios.php" class="menu-link">Horarios disponibles</a>
             </div>
         </div>
+
         <div class="dash-body">
-            <h2>Mis citas agendadas</h2>
-            <div class="filter-container">
-                <form action="" method="post">
-                    <label for="sheduledate">Fecha:</label>
+            <div class="header-actions">
+            <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
+            <div class="header-inline">
+                <a href="horarios.php">
+                    <button class="btn-action">← Atrás</button>
+                </a>
+                <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: left;">
+                Mis citas agendadas
+                </p>
+            </div>
+        </div>
+
+        <div class="filter-row">
+            <form method="POST">
+            <label for="sheduledate">Fecha:</label>
                     <input type="date" name="sheduledate" id="sheduledate">
                     <label for="doctor">Doctor:</label>
                     <select name="doctor" id="doctor">
@@ -241,9 +264,13 @@
                         }
                         ?>
                     </select>
-                    <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Filtrar</button>
-                </form>
-            </div>
+                <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Buscar</button>
+                <a href="http://localhost/login/paciente/citas.php" class="btn-primary-soft btn button-icon btn-filter">Limpiar filtro</a>
+            </form>
+        </div>
+
+
+        
             <div class="table-container">
                 <table>
                     <thead>
