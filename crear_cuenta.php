@@ -18,6 +18,26 @@
 
 session_start();
 
+// Verificar si la información del paciente está en la sesión
+if (
+    !isset($_SESSION['datos_paciente']) ||
+    empty($_SESSION['datos_paciente']) ||
+    !isset($_SESSION['datos_paciente']['primer_nombre']) ||
+    empty($_SESSION['datos_paciente']['primer_nombre']) ||
+    !isset($_SESSION['datos_paciente']['apellido']) ||
+    empty($_SESSION['datos_paciente']['apellido']) ||
+    !isset($_SESSION['datos_paciente']['direccion']) ||
+    empty($_SESSION['datos_paciente']['direccion']) ||
+    !isset($_SESSION['datos_paciente']['ci']) ||
+    empty($_SESSION['datos_paciente']['ci']) ||
+    !isset($_SESSION['datos_paciente']['fecnac']) ||
+    empty($_SESSION['datos_paciente']['fecnac'])
+) {
+    // Si no hay datos del paciente, redirige al usuario al formulario de registro
+    header('Location: registro.php');
+    exit();
+}
+
 $_SESSION["usuario"]="";
 $_SESSION["usuario_rol"]="";
 
@@ -54,6 +74,11 @@ if($_POST){
         if ($result->num_rows == 1) {
             $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Ya existe una cuenta con este CI.</label>';
         } else {
+             // Comprobar si el nombre de usuario ya está en uso
+             $result_usuario = $database->query("SELECT * FROM usuarios WHERE usuario='$usuario';");
+             if ($result_usuario->num_rows == 1) {
+                 $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Ya existe una cuenta con este nombre de usuario.</label>';
+             }else{        
             // Insertar el usuario en la base de datos con la contraseña hasheada
             $database->query("insert into paciente(pacusuario, pacnombre, pacpassword, pacdireccion, pacci, pacfecnac, pactelf) values('$usuario', '$nombre', '$hashed_password', '$direccion', '$ci', '$fecnac', '$telf');");
             $database->query("insert into usuarios values('$usuario', 'pac', '$ci')");
@@ -69,6 +94,7 @@ if($_POST){
                   </script>";
             exit;
         }
+    }
     } else {
         $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de contraseña! Por favor, confirma nuevamente la contraseña</label>';
     }
