@@ -59,12 +59,15 @@ if($_POST){
             $_SESSION["usuario_rol"]="pac";
             $_SESSION["nombre_usuario"]=$primer_nombre;
 
-            header('Location: inicio_paciente.html');
-            $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>';
-        }
+            echo "<script>
+                    alert('¡Cuenta creada exitosamente!');
+                    window.location.href = 'login.php';
+                </script>";
+            exit;
+        } 
         
     }else{
-        $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Confirmation Error! Reconfirm Password</label>';
+        $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de contraseña! Por favor, confirma nuevamente la contraseña</label>';
     }    
 }else{
     //header('location: signup.php');
@@ -101,8 +104,8 @@ if($_POST){
                         <input 
                             type="text" 
                             class="input-text-inline"
-                            name="Telf" 
-                            id="editTelf" 
+                            name="telf" 
+                             
                             placeholder="+593999999999" 
                             required 
                             pattern="\+593\d{9}" 
