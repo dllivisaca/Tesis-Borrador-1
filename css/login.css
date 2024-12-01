@@ -16,17 +16,15 @@ body, html {
 .container {
     background-color: #ffffff;
     border-radius: 10px;
-    padding: 20px;
+    padding: 15px 20px; /* Reducir el padding vertical */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Ajusta el ancho según tus necesidades */
-    margin: 0; /* Asegura que no haya margen extra */
-    text-align: center; /* Centra todos los textos dentro del contenedor */
-    display: flex; /* Asegura que el contenido esté alineado */
+    width: 400px; /* Mantener el ancho deseado */
+    margin: 0px 0; /* Reducir márgenes superior e inferior */
+    text-align: center;
+    display: flex;
     flex-direction: column;
-    align-items: center; /* Centra el contenido horizontalmente */
-    justify-content: center; /* Centra el contenido verticalmente */
-    align-items: stretch; /* Asegura que los elementos ocupen todo el ancho */
-    max-width: 100%; /* Asegura que el contenedor no supere el ancho de la pantalla */
+    align-items: center;
+    justify-content: center;
 }
 
 /* Título principal */
@@ -34,7 +32,7 @@ body, html {
     font-size: 24px;
     font-weight: bold;
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     white-space: nowrap; /* Evita que el texto se divida en líneas */
 }
 
@@ -42,7 +40,7 @@ body, html {
 .sub-text {
     font-size: 14px;
     color: #777;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     white-space: nowrap; /* Evita que el texto se divida en líneas */
 }
 
