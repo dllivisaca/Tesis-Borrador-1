@@ -4,16 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/animations.css">  
-    <link rel="stylesheet" href="css/main.css">  
-    <link rel="stylesheet" href="css/signup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/crear_cuenta.css">
         
     <title>Crear cuenta</title>
-    <style>
-        .container{
-            animation: transitionIn-X 0.5s;
-        }
-    </style>
+    
 </head>
 <body>
 <?php
@@ -82,52 +77,71 @@ if($_POST){
         <table border="0" style="width: 69%;">
             <tr>
                 <td colspan="2">
-                    <p class="header-text">Let's Get Started</p>
-                    <p class="sub-text">It's Okey, Now Create User Account.</p>
+                    <p class="header-text">Continuemos</p>
+                    <p class="sub-text">Bien, ahora crea tu cuenta de usuario</p>
                 </td>
             </tr>
             <tr>
                 <form action="" method="POST" >
                 <td class="label-td" colspan="2">
-                    <label for="nuevo_usuario" class="form-label">Usuario: </label>
+                    <div class="form-group-inline">
+                        <label for="nuevo_usuario" class="form-label-inline">Usuario: </label>
+                        <input type="text" name="nuevo_usuario" class="input-text-inline" placeholder="Crea tu nombre de usuario" required minlength="4">
+                    </div>
+                    
+                </td>
+            </tr>
+            
+            
+            <tr>
+                <td class="label-td" colspan="2">
+                    <div class="form-group-inline">
+                        <label for="tele" class="form-label-inline">Número de celular: </label>
+                        
+                        <input 
+                            type="text" 
+                            class="input-text-inline"
+                            name="Telf" 
+                            id="editTelf" 
+                            placeholder="+593999999999" 
+                            required 
+                            pattern="\+593\d{9}" 
+                            title="El número debe estar en el formato +593999999999">
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td class="label-td" colspan="2">
-                    <input type="text" name="nuevo_usuario" class="input-text" placeholder="Crea tu nombre de usuario" required>
+                    <div class="form-group-inline">
+                        <label for="nueva_password" class="form-label-inline">Crea una contraseña:</label>
+                        
+                        <input 
+                            type="password" 
+                            class="input-text-inline"
+                            name="nueva_password" 
+                            id="password" 
+                            placeholder="Crea una contraseña" 
+                            required 
+                            minlength="8"
+                            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+                            onfocus="showPasswordMessage()" 
+                            onblur="hidePasswordMessage()">
+                        
+                    </div>
+                    <small id="passwordMessage" class="password-rules" style="display: none;">Mínimo 8 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.</small>
                 </td>
-                
             </tr>
+            
             <tr>
                 <td class="label-td" colspan="2">
-                    <label for="tele" class="form-label">Número de celular: </label>
+                    <div class="form-group-inline">
+                        <label for="confirmar_password" class="form-label-inline">Confirma la contraseña: </label>
+                        <input type="password" name="confirmar_password" class="input-text-inline" placeholder="Confirma la contraseña" required>
+                    </div>
+                    
                 </td>
             </tr>
-            <tr>
-                <td class="label-td" colspan="2">
-                    <input type="tel" name="telf" class="input-text"  placeholder="ex: 0999999999" pattern="[0]{1}[0-9]{9}" >
-                </td>
-            </tr>
-            <tr>
-                <td class="label-td" colspan="2">
-                    <label for="nueva_password" class="form-label">Crea una contraseña:</label>
-                </td>
-            </tr>
-            <tr>
-                <td class="label-td" colspan="2">
-                    <input type="password" name="nueva_password" class="input-text" placeholder="Crea una contraseña" required>
-                </td>
-            </tr>
-            <tr>
-                <td class="label-td" colspan="2">
-                    <label for="confirmar_password" class="form-label">Confirma la contraseña: </label>
-                </td>
-            </tr>
-            <tr>
-                <td class="label-td" colspan="2">
-                    <input type="password" name="confirmar_password" class="input-text" placeholder="Confirma la contraseña" required>
-                </td>
-            </tr>
+            
      
             <tr>
                 
@@ -139,18 +153,18 @@ if($_POST){
             
             <tr>
                 <td>
-                    <input type="reset" value="Reset" class="login-btn btn-primary-soft btn" >
+                    <input type="reset" value="Borrar" class="login-btn btn-primary-soft btn" >
                 </td>
                 <td>
-                    <input type="submit" value="Sign Up" class="login-btn btn-primary btn">
+                    <input type="submit" value="Registrarme" class="login-btn btn-primary btn">
                 </td>
 
             </tr>
             <tr>
                 <td colspan="2">
                     <br>
-                    <label for="" class="sub-text" style="font-weight: 280;">Already have an account&#63; </label>
-                    <a href="login.php" class="hover-link1 non-style-link">Login</a>
+                    <label for="" class="sub-text" style="font-weight: 280;">¿Ya tienes una cuenta&#63; </label>
+                    <a href="login.php" class="hover-link1 non-style-link">Inicia sesión</a>
                     <br><br><br>
                 </td>
             </tr>
@@ -161,5 +175,15 @@ if($_POST){
 
     </div>
 </center>
+    <script>
+        function showPasswordMessage() {
+            document.getElementById('passwordMessage').style.display = 'block';
+        }
+
+        function hidePasswordMessage() {
+            document.getElementById('passwordMessage').style.display = 'none';
+        }
+
+    </script>
 </body>
 </html>

@@ -1,0 +1,178 @@
+/* Reset general */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4; /* Fondo general */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Evita cualquier desbordamiento */
+}
+
+
+/* Contenedor general */
+.container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px 20px; /* Reducir el padding vertical */
+    width: 550px; /* Mantener el ancho deseado */
+    margin: 0px 0; /* Reducir márgenes superior e inferior */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Título principal */
+.header-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0px;
+    margin-top: -2px;
+    white-space: nowrap; /* Evita que el texto se divida en líneas */
+}
+
+/* Subtítulo */
+.sub-text {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+    white-space: nowrap; /* Evita que el texto se divida en líneas */
+}
+
+/* Campos de entrada */
+.input-text {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    width: 100%; /* Asegura que los campos y el botón ocupen todo el ancho del contenedor */
+box-sizing: border-box; /* Asegura que padding no afecte el tamaño total */
+
+}
+
+/* Botón de inicio de sesión */
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF; /* Azul del botón */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+
+.login-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Mensajes de error */
+.error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Enlace de registro */
+.hover-link1 {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap; /* Evita que el texto se divida en líneas */
+}
+
+.hover-link1:hover {
+    text-decoration: underline;
+}
+
+/* Etiquetas */
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px; /* Separación del campo */
+    text-align: left; /* Alinea el texto de Usuario y Contraseña a la izquierda */
+    width: 100%; /* Asegura que las etiquetas ocupen el mismo ancho que los campos */
+    text-align: left; /* Alinea las etiquetas a la izquierda */
+
+}
+
+/* Botón de inicio de sesión */
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF; /* Azul del botón */
+    color: #fff; /* Color del texto */
+    border: none;
+    border-radius: 5px;
+    font-size: 13px; /* Tamaño de la letra */
+   
+    font-family: 'Poppins', sans-serif; /* Cambiar la fuente */
+    
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+
+.login-btn:hover {
+    background-color: #0056b3;
+}
+
+.logo {
+    display: block; /* Asegura que el logo esté en su propia línea */
+    margin: 0 auto; /* Centra el logo horizontalmente */
+    max-width: 200px; /* Ajusta el tamaño máximo del logo */
+    height: auto; /* Mantén las proporciones del logo */
+    margin-bottom: 10px; /* Agrega espacio debajo del logo */
+}
+
+/* Contenedor para elementos en una sola línea */
+.form-group-inline {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Espacio entre los elementos */
+}
+
+/* Etiqueta en línea */
+.form-label-inline {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    margin-right: 10px; /* Espacio entre la etiqueta y el campo de entrada */
+    white-space: nowrap; /* Evita que la etiqueta se divida en varias líneas */
+}
+
+/* Campo de entrada en línea */
+.input-text-inline {
+    flex: 1; /* Permite que el campo de entrada ocupe el espacio restante */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+}
+
+.password-rules {
+    font-size: 0.75rem; /* Reduce ligeramente el tamaño de la fuente */
+    color: #555; /* Color neutro */
+    margin: 0.25rem 0 0; /* Ajusta los márgenes */
+    line-height: 1.2; /* Mantén una altura de línea compacta */
+    text-align: left; /* Alinea el texto a la izquierda */
+    white-space: normal; /* Permite que el texto se divida en líneas si es necesario */
+    word-wrap: break-word; /* Asegura que las palabras largas se ajusten dentro del contenedor */
+    display: block; /* Asegura un comportamiento consistente */
+  }
+
