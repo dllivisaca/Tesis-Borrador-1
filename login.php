@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/animations.css">  
-    <link rel="stylesheet" href="css/main.css">  
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/login.css">
         
     <title>Inicio de sesión</title>
@@ -31,7 +29,7 @@
         $usuario=$_POST['usuario'];
         $password=$_POST['usuario_password'];
         
-        $error='<label for="promter" class="form-label"></label>';
+        
 
         $result= $database->query("select * from usuarios where usuario='$usuario'");
         if($result->num_rows==1){
@@ -45,8 +43,6 @@
                     $_SESSION['usuario_rol']='pac';
                     
                     header('location: paciente/citas.php');
-                }else{
-                    $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Error: Usuario o contraseña incorrectos</label>';
                 }
             // Administrador    
             }elseif($usuario_rol=='adm'){
@@ -77,15 +73,16 @@
             $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">No existe cuenta creada para el usuario ingresado</label>';
         }
     }else{
-        $error='<label for="promter" class="form-label">&nbsp;</label>';
+        $error='<label for="promter" class="form-label"></label>';
     }
     ?>
 
     <center>
     <div class="container">
-        <table border="0" style="margin: 0;padding: 0;width: 60%;">
+        <table border="0" style="margin: 0;padding: 0;width: 100%;">
             <tr>
                 <td>
+                    <img src="img/logo1.png" alt="Logo de la empresa" class="logo">
                     <p class="header-text">!Nos alegra verte de nuevo!</p>
                 </td>
             </tr>
@@ -119,7 +116,7 @@
             </tr>
 
             <tr>
-                <td><br>
+                <td>
                 <?php echo $error ?>
                 </td>
             </tr>
