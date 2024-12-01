@@ -56,47 +56,45 @@ if($_POST){
             <tr>
                 <form action="" method="POST" >
                 <td class="label-td" colspan="2">
-                    <label for="nombre" class="form-label">Nombre: </label>
+                    <div class="form-group-inline">
+                        <label for="nombre" class="form-label-inline">Nombre: </label>
+                        <input type="text" name="primer_nombre" class="input-text-inline" placeholder="Primer Nombre" required minlength="4">
+                        <input type="text" name="apellido" class="input-text-inline" placeholder="Apellido" required minlength="4">
+                    </div>
+                    
                 </td>
             </tr>
-            <tr>
-                <td class="label-td">
-                    <input type="text" name="primer_nombre" class="input-text" placeholder="Primer Nombre" required>
-                </td>
-                <td class="label-td">
-                    <input type="text" name="apellido" class="input-text" placeholder="Apellido" required>
-                </td>
-            </tr>
+           
             <tr>
                 <td class="label-td" colspan="2">
-                    <label for="direccion" class="form-label">Dirección: </label>
+                    <div class="form-group-inline">
+                        <label for="direccion" class="form-label-inline">Dirección: </label>
+                        <input type="text" name="direccion" class="input-text-inline" placeholder="Dirección" required minlength="5">
+                    </div>
+                    
                 </td>
             </tr>
+            
             <tr>
                 <td class="label-td" colspan="2">
-                    <input type="text" name="direccion" class="input-text" placeholder="Dirección" required>
+                    <div class="form-group-inline">
+                        <label for="ci" class="form-label-inline">CI: </label>
+                        <input type="text" name="ci" class="input-text-inline" placeholder="Número de cédula" required minlength="10" maxlength="10" pattern="\d+">
+                    </div>
+                    
                 </td>
             </tr>
+            
             <tr>
                 <td class="label-td" colspan="2">
-                    <label for="ci" class="form-label">CI: </label>
+                    <div class="form-group-inline">
+                        <label for="fecnac" class="form-label-inline">Fecha de Nacimiento: </label>
+                        <input type="date" name="fecnac" class="input-text-inline" required>
+                    </div>
+                    
                 </td>
             </tr>
-            <tr>
-                <td class="label-td" colspan="2">
-                    <input type="text" name="ci" class="input-text" placeholder="Número de cédula" required>
-                </td>
-            </tr>
-            <tr>
-                <td class="label-td" colspan="2">
-                    <label for="fecnac" class="form-label">Fecha de Nacimiento: </label>
-                </td>
-            </tr>
-            <tr>
-                <td class="label-td" colspan="2">
-                    <input type="date" name="fecnac" class="input-text" required>
-                </td>
-            </tr>
+            
             <tr>
                 <td class="label-td" colspan="2">
                 </td>
@@ -115,8 +113,8 @@ if($_POST){
                 <td colspan="2">
                     <br>
                     <label for="" class="sub-text" style="font-weight: 280;">¿Ya tienes una cuenta&#63; </label>
-                    <a href="login.php" class="hover-link1 non-style-link">Inicar sesión</a>
-                    <br><br><br>
+                    <a href="login.php" class="hover-link1 non-style-link">Iniciar sesión</a>
+                    
                 </td>
             </tr>
 

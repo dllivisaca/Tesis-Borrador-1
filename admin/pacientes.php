@@ -748,7 +748,8 @@
 
             <div class="form-group">
                 <label for="editDireccion">Dirección:</label>
-                <input type="text" name="direccion" id="editDireccion" required>
+                <input type="text" name="direccion" id="editDireccion" placeholder="Dirección del paciente" required minlength="5">
+                
             </div>
 
             <div class="form-group">

@@ -9,7 +9,6 @@ body, html {
     align-items: center;
     height: 100vh;
     overflow: hidden; /* Evita cualquier desbordamiento */
-
 }
 
 
@@ -18,8 +17,7 @@ body, html {
     background-color: #ffffff;
     border-radius: 10px;
     padding: 15px 20px; /* Reducir el padding vertical */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Mantener el ancho deseado */
+    width: 550px; /* Mantener el ancho deseado */
     margin: 0px 0; /* Reducir márgenes superior e inferior */
     text-align: center;
     display: flex;
@@ -42,7 +40,7 @@ body, html {
 .sub-text {
     font-size: 14px;
     color: #777;
-    margin-bottom: 0px;
+    margin-bottom: 20px;
     white-space: nowrap; /* Evita que el texto se divida en líneas */
 }
 
@@ -68,8 +66,8 @@ box-sizing: border-box; /* Asegura que padding no afecte el tamaño total */
     color: #fff;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 13px;
+    
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 15px;
@@ -139,5 +137,32 @@ box-sizing: border-box; /* Asegura que padding no afecte el tamaño total */
     max-width: 200px; /* Ajusta el tamaño máximo del logo */
     height: auto; /* Mantén las proporciones del logo */
     margin-bottom: 10px; /* Agrega espacio debajo del logo */
+}
+
+/* Contenedor para elementos en una sola línea */
+.form-group-inline {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Espacio entre los elementos */
+}
+
+/* Etiqueta en línea */
+.form-label-inline {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    margin-right: 10px; /* Espacio entre la etiqueta y el campo de entrada */
+    white-space: nowrap; /* Evita que la etiqueta se divida en varias líneas */
+}
+
+/* Campo de entrada en línea */
+.input-text-inline {
+    flex: 1; /* Permite que el campo de entrada ocupe el espacio restante */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
 }
 
