@@ -166,10 +166,9 @@
                                 if ($result->num_rows == 0) {
                                     echo '<tr><td colspan="4">
                                     <center>
-                                    <img src="../img/notfound.svg" width="25%">
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">No se encontraron horarios disponibles!</p>
-                                    <a class="non-style-link" href="horarios.php"><button class="login-btn btn-primary-soft btn" style="margin-left:20px;">&nbsp; Ver todos los horarios &nbsp;</button></a>
-                                    </center></td></tr>';
+                                    
+                                    <p class="heading-main12" style="margin-left: 45px;font-size:16px;color:rgb(49, 49, 49)">No se encontraron horarios disponibles</p>
+                                    ';
                                 } else {
                                     // Agrupar los resultados por doctor
                                     $doctores = [];

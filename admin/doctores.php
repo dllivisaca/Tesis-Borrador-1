@@ -259,7 +259,7 @@ if (isset($_GET['delete_success'])) {
                                     
                                     
                                     <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:16px;color:rgb(49, 49, 49)">No se encontraron resultados para el nombre ingresado. Intenta con otro término o revisa si está correctamente escrito.</p>
+                                    <p class="heading-main12" style="margin-left: 45px;font-size:16px;color:rgb(49, 49, 49)">No se encontraron resultados</p>
                                     
                                     </center>
                                     <br><br><br><br>

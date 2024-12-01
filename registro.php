@@ -89,7 +89,14 @@ if($_POST){
                 <td class="label-td" colspan="2">
                     <div class="form-group-inline">
                         <label for="fecnac" class="form-label-inline">Fecha de Nacimiento: </label>
-                        <input type="date" name="fecnac" class="input-text-inline" required>
+                        
+                        <input 
+                            type="date" 
+                            name="fecnac" 
+                            class="input-text-inline" 
+                            required
+                            max="<?php echo date('Y-m-d', strtotime('-18 years')); ?>"
+                            title="Debe tener al menos 18 años para registrarse">
                     </div>
                     
                 </td>
