@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/doctor/citas.css">
     
     <title>Mis citas asignadas</title>
-    <style>
+    <!-- <style>
         .container {
             display: flex;
         }
@@ -80,10 +80,12 @@
         .logout-btn:hover {
             background-color: #c9302c;
         }
-    </style>
+    </style> -->
 </head>
 <body>
     <?php
+    error_reporting(E_ERROR | E_PARSE);
+
     date_default_timezone_set('America/Guayaquil'); 
 
     session_start();
@@ -300,12 +302,57 @@
     ?>
     <div class="container">
         <div class="menu">
-            <p class="profile-title"><?php echo $docnombre; ?></p>
-            <a href="../logout.php"><button class="logout-btn">Cerrar sesión</button></a>
+            <div class="profile-container">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                
+                <p class="profile-title"><?php echo substr($docnombre,0,13)  ?>..</p>
+            </div>
+            <a href="../logout.php"><button class="btn-logout">Cerrar sesión</button></a>
+            <div class="linea-separadora"></div>
             <div class="menu-links">
+                
                 <a href="citas.php" class="menu-link menu-link-active">Citas agendadas</a>
+                
             </div>
         </div>
+
+        <div class="dash-body">
+            <div class="header-actions">
+            <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
+            <div class="header-inline">
+                <a href="citas.php">
+                    <button class="btn-action">← Atrás</button>
+                </a>
+                <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: left;">
+                Mis citas asignadas
+                </p>
+            </div>
+        </div>
+
+        <div class="filter-row">
+            <form method="POST">
+            <label for="sheduledate">Fecha:</label>
+                    <input type="date" name="sheduledate" id="sheduledate" value="<?php echo isset($_POST['sheduledate']) ? $_POST['sheduledate'] : ''; ?>">
+                    <label for="paciente">Paciente:</label>
+                    <select name="paciente" id="paciente">
+                        <option value="">Escoge un paciente de la lista</option>
+                        
+                        <?php
+                        // Obtener lista de pacientes para el filtro
+                        $pacientesResult = $database->query("SELECT pacid, pacnombre FROM paciente");
+                        while ($paciente = $pacientesResult->fetch_assoc()) {
+                            $selected = (isset($_POST['paciente']) && $_POST['paciente'] == $paciente['pacid']) ? 'selected' : '';
+                            echo '<option value="' . $paciente['pacid'] . '" ' . $selected . '>' . $paciente['pacnombre'] . '</option>';
+                        }
+                        ?>
+                    </select>
+                    
+                <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Buscar</button>
+                <a href="http://localhost/login/doctor/citas.php" class="btn-primary-soft btn button-icon btn-filter">Limpiar filtros</a>
+            </form>
+        </div>
+
+   
         <div class="dash-body">
             <h2>Mis citas asignadas</h2>
             <div class="filter-container">
