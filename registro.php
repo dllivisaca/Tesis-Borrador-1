@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/animations.css">  
-    <link rel="stylesheet" href="css/main.css">  
-    <link rel="stylesheet" href="css/signup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/registro.css">
         
     <title>Crea tu cuenta</title>
     
@@ -47,6 +46,9 @@ if($_POST){
         <table border="0">
             <tr>
                 <td colspan="2">
+                <div class="container">
+                <img src="img/logo1.png" alt="Logo FamySALUD" class="logo">
+                <table border="0">
                     <p class="header-text">Empecemos</p>
                     <p class="sub-text">Agrega tu información para crear tu perfil</p>
                 </td>
@@ -102,18 +104,18 @@ if($_POST){
 
             <tr>
                 <td>
-                    <input type="reset" value="Reset" class="login-btn btn-primary-soft btn" >
+                    <input type="reset" value="Borrar" class="login-btn btn-primary-soft btn" >
                 </td>
                 <td>
-                    <input type="submit" value="Next" class="login-btn btn-primary btn">
+                    <input type="submit" value="Siguiente" class="login-btn btn-primary btn">
                 </td>
 
             </tr>
             <tr>
                 <td colspan="2">
                     <br>
-                    <label for="" class="sub-text" style="font-weight: 280;">Already have an account&#63; </label>
-                    <a href="login.php" class="hover-link1 non-style-link">Login</a>
+                    <label for="" class="sub-text" style="font-weight: 280;">¿Ya tienes una cuenta&#63; </label>
+                    <a href="login.php" class="hover-link1 non-style-link">Inicar sesión</a>
                     <br><br><br>
                 </td>
             </tr>
