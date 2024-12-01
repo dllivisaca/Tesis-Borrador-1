@@ -321,8 +321,17 @@
 
                                 // Mostrar los botones de cancelar y editar solo si faltan más de 48 horas para la cita
                                 if ($fechaCita > $currentDateTime && $hoursDifference > 48) {
-                                    echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
-                                        <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $docid . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>';
+                                    /* echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
+                                        <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $docid . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>'; */
+                                    echo '<div class="button-container">
+                                        <form action="" method="get" style="display:inline;">
+                                            <input type="hidden" name="action" value="drop">
+                                            <input type="hidden" name="id" value="' . $citaid . '">
+                                            <button type="submit" class="btn-cancel">Cancelar</button>
+                                        </form>
+                                        <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $docid . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>
+                                    </div>';
+
                                 }
 
                                 echo '</td></tr>';
