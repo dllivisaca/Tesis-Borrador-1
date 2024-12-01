@@ -140,7 +140,7 @@
     $userid = $userfetch["pacid"];
     $username = $userfetch["pacnombre"];
 
-    if (isset($_GET['action']) && $_GET['action'] == 'drop') {
+    /* if (isset($_GET['action']) && $_GET['action'] == 'drop') {
         if (isset($_GET['id'])) {
             $citaid = intval($_GET['id']);
     
@@ -164,13 +164,13 @@
                             <button type="button" class="btn-edit" onclick="document.getElementById(\'cancelarModal\').style.display=\'none\'">No, volver</button>
                         </form>
                     </div>
-                </div>
-                ';
+                </div>';
+                
             } else {
                 echo '<script>alert("Cita no encontrada o no tienes permiso para cancelarla."); window.location.href="citas.php";</script>';
             }
         }
-    }
+    } */
 
     // Procesar la cancelación confirmada
 
@@ -324,11 +324,8 @@
                                     /* echo '<a href="?action=drop&id=' . $citaid . '"><button class="btn-cancel">Cancelar</button></a>
                                         <button class="btn-edit" onclick="openEditModal(' . $citaid . ', ' . $docid . ', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>'; */
                                     echo '<div class="button-container">
-                                        <form action="" method="get" style="display:inline;">
-                                            <input type="hidden" name="action" value="drop">
-                                            <input type="hidden" name="id" value="' . $citaid . '">
-                                            <button type="submit" class="btn-cancel">Cancelar</button>
-                                        </form>
+                                        <button class="btn-cancel" onclick="openCancelModal(' . $citaid . ')">Cancelar</button>
+                                    
                                         <button class="btn-edit" onclick="openEditModal(\'' . $citaid . '\', \'' . $docid . '\', \'' . $fecha . '\', \'' . $docnombre . '\', \'' . $hora_completa . '\')">Editar</button>
                                     </div>';
 
@@ -347,7 +344,7 @@
     <!-- Modal for editing appointment -->
     <div id="editarModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+            <span class="close" data-close-modal="editarModal">&times;</span>
             <h2>Editar Cita</h2>
             <form id="editarForm">
                 <input type="hidden" id="citaid" name="citaid">
@@ -367,7 +364,53 @@
         </div>
 </div>
 
+    <div id="cancelarModal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-close-modal="cancelarModal">&times;</span>
+            <h2>Confirmar Cancelación</h2>
+            <p>¿Está seguro de que desea cancelar esta cita?</p>
+            <form id="cancelarForm" method="post">
+                <input type="hidden" name="citaid" id="cancelarCitaId">
+                <button type="submit" name="confirm_cancel" class="btn-cancel">Sí, Cancelar</button>
+                <button type="button" class="btn-edit" data-close-modal="cancelarModal">No, Volver</button>
+            </form>
+        </div>
+    </div>
+
     <script>
+        function openCancelModal(citaid) {
+        // Asigna el citaid al campo oculto
+        document.getElementById('cancelarCitaId').value = citaid;
+
+        // Muestra el modal
+        var modal = document.getElementById('cancelarModal');
+        modal.style.display = 'block';
+        document.body.classList.add('modal-open');
+    }
+
+        // Attach click event to all elements with data-close-modal attribute
+        var closeElements = document.querySelectorAll('[data-close-modal]');
+        for (var i = 0; i < closeElements.length; i++) {
+            closeElements[i].onclick = function() {
+                var modalId = this.getAttribute('data-close-modal');
+                var modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'none';
+                    document.body.classList.remove('modal-open');
+                }
+            };
+        }
+
+        // Close modals when clicking outside of them
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }
+        };
+
+
+        
         // Get modal element
         var modal = document.getElementById("editarModal");
         var span = document.getElementsByClassName("close")[0];
