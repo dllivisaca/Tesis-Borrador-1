@@ -398,12 +398,15 @@
                                             <td>';
                                     
                                     if ($estado == 'pendiente') {
+                                        echo '<div class="button-container">';
+
                                         echo '<button class="btn-finalized" onclick="marcarComoFinalizada(' . $citaid . ')">Marcar como finalizada</button>';
                                         
                                         // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
                                         if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
                                             echo '<button class="btn-resend" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar recordatorio</button>';
                                         }
+                                        echo '</div>';
                                     }
 
                                     echo '</td></tr>';
