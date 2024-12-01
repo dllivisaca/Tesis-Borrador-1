@@ -144,6 +144,7 @@ box-sizing: border-box; /* Asegura que padding no afecte el tamaño total */
     display: flex;
     align-items: center;
     margin-bottom: 10px; /* Espacio entre los elementos */
+    gap: 15px;
 }
 
 /* Etiqueta en línea */
