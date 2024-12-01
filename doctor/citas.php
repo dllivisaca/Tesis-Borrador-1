@@ -377,40 +377,44 @@
                                 $currentDateTime = new DateTime();
 
                                 while ($row = $result->fetch_assoc()) {
-                                    $citaid = $row["citaid"];
-                                    $pacnombre = $row["pacnombre"];
-                                    $fecha = $row["fecha"];
-                                    $hora_inicio = substr($row["hora_inicio"], 0, 5);
-                                    $hora_fin = substr($row["hora_fin"], 0, 5);
-                                    $hora_completa = $hora_inicio . ' - ' . $hora_fin;
-                                    $estado = $row["estado"];
-                                    $recordatorioReenviado = $row['recordatorio_reenviado'];
+                                    $citaid = htmlspecialchars($row["citaid"], ENT_QUOTES, 'UTF-8');
+                                    $pacnombre = htmlspecialchars($row["pacnombre"], ENT_QUOTES, 'UTF-8');
+                                    $fecha = htmlspecialchars($row["fecha"], ENT_QUOTES, 'UTF-8');
+                                    $hora_inicio = substr(htmlspecialchars($row["hora_inicio"], ENT_QUOTES, 'UTF-8'), 0, 5);
+                                    $hora_fin = substr(htmlspecialchars($row["hora_fin"], ENT_QUOTES, 'UTF-8'), 0, 5);
+                                    $hora_completa = htmlspecialchars($hora_inicio . ' - ' . $hora_fin, ENT_QUOTES, 'UTF-8');
+                                    $estado = htmlspecialchars($row["estado"], ENT_QUOTES, 'UTF-8');
+                                    $recordatorioReenviado = htmlspecialchars($row["recordatorio_reenviado"], ENT_QUOTES, 'UTF-8');
 
                                     // Calcular la diferencia en horas
-                                    $fechaCita = new DateTime($fecha . ' ' . $hora_inicio);
-                                    $interval = $currentDateTime->diff($fechaCita);
-                                    $hoursDifference = ($interval->days * 24) + $interval->h + ($interval->i / 60);
+                                    $fechaHoraCita = new DateTime($fecha . ' ' . $hora_inicio);
+                                    $hoursDifference = ($fechaHoraCita->getTimestamp() - $currentDateTime->getTimestamp()) / 3600;
 
                                     echo '<tr>
                                             <td>' . $pacnombre . '</td>
                                             <td>' . $fecha . ' ' . $hora_completa . '</td>
                                             <td>' . $estado . '</td>
                                             <td>';
-                                    
-                                    if ($estado == 'pendiente') {
+
+                                    if ($estado === 'pendiente') {
                                         echo '<div class="button-container">';
 
-                                        echo '<button class="btn-finalized" onclick="marcarComoFinalizada(' . $citaid . ')">Marcar como finalizada</button>';
-                                        
-                                        // Mostrar botón de reenviar recordatorio si faltan entre 1 y 24 horas y el recordatorio no ha sido reenviado
-                                        if ($hoursDifference >= 1 && $hoursDifference <= 24 && $recordatorioReenviado == 0) {
-                                            echo '<button class="btn-resend" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar recordatorio</button>';
+                                        // Mostrar botón "Marcar como finalizada" si la cita ya pasó
+                                        if ($fechaHoraCita < $currentDateTime) {
+                                            echo '<button class="btn-action" onclick="marcarComoFinalizada(' . $citaid . ')">Marcar como finalizada</button>';
                                         }
+
+                                        // Mostrar botón "Reenviar recordatorio" si faltan entre 1 y 24 horas y no se ha reenviado aún
+                                        if ($hoursDifference <= 24 && $hoursDifference > 1 && $recordatorioReenviado == 0) {
+                                            echo '<button class="btn-action" onclick="reenviarRecordatorio(' . $citaid . ')">Reenviar recordatorio</button>';
+                                        }
+
                                         echo '</div>';
                                     }
 
                                     echo '</td></tr>';
                                 }
+
                             }
                             ?>
                         </tbody>
