@@ -173,7 +173,7 @@ table {
 .horario-table td, 
 .horario-table th, 
 .horario-table select {
-    font-size: 12px; /* Ajusta este valor según tu preferencia (puedes usar 12px o menos si lo deseas) */
+    font-size: 10px; /* Ajusta este valor según tu preferencia (puedes usar 12px o menos si lo deseas) */
 }
 
 
@@ -397,4 +397,22 @@ input[type="submit"]:disabled {
     padding: 5px; /* Espaciado interno para hacer los selectores más compactos */
     border-radius: 5px;
     border: 1px solid #ccc;
+}
+
+/* Estilos para los selectores del Horario Fijo */
+.fixed-select {
+    width: 80px; /* Ajusta este valor según tus necesidades */
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px; /* Asegura que el texto sea legible */
+}
+
+/* Estilos para los selectores del Horario Personalizado */
+.personalized-select {
+    width: 80px; /* Ajusta este valor según tus necesidades */
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 10px; /* Asegura que el texto sea legible */
 }
