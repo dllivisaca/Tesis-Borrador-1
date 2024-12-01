@@ -142,15 +142,12 @@
 
 /* Ajustar el ancho de los selectores para que no se vean demasiado grandes */
 .horario-table select {
-    width: 40%;  /* Ajustar el ancho de los selectores */
+    width: 41%;  /* Ajustar el ancho de los selectores */
     margin: 2px 0; /* Añadir espacio vertical entre los selectores */
     padding: 2px;  /* Reducir padding para mantenerlos compactos */
     border-radius: 5px;
     border: 1px solid #ccc;
 }
-
-
-
 
 /* Estilo para el botón de "Guardar cambios" */
 input[type="submit"] {

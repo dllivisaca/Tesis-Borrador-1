@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/agregar_horario.css">
+    <link rel="stylesheet" href="../css/admin/agregar_horario.css">
         
     <title>Horarios</title>
 </head>
@@ -226,18 +226,22 @@
                                                         </td>
                                                         <td class="horario-manana">
                                                             <!-- Horario de mañana -->
+                                                            <div class="selectores-manana">
+                                                                <select name="horainicioman" class="input-text"></select>
+                                                                <span class="col-auto"> - </span>
+                                                                <select name="horafinman" class="input-text"></select>
+                                                            </div>
                                                             
-                                                            <select name="horainicioman" class="input-text"></select>
-                                                            <span class="col-auto"> - </span>
-                                                            <select name="horafinman" class="input-text"></select><br><br>
                                                         </td>
 
                                                         <td class="horario-tarde">
                                                             <!-- Horario de tarde -->
+                                                            <div class="selectores-tarde">
+                                                                <select name="horainiciotar" class="input-text"></select>
+                                                                <span class="col-auto"> - </span>
+                                                                <select name="horafintar" class="input-text"></select><br><br>
+                                                            </div>
                                                             
-                                                            <select name="horainiciotar" class="input-text"></select>
-                                                            <span class="col-auto"> - </span>
-                                                            <select name="horafintar" class="input-text"></select><br><br>
                                                         </td>
                                                     </tr>
                                             </table>

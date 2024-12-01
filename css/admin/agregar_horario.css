@@ -373,3 +373,28 @@ input[type="submit"]:disabled {
 }
 
 
+.selectores-manana {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los selectores */
+    gap: 5px; /* Espacio entre los selectores y el guion */
+}
+
+.selectores-manana select {
+    width: 100px; /* Ajusta el ancho de los selectores según tus preferencias */
+    padding: 5px; /* Espaciado interno para hacer los selectores más compactos */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.selectores-tarde {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los selectores */
+    gap: 5px; /* Espacio entre los selectores y el guion */
+}
+
+.selectores-tarde select {
+    width: 100px; /* Ajusta el ancho de los selectores según tus preferencias */
+    padding: 5px; /* Espaciado interno para hacer los selectores más compactos */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
