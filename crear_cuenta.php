@@ -45,30 +45,34 @@ if($_POST){
     $nueva_password=$_POST['nueva_password'];
     $confirmar_password=$_POST['confirmar_password'];
     
-    if ($nueva_password==$confirmar_password){
-        $result= $database->query("select * from usuarios where ci='$ci';");
-        if($result->num_rows==1){
-            $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Ya existe una cuenta con este CI.</label>';
-        }else{
-            $database->query("insert into paciente(pacusuario,pacnombre,pacpassword,pacdireccion,pacci,pacfecnac,pactelf) values('$usuario','$nombre','$nueva_password','$direccion','$ci','$fecnac','$telf');");
-            $database->query("insert into usuarios values('$usuario','pac','$ci')");
-
-            //print_r("insert into patient values($pid,'$email','$fname','$lname','$newpassword','$address','$nic','$dob','$tele');");
-
-            $_SESSION["usuario"]=$usuario;
-            $_SESSION["usuario_rol"]="pac";
-            $_SESSION["nombre_usuario"]=$primer_nombre;
-
+    if ($nueva_password == $confirmar_password) {
+        // Generar hash de la contraseña
+        $hashed_password = password_hash($nueva_password, PASSWORD_DEFAULT);
+        
+        // Comprobar si ya existe una cuenta con el mismo CI
+        $result = $database->query("select * from usuarios where ci='$ci';");
+        if ($result->num_rows == 1) {
+            $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Ya existe una cuenta con este CI.</label>';
+        } else {
+            // Insertar el usuario en la base de datos con la contraseña hasheada
+            $database->query("insert into paciente(pacusuario, pacnombre, pacpassword, pacdireccion, pacci, pacfecnac, pactelf) values('$usuario', '$nombre', '$hashed_password', '$direccion', '$ci', '$fecnac', '$telf');");
+            $database->query("insert into usuarios values('$usuario', 'pac', '$ci')");
+    
+            // Configurar la sesión y redirigir al usuario con un mensaje de confirmación
+            $_SESSION["usuario"] = $usuario;
+            $_SESSION["usuario_rol"] = "pac";
+            $_SESSION["nombre_usuario"] = $primer_nombre;
+    
             echo "<script>
                     alert('¡Cuenta creada exitosamente!');
                     window.location.href = 'login.php';
-                </script>";
+                  </script>";
             exit;
-        } 
-        
-    }else{
-        $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de contraseña! Por favor, confirma nuevamente la contraseña</label>';
-    }    
+        }
+    } else {
+        $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de contraseña! Por favor, confirma nuevamente la contraseña</label>';
+    }
+       
 }else{
     //header('location: signup.php');
     $error='<label for="promter" class="form-label"></label>';
@@ -80,6 +84,7 @@ if($_POST){
         <table border="0" style="width: 69%;">
             <tr>
                 <td colspan="2">
+                    <img src="img/logo1.png" alt="Logo de la empresa" class="logo">
                     <p class="header-text">Continuemos</p>
                     <p class="sub-text">Bien, ahora crea tu cuenta de usuario</p>
                 </td>
