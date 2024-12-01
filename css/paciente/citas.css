@@ -171,7 +171,7 @@ a.btn-filter:hover {
   width: 100%; /* Asegura que la tabla ocupe todo el espacio disponible */
   background: #fff;
   border-radius: 10px; /* Mantén los bordes redondeados si es necesario */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera, opcional */
+
 }
 table {
   width: 100%;
@@ -428,3 +428,25 @@ select {
   height: 100%; /* Asegura que el contenedor ocupe el espacio de la celda */
 }
 
+.header-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  border: none; 
+}
+
+.btn-add-cita {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  
+}
+
+.btn-add-cita:hover {
+  background-color: #0056b3;
+}

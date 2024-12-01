@@ -273,7 +273,11 @@
 
         
         <div class="table-container">
+
             <div class="abc scroll">
+            <div class="header-row">
+                <button onclick="window.location.href='horarios.php';" class="btn-add-cita">+ Agregar nueva cita</button>
+            </div>
                 <table class="sub-table scrolldown" border="0">
                     <thead>
                         <tr>
