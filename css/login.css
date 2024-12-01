@@ -9,6 +9,7 @@ body, html {
     align-items: center;
     height: 100vh;
     overflow: hidden; /* Evita cualquier desbordamiento */
+
 }
 
 
@@ -138,3 +139,4 @@ box-sizing: border-box; /* Asegura que padding no afecte el tamaño total */
     height: auto; /* Mantén las proporciones del logo */
     margin-bottom: 10px; /* Agrega espacio debajo del logo */
 }
+
