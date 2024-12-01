@@ -240,7 +240,7 @@
             <div class="header-actions">
             <!-- Sección izquierda: Botón Atrás y barra de búsqueda -->
             <div class="header-inline">
-                <a href="horarios.php">
+                <a href="citas.php">
                     <button class="btn-action">← Atrás</button>
                 </a>
                 <p class="heading-main12" style="margin: 0; font-size: 17px; color: rgb(49, 49, 49); align-self: left;">
@@ -252,7 +252,7 @@
         <div class="filter-row">
             <form method="POST">
             <label for="sheduledate">Fecha:</label>
-                    <input type="date" name="sheduledate" id="sheduledate">
+                    <input type="date" name="sheduledate" id="sheduledate" value="<?php echo isset($_POST['sheduledate']) ? $_POST['sheduledate'] : ''; ?>">
                     <label for="doctor">Doctor:</label>
                     <select name="doctor" id="doctor">
                         <option value="">Escoge un doctor de la lista</option>
@@ -260,19 +260,21 @@
                         // Obtener lista de doctores para el filtro
                         $doctoresResult = $database->query("SELECT docid, docnombre FROM doctor");
                         while ($doctor = $doctoresResult->fetch_assoc()) {
-                            echo '<option value="' . $doctor['docid'] . '">' . $doctor['docnombre'] . '</option>';
+                            $selected = (isset($_POST['doctor']) && $_POST['doctor'] == $doctor['docid']) ? 'selected' : '';
+                            echo '<option value="' . $doctor['docid'] . '" ' . $selected . '>' . $doctor['docnombre'] . '</option>';
                         }
                         ?>
                     </select>
                 <button type="submit" class="btn-primary-soft btn button-icon btn-filter">Buscar</button>
-                <a href="http://localhost/login/paciente/citas.php" class="btn-primary-soft btn button-icon btn-filter">Limpiar filtro</a>
+                <a href="http://localhost/login/paciente/citas.php" class="btn-primary-soft btn button-icon btn-filter">Limpiar filtros</a>
             </form>
         </div>
 
 
         
-            <div class="table-container">
-                <table>
+        <div class="table-container">
+            <div class="abc scroll">
+                <table class="sub-table scrolldown" border="0">
                     <thead>
                         <tr>
                             <th>Nombre del doctor</th>
@@ -289,7 +291,7 @@
                                     <td colspan="4">
                                         <center>No se encontraron citas agendadas.</center>
                                     </td>
-                                  </tr>';
+                                    </tr>';
                         } else {
                             $currentDateTime = new DateTime();
                             while ($row = $result->fetch_assoc()) {
@@ -331,7 +333,7 @@
                 </table>
             </div>
         </div>
-    </div>
+            
 
     <!-- Modal for editing appointment -->
     <div id="editarModal" class="modal">

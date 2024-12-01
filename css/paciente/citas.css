@@ -19,6 +19,16 @@ body {
   font-family: 'Poppins', Arial, sans-serif;
 }
 
+a.btn-filter {
+  display: inline-block; /* Asegura que se comporte como un botón */
+  text-align: center; /* Centra el texto dentro del botón */
+  text-decoration: none; /* Elimina el subrayado del enlace */
+}
+
+a.btn-filter:hover {
+  text-decoration: none; /* Asegura que no se subraye al pasar el mouse */
+}
+
 .btn-filter:hover {
   background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
 }
@@ -110,7 +120,7 @@ body {
   padding: 8px 12px;
   border-radius: 8px;
   border: none;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
 }
 
