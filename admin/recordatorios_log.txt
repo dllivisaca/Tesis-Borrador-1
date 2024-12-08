@@ -1,69 +1,252 @@
-Ejecución automática: 2024-11-25 15:11:37
-Ejecución automática: 2024-11-25 15:14:02
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Error al enviar mensaje a: Daisy Llivisaca - +593990043768 - Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
-Ejecución automática: 2024-11-25 15:18:16
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Ejecución automática: 2024-11-25 15:23:37
-No hay citas próximas para enviar recordatorios.
-Ejecución automática: 2024-11-25 09:24:06
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Ejecución automática: 2024-11-25 09:24:40
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Ejecución automática: 2024-11-25 09:26:43
-No hay citas próximas para enviar recordatorios.
-Ejecución manual: 2024-11-25 09:33:26
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Ejecución automática: 2024-11-25 09:54:20
-Ejecución automática: 2024-11-25 09:55:02
-Ejecución automática: 2024-11-25 10:00:04
-Ejecución automática: 2024-11-25 10:05:02
-Ejecución manual: 2024-11-25 10:05:49
-Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Ejecución automática: 2024-11-25 10:10:02
-Ejecución automática: 2024-11-25 10:15:02
-Ejecución manual: 2024-11-25 10:16:11
-Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Ejecución automática: 2024-11-25 10:20:02
-Ejecución automática: 2024-11-25 10:22:30
-Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Ejecución automática: 2024-11-25 10:25:01
-Ejecución automática: 2024-11-25 10:30:01
-Ejecución automática: 2024-11-25 10:50:02
-Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Ejecución automática: 2024-11-25 10:55:01
-No hay citas próximas para enviar recordatorios.
-Ejecución automática: 2024-11-25 11:00:01
-Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Ejecución automática: 2024-11-25 11:05:01
-Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Ejecución automática: 2024-11-25 11:10:02
-Intentando enviar mensaje a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00
-Mensaje enviado a: Daisy Llivisaca - +593990043768 - Fecha: 2024-11-25 Hora: 13:30:00Ejecución automática: 2024-11-25 18:00:01
-Cita ID: 32 - Diferencia en horas: -436.00027777778 - Fecha y hora de la cita: 2024-11-07 14:00:00
-Cita ID: 34 - Diferencia en horas: -417.00027777778 - Fecha y hora de la cita: 2024-11-08 09:00:00
-Cita ID: 69 - Diferencia en horas: -103.50027777778 - Fecha y hora de la cita: 2024-11-21 10:30:00
-Cita ID: 71 - Diferencia en horas: 0.66638888888889 - Fecha y hora de la cita: 2024-11-25 18:40:00
-Cita ID: 72 - Diferencia en horas: -79.000277777778 - Fecha y hora de la cita: 2024-11-22 11:00:00
-Cita ID: 73 - Diferencia en horas: -174.50027777778 - Fecha y hora de la cita: 2024-11-18 11:30:00
-Ejecución manual: 2024-11-25 18:03:57
+Ejecución automática: 2024-12-01 16:15:01
+Cita ID: 2 - Diferencia en horas: 23.999722222222 - Fecha y hora de la cita: 2024-12-02 16:15:00
+Recordatorio de 24 horas marcado como enviado para la cita ID: 2
+Ejecución manual: 2024-12-01 16:17:17
 No se encontraron citas pendientes.
-Ejecución manual: 2024-11-25 18:04:17
-Cita ID: 71 - Diferencia en horas: 2.9952777777778 - Fecha y hora de la cita: 2024-11-25 21:04:00
-Recordatorio de 3 horas marcado como enviado para la cita ID: 71
-Ejecución automática: 2024-11-25 18:05:01
-Cita ID: 71 - Diferencia en horas: 23.999722222222 - Fecha y hora de la cita: 2024-11-26 18:05:00
-Recordatorio de 24 horas marcado como enviado para la cita ID: 71
-Ejecución automática: 2024-11-25 18:30:01
+Ejecución manual: 2024-12-01 16:17:42
+Cita ID: 2 - Diferencia en horas: 23.988333333333 - Fecha y hora de la cita: 2024-12-02 16:17:00
+Recordatorio de 24 horas marcado como enviado para la cita ID: 2
+Ejecución automática: 2024-12-01 16:20:01
+Cita ID: 2 - Diferencia en horas: 2.9830555555556 - Fecha y hora de la cita: 2024-12-01 19:19:00
+Recordatorio de 3 horas marcado como enviado para la cita ID: 2
+Ejecución manual: 2024-12-01 16:21:05
+Cita ID: 2 - Diferencia en horas: 2.9819444444444 - Fecha y hora de la cita: 2024-12-01 19:20:00
+Recordatorio de 3 horas marcado como enviado para la cita ID: 2
+Reenvío de recordatorio: 2024-12-01 16:24:13 
+Cita ID: 2 - Diferencia en horas: 2.929722222222 - Fecha y hora de la cita: 2024-12-01 19:20:00
+Ejecución automática: 2024-12-01 16:25:01
 No se encontraron citas pendientes.
-Recordatorio reenviado manualmente para la cita ID: 71 - Fecha y hora: 2024-11-26 00:41:52
-Reenvío de recordatorio: 2024-11-25 18:45:33 
-Cita ID: 71 - Diferencia en horas: 23.324166666667 - Fecha y hora de la cita: 2024-11-26 18:05:00
-Reenvío de recordatorio: 2024-11-25 20:51:48 
-Cita ID: 71 - Diferencia en horas: 21.220000000000 - Fecha y hora de la cita: 2024-11-26 18:05:00
+Ejecución automática: 2024-12-01 16:30:02
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 16:35:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 16:40:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 16:45:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 16:50:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 16:55:02
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 17:00:02
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 17:05:02
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 17:10:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 17:15:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 20:25:35
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 21:00:03
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 22:00:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-01 23:00:02
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 00:00:02
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 01:00:02
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 02:00:02
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 03:00:03
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 07:59:29
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 08:00:02
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 08:59:13
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 09:00:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 09:59:12
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 10:00:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 10:59:13
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 11:00:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 11:59:12
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 12:00:01
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 19:35:03
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 19:59:13
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 21:05:10
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 22:01:02
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 22:59:12
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-02 23:59:12
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-03 05:44:39
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-03 20:33:06
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-03 20:38:56
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-03 21:01:38
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-03 21:38:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-03 21:59:13
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-03 22:38:55
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-03 22:59:12
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-04 06:13:46
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-04 21:03:07
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-04 21:08:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-04 21:38:55
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-04 21:59:13
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-04 22:08:44
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-04 22:38:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-04 22:59:13
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-04 23:08:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 05:01:03
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 20:31:05
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 20:39:31
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 20:59:13
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 21:08:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 21:38:55
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 21:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 21:59:13
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 22:08:44
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 22:38:55
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 22:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 22:59:13
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 23:08:44
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 23:38:55
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-05 23:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 00:08:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 21:06:37
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 21:08:47
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 21:11:53
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 21:38:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 21:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 22:08:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 22:11:53
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 22:38:55
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 22:39:27
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 23:08:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 23:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 23:38:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-06 23:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-07 00:08:44
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-07 00:11:52
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-07 00:38:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-07 00:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-07 06:45:58
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 08:09:05
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 08:10:16
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 08:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 08:38:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 08:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 09:08:44
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 09:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 09:38:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 09:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 10:08:44
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 10:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 10:38:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 10:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 11:08:44
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 11:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 11:38:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 11:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 12:08:44
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 12:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 12:38:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 12:39:26
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 13:08:44
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 13:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 13:39:27
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 14:08:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 14:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 14:39:27
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 15:08:44
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 15:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 15:39:27
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 16:08:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 16:11:52
+No se encontraron citas pendientes.
