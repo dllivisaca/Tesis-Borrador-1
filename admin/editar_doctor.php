@@ -3,6 +3,11 @@
 include("../conexion_db.php");
 
 if ($_POST) {
+    // Depuración: Verifica los datos recibidos desde el formulario
+    echo "<h3>Datos del formulario</h3><pre>";
+    var_dump($_POST);
+    echo "</pre>";
+
     // Obtén los datos del formulario
     $name = $_POST['name'];
     $ci = $_POST['ci'];
@@ -14,56 +19,96 @@ if ($_POST) {
     $cpassword = $_POST['cpassword'];
     $id = $_POST['id00'];
 
-    $error = '3'; // Por defecto, sin errores
+    // Validar que oldusuario no esté vacío
+    if (empty($oldusuario)) {
+        die("Error: El valor de 'oldusuario' no se recibió correctamente.");
+    }
 
-    // Obtén los valores actuales del doctor desde la base de datos
+    // Obtener los valores actuales del doctor desde la base de datos
     $current_data_query = "SELECT * FROM doctor WHERE docid = $id";
     $current_data_result = $database->query($current_data_query);
     $current_data = $current_data_result->fetch_assoc();
+
+    // Depuración: Muestra los datos actuales
+    echo "<h3>Datos actuales del doctor</h3>";
+    print_r($current_data);
 
     // Compara los valores actuales con los nuevos
     $changes = [];
     if ($current_data['docnombre'] !== $name) $changes[] = "docnombre='$name'";
     if ($current_data['docci'] !== $ci) $changes[] = "docci='$ci'";
-    if ($current_data['docusuario'] !== $usuario) $changes[] = "docusuario='$usuario'";
     if ($current_data['doctelf'] !== $telf) $changes[] = "doctelf='$telf'";
-    if ($current_data['especialidades'] != $espec) $changes[] = "especialidades=$espec";
+    if ($current_data['especialidades'] != $espec) $changes[] = "especialidades='$espec'";
+
+    // Asegura que se detecten cambios en el usuario
+    if ($current_data['docusuario'] !== $usuario) $changes[] = "docusuario='$usuario'";
 
     // Verifica si se actualizará la contraseña
     if (!empty($password) && !empty($cpassword)) {
         if ($password !== $cpassword) {
-            $error = '2'; // Contraseñas no coinciden
+            die("Error: Las contraseñas no coinciden.");
         } else {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $changes[] = "docpassword='$hashed_password'";
         }
     }
 
+    // Depuración: Muestra los cambios detectados
+    echo "<h3>Cambios detectados</h3>";
     if (empty($changes)) {
-        // Si no hay cambios, no se realiza ninguna actualización
-        $error = '5'; // Sin cambios
-    } else if ($error === '3') {
-        // Realiza la actualización si no hay errores
-        $sql1 = "UPDATE doctor SET " . implode(", ", $changes) . " WHERE docid = $id";
-        $database->query($sql1);
+        echo "No se detectaron cambios en los datos. <br>";
+    } else {
+        print_r($changes);
+    }
 
-        // Actualiza el usuario solo si el nombre de usuario cambió
+    // Inicia una transacción para asegurar la consistencia de los datos
+    $database->begin_transaction();
+
+    try {
+        // Actualiza la tabla 'usuarios' si el nombre de usuario ha cambiado
         if ($oldusuario !== $usuario) {
+            // Verificar si el nuevo usuario ya existe
+            $checkUserQuery = "SELECT usuario FROM usuarios WHERE usuario='$usuario'";
+            $checkUserResult = $database->query($checkUserQuery);
+
+            if ($checkUserResult->num_rows > 0) {
+                throw new Exception("Error: El nombre de usuario '$usuario' ya existe en la tabla 'usuarios'.");
+            }
+
+            // Actualizar el nombre de usuario en 'usuarios'
             $sql2 = "UPDATE usuarios SET usuario = '$usuario' WHERE usuario = '$oldusuario'";
-            $database->query($sql2);
+            echo "<h3>Consulta SQL Usuarios</h3>";
+            echo $sql2 . "<br>"; // Depuración
+
+            if (!$database->query($sql2)) {
+                throw new Exception("Error al actualizar 'usuarios': " . $database->error);
+            }
         }
-        $error = '4'; // Actualización exitosa
+
+        // Actualizar la tabla 'doctor' si hay cambios
+        if (!empty($changes)) {
+            $changes[] = "docusuario='$usuario'"; // Actualiza también el usuario en la tabla doctor
+            $sql1 = "UPDATE doctor SET " . implode(", ", $changes) . " WHERE docid = $id";
+            echo "<h3>Consulta SQL Doctor</h3>";
+            echo $sql1 . "<br>"; // Depuración
+
+            if (!$database->query($sql1)) {
+                throw new Exception("Error al actualizar 'doctor': " . $database->error);
+            }
+        } else {
+            echo "No se ejecutó la actualización porque no hubo cambios. <br>";
+        }
+
+        // Confirmar la transacción si todo salió bien
+        $database->commit();
+        echo "Transacción completada exitosamente. Los cambios se aplicaron a la base de datos. <br>";
+        exit();
+    } catch (Exception $e) {
+        // Revertir los cambios si ocurre un error
+        $database->rollback();
+        die("Error en la transacción: " . $e->getMessage());
     }
 } else {
-    $error = '3'; // Error genérico
-}
-
-// Redirige según el resultado
-if ($error === '4') {
-    header("location: doctores.php?edit_success=1");
-} elseif ($error === '5') {
-    header("location: doctores.php?edit_success=0"); // No se realizaron cambios
-} else {
-    header("location: doctores.php?action=edit&error=" . $error . "&id=" . $id);
+    die("Error: No se recibieron datos POST.");
 }
 ?>

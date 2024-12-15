@@ -908,6 +908,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('editId').value = docid;
             document.getElementById('editName').value = name;
             document.getElementById('editUsuario').value = usuario;
+            document.getElementById('editOldUsuario').value = usuario; // Asignar oldusuario
             document.getElementById('editCi').value = ci;
             document.getElementById('editTelf').value = telf;
 
