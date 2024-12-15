@@ -100,6 +100,7 @@
             <div class="menu-links">
                 <a href="citas.php" class="menu-link">Citas agendadas</a>
                 <a href="horarios.php" class="menu-link menu-link-active">Horarios disponibles</a>
+                <a href="ayuda.php" class="menu-link">Ayuda</a>
             </div>
         </div>
 

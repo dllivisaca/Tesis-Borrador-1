@@ -9,111 +9,7 @@
     <link rel="stylesheet" href="../css/paciente/citas.css">
     
     <title>Mis citas agendadas</title>
-    <!-- <style>
-        .container {
-            display: flex;
-        }
-        .menu {
-            width: 20%;
-            background-color: #f4f4f4;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        }
-        .dash-body {
-            width: 80%;
-            padding: 20px;
-        }
-        .table-container {
-            margin-top: 20px;
-            width: 100%;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table th, table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        table th {
-            background: #f4f4f4;
-        }
-        .btn-cancel, .btn-edit {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .btn-cancel:hover, .btn-edit:hover {
-            background-color: #0056b3;
-        }
-        .filter-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            align-items: center;
-        }
-        .filter-container input[type="date"],
-        .filter-container select,
-        .filter-container button {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .logout-btn {
-            background-color: #d9534f;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .logout-btn:hover {
-            background-color: #c9302c;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 40%;
-            border-radius: 10px;
-            position: relative;
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style> -->
+    
 </head>
 <body>
     <?php
@@ -140,37 +36,7 @@
     $userid = $userfetch["pacid"];
     $username = $userfetch["pacnombre"];
 
-    /* if (isset($_GET['action']) && $_GET['action'] == 'drop') {
-        if (isset($_GET['id'])) {
-            $citaid = intval($_GET['id']);
-    
-            // Verificar que la cita pertenece al usuario actual
-            $citaQuery = $database->prepare("SELECT * FROM citas WHERE citaid = ? AND pacid = ?");
-            $citaQuery->bind_param("ii", $citaid, $userid);
-            $citaQuery->execute();
-            $citaResult = $citaQuery->get_result();
-    
-            if ($citaResult->num_rows > 0) {
-                // Mostrar un modal de confirmación
-                echo '
-                <div id="cancelarModal" class="modal" style="display:block;">
-                    <div class="modal-content">
-                        <span class="close" onclick="document.getElementById(\'cancelarModal\').style.display=\'none\'">&times;</span>
-                        <h2>Confirmar cancelación</h2>
-                        <p>¿Estás seguro de que deseas cancelar esta cita?</p>
-                        <form method="post" action="">
-                            <input type="hidden" name="citaid" value="' . $citaid . '">
-                            <button type="submit" name="confirm_cancel" class="btn-cancel">Sí, cancelar cita</button>
-                            <button type="button" class="btn-edit" onclick="document.getElementById(\'cancelarModal\').style.display=\'none\'">No, volver</button>
-                        </form>
-                    </div>
-                </div>';
-                
-            } else {
-                echo '<script>alert("Cita no encontrada o no tienes permiso para cancelarla."); window.location.href="citas.php";</script>';
-            }
-        }
-    } */
+   
 
     // Procesar la cancelación confirmada
 
@@ -233,6 +99,7 @@
             <div class="menu-links">
                 <a href="citas.php" class="menu-link menu-link-active">Citas agendadas</a>
                 <a href="horarios.php" class="menu-link">Horarios disponibles</a>
+                <a href="ayuda.php" class="menu-link">Ayuda</a>
             </div>
         </div>
 
