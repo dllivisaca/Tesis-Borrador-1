@@ -116,6 +116,9 @@ if (isset($_GET['delete_success'])) {
         case '3':
             $errorMessage = "Faltan datos en el formulario. Por favor, completa todos los campos.";
             break;
+        case 'doctor_has_appointments':  // Añade este caso
+            $errorMessage = "No se puede borrar el doctor porque tiene citas agendadas.";
+            break;
         default:
             $errorMessage = "Ocurrió un error desconocido.";
     }
