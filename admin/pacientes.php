@@ -108,6 +108,21 @@
             case '3':
                 $errorMessage = "Faltan datos obligatorios. Por favor, completa todos los campos.";
                 break;
+            case 'patient_has_appointments':
+                $errorMessage = "No se puede borrar el paciente porque tiene citas agendadas.";
+                break;
+            case 'patient_has_survey_responses':
+                $errorMessage = "No se puede borrar el paciente porque tiene respuestas en encuestas.";
+                break;
+            case 'custom': // Nuevo caso para mensajes personalizados
+                $errorMessage = isset($_GET['message']) ? urldecode($_GET['message']) : "Ocurrió un error desconocido.";
+                break;
+            case 'patient_not_found':
+                $errorMessage = "El paciente no fue encontrado.";
+                break;
+            case 'invalid_id':
+                $errorMessage = "ID de paciente inválido.";
+                break;
             default:
                 $errorMessage = "Ocurrió un error desconocido.";
         }
