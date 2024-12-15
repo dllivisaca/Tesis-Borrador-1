@@ -3,10 +3,7 @@
 include("../conexion_db.php");
 
 if ($_POST) {
-    // Depuración: Verifica los datos recibidos desde el formulario
-    echo "<h3>Datos del formulario</h3><pre>";
-    var_dump($_POST);
-    echo "</pre>";
+    
 
     // Obtén los datos del formulario
     $name = $_POST['name'];
@@ -29,10 +26,6 @@ if ($_POST) {
     $current_data_result = $database->query($current_data_query);
     $current_data = $current_data_result->fetch_assoc();
 
-    // Depuración: Muestra los datos actuales
-    echo "<h3>Datos actuales del doctor</h3>";
-    print_r($current_data);
-
     // Compara los valores actuales con los nuevos
     $changes = [];
     if ($current_data['docnombre'] !== $name) $changes[] = "docnombre='$name'";
@@ -53,14 +46,6 @@ if ($_POST) {
         }
     }
 
-    // Depuración: Muestra los cambios detectados
-    echo "<h3>Cambios detectados</h3>";
-    if (empty($changes)) {
-        echo "No se detectaron cambios en los datos. <br>";
-    } else {
-        print_r($changes);
-    }
-
     // Inicia una transacción para asegurar la consistencia de los datos
     $database->begin_transaction();
 
@@ -77,8 +62,7 @@ if ($_POST) {
 
             // Actualizar el nombre de usuario en 'usuarios'
             $sql2 = "UPDATE usuarios SET usuario = '$usuario' WHERE usuario = '$oldusuario'";
-            echo "<h3>Consulta SQL Usuarios</h3>";
-            echo $sql2 . "<br>"; // Depuración
+            
 
             if (!$database->query($sql2)) {
                 throw new Exception("Error al actualizar 'usuarios': " . $database->error);
@@ -89,8 +73,7 @@ if ($_POST) {
         if (!empty($changes)) {
             $changes[] = "docusuario='$usuario'"; // Actualiza también el usuario en la tabla doctor
             $sql1 = "UPDATE doctor SET " . implode(", ", $changes) . " WHERE docid = $id";
-            echo "<h3>Consulta SQL Doctor</h3>";
-            echo $sql1 . "<br>"; // Depuración
+           
 
             if (!$database->query($sql1)) {
                 throw new Exception("Error al actualizar 'doctor': " . $database->error);
@@ -101,7 +84,7 @@ if ($_POST) {
 
         // Confirmar la transacción si todo salió bien
         $database->commit();
-        echo "Transacción completada exitosamente. Los cambios se aplicaron a la base de datos. <br>";
+        header("Location: doctores.php?edit_success=1");
         exit();
     } catch (Exception $e) {
         // Revertir los cambios si ocurre un error
