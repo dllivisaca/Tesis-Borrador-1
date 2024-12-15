@@ -33,44 +33,51 @@ if ($_POST) {
     if ($password == $cpassword) {
         // Comprobar si el usuario ya existe
         $result = $database->query("SELECT * FROM usuarios WHERE usuario='$usuario';");
+
+
         if ($result->num_rows == 1) {
-            // Error: el usuario ya existe
-            header("location: pacientes.php?action=add&error=1");
-            exit();
+            $error = '1'; // El usuario ya existe
         } else {
             // Hashear la contraseña antes de guardarla
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-            // Insertar los datos en las tablas correspondientes
-            $sql1 = "INSERT INTO paciente (pacusuario, pacnombre, pacpassword, pacci, pactelf, pacdireccion, pacfecnac) 
-                     VALUES ('$usuario', '$name', '$hashedPassword', '$ci', '$telf', '$direccion', '$fecnac');";
-            $sql2 = "INSERT INTO usuarios (usuario, usuario_rol, ci) VALUES ('$usuario', 'pac', '$ci');";
-
-
-            // Ejecutar las consultas
+             // Primero insertar en la tabla 'usuarios'
+             $sql1 = "INSERT INTO usuarios (usuario, usuario_rol, ci) 
+             VALUES ('$usuario', 'pac', '$ci')";
             $database->query($sql1);
+
+            // Verificar si hubo un error al insertar en 'usuarios'
             if ($database->error) {
-                echo "Error en la consulta: " . $database->error;
-                exit();
-            }
-            $database->query($sql2);
-            if ($database->error) {
-                echo "Error en la consulta: " . $database->error;
+                echo "Error al insertar en 'usuarios': " . $database->error;
                 exit();
             }
 
-            // Redirigir con éxito
-            header("location: pacientes.php?success=1");
-            exit();
+            // Luego insertar en la tabla 'paciente'
+            $sql2 = "INSERT INTO paciente (pacusuario, pacnombre, pacpassword, pacci, pactelf, pacdireccion, pacfecnac) 
+                     VALUES ('$usuario', '$name', '$hashedPassword', '$ci', '$telf', '$direccion', '$fecnac')";
+            $database->query($sql2);
+
+            // Verificar si hubo un error al insertar en 'paciente'
+            if ($database->error) {
+                echo "Error al insertar en 'paciente': " . $database->error;
+                exit();
+            }
+
+            $error = '4'; // Éxito
         }
     } else {
-        // Error: las contraseñas no coinciden
-        header("location: pacientes.php?action=add&error=2");
-        exit();
+        $error = '2'; // Error de confirmación de contraseña
     }
 } else {
-    // Error: falta de datos
-    header("location: pacientes.php?action=add&error=3");
+    $error = '3'; // Error por falta de datos POST
+}
+
+// Redirección basada en el resultado
+if ($error == '4') {
+    header("location: pacientes.php?success=1");
+    exit();
+} else {
+    header("location: pacientes.php?action=add&error=" . $error);
     exit();
 }
 ?>
