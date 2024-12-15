@@ -594,3 +594,55 @@ El estado es 'esperando_comentario'.
 El comentario es válido.
 Intentando actualizar comentario: ID=22, Comentario=bueno
 Comentario actualizado exitosamente.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: 5
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=25, Estado=esperando_calificacion
+El estado es 'esperando_calificacion'.
+La respuesta es una calificación válida: 5
+Intentando actualizar calificacion: ID=25, Calificacion=5, FechaRespuesta=2024-12-08 18:30:28
+Calificación actualizada exitosamente.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: Bueno
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=25, Estado=esperando_comentario
+El estado es 'esperando_comentario'.
+El comentario es válido.
+Intentando actualizar comentario: ID=25, Comentario=Bueno
+Comentario actualizado exitosamente.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: 4
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=26, Estado=esperando_calificacion
+El estado es 'esperando_calificacion'.
+La respuesta es una calificación válida: 4
+Intentando actualizar calificacion: ID=26, Calificacion=4, FechaRespuesta=2024-12-08 18:30:53
+Calificación actualizada exitosamente.
+El archivo webhook_encuestas.php se está ejecutando.
+Conexión a la base de datos exitosa.
+Datos POST recibidos correctamente.
+Respuesta recibida: Buen servicio
+Número del cliente recibido: whatsapp:+593990043768
+Número del cliente después de normalizar: +593990043768
+Consulta ejecutada: SELECT id, estado FROM respuestas_encuestas WHERE numero_cliente = '+593990043768'
+Número de filas devueltas: 1
+Registro encontrado: ID=26, Estado=esperando_comentario
+El estado es 'esperando_comentario'.
+El comentario es válido.
+Intentando actualizar comentario: ID=26, Comentario=Buen servicio
+Comentario actualizado exitosamente.

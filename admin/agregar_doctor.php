@@ -36,7 +36,29 @@ if ($_POST) {
             // Hash de la contraseña antes de guardarla
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-            // Insertar el doctor y el usuario en las respectivas tablas
+            // Primero insertar en la tabla 'usuarios'
+            $sql1 = "INSERT INTO usuarios (usuario, usuario_rol, ci) 
+            VALUES ('$usuario', 'doc', '$ci')";
+            $database->query($sql1);
+
+            // Verificar si hubo un error al insertar en 'usuarios'
+            if ($database->error) {
+            echo "Error al insertar en 'usuarios': " . $database->error;
+            exit();
+            }
+
+            // Luego insertar en la tabla 'doctor'
+            $sql2 = "INSERT INTO doctor (docusuario, docnombre, docpassword, docci, doctelf, especialidades) 
+            VALUES ('$usuario', '$name', '$hashedPassword', '$ci', '$telf', $espec);";
+            $database->query($sql2);
+
+            // Verificar si hubo un error al insertar en 'doctor'
+            if ($database->error) {
+            echo "Error al insertar en 'doctor': " . $database->error;
+            exit();
+            }
+
+            /* // Insertar el doctor y el usuario en las respectivas tablas
             $sql1 = "INSERT INTO doctor (docusuario, docnombre, docpassword, docci, doctelf, especialidades) 
                      VALUES ('$usuario', '$name', '$hashedPassword', '$ci', '$telf', $espec);";
             $sql2 = "INSERT INTO usuarios VALUES ('$usuario', 'doc', '$ci')";
@@ -50,7 +72,7 @@ if ($_POST) {
             if ($database->error) {
                 echo "Error en la consulta: " . $database->error;
                 exit();
-            }
+            } */
 
             $error = '4'; // Éxito
         }

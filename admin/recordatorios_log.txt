@@ -250,3 +250,64 @@ Ejecución automática: 2024-12-08 16:08:45
 No se encontraron citas pendientes.
 Ejecución automática: 2024-12-08 16:11:52
 No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 18:11:52
+No se encontraron citas pendientes.
+Reenvío de recordatorio: 2024-12-08 18:18:54 
+Cita ID: 98 - Diferencia en horas: 12.685000000000 - Fecha y hora de la cita: 2024-12-09 07:00:00
+Reenvío de recordatorio: 2024-12-08 18:19:34 
+Cita ID: 98 - Diferencia en horas: 12.673888888889 - Fecha y hora de la cita: 2024-12-09 07:00:00
+Reenvío de recordatorio: 2024-12-08 18:20:04 
+Cita ID: 98 - Diferencia en horas: 12.665555555556 - Fecha y hora de la cita: 2024-12-09 07:00:00
+Ejecución automática: 2024-12-08 18:39:27
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 20:08:19
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 20:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 20:39:27
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 21:11:52
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 21:39:27
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 22:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-08 23:11:51
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-09 00:11:53
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-09 04:17:37
+Cita ID: 98 - Diferencia en horas: 2.7063888888889 - Fecha y hora de la cita: 2024-12-09 07:00:00
+Recordatorio de 3 horas marcado como enviado para la cita ID: 98
+Ejecución automática: 2024-12-09 09:28:14
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-09 09:33:56
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-09 10:33:52
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-09 11:33:53
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-10 20:12:37
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-10 20:18:40
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-10 20:33:54
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-10 21:18:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-11 04:56:25
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-11 20:09:43
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-11 20:15:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-11 20:17:59
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-11 20:33:53
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-12 02:25:43
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-15 08:35:45
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-15 09:37:08
+No se encontraron citas pendientes.
