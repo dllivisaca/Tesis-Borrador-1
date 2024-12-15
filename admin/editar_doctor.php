@@ -3,8 +3,6 @@
 include("../conexion_db.php");
 
 if ($_POST) {
-    
-
     // Obtén los datos del formulario
     $name = $_POST['name'];
     $ci = $_POST['ci'];
@@ -32,8 +30,6 @@ if ($_POST) {
     if ($current_data['docci'] !== $ci) $changes[] = "docci='$ci'";
     if ($current_data['doctelf'] !== $telf) $changes[] = "doctelf='$telf'";
     if ($current_data['especialidades'] != $espec) $changes[] = "especialidades='$espec'";
-
-    // Asegura que se detecten cambios en el usuario
     if ($current_data['docusuario'] !== $usuario) $changes[] = "docusuario='$usuario'";
 
     // Verifica si se actualizará la contraseña
@@ -44,6 +40,12 @@ if ($_POST) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $changes[] = "docpassword='$hashed_password'";
         }
+    }
+
+     // **Verifica si no se hicieron cambios**
+     if (empty($changes)) {
+        header("location: doctores.php?edit_success=0"); // Redirige con mensaje de no cambios
+        exit();
     }
 
     // Inicia una transacción para asegurar la consistencia de los datos
@@ -78,9 +80,7 @@ if ($_POST) {
             if (!$database->query($sql1)) {
                 throw new Exception("Error al actualizar 'doctor': " . $database->error);
             }
-        } else {
-            echo "No se ejecutó la actualización porque no hubo cambios. <br>";
-        }
+        } 
 
         // Confirmar la transacción si todo salió bien
         $database->commit();
