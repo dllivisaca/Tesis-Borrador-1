@@ -28,8 +28,7 @@
             background-color: #ffffff;
             border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            max-width: 600px;
+            max-width: 1000px;
             width: 100%;
             text-align: center;
             animation: fadeIn 0.8s ease-in-out;
@@ -123,14 +122,43 @@
         <div class="dash-body">
             <div class="content">
                 <h1>Ayuda</h1>
-                <p>En cumplimiento con la Ley de Protección de Datos Personales, tienes derecho a solicitar conocer y obtener todos tus datos personales. También puedes solicitar la actualización de los mismos.</p>
-                <p>Si deseas más información o necesitas ayuda, contáctanos a través de WhatsApp haciendo clic en el siguiente icono:</p>
+                <p>Gestiona tus datos y citas en el sistema de manera sencilla:</p>
+                <ul style="text-align: left; color: #555; line-height: 1.5; font-size: 0.95rem; padding-left: 20px;">
+                    <li><strong>Trámite disponible:</strong> Acceso o actualización de datos personales.</li>
+                    <li><strong>Requisitos:</strong> Usuario registrado.</li>
+                    <li><strong>Procedimiento:</strong>  
+                        <ul style="padding-left: 15px;">
+                            <li>Haz clic en el botón de WhatsApp.</li>
+                            <li>Solicita acceso o actualización de datos.</li>
+                            <li>Adjunta los justificativos si aplica.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h2 style="color: #333; font-size: 1.3rem; margin-top: 1.5rem;">Gestión de citas</h2>
+                <ul style="text-align: left; color: #555; line-height: 1.5; font-size: 0.95rem; padding-left: 20px;">
+                    <li><strong>Procedimiento:</strong>  
+                        <ul style="padding-left: 15px;">
+                            <li>Inicia sesión y accede a "Horarios disponibles".</li>
+                            <li>Visualiza la lista de doctores, sus especialidades y horarios
+                            disponibles.</li>
+                            <li>Selecciona el doctor de tu preferencia haciendo clic en el botón "+
+                            Agendar cita" correspondiente.</li>
+                            <li>Elige la fecha y hora disponibles, luego confirma la cita haciendo
+                            clic en "+ Agendar cita".</li>
+                        </ul>
+                    </li>
+                    <li><strong>Requisitos:</strong> Usuario registrado.</li>
+                    <li><a href="manual_usuario.pdf" target="_blank" style="color: #007BFF;">Consulta el manual de usuario aquí</a>.</li>
+                </ul>
+
+                <p>¿Necesitas ayuda? Contáctanos por WhatsApp:</p>
                 <div class="whatsapp-container">
                     <a href="https://wa.me/593939034743" target="_blank" class="whatsapp-icon">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                        Contáctanos por WhatsApp
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 30px; height: 30px;">
+                        <span>Contáctanos por WhatsApp</span>
                     </a>
                 </div>
+                
             </div>
         </div>
     </div>
