@@ -311,3 +311,9 @@ Ejecución automática: 2024-12-15 08:35:45
 No se encontraron citas pendientes.
 Ejecución automática: 2024-12-15 09:37:08
 No se encontraron citas pendientes.
+Reenvío de recordatorio: 2024-12-19 11:40:55 
+Cita ID: 9 - Diferencia en horas: 21.818055555556 - Fecha y hora de la cita: 2024-12-20 09:30:00
+Ejecución automática: 2024-12-19 11:44:06
+No se encontraron citas pendientes.
+Ejecución automática: 2024-12-19 11:45:25
+No se encontraron citas pendientes.

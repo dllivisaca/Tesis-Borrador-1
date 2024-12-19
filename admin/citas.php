@@ -262,9 +262,20 @@
 
                         // Registrar la encuesta en la base de datos con el número normalizado
                         $fechaEnvio = date('Y-m-d H:i:s');
-                        $insertQuery = $database->prepare("INSERT INTO respuestas_encuestas (numero_cliente, fecha_envio, estado) VALUES (?, ?, 'esperando_calificacion')");
+                        /* $insertQuery = $database->prepare("INSERT INTO respuestas_encuestas (numero_cliente, fecha_envio, estado) VALUES (?, ?, 'esperando_calificacion')");
                         $insertQuery->bind_param("ss", $telefonoPacienteE164, $fechaEnvio);
+                        $insertQuery->execute(); */
+
+                        $pacid = $cita['pacid']; // obten el pacid del array $cita
+                        $insertQuery = $database->prepare("INSERT INTO respuestas_encuestas (pacid, numero_cliente, fecha_envio, estado) VALUES (?, ?, ?, 'esperando_calificacion')");
+                        $insertQuery->bind_param("iss", $pacid, $telefonoPacienteE164, $fechaEnvio);
                         $insertQuery->execute();
+
+                        // Una vez insertada la encuesta, marcamos encuesta_enviada en la tabla citas
+                        $updateEncuestaEnviada = $database->prepare("UPDATE citas SET encuesta_enviada = 1 WHERE citaid = ?");
+                        $updateEncuestaEnviada->bind_param("i", $citaid);
+                        $updateEncuestaEnviada->execute();
+
 
                         echo '<script>alert("Cita marcada como finalizada y encuesta enviada."); window.location.href="citas.php";</script>';
                     } catch (Exception $e) {
