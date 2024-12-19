@@ -80,8 +80,9 @@ if($_POST){
                  $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Ya existe una cuenta con este nombre de usuario.</label>';
              }else{        
             // Insertar el usuario en la base de datos con la contraseña hasheada
-            $database->query("insert into paciente(pacusuario, pacnombre, pacpassword, pacdireccion, pacci, pacfecnac, pactelf) values('$usuario', '$nombre', '$hashed_password', '$direccion', '$ci', '$fecnac', '$telf');");
             $database->query("insert into usuarios values('$usuario', 'pac', '$ci')");
+            $database->query("insert into paciente(pacusuario, pacnombre, pacpassword, pacdireccion, pacci, pacfecnac, pactelf) values('$usuario', '$nombre', '$hashed_password', '$direccion', '$ci', '$fecnac', '$telf');");
+            
     
             // Configurar la sesión y redirigir al usuario con un mensaje de confirmación
             $_SESSION["usuario"] = $usuario;
